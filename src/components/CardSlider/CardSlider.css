@@ -1,0 +1,14 @@
+/* HorizontalScroll.css */
+.scroll-container {
+    width: 100%;
+    white-space: nowrap;
+  }
+  
+  .scroll-item {
+    min-width: 200px;
+    box-sizing: border-box;
+  }
+
+  .productOverflow::-webkit-scrollbar {
+    display: none;
+}
