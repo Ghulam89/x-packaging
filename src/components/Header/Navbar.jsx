@@ -25,7 +25,7 @@ const Navbar = () => {
           </div>
           <div className="sm:block hidden">
             <div className="flex items-center gap-2.5">
-              <div className="">
+              <div className="lg:block hidden">
                <p className=" m-0 text-sm font-normal">Speak with a Packaging Expert</p>
                <h4 className="  m-0 font-semibold text-center text-[#213554]">(866) 225-2112</h4>    
             </div> 

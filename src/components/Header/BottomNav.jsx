@@ -289,7 +289,7 @@ const BottomNav = ({ Menu, OpenMenu }) => {
           <li>
             <Link
               to="/portfolio"
-              className="hover:text-orange-500 transition-colors"
+              className="font-semibold transition-colors"
               onClick={OpenMenu}
             >
               Portfolio
@@ -298,7 +298,7 @@ const BottomNav = ({ Menu, OpenMenu }) => {
           <li>
             <Link
               to="/blog"
-              className="hover:text-orange-500 transition-colors"
+              className="font-semibold transition-colors"
               onClick={OpenMenu}
             >
               Blog
