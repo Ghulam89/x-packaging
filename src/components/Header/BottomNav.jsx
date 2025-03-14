@@ -4,6 +4,7 @@ import { MdOutdoorGrill } from "react-icons/md";
 import { TbToolsKitchen3 } from "react-icons/tb";
 import { Link } from "react-router-dom";
 import { LiaAngleRightSolid } from "react-icons/lia";
+import logo from '../../assets/images/logo.png';
 import Button from "../common/Button";
 
 const BottomNav = ({ Menu, OpenMenu }) => {
@@ -221,8 +222,34 @@ const BottomNav = ({ Menu, OpenMenu }) => {
 
       {/* Mobile Menu */}
       <div
-        className={`sm:hidden ${Menu ? "block" : "hidden"} bg-white absolute left-0 top-0 w-full`}
+        
+        className={`sm:hidden ${Menu ? "block" : "hidden"} bg-[rgba(0,0,0,0.5)]   fixed  inset-0 left-0     z-40  right-0 top-0 w-full`}
       >
+        <div className=" bg-white md:w-96  w-80 h-full  overflow-y-auto">
+         <div className=" p-3 w-fy border-b flex justify-between  items-center border-gray-200">
+          <div>
+          <img src={logo} alt=""   className=" w-36" />
+          </div>
+          <div className=" cursor-pointer">
+          <div className="  bg-[#EE334B] w-8 h-8   rounded-full flex justify-center items-center">
+          <svg
+              onClick={()=>OpenMenu(false)}
+              width={20}
+              aria-hidden="true"
+              color="white"
+              role="presentation"
+              className=" text-white"
+              fill="white"
+              viewBox="0 0 1000 1000"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M742 167L500 408 258 167C246 154 233 150 217 150 196 150 179 158 167 167 154 179 150 196 150 212 150 229 154 242 171 254L408 500 167 742C138 771 138 800 167 829 196 858 225 858 254 829L496 587 738 829C750 842 767 846 783 846 800 846 817 842 829 829 842 817 846 804 846 783 846 767 842 750 829 737L588 500 833 258C863 229 863 200 833 171 804 137 775 137 742 167Z"></path>
+            </svg>
+            
+          </div>
+          </div>
+          
+         </div>
         <ul className="flex flex-col p-4">
           <li>
             <Link
@@ -296,6 +323,9 @@ const BottomNav = ({ Menu, OpenMenu }) => {
             </Link>
           </li>
         </ul>
+
+        </div>
+      
       </div>
     </div>
   );

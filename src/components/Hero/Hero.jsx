@@ -5,14 +5,14 @@ import Button from "../../components/common/Button";
 const Hero = () => {
   return (
     <div
-      className="w-full sm:h-[80vh] h-auto py-12"
+      className="w-full sm:h-[80vh] h-[70vh]"
       style={{
         backgroundImage: `url(${hero})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      <div className="sm:max-w-7xl h-full flex   items-center max-w-[95%] mx-auto">
+      <div className="sm:max-w-7xl h-full flex   items-center max-w-[90%] mx-auto">
       <div className=" max-w-xl">
         <div>
           <h1 className=" text-white">

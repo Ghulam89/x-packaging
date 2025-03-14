@@ -10,7 +10,7 @@ const Capabilities = () => {
     <h2 className="font-headings text-[36px] leading-[40px] font-bold tracking-tight  md:text-4xl mb-3">
       Our Capabilities
     </h2>
-    <p className="font-description text-[#212529] text-[14px] md:text-[16px] leading-[20px] md:leading-[24px] mb-6">
+    <p className=" text-[#213554]">
       At Half Price Packaging, we are committed to delivering exceptional
       packaging solutions customized to your needs. From innovative design to
       seamless delivery, we ensure excellence at every step, bringing your
@@ -451,16 +451,16 @@ const Capabilities = () => {
 </div>
     </dl>
   </div>
-  <div className=" flex gap-3.5">
+  <div className=" flex sm:flex-row flex-col gap-3.5">
   <div>
   <Button
-                  className="bg-[#213554] text-white"
+                  className="bg-[#213554] text-white w-full"
                   label={"Browse Our Catalogue"}
                 />
   </div>
                <div>
                <Button
-                  className="bg-[#213554] text-white"
+                  className="bg-[#213554] text-white w-full"
                   label={"View Company Profile"}
                 />
                </div>

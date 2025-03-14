@@ -25,3 +25,7 @@ h3{
 h6{
 @apply  font-semibold
 }
+
+p{
+  @apply   text-[14px] md:text-[16px] leading-[20px] md:leading-[24px] 
+}

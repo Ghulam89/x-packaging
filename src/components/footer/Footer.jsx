@@ -6,7 +6,6 @@ import { FaXTwitter } from 'react-icons/fa6';
 import { RiInstagramLine } from 'react-icons/ri';
 import { IoLogoYoutube } from 'react-icons/io';
 import img1 from '../../assets/images/footer/google-reviws-logo.webp';
-
 import img2 from '../../assets/images/footer/Trustpilot_logo.png';
 import img3 from '../../assets/images/footer/reviews-io-logo.webp';
 import img4 from '../../assets/images/footer/fedex.png';
@@ -22,7 +21,7 @@ const Footer = () => {
      <div  className=' flex sm:flex-row flex-col border-b gap-1.5 border-gray-200 justify-between py-10'>
         <div className=' sm:w-4/12 w-12/12'>
           <img src={logo} alt='' className=' w-[300px]' />
-          <p className=' pt-1'>We offer Packaging Boxes delivered to your door. Secure, professional, and affordable, our custom made packaging boxes are guaranteed to protect and transport your valuable items. Our devoted team is always there to serve you.</p>
+          <p className=' text-[#213554] pt-1.5'>We offer Packaging Boxes delivered to your door. Secure, professional, and affordable, our custom made packaging boxes are guaranteed to protect and transport your valuable items. Our devoted team is always there to serve you.</p>
         </div>
         <div className=' sm:w-7/12 w-full text-center'>
            <h2 className=''>Need Quick Assistance? Get In Touch</h2>

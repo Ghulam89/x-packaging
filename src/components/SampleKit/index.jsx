@@ -8,7 +8,7 @@ const SampleKit = () => {
        <div className=' sm:max-w-7xl mx-auto w-[95%] flex sm:flex-row flex-col justify-between'>
          <div className=' sm:w-6/12 w-full'> 
            <h2>Order a Sample Kit</h2>
-           <p className=' pt-3.5 font-medium'>Get Free Consultation and Order Your Sample Kit to feel More Confident for Choosing Half Price Packaging as your product packaging partner.</p>
+           <p className=' text-[#213554] pt-1.5'>Get Free Consultation and Order Your Sample Kit to feel More Confident for Choosing Half Price Packaging as your product packaging partner.</p>
 
            <div className=' pt-4'>
             <form className=' grid grid-cols-2 gap-3'>

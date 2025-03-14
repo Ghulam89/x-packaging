@@ -21,7 +21,7 @@ const CardSlider = ({ items, top }) => {
     <div className="relative">
       <div
         ref={scrollContainerRef}
-        className="scroll-container items-center gap-4 flex productOverflow overflow-x-auto whitespace-nowrap"
+        className="scroll-container sm:pl-0 pl-4 items-center gap-4 flex productOverflow overflow-x-auto whitespace-nowrap"
       >
         {items}
       </div>
