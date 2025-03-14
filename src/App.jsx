@@ -3,6 +3,7 @@ import './App.css'
 import Capabilities from './components/Capabilities'
 import Category from './components/Category/Category'
 import OfferCard from './components/common/OfferCard'
+import FeaturesPackaging from './components/FeaturesPackaging/FeaturesPackaging'
 import Footer from './components/footer/Footer'
 import GetPriceQuote from './components/GetPriceQuote/GetPriceQuote'
 import Navbar from './components/Header/Navbar'
@@ -18,7 +19,7 @@ function App() {
      <Home/>
      <Category/>
      <OfferCard discount={'Get 30%'} title={'Off Your First Order!'} /> 
-     <Category/>
+     <FeaturesPackaging/>
      <OfferCard discount={'Save 30%'} title={'on Bulk Orders'} subTitle={'Need more this year?'} /> 
      <GetPriceQuote/>
      <Capabilities/>

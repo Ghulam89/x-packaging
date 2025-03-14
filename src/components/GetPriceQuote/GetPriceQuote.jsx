@@ -115,7 +115,7 @@ const GetPriceQuote = () => {
                     }
                   />
                 </div>
-                {/* <div className=" col-span-2">
+                <div className=" sm:col-span-2 col-span-1">
                 <label
                     htmlFor="first_name"
                     className="  pb-1.5   text-[#333333] text-sm font-medium   text-textColor"
@@ -125,7 +125,7 @@ const GetPriceQuote = () => {
                   </label>
                   <input placeholder=""  className=" p-2.5 bg-white rounded-lg text-sm mt-2" type="file" />
                 </div>
-                <div className=" col-span-3">
+                <div className=" sm:col-span-3 col-span-1">
                   <label
                     htmlFor="first_name"
                     className="  pb-1.5 flex  text-[#333333] text-sm font-medium   text-textColor"
@@ -137,7 +137,7 @@ const GetPriceQuote = () => {
                     className=" w-full border border-[#333333] bg-white  text-xs p-2.5 rounded-lg"
                     placeholder="Tell us the size / dimensions, material, finising, add-ons, and design preferences."
                   ></textarea>
-                </div> */}
+                </div>
                 
               </div>
               <div>

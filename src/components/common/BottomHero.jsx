@@ -9,7 +9,7 @@ const BottomHero = () => {
   return (
     <div className=" py-2 bg-[#F7F7F7]">
       <div className=" sm:max-w-7xl w-[90%] mx-auto flex flex-wrap     justify-between items-center">
-        <div className=" flex gap-3 items-center">
+        <div className=" flex flex-wrap justify-center  gap-3 items-center">
           <span className=" font-bold">More than 5,000 customers love us:</span>
           <ul className=" flex items-center gap-4">
             <Link to={""} className=" text-black underline  text-lg font-bold">
@@ -21,7 +21,7 @@ const BottomHero = () => {
           </ul>
         </div>
         <div className=" sm:w-5/12 w-full">
-          <ul className=" flex  items-center">
+          <ul className=" flex  sm:pt-0 pt-3 items-center">
             <li>
               <img src={brand1} className=" w-3xs" alt="" />
             </li>

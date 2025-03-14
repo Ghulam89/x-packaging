@@ -7,13 +7,23 @@ const CardSlider = ({ items, top }) => {
 
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollLeft -= 200;
+      const container = scrollContainerRef.current;
+      const cardWidth = container.firstChild?.clientWidth || 200; // Default to 200 if no card is found
+      container.scrollTo({
+        left: container.scrollLeft - cardWidth,
+        behavior: 'smooth'
+      });
     }
   };
 
   const scrollRight = () => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollLeft += 200;
+      const container = scrollContainerRef.current;
+      const cardWidth = container.firstChild?.clientWidth || 200; // Default to 200 if no card is found
+      container.scrollTo({
+        left: container.scrollLeft + cardWidth,
+        behavior: 'smooth'
+      });
     }
   };
 
