@@ -13,11 +13,15 @@ import google from '../../assets/images/footer/google-reviws-logo.webp';
 import Testimonials from '../../components/Testimonials'
 import FAQ from '../../components/FAQ/FAQ'
 import InspirationPackaging from '../../components/InspirationPackaging'
+import BottomHero from '../../components/common/BottomHero'
+import Hero from '../../components/Hero/Hero'
 const  Home = ()  => {
   return (
     <>
     <TopNav/>
     <Navbar/>
+    <Hero/>
+    <BottomHero/>
      <Category/>
      <OfferCard discount={'Get 30%'} title={'Off Your First Order!'} /> 
      <FeaturesPackaging/>
