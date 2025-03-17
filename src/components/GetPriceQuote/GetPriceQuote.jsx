@@ -21,7 +21,7 @@ const GetPriceQuote = () => {
                     star={"*"}
                     placeholder="Box Style"
                     className={
-                      " w-full border border-[#333333] bg-white  text-xs p-2.5 rounded-lg"
+                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
                     }
                   />
                 </div>
@@ -31,7 +31,7 @@ const GetPriceQuote = () => {
                     star={"*"}
                     placeholder="Length"
                     className={
-                      " w-full border border-[#333333] bg-white  text-xs p-2.5 rounded-lg"
+                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
                     }
                   />
                 </div>
@@ -41,7 +41,7 @@ const GetPriceQuote = () => {
                     star={"*"}
                     placeholder="width"
                     className={
-                      " w-full border border-[#333333] bg-white  text-xs p-2.5 rounded-lg"
+                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
                     }
                   />
                 </div>
@@ -51,7 +51,7 @@ const GetPriceQuote = () => {
                     star={"*"}
                     placeholder="Depth"
                     className={
-                      " w-full border border-[#333333] bg-white  text-xs p-2.5 rounded-lg"
+                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
                     }
                   />
                 </div>
@@ -61,7 +61,7 @@ const GetPriceQuote = () => {
                     star={"*"}
                     placeholder="Inches"
                     className={
-                      " w-full border border-[#333333] bg-white  text-xs p-2.5 rounded-lg"
+                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
                     }
                   />
                 </div>
@@ -71,7 +71,7 @@ const GetPriceQuote = () => {
                     star={"*"}
                     placeholder="Stock"
                     className={
-                      " w-full border border-[#333333] bg-white  text-xs p-2.5 rounded-lg"
+                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
                     }
                   />
                 </div>
@@ -81,7 +81,7 @@ const GetPriceQuote = () => {
                     star={"*"}
                     placeholder="Colors"
                     className={
-                      " w-full border border-[#333333] bg-white  text-xs p-2.5 rounded-lg"
+                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
                     }
                   />
                 </div>
@@ -91,7 +91,7 @@ const GetPriceQuote = () => {
                     star={"*"}
                     placeholder="Inside"
                     className={
-                      " w-full border border-[#333333] bg-white  text-xs p-2.5 rounded-lg"
+                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
                     }
                   />
                 </div>
@@ -101,7 +101,7 @@ const GetPriceQuote = () => {
                     star={"*"}
                     placeholder="Quantity"
                     className={
-                      " w-full border border-[#333333] bg-white  text-xs p-2.5 rounded-lg"
+                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
                     }
                   />
                 </div>
@@ -111,7 +111,7 @@ const GetPriceQuote = () => {
                     star={"*"}
                     placeholder=""
                     className={
-                      " w-full border border-[#333333] bg-white  text-xs p-2.5 rounded-lg"
+                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
                     }
                   />
                 </div>
@@ -128,13 +128,13 @@ const GetPriceQuote = () => {
                 <div className=" sm:col-span-3 col-span-1">
                   <label
                     htmlFor="first_name"
-                    className="  pb-1.5 flex  text-[#333333] text-sm font-medium   text-textColor"
+                    className="  pb-1.5 flex  text-sm font-medium   text-textColor"
                   >
                     Description
                     <p className=" text-red-600 m-0 pl-1">*</p>
                   </label>
                   <textarea
-                    className=" w-full border border-[#333333] bg-white  text-xs p-2.5 rounded-lg"
+                    className=" w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
                     placeholder="Tell us the size / dimensions, material, finising, add-ons, and design preferences."
                   ></textarea>
                 </div>

@@ -18,7 +18,7 @@ const SampleKit = () => {
                     star={"*"}
                     placeholder="Full Name"
                     className={
-                      " w-full border border-[#333333] bg-white  text-xs p-2.5 rounded-lg"
+                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
                     }
                   />
                 </div>
@@ -28,7 +28,7 @@ const SampleKit = () => {
                     star={"*"}
                     placeholder="Email"
                     className={
-                      " w-full border border-[#333333] bg-white  text-xs p-2.5 rounded-lg"
+                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
                     }
                   />
                 </div>
@@ -38,7 +38,7 @@ const SampleKit = () => {
                     star={"*"}
                     placeholder="Phone"
                     className={
-                      " w-full border border-[#333333] bg-white  text-xs p-2.5 rounded-lg"
+                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
                     }
                   />
                 </div>
@@ -48,7 +48,7 @@ const SampleKit = () => {
                     star={"*"}
                     placeholder="Company  Name"
                     className={
-                      " w-full border border-[#333333] bg-white  text-xs p-2.5 rounded-lg"
+                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
                     }
                   />
                 </div>
@@ -58,7 +58,7 @@ const SampleKit = () => {
                     star={"*"}
                     placeholder="Website"
                     className={
-                      " w-full border border-[#333333] bg-white  text-xs p-2.5 rounded-lg"
+                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
                     }
                   />
                 </div>
@@ -68,7 +68,7 @@ const SampleKit = () => {
                     star={"*"}
                     placeholder="Physical Address"
                     className={
-                      " w-full border border-[#333333] bg-white  text-xs p-2.5 rounded-lg"
+                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
                     }
                   />
                 </div>
@@ -78,7 +78,7 @@ const SampleKit = () => {
                     star={"*"}
                     placeholder="Quantity"
                     className={
-                      " w-full border border-[#333333] bg-white  text-xs p-2.5 rounded-lg"
+                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
                     }
                   />
                 </div>
@@ -94,7 +94,7 @@ const SampleKit = () => {
                     
                     placeholder="Quantity"
                     className={
-                      " w-full border border-[#333333] bg-white  text-xs p-2.5 rounded-lg outline-none bg-lightGray  text-textColor placeholder:text-gray-500 "
+                      " w-full  border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg outline-none bg-lightGray  text-textColor placeholder:text-gray-500 "
                     }
                   >
                     <option>Select Industry</option>
