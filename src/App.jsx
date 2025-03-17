@@ -13,6 +13,8 @@ import SampleKit from './components/SampleKit'
 import Home from './screen/home'
 import google from './assets/images/footer/google-reviws-logo.webp';
 import Testimonials from './components/Testimonials'
+import FAQ from './components/FAQ/FAQ'
+import InspirationPackaging from './components/InspirationPackaging'
 function App() {
   return (
     <>
@@ -35,9 +37,12 @@ function App() {
      </div> 
      <Testimonials/>
      <InspiringStories/>
+     <InspirationPackaging/>
+     
      <GetPriceQuote/>
      <Capabilities/>
      <SampleKit/>
+     <FAQ/>
      <Footer/>
     </>
   )
