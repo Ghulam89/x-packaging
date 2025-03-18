@@ -141,7 +141,7 @@ const BottomNav = ({ Menu, OpenMenu }) => {
           </Link>
           {categories.map((category, index) => (
             <Link
-              to="#"
+              to={`/${category?.category}`}
               key={index}
               onMouseEnter={() => handleCategoryHover(category)}
               onMouseLeave={handleCategoryLeave}

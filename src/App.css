@@ -20,10 +20,10 @@ h2{
 @apply  sm:text-[36px] text-2xl  font-semibold 
 }
 h3{
-@apply  sm:text-2xl text-lg 
+@apply  sm:text-2xl text-lg  font-semibold
 }
 h4{
-  @apply  sm:text-xl text-lg 
+  @apply  sm:text-xl text-lg  font-semibold
   }
   h5{
     @apply  sm:text-lg text-sm  font-medium
