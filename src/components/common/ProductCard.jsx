@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const ProductCard = ({ image, title, unit, delivery }) => {
   return (
     <Link
-      to="#"
+      to={`/product_details/Makeup Boxes`}
       className="block w-56 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-transform duration-300 overflow-hidden hover:scale-105"
     >
     

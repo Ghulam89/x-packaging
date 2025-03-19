@@ -8,10 +8,10 @@ const Tabs = ({ tabs, defaultTab, className }) => {
         {tabs.map((tab) => (
           <button
             key={tab.title}
-            className={`px-4 cursor-pointer rounded-xl text-sm py-4 ${className} ${
+            className={`px-4 cursor-pointer rounded-xl uppercase font-semibold text-sm py-4 ${className} ${
               activeTab === tab.title
-                ? "  bg-[#4440E6]     opacity-50  w-full text-white"
-                : "  w-full border hover:bg-[#4440E6] hover:text-white hover:border-[#4440E6] opacity-90  border-gray-300"
+                ? "  bg-[#EE334B]     w-full text-white"
+                : "  w-full border text-[#213554] bg-[#F3F4F6] hover:bg-[#EE334B] hover:text-white hover:border-[#EE334B]  border-[#213554]"
             }`}
             onClick={() => setActiveTab(tab.title)}
           >

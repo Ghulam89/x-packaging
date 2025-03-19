@@ -8,6 +8,8 @@ import { TbToolsKitchen3 } from 'react-icons/tb'
 import { Link } from 'react-router-dom'
 import SampleKit from '../../components/SampleKit'
 import InspirationPackaging from '../../components/InspirationPackaging'
+import { IoHomeOutline } from 'react-icons/io5'
+import { LiaAngleRightSolid } from 'react-icons/lia'
 
 const Category = () => {
 
@@ -66,6 +68,12 @@ const Category = () => {
     <TopNav/>
     <Navbar/>
     <section className=' max-w-7xl mx-auto'>
+      <div className=' flex gap-2 pt-3 items-center'>
+             <IoHomeOutline /> <LiaAngleRightSolid />
+                  <h6 className=''> 
+                    Box By industry
+                  </h6>
+              </div>
         <div className='  text-center max-w-5xl mx-auto py-7'>
             <h2>Custom packaging solutions for every industry.
             </h2>
