@@ -1,4 +1,3 @@
-import { Products } from "../model/Product.js";
 import { Rating } from "../model/rating.js";
 
 
@@ -8,12 +7,12 @@ import { Rating } from "../model/rating.js";
     try {
       const existRating = await Rating.findOne({ user, rating });
   
-      if (existRating) {
-        return res.status(400).json({
-          status: "fail",
-          message: "You have already given a rating to this product",
-        });
-      }
+      // if (existRating) {
+      //   return res.status(400).json({
+      //     status: "fail",
+      //     message: "You have already given a rating to this product",
+      //   });
+      // }
   
       const newRating = new Rating(data);
       await newRating.save();
@@ -30,11 +29,7 @@ import { Rating } from "../model/rating.js";
 
 export const getRatings = async (req, res) => {
   try {
-        const ratings = await Rating.find().populate([
-      { path: "product", select: "name slug images" },
-    ]).populate([
-      { path: "user", select: "username" },
-    ]);
+    const ratings = await Rating.find();
     res.status(200).json({
       data: ratings,
       message: "Ratings fetched successfully",
@@ -46,11 +41,33 @@ export const getRatings = async (req, res) => {
 };
 export const getRating = async (req, res) => {
   const { id } = req.params;
-  try {
-    const rating = await Rating.findById(id);
+  const page = parseInt(req.query.page) || 1; // Get page number from query params, default to 1
+  const limit = 5;
+  
+  try { 
+    // Calculate skip value for pagination
+    const skip = (page - 1) * limit;
+    
+    // Fetch ratings with pagination
+    const ratings = await Rating.find({ productId: id })
+      .skip(skip)
+      .limit(limit);
+    
+    // Get total count for pagination info
+    const totalRatings = await Rating.countDocuments({ productId: id });
+    const totalPages = Math.ceil(totalRatings / limit);
+    
     res.status(200).json({
-      data: rating,
-      message: "Rating fetched successfully",
+      data: ratings,
+      pagination: {
+        currentPage: page,
+        totalPages: totalPages,
+        totalItems: totalRatings,
+        itemsPerPage: limit,
+        hasNextPage: page < totalPages,
+        hasPrevPage: page > 1
+      },
+      message: "Ratings fetched successfully",
       status: "success",
     });
   } catch (error) {
@@ -78,45 +95,19 @@ export const deleteRating = async (req, res) => {
     .status(200)
     .json({ message: "Rating deleted successfully", status: "success" });
 };
-
 export const getRatingByProductId = async (req, res) => {
-  const { id, slug } = req.query;
-
+  const { id } = req.params;
   try {
-    let productId;
-
-    if (id) {
-      productId = id;
-    } else if (slug) {
-      const product = await Products.findOne({ slug });
-      if (!product) {
-        return res.status(404).json({ message: "Product not found by slug" });
-      }
-      productId = product._id;
-    } else {
-      return res.status(400).json({ message: "Product ID or slug is required" });
-    }
-
-    const ratings = await Rating.find({ product: productId }).populate("user");
-
-    const totalRatings = ratings.length;
-    const averageRating =
-      totalRatings > 0
-        ? ratings.reduce((sum, rating) => sum + rating.rating, 0) / totalRatings
-        : 0;
-
+    const ratings = await Rating.find({ product: id }).populate("user");
     res.status(200).json({
       data: ratings,
-      averageRating: parseFloat(averageRating.toFixed(1)),
-      totalRatings,
       message: "Ratings fetched successfully",
       status: "success",
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(404).json({ message: error.message });
   }
 };
-
 export const getRatingByUserId = async (req, res) => {
   const { id } = req.params;
   try {

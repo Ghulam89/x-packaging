@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "../common/Button";
 import TemplateSlider from "../common/TemplateSlider";
+import { Link } from "react-router-dom";
 
 const TemplateToDesign = () => {
   return (
@@ -24,7 +25,7 @@ Need Box Template to design?</h2>
                 <svg
                   width={16}
                   aria-hidden="true"
-                  class="e-font-icon-svg e-far-hand-point-right"
+                  className="e-font-icon-svg e-far-hand-point-right"
                   viewBox="0 0 512 512"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -37,7 +38,7 @@ Need Box Template to design?</h2>
                 <svg
                   width={16}
                   aria-hidden="true"
-                  class="e-font-icon-svg e-far-hand-point-right"
+                  className="e-font-icon-svg e-far-hand-point-right"
                   viewBox="0 0 512 512"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -50,7 +51,7 @@ Need Box Template to design?</h2>
                 <svg
                   width={16}
                   aria-hidden="true"
-                  class="e-font-icon-svg e-far-hand-point-right"
+                  className="e-font-icon-svg e-far-hand-point-right"
                   viewBox="0 0 512 512"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -59,12 +60,12 @@ Need Box Template to design?</h2>
              <span> Share your additional thoughts</span>
               </li>
             </ul>
-            <div className=" mt-5">
+            <Link to={'/dielines'} className=" mt-5">
               <Button
                 label="Get Template"
-                className="bg-[#C5A980] text-white"
+                className="bg-[#4440E6] text-white"
               />
-            </div>
+            </Link>
           </div>
           <div className=" sm:w-5/12 w-full">
             <TemplateSlider/>

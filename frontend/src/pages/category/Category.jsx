@@ -1,499 +1,295 @@
-import React, { useEffect, useState } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { BaseUrl } from "../../utils/BaseUrl";
-import PageMetadata from "../../components/common/PageMetadata";
-import ProductCard from "../../components/common/ProductCard";
-import { LiaAngleDownSolid } from "react-icons/lia";
-import Button from "../../components/common/Button";
-import TopNav from "../../components/Header/TopNav";
-import Navbar from "../../components/Header/Navbar";
-import Footer from "../../components/Footer/Footer";
+// import React, { useEffect, useState } from "react";
+// import { Link, useParams, useNavigate } from "react-router-dom";
+// import axios from "axios";
+// import Button from "../../components/common/Button";
+// import Container from "../../components/common/Container";
+// import { BaseUrl } from "../../utils/BaseUrl";
+// import CardSlider from "../../components/common/CardSlider";
+// import CustomPackagingProduced from "../../components/CustomPackagingProduced";
+// import PageMetadata from "../../components/common/PageMetadata";
+// import InstantQuoteModal from "../../components/common/InstantQuoteModal";
+// import { prefetchProduct, prefetchProductsBatch, prefetchSubCategory } from "../../utils/prefetchUtils";
+// import { ProductSelectionProvider } from "../../components/common/ProductCard";
 
-const Category = ({ serverData }) => {
-  const { slug } = useParams();
-  const [categoryProduct, setCategoryProduct] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const [categoryData, setCategoryData] = useState(null);
+// const Category = ({ serverData }) => {
+//   const { slug } = useParams();
+//   const navigate = useNavigate();
+//   const [categoryProduct, setCategoryProduct] = useState([]);
+//   const [categoryData, setCategoryData] = useState(null);
+//   const [loading, setLoading] = useState(true);
 
-  const [showColorFilter, setShowColorFilter] = useState(false);
-  const [showMaterialFilter, setShowMaterialFilter] = useState(false);
-  const [showPatternFilter, setShowPatternFilter] = useState(false);
-  const [showPriceFilter, setShowPriceFilter] = useState(false);
-  const [showSortFilter, setShowSortFilter] = useState(false); // New sort filter
+//   const FetchCategory = async () => {
+//     setLoading(true);
+//     try {
+//       const response = await axios.get(`${BaseUrl}/brands/get?slug=${slug}`);
+//       if (!response?.data?.data) {
+//         navigate('/404')
+//         return
+//       }
+//       setCategoryData(response?.data?.data);
 
-  const [selectedColors, setSelectedColors] = useState([]);
-  const [selectedMaterial, setSelectedMaterial] = useState("");
-  const [selectedPattern, setSelectedPattern] = useState("");
-  const [priceRange, setPriceRange] = useState({ min: 0, max: 1000 });
-  const [selectedSort, setSelectedSort] = useState("newest"); // New sort state
+//       const response2 = await axios.get(
+//         `${BaseUrl}/products/categoryProducts/${response?.data?.data._id}/products-by-category`
+//       );
+//       setCategoryProduct(response2?.data?.data?.categories || []);
+//     } catch (err) {
+//       console.error("Error fetching category:", err);
+//       // navigate('/404')
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
 
-  const colorOptions = ['blue', 'red', 'gray', 'pink', 'orange'];
-  const materialOptions = ['Silk', 'Wool', 'Modal', 'Linen'];
-  const patternOptions = ['floral', 'Geometric', 'Paisley', 'Plaid and Checks', 'Polka Dot', 'Solid Color', 'Stripes'];
-  const sortOptions = [ // New sort options
-    { value: 'newest', label: 'Newest First' },
-    { value: 'oldest', label: 'Oldest First' },
-    { value: 'price-low', label: 'Price: Low to High' },
-    { value: 'price-high', label: 'Price: High to Low' },
-    { value: 'name-asc', label: 'Name: A to Z' },
-    { value: 'name-desc', label: 'Name: Z to A' }
-  ];
+//   useEffect(() => {
+//     FetchCategory();
+//   }, [slug]); // Remove categoryData from dependencies to avoid infinite loop
 
-  const FetchCategory = async (filters = {}) => {
-    try {
-      const response = await axios.get(`${BaseUrl}/collections/get?slug=${slug}`);
-      if (!response?.data?.data) {
-        return;
-      }
-      setCategoryData(response?.data?.data);
+//   useEffect(() => {
+//     return () => {
+//       setCategoryData(null);
+//       setCategoryProduct([]);
+//     };
+//   }, [slug]);
 
-      // Build query parameters for filters
-      const params = new URLSearchParams();
-      
-      // Add filter parameters
-      if (filters.colors && filters.colors.length > 0) {
-        filters.colors.forEach(color => params.append('colors', color));
-      }
-      
-      if (filters.material) {
-        params.append('materials', filters.material);
-      }
-      
-      if (filters.pattern) {
-        params.append('patterns', filters.pattern);
-      }
-      
-      // Price range parameters - FIXED
-      if (filters.priceRange) {
-        if (filters.priceRange.min > 0) {
-          params.append('minPrice', filters.priceRange.min);
-        }
-        if (filters.priceRange.max < 1000) {
-          params.append('maxPrice', filters.priceRange.max);
-        }
-      }
+//   // Prefetch products when they load
+//   useEffect(() => {
+//     if (categoryProduct && categoryProduct.length > 0) {
+//       const allProducts = categoryProduct.flatMap((category) => category?.products || []);
+//       if (allProducts.length > 0) {
+//         prefetchProductsBatch(allProducts, {
+//           batchSize: 5,
+//           delayBetweenBatches: 50,
+//           priority: true
+//         });
+//       }
+//     }
+//   }, [categoryProduct]);
 
-      // Add sort parameter
-      if (filters.sort) {
-        params.append('sort', filters.sort);
-      }
+//   const breadcrumbSchema = {
+//     "@context": "https://schema.org",
+//     "@type": "BreadcrumbList",
+//     "itemListElement": [
+//       {
+//         "@type": "ListItem",
+//         "position": 1,
+//         "name": "Home",
+//         "item": BaseUrl
+//       },
+//       {
+//         "@type": "ListItem",
+//         "position": 2,
+//         "name": categoryData?.name || serverData?.name,
+//         "item": `${BaseUrl}/category/${slug}`
+//       }
+//     ]
+//   };
 
-      // Add pagination to show all products
-      params.append('perPage', 100);
+//   const [isModalOpen, setIsModalOpen] = useState(false);
 
-      console.log('API Call with params:', params.toString()); // Debug log
+//   return (
+//     <>
+//       <ProductSelectionProvider>
+//         {(categoryData || serverData) ? (
+//           <PageMetadata
+//             title={categoryData?.metaTitle || serverData?.metaTitle}
+//             description={categoryData?.metaDescription || serverData?.metaDescription}
+//             keywords={categoryData?.keywords || serverData?.keywords}
+//             ogUrl={`${BaseUrl}/category/${slug}`}
+//             ogImage={`${BaseUrl}/${serverData?.bannerImage}`}
+//             ogImageWidth="1200"
+//             ogImageHeight="630"
+//             canonicalUrl={`${BaseUrl}/category/${slug}`}
+//             breadcrumbSchema={breadcrumbSchema}
+//             robots={categoryData?.robots || serverData?.robots}
+//           />
+//         ) : null}
 
-      const response2 = await axios.get(
-        `${BaseUrl}/products/categoryProducts/${response?.data?.data._id}/products-by-category?${params.toString()}`
-      );
+//         <Container>
+//           <div style={{ backgroundColor: categoryData?.bgColor }} className="flex sm:max-w-6xl max-w-[95%] gap-4 mx-auto sm:flex-row items-center flex-col my-3.5 sm:p-8 p-4 rounded-md w-full">
+//             <div className="sm:w-7/12 w-full">
+//               <strong className="sm:text-[38px] text-[20px] m-0 text-[#333333] font-medium font-sans">Umbrella Custom Packaging</strong>
+//               <h1
+//                 style={{ color: "#4440E6" }}
+//                 className="font-sans sm:text-4xl text-xl opacity-90 font-medium capitalize text-[#4440E6]"
+//               >
+//                 {categoryData?.name}
+//               </h1>
+//               <div className="flex mt-4 gap-2 flex-wrap items-center">
+//                 <Link to={'/category/box-by-industry'} className="">
+//                   <Button
+//                     label={"Industry"}
+//                     className="bg-[#4440E6] opacity-90 border border-[#4440E6] sm:w-32 w-28 text-white hover:bg-[#4440E6] hover:text-white"
+//                   />
+//                 </Link>
+//                 <Link to={'/category/shapes-styles'}>
+//                   <Button
+//                     label={"Style"}
+//                     className="bg-white border border-[#4440E6] sm:w-32 w-28 text-[#4440E6] hover:bg-[#4440E6] hover:text-white"
+//                   />
+//                 </Link>
+//                 <Link to={'/category/boxes-by-material'}>
+//                   <Button
+//                     label={"Material"}
+//                     className="bg-white border border-[#4440E6] sm:w-32 w-28 text-[#4440E6] hover:bg-[#4440E6] hover:text-white"
+//                   />
+//                 </Link>
+//               </div>
+//               <div className="sm:mt-7 mt-4">
+//                 <Link to={'/shop'}>
+//                   <Button
+//                     label={"Our Catalogue"}
+//                     className="bg-white border border-[#4440E6] text-[#4440E6] hover:bg-[#4440E6] hover:text-white sm:w-80 w-60"
+//                   />
+//                 </Link>
+//               </div>
+//             </div>
+//             <div className="sm:w-5/12 w-full">
+//               {categoryData?.bannerImage ? 
+//                 <img
+//                   src={`${BaseUrl}/${categoryData?.bannerImage}`}
+//                   className="w-full"
+//                   alt={categoryData?.bannerAltText}
+//                 /> : null
+//               }
+//             </div>
+//           </div>
 
-      const products = response2?.data?.data?.products || [];
-      setCategoryProduct(products);
-      setFilteredProducts(products);
-    } catch (err) {
-      console.error("Error fetching category:", err);
-    }
-  };
+//           <div className="bg-[#F7F7F7] rounded-xl sm:max-w-6xl max-w-[95%] mx-auto py-8 px-5 my-8">
+//             <h2 className="sm:text-[35px] text-[25px] text-center font-sans font-[600] text-[#333333]">
+//               Discover Our Custom Packaging Variety
+//             </h2>
+//             <p className="text-center pt-5">
+//               Check out all the different types of boxes we have at Umbrella
+//               Custom Packaging! We have special categories for boxes that you can
+//               customize just the way you like. You get to choose whether it's the
+//               size, the material, or how it looks. So, have a look and pick the
+//               perfect box for you!
+//             </p>
+//           </div>
+//         </Container>
 
-  // Apply filters by calling API with query parameters
-  const applyFilters = () => {
-    const filters = {
-      colors: selectedColors,
-      material: selectedMaterial,
-      pattern: selectedPattern,
-      priceRange: priceRange,
-      sort: selectedSort // Add sort to filters
-    };
-    FetchCategory(filters);
-  };
+//         {/* MAIN CONTENT - EITHER SKELETON OR ACTUAL DATA */}
+//         {loading ? (
+//           // Loading Skeletons
+//           <>
+//             {[1, 2, 3].map((skeletonIndex) => (
+//               <div key={skeletonIndex} className="bg-[#EFF4FE] py-4">
+//                 <Container fullWidth={false} className="sm:max-w-6xl max-w-[95%] mx-auto">
+//                   <div className="flex sm:flex-row flex-col gap-3 py-9 justify-between items-center">
+//                     <div className="animate-pulse">
+//                       <div className="bg-gray-300 rounded h-8 w-64 mb-2"></div>
+//                     </div>
+//                     <div className="animate-pulse">
+//                       <div className="bg-gray-300 rounded h-10 w-48"></div>
+//                     </div>
+//                   </div>
+//                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-4">
+//                     {[1, 2, 3, 4].map((productIndex) => (
+//                       <div key={productIndex} className="bg-[#f7f7f7] p-2 rounded-xl">
+//                         <div className="animate-pulse">
+//                           <div className="bg-gray-200 rounded-lg w-full h-48 mb-2"></div>
+//                           <div className="bg-gray-200 rounded h-4 w-3/4 mx-auto mb-2"></div>
+//                           <div className="bg-gray-200 rounded h-3 w-1/2 mx-auto"></div>
+//                         </div>
+//                       </div>
+//                     ))}
+//                   </div>
+//                 </Container>
+//               </div>
+//             ))}
+//           </>
+//         ) : (
+//           // Actual Category Products
+//           categoryProduct?.map((item, index) => {
+//             return (
+//               <div key={item?._id || index} className="bg-[#EFF4FE] py-4">
+//                 <Container fullWidth={false} className="sm:max-w-6xl max-w-[95%] mx-auto">
+//                   <div className="flex sm:flex-row flex-col gap-3 py-9 justify-between items-center">
+//                     <div>
+//                       <h2 className="sm:text-[35px] text-[25px] font-sans font-[600] text-[#333333]">{item?.categoryName}</h2>
+//                     </div>
+//                     <div>
+//                       <Link 
+//                         to={`/sub-category/${item?.categorySlug}`} 
+//                         className=""
+//                         onMouseEnter={() => {
+//                           if (item?.categorySlug) {
+//                             prefetchSubCategory(item.categorySlug);
+//                           }
+//                         }}
+//                         onMouseDown={() => {
+//                           if (item?.categorySlug) {
+//                             prefetchSubCategory(item.categorySlug, true);
+//                           }
+//                         }}
+//                       >
+//                         <Button
+//                           label={`View All ${item?.categoryName}`}
+//                           className="bg-white border border-[#4440E6] text-[#4440E6] hover:bg-[#4440E6] hover:text-white sm:w-80 w-72"
+//                         />
+//                       </Link>
+//                     </div>
+//                   </div>
+//                   <CardSlider item={item?.products} index={index} />
+//                 </Container>
+//               </div>
+//             )
+//           })
+//         )}
 
-  const handleColorChange = (color) => {
-    setSelectedColors(prev =>
-      prev.includes(color)
-        ? prev.filter(c => c !== color)
-        : [...prev, color]
-    );
-  };
+//         {/* Why Choose Us Section - Only show when not loading */}
+//         {!loading && categoryData && (
+//           <div className='sm:max-w-6xl max-w-[95%] mx-auto'>
+//             <div className="flex flex-col px-4 py-6 rounded-lg lg:flex-row gap-8 items-center">
+//               <div className="w-full lg:w-1/2">
+//                 <img
+//                   src={`${BaseUrl}/${categoryData?.image}`}
+//                   alt={categoryData?.imageAltText}
+//                   className="w-full h-auto rounded-xl shadow-md object-cover"
+//                   loading="lazy"
+//                 />
+//               </div>
+//               <div className='w-full lg:w-1/2'>
+//                 <div className="pt-3">
+//                   <h2 className="sm:text-[38px] text-[25px] font-sans font-[600] text-[#333333]">
+//                     Why Choose US?
+//                   </h2>
+//                   <div className='overflow-y-auto h-56'>
+//                     <p dangerouslySetInnerHTML={{
+//                       __html: (categoryData?.content)
+//                     }} className="text-sm leading-6 mb-6" />
+//                   </div>
+//                 </div>
+//                 <div className="flex flex-wrap mt-7 gap-2.5 items-center">
+//                   <Button
+//                     onClick={() => setIsModalOpen(true)}
+//                     label={"Get Instant Quote"}
+//                     className="bg-[#4440E6] text-white"
+//                   />
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//         )}
 
-  const handleMaterialChange = (material) => {
-    setSelectedMaterial(prev => prev === material ? "" : material);
-  };
+//         {!loading && (
+//           <>
+//             <div className="mb-8">
+//               <CustomPackagingProduced />
+//             </div>
+//             <InstantQuoteModal setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} />
+//           </>
+//         )}
+//       </ProductSelectionProvider>
+//     </>
+//   );
+// };
 
-  const handlePatternChange = (pattern) => {
-    setSelectedPattern(prev => prev === pattern ? "" : pattern);
-  };
+// export default Category;
+import React from 'react'
 
-  const handlePriceChange = (min, max) => {
-    setPriceRange({ min, max });
-  };
-
-  const handleSortChange = (sortValue) => {
-    setSelectedSort(sortValue);
-    setShowSortFilter(false);
-  };
-
-  const clearAllFilters = () => {
-    setSelectedColors([]);
-    setSelectedMaterial("");
-    setSelectedPattern("");
-    setPriceRange({ min: 0, max: 1000 });
-    setSelectedSort("newest");
-    FetchCategory();
-  };
-
-  // Apply filters when filter states change
-  useEffect(() => {
-    applyFilters();
-  }, [selectedColors, selectedMaterial, selectedPattern, priceRange, selectedSort]);
-
-  // Initial fetch when slug changes
-  useEffect(() => {
-    FetchCategory();
-  }, [slug]);
-
-  // Close dropdowns when clicking outside
-  useEffect(() => {
-    const handleClickOutside = () => {
-      setShowColorFilter(false);
-      setShowMaterialFilter(false);
-      setShowPatternFilter(false);
-      setShowPriceFilter(false);
-      setShowSortFilter(false);
-    };
-
-    document.addEventListener('click', handleClickOutside);
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, []);
-
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": BaseUrl
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": categoryData?.name,
-        "item": `${BaseUrl}/category/${slug}`
-      }
-    ]
-  };
-
-  // Get current sort label
-  const getCurrentSortLabel = () => {
-    const currentSort = sortOptions.find(option => option.value === selectedSort);
-    return currentSort ? currentSort.label : 'Sort By';
-  };
-
+export const Category = () => {
   return (
-    <>
-
-    <TopNav />
-     <Navbar />
-      <PageMetadata
-        title={categoryData?.metaTitle || serverData?.metaTitle || "Custom Packaging Solutions"}
-        description={categoryData?.metaDescription || serverData?.metaDescription || ""}
-        keywords={categoryData?.keywords || serverData?.keywords || ""}
-        ogUrl={`${BaseUrl}/category/${slug}`}
-        ogImage={`${BaseUrl}/${categoryData?.bannerImage}`}
-        ogImageWidth="1200"
-        ogImageHeight="630"
-        canonicalUrl={`${BaseUrl}/category/${slug}`}
-        breadcrumbSchema={breadcrumbSchema}
-        robots={"noindex, nofollow"}
-      />
-
-      <div className="bg-[#faf8f6] pb-11">
-        <div className="max-w-7xl mx-auto">
-          <div className="pt-4 pb-10 text-center">
-            <h1 className="font-semibold text-3xl">{categoryData?.name}</h1>
-            <p className="pt-5 text-[#0a0a88]">{categoryData?.description}</p>
-          </div>
-
-          <div className="flex flex-wrap gap-4 pb-8 px-4 relative">
-            
-            {/* Color Filter */}
-            <div className="relative">
-              <button
-                className="cursor-pointer flex items-center gap-2 bg-white px-4 py-2 rounded border"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setShowColorFilter(!showColorFilter);
-                  setShowMaterialFilter(false);
-                  setShowPatternFilter(false);
-                  setShowPriceFilter(false);
-                  setShowSortFilter(false);
-                }}
-              >
-                Color ({selectedColors.length}) <LiaAngleDownSolid />
-              </button>
-              {showColorFilter && (
-                <div className="absolute top-full left-0 bg-white z-40 w-64 border p-3 mt-1 rounded shadow-lg">
-                  <h3 className="font-semibold mb-2">Select Colors</h3>
-                  <ul className="space-y-2 max-h-60 overflow-y-auto">
-                    {colorOptions.map((color, index) => (
-                      <li key={index} className="flex items-center gap-2">
-                        <input
-                          type="checkbox"
-                          id={`color-${index}`}
-                          checked={selectedColors.includes(color)}
-                          onChange={() => handleColorChange(color)}
-                          className="w-4 h-4"
-                        />
-                        <label htmlFor={`color-${index}`} className="flex items-center gap-2 cursor-pointer">
-                          <span 
-                            style={{ backgroundColor: color }} 
-                            className="w-4 h-4 rounded-full border"
-                          ></span>
-                          {color}
-                        </label>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-
-            {/* Material Filter */}
-            <div className="relative">
-              <button
-                className="cursor-pointer flex items-center gap-2 bg-white px-4 py-2 rounded border"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setShowMaterialFilter(!showMaterialFilter);
-                  setShowColorFilter(false);
-                  setShowPatternFilter(false);
-                  setShowPriceFilter(false);
-                  setShowSortFilter(false);
-                }}
-              >
-                Material {selectedMaterial && `(${selectedMaterial})`} <LiaAngleDownSolid />
-              </button>
-              {showMaterialFilter && (
-                <div className="absolute top-full left-0 bg-white z-40 w-64 border p-3 mt-1 rounded shadow-lg">
-                  <h3 className="font-semibold mb-2">Select Material</h3>
-                  <ul className="space-y-2 max-h-60 overflow-y-auto">
-                    {materialOptions.map((material, index) => (
-                      <li key={index} className="flex items-center gap-2">
-                        <input
-                          type="radio"
-                          id={`material-${index}`}
-                          name="material"
-                          checked={selectedMaterial === material}
-                          onChange={() => handleMaterialChange(material)}
-                          className="w-4 h-4"
-                        />
-                        <label htmlFor={`material-${index}`} className="cursor-pointer">
-                          {material}
-                        </label>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-
-            {/* Pattern Filter */}
-            <div className="relative">
-              <button
-                className="cursor-pointer flex items-center gap-2 bg-white px-4 py-2 rounded border"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setShowPatternFilter(!showPatternFilter);
-                  setShowColorFilter(false);
-                  setShowMaterialFilter(false);
-                  setShowPriceFilter(false);
-                  setShowSortFilter(false);
-                }}
-              >
-                Pattern {selectedPattern && `(${selectedPattern})`} <LiaAngleDownSolid />
-              </button>
-              {showPatternFilter && (
-                <div className="absolute top-full left-0 bg-white z-40 w-64 border p-3 mt-1 rounded shadow-lg">
-                  <h3 className="font-semibold mb-2">Select Pattern</h3>
-                  <ul className="space-y-2 max-h-60 overflow-y-auto">
-                    {patternOptions.map((pattern, index) => (
-                      <li key={index} className="flex items-center gap-2">
-                        <input
-                          type="radio"
-                          id={`pattern-${index}`}
-                          name="pattern"
-                          checked={selectedPattern === pattern}
-                          onChange={() => handlePatternChange(pattern)}
-                          className="w-4 h-4"
-                        />
-                        <label htmlFor={`pattern-${index}`} className="cursor-pointer">
-                          {pattern}
-                        </label>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-
-            {/* Price Filter */}
-            <div className="relative">
-              <button
-                className="cursor-pointer flex items-center gap-2 bg-white px-4 py-2 rounded border"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setShowPriceFilter(!showPriceFilter);
-                  setShowColorFilter(false);
-                  setShowMaterialFilter(false);
-                  setShowPatternFilter(false);
-                  setShowSortFilter(false);
-                }}
-              >
-                Price {priceRange.min > 0 || priceRange.max < 1000 ? `($${priceRange.min}-$${priceRange.max})` : ''} <LiaAngleDownSolid />
-              </button>
-              {showPriceFilter && (
-                <div className="absolute top-full left-0 bg-white z-40 w-64 border p-3 mt-1 rounded shadow-lg">
-                  <h3 className="font-semibold mb-2">Price Range</h3>
-                  <div className="space-y-3">
-                    <div className="flex gap-2 items-center">
-                      <input
-                        type="number"
-                        value={priceRange.min}
-                        onChange={(e) => handlePriceChange(Number(e.target.value), priceRange.max)}
-                        className="w-20 p-1 border rounded"
-                        placeholder="Min"
-                        min="0"
-                      />
-                      <span className="self-center">to</span>
-                      <input
-                        type="number"
-                        value={priceRange.max}
-                        onChange={(e) => handlePriceChange(priceRange.min, Number(e.target.value))}
-                        className="w-20 p-1 border rounded"
-                        placeholder="Max"
-                        min="0"
-                      />
-                    </div>
-                    <div className="flex gap-2 flex-wrap">
-                      <button
-                        className="text-sm bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-                        onClick={() => handlePriceChange(0, 50)}
-                      >
-                        Under $50
-                      </button>
-                      <button
-                        className="text-sm bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-                        onClick={() => handlePriceChange(50, 100)}
-                      >
-                        $50-$100
-                      </button>
-                      <button
-                        className="text-sm bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-                        onClick={() => handlePriceChange(100, 200)}
-                      >
-                        $100-$200
-                      </button>
-                    </div>
-                    <button
-                      className="w-full text-sm bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-600"
-                      onClick={() => handlePriceChange(0, 1000)}
-                    >
-                      Clear Price
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Sort Filter - NEW */}
-            <div className="relative">
-              <button
-                className="cursor-pointer flex items-center gap-2 bg-white px-4 py-2 rounded border"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setShowSortFilter(!showSortFilter);
-                  setShowColorFilter(false);
-                  setShowMaterialFilter(false);
-                  setShowPatternFilter(false);
-                  setShowPriceFilter(false);
-                }}
-              >
-                {getCurrentSortLabel()} <LiaAngleDownSolid />
-              </button>
-              {showSortFilter && (
-                <div className="absolute top-full left-0 bg-white z-40 w-64 border p-3 mt-1 rounded shadow-lg">
-                  <h3 className="font-semibold mb-2">Sort By</h3>
-                  <ul className="space-y-2">
-                    {sortOptions.map((option, index) => (
-                      <li key={index} className="flex items-center gap-2">
-                        <input
-                          type="radio"
-                          id={`sort-${index}`}
-                          name="sort"
-                          checked={selectedSort === option.value}
-                          onChange={() => handleSortChange(option.value)}
-                          className="w-4 h-4"
-                        />
-                        <label htmlFor={`sort-${index}`} className="cursor-pointer">
-                          {option.label}
-                        </label>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-
-            {/* Clear All Filters Button */}
-            {(selectedColors.length > 0 || selectedMaterial || selectedPattern || priceRange.min > 0 || priceRange.max < 1000 || selectedSort !== "newest") && (
-              <button
-                className="cursor-pointer bg-gray-200 px-4 py-2 rounded border hover:bg-gray-300"
-                onClick={clearAllFilters}
-              >
-                Clear All
-              </button>
-            )}
-
-            <div className="ml-auto self-center">
-              <span className="text-sm text-gray-600">
-                Showing {filteredProducts.length} products
-              </span>
-            </div>
-          </div>
-
-          {/* Products Grid */}
-          <div className="grid grid-cols-2 lg:grid-cols-3 md:gap-6 gap-3 px-4">
-            {filteredProducts?.map((item, index) => (
-              <ProductCard key={item._id} product={item} />
-            ))}
-          </div>
-
-          {/* No Products Found */}
-          {filteredProducts.length === 0 && (
-            <div className="text-center py-8">
-              <p className="text-lg text-gray-600">No products match your selected filters.</p>
-              <Button
-                label={'Clear Filters'}
-                onClick={clearAllFilters}
-                rIcons={
-                  <svg className='' width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="13" cy="13" r="12.5" fill="currentColor" stroke="black" />
-                    <path d="M10.6367 15.3636L14.7731 11.2273M14.7731 11.2273L15.364 13.5909M14.7731 11.2273L12.4094 10.6364" stroke="white" strokeWidth="1.5" />
-                  </svg>
-                }
-                className="mt-5 border-2 mx-auto border-[#C5A980] bg-[#C5A980] text-black hover:bg-white hover:text-black hover:border-[#C5A980]"
-              />
-            </div>
-          )}
-        </div>
-      </div>
-      <Footer/>
-    </>
-  );
-};
-
-export default Category;
+    <div>Category</div>
+  )
+}

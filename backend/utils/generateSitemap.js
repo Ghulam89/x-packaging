@@ -1,101 +1,103 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { connectDB } from '../config/database.js';
-import { getAllProducts } from '../controller/ProductController.js';
-import { getAllCollections } from '../controller/CollectionController.js';
+// import fs from 'fs';
+// import path from 'path';
+// import { fileURLToPath } from 'url';
+// import { connectDB } from '../config/database.js';
+// import { getAllProducts } from '../controller/ProductController.js';
+// import { getAllBlogs } from '../controller/BlogController.js';
+// import { getAllCategories } from '../controller/MidCategory.js';
+// import { getAllSubCategories } from '../controller/SubCategory.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
-async function generateSitemap() {
+// async function generateSitemap() {
 //   try {
-//     // Connect to database
+   
 //     await connectDB();
     
 //     let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 // <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 //   <!-- Static Pages -->
 //   <url>
-//     <loc>https://xelitesilks.com/</loc>
+//     <loc>https://xcustompackaging.com/</loc>
 //     <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
 //     <changefreq>daily</changefreq>
 //     <priority>1.0</priority>
 //   </url>
 //   <url>
-//     <loc>https://xelitesilks.com/about-us</loc>
+//     <loc>https://xcustompackaging.com/about-us</loc>
 //     <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
 //     <changefreq>monthly</changefreq>
 //     <priority>0.8</priority>
 //   </url>
 //   <url>
-//     <loc>https://xelitesilks.com/contact-us</loc>
+//     <loc>https://xcustompackaging.com/contact-us</loc>
 //     <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
 //     <changefreq>monthly</changefreq>
 //     <priority>0.7</priority>
 //   </url>
 //   <url>
-//     <loc>https://xelitesilks.com/blogs</loc>
+//     <loc>https://xcustompackaging.com/blogs</loc>
 //     <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
 //     <changefreq>weekly</changefreq>
 //     <priority>0.8</priority>
 //   </url>
 //   <url>
-//     <loc>https://xelitesilks.com/shop</loc>
+//     <loc>https://xcustompackaging.com/shop</loc>
 //     <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
 //     <changefreq>daily</changefreq>
 //     <priority>0.9</priority>
 //   </url>
 //   <url>
-//     <loc>https://xelitesilks.com/get-custom-quote</loc>
+//     <loc>https://xcustompackaging.com/get-custom-quote</loc>
 //     <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
 //     <changefreq>monthly</changefreq>
 //     <priority>0.8</priority>
 //   </url>
 //   <url>
-//     <loc>https://xelitesilks.com/target-price</loc>
+//     <loc>https://xcustompackaging.com/target-price</loc>
 //     <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
 //     <changefreq>monthly</changefreq>
 //     <priority>0.7</priority>
 //   </url>
 //   <url>
-//     <loc>https://xelitesilks.com/faqs</loc>
+//     <loc>https://xcustompackaging.com/faqs</loc>
 //     <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
 //     <changefreq>monthly</changefreq>
 //     <priority>0.6</priority>
 //   </url>
 //   <url>
-//     <loc>https://xelitesilks.com/portfolio</loc>
+//     <loc>https://xcustompackaging.com/portfolio</loc>
 //     <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
 //     <changefreq>monthly</changefreq>
 //     <priority>0.7</priority>
 //   </url>
 //   <url>
-//     <loc>https://xelitesilks.com/reviews</loc>
+//     <loc>https://xcustompackaging.com/reviews</loc>
 //     <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
 //     <changefreq>weekly</changefreq>
 //     <priority>0.6</priority>
 //   </url>
 //   <url>
-//     <loc>https://xelitesilks.com/privacy-policy</loc>
+//     <loc>https://xcustompackaging.com/privacy-policy</loc>
 //     <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
 //     <changefreq>yearly</changefreq>
 //     <priority>0.3</priority>
 //   </url>
 //   <url>
-//     <loc>https://xelitesilks.com/terms-and-conditions</loc>
+//     <loc>https://xcustompackaging.com/terms-and-conditions</loc>
 //     <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
 //     <changefreq>yearly</changefreq>
 //     <priority>0.3</priority>
 //   </url>
 //   <url>
-//     <loc>https://xelitesilks.com/shipping-policy</loc>
+//     <loc>https://xcustompackaging.com/shipping-policy</loc>
 //     <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
 //     <changefreq>yearly</changefreq>
 //     <priority>0.3</priority>
 //   </url>
 //   <url>
-//     <loc>https://xelitesilks.com/returns-refunds</loc>
+//     <loc>https://xcustompackaging.com/returns-refunds</loc>
 //     <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
 //     <changefreq>yearly</changefreq>
 //     <priority>0.3</priority>
@@ -109,7 +111,7 @@ async function generateSitemap() {
 //           if (category.slug) {
 //             sitemap += `
 //   <url>
-//     <loc>https://xelitesilks.com/category/${category.slug}</loc>
+//     <loc>https://xcustompackaging.com/category/${category.slug}</loc>
 //     <lastmod>${category.updatedAt ? new Date(category.updatedAt).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]}</lastmod>
 //     <changefreq>weekly</changefreq>
 //     <priority>0.7</priority>
@@ -129,7 +131,7 @@ async function generateSitemap() {
 //           if (subCategory.slug) {
 //             sitemap += `
 //   <url>
-//     <loc>https://xelitesilks.com/sub-category/${subCategory.slug}</loc>
+//     <loc>https://xcustompackaging.com/sub-category/${subCategory.slug}</loc>
 //     <lastmod>${subCategory.updatedAt ? new Date(subCategory.updatedAt).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]}</lastmod>
 //     <changefreq>weekly</changefreq>
 //     <priority>0.6</priority>
@@ -149,7 +151,7 @@ async function generateSitemap() {
 //           if (product.slug) {
 //             sitemap += `
 //   <url>
-//     <loc>https://xelitesilks.com/${product.slug}</loc>
+//     <loc>https://xcustompackaging.com/${product.slug}</loc>
 //     <lastmod>${product.updatedAt ? new Date(product.updatedAt).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]}</lastmod>
 //     <changefreq>weekly</changefreq>
 //     <priority>0.8</priority>
@@ -169,7 +171,7 @@ async function generateSitemap() {
 //           if (blog.slug) {
 //             sitemap += `
 //   <url>
-//     <loc>https://xelitesilks.com/blog/${blog.slug}</loc>
+//     <loc>https://xcustompackaging.com/blog/${blog.slug}</loc>
 //     <lastmod>${blog.updatedAt ? new Date(blog.updatedAt).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]}</lastmod>
 //     <changefreq>monthly</changefreq>
 //     <priority>0.6</priority>
@@ -196,7 +198,7 @@ async function generateSitemap() {
 //     console.error("Error generating sitemap:", error);
 //     process.exit(1);
 //   }
-}
+// }
 
 // Run the script
-generateSitemap(); 
+// generateSitemap(); 

@@ -9,17 +9,18 @@ import {customerTemplate, instantTemplate } from "../utils/emailTemplate.js";
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { EMAIL, PASS } from "../config/index.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  host: "smtp.gmail.com",
+  // service: 'gmail',
+  host: "smtp.hostinger.com",
   port: 587,
   secure: false,
   auth: {
-    user: "gm6681328@gmail.com",
-    pass: "ptpatylqsrszlqtq",
+    user:EMAIL,
+    pass:PASS, 
   },
   tls: {
     rejectUnauthorized: false
@@ -62,16 +63,16 @@ export const createInstantQuote = catchAsyncError(async (req, res, next) => {
     const newInstantQuote = await InstantQuote.create(quoteData);
 
     const mailOptions = {
-      from: 'gm6681328@gmail.com',
+      from:EMAIL,
       to: data?.email,
       subject: 'Thank You for Your Quote Request - Umbrella Packaging',
       html: customerTemplate(data?.name)
     };
 
     const adminMailOptions = {
-      from: 'gm6681328@gmail.com',
-      to: data?.email,
-      subject: `${data?.name} <${data?.email}> | inquiry@umbrellapackaging.com`,
+      from:EMAIL,
+      to:EMAIL,
+      subject: `${data?.name} <${data?.email}> | ${EMAIL}`,
       html: instantTemplate(quoteData)
     };
 

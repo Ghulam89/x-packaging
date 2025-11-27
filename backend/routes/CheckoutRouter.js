@@ -5,9 +5,7 @@ import {
   updateCheckout,
   getAllCheckout,
   deleteCheckoutById,getUserCheckouts,
-  createPaymentIntent,
-  debugAllOrders,
-  debugProducts
+  createPaymentIntent
 } from "../controller/CheckoutController.js";
 const checkoutRouter = express.Router();
 checkoutRouter.route("/create").post(createCheckout);
@@ -17,7 +15,5 @@ checkoutRouter.post('/create-payment-intent', createPaymentIntent);
 checkoutRouter.route("/get/:id").get(getCheckoutById);
 checkoutRouter.route("/getByUser/:userId").get(getUserCheckouts);
 checkoutRouter.route("/delete/:id").delete(deleteCheckoutById);
-checkoutRouter.route("/debug").get(debugAllOrders);
-checkoutRouter.route("/debug-products").get(debugProducts);
 
 export default checkoutRouter;

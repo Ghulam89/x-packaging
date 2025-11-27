@@ -10,7 +10,7 @@ import video from '../../assets/videos/getqoute.mp4';
 const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
     const [step, setStep] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
-    const [pageUrl, setPageUrl] = useState("");
+    const [pageUrl, setPageUrl] = useState("");0
 
     useEffect(() => {
         if (typeof window !== "undefined") {
@@ -220,7 +220,7 @@ const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
                                             type="submit"
                                             label={isLoading ? "Sending..." : "Send"}
                                             disabled={!validateStep2() || isLoading}
-                                            className={`bg-[#C5A980] w-full sm:w-32 text-white py-3 px-4 rounded-lg hover:bg-[#3938b8] transition-colors text-sm font-medium ${!validateStep2() || isLoading ? 'opacity-50 cursor-not-allowed' : ''
+                                            className={`bg-[#4440E6] w-full sm:w-32 text-white py-3 px-4 rounded-lg hover:bg-[#3938b8] transition-colors text-sm font-medium ${!validateStep2() || isLoading ? 'opacity-50 cursor-not-allowed' : ''
                                                 }`}
                                         />
                                     </div>
@@ -432,7 +432,7 @@ const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
                                                 type="file"
                                                 name="image"
                                                 onChange={handleChange}
-                                                className="border w-full bg-white rounded-lg border-black file:mr-4 file:py-1.5 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-[#C5A980] file:text-white hover:file:bg-[#3a36c7]"
+                                                className="border w-full bg-white rounded-lg border-black file:mr-4 file:py-1.5 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-[#4440E6] file:text-white hover:file:bg-[#3a36c7]"
                                                 accept=".png,.pdf,.jpg,.jpeg,.webp"
                                             />
                                         </div>
@@ -462,7 +462,7 @@ const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
                                             onClick={nextStep}
                                             label="Next"
                                             disabled={!validateStep1()}
-                                            className={`bg-[#C5A980] w-full sm:w-32 text-white py-3 px-4 rounded-lg hover:bg-[#3938b8] transition-colors text-sm font-medium ${!validateStep1() ? 'opacity-50 cursor-not-allowed' : ''
+                                            className={`bg-[#4440E6] w-full sm:w-32 text-white py-3 px-4 rounded-lg hover:bg-[#3938b8] transition-colors text-sm font-medium ${!validateStep1() ? 'opacity-50 cursor-not-allowed' : ''
                                                 }`}
                                         />
                                     </div>

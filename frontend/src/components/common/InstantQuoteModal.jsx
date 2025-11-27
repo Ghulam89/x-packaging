@@ -8,8 +8,12 @@ import Input from "./Input";
 import Button from "./Button";
 import { BaseUrl } from "../../utils/BaseUrl";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const InstantQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
+
+
+  const navigate = useNavigate()
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
     email: Yup.string()
@@ -65,7 +69,8 @@ const InstantQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
         });
 
         if(response?.data?.status==="success"){
-         toast.success(response?.data?.message)
+        //  toast.success(response?.data?.message)
+         navigate('/thank-your-page')
         }else{
           toast.error(response?.data?.message)
         }
@@ -83,7 +88,9 @@ const InstantQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
   return (
     <Modal isOpen={isModalOpen} onClose={closeModal} className={"rounded-xl"}>
       <div className="p-5 overflow-y-auto ">
-        <div className="cursor-pointer flex w-full justify-end">
+      
+        <div className="bg-[#F7F7F7] rounded-[10px] flex flex-col items-center p-6">
+            <div className="cursor-pointer flex w-full justify-end">
           <MdClose
             onClick={() => {
               formik.resetForm();
@@ -92,7 +99,6 @@ const InstantQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
             size={25}
           />
         </div>
-        <div className="bg-[#F7F7F7] rounded-[10px] flex flex-col items-center p-6">
           <h2 className="text-xl font-semibold mb-4">Get an Instant Quote</h2>
 
           <form onSubmit={formik.handleSubmit} className="w-full">
@@ -216,7 +222,7 @@ const InstantQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
                     formik.setFieldValue("image", event.currentTarget.files[0]);
                   }}
                   onBlur={formik.handleBlur}
-                  className="border w-full rounded-lg bg-white border-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#C5A980] file:text-white hover:file:bg-[#3a36c7]"
+                  className="border w-full rounded-lg bg-white border-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#4440E6] file:text-white hover:file:bg-[#3a36c7]"
                 />
                 {formik.touched.image && formik.errors.image && (
                   <div className="text-red-500 text-xs mt-1">
@@ -233,7 +239,7 @@ const InstantQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
                     formik.isSubmitting ? "Submitting..." : "Get Instant Quote"
                   }
                   disabled={formik.isSubmitting || !formik.isValid}
-                  className="bg-[#C5A980] text-white w-full py-2 rounded-lg font-medium disabled:opacity-50"
+                  className="bg-[#4440E6] text-white w-full py-2 rounded-lg font-medium disabled:opacity-50"
                 />
               </div>
             </div>

@@ -10,6 +10,8 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import shopChoose from '../../assets/images/Industry-standard.png-2.webp';
+import PageMetadata from '../../components/common/PageMetadata'
+import { prefetchProduct, prefetchProductsBatch } from '../../utils/prefetchUtils'
 
 const Shop = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -77,6 +79,18 @@ const Shop = () => {
     setProducts([]);
     fetchProducts(1);
   }, [categoryId, searchQuery]);
+
+  // Automatically prefetch all products when they load (for fast navigation) - OPTIMIZED
+  useEffect(() => {
+    if (products && products.length > 0) {
+      // Use optimized batch prefetching for faster loading
+      prefetchProductsBatch(products, {
+        batchSize: 5, // Increased from 3 to 5 for faster prefetching
+        delayBetweenBatches: 50, // Reduced from 100ms to 50ms for faster loading
+        priority: true // Priority for faster loading
+      });
+    }
+  }, [products]);
 
   const handleLoadMore = () => {
     if (pagination.page < pagination.totalPages) {
@@ -152,11 +166,29 @@ const Shop = () => {
     },
   });
 
+
+  
+          const metadata = {
+                title: "Shop - Umbrella Custom Packaging",
+                description: "Get In Touch Umbrella Custom Packaging-The House of Proficient Printing & Distinct Featured Boxes. Umbrella Custom Packaging facilitates your business by providing innovative styled boxes in extraordinary design. We use the finest paper material and high quality cardboard to ensure perfect Die Cut boxes. You will get guaranteed satisfaction with high quality printing.",
+                keywords: "custom packaging, wholesale boxes, packaging solutions, affordable packaging, custom boxes, packaging design, eco-friendly packaging",
+                author: "Umbrella Custom Packaging",
+                ogUrl: `${BaseUrl}/shop`,
+                canonicalUrl: `${BaseUrl}/shop`,
+                ogTitle: "Shop - Umbrella Custom Packaging",
+                ogDescription: "Get In Touch Umbrella Custom Packaging-The House of Proficient Printing & Distinct Featured Boxes...",
+                modifiedTime: "2025-06-13T15:18:43+00:00",
+                twitterTitle: "Shop - Umbrella Custom Packaging",
+                twitterDescription: "Get In Touch Umbrella Custom Packaging-The House of Proficient Printing & Distinct Featured Boxes...",
+                robots: "index, follow"
+              };
+
   return (
     <>
-      <div className=' bg-[#F7F7F7] sm:max-w-7xl max-w-[95%] mx-auto  px-3 my-5 py-12'>
+     <PageMetadata {...metadata} />
+      <div className=' bg-[#F7F7F7] rounded-lg sm:max-w-7xl max-w-[95%] mx-auto  px-3.5 my-5 py-12'>
         <div className='  mx-auto text-center'>
-          <h1>Discover Our Custom Packaging Variety</h1>
+          <h1 className=' sm:text-4xl text-2xl'>Discover Our Custom Packaging Variety</h1>
           <p className=' pt-2'>Check out all the different types of boxes we have at Umbrella Custom Packaging! We have special categories for boxes that you can customize just the way you like. You get to choose whether it’s the size, the material, or how it looks. So, have a look and pick the perfect box for you!
           </p>
         </div>
@@ -184,7 +216,7 @@ const Shop = () => {
                 <div className=' pt-12'>
                   <Button 
                     label={loading ? 'Loading...' : 'Load More'} 
-                    className='mx-auto bg-[#C5A980] text-white' 
+                    className='mx-auto bg-[#4440E6] text-white' 
                     onClick={handleLoadMore}
                     disabled={loading}
                   />
@@ -319,7 +351,7 @@ const Shop = () => {
                     formik.setFieldValue("image", event.currentTarget.files[0]);
                   }}
                   onBlur={formik.handleBlur}
-                  className="border w-full rounded-lg bg-white border-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#C5A980] file:text-white hover:file:bg-[#3a36c7]"
+                  className="border w-full rounded-lg bg-white border-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#4440E6] file:text-white hover:file:bg-[#3a36c7]"
                 />
                 {formik.touched.image && formik.errors.image && (
                   <div className="text-red-500 text-xs mt-1">
@@ -336,7 +368,7 @@ const Shop = () => {
                     formik.isSubmitting ? "Submitting..." : "Send"
                   }
                   disabled={formik.isSubmitting || !formik.isValid}
-                  className="bg-[#C5A980] text-white w-full py-2 rounded-lg font-medium disabled:opacity-50"
+                  className="bg-[#4440E6] text-white w-full py-2 rounded-lg font-medium disabled:opacity-50"
                 />
               </div>
             </div>
@@ -375,7 +407,7 @@ const Shop = () => {
                 <Button
 
                   label={"Get Instant Quote"}
-                  className=" bg-[#C5A980] text-white"
+                  className=" bg-[#4440E6] text-white"
                 />
 
               </div>

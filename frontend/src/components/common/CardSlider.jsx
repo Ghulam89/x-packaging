@@ -1,55 +1,81 @@
-import React, { useRef } from "react";
-import "./CardSlider.css";
-import { LiaAngleLeftSolid, LiaAngleRightSolid } from "react-icons/lia";
+import React, { useEffect, useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import ProductCard from "./ProductCard";
 
-const CardSlider = ({ items, top }) => {
-  const scrollContainerRef = useRef(null);
+const CardSlider = ({ item, index, disableSelection = false }) => {
+  const [isAutoPlay, setIsAutoPlay] = useState(true);
 
-  const scrollLeft = () => {
-    if (scrollContainerRef.current) {
-      const container = scrollContainerRef.current;
-      const cardWidth = container.firstChild?.clientWidth || 200; // Default to 200 if no card is found
-      container.scrollTo({
-        left: container.scrollLeft - cardWidth,
-        behavior: 'smooth'
-      });
-    }
+  const handleScroll = () => {
+    const scrollPosition = window.scrollY;
+  
+    setIsAutoPlay(scrollPosition < 50); 
   };
 
-  const scrollRight = () => {
-    if (scrollContainerRef.current) {
-      const container = scrollContainerRef.current;
-      const cardWidth = container.firstChild?.clientWidth || 200; // Default to 200 if no card is found
-      container.scrollTo({
-        left: container.scrollLeft + cardWidth,
-        behavior: 'smooth'
-      });
-    }
-  };
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
-    <div className="relative">
-      <div
-        ref={scrollContainerRef}
-        className="scroll-container sm:pl-0 pl-4 items-center gap-4 flex productOverflow overflow-x-auto whitespace-nowrap"
-      >
-        {items}
-      </div>
-      <div className="md:block hidden">
-        <button
-          className={`arrow arrow-left absolute left-1 cursor-pointer rounded-full flex justify-center items-center bg-white hover:bg-[#EE334B] hover:shadow-lg w-12 h-12 hover:text-white`}
-          style={{ top: top ? `${top}%` : "50%", transform: "translateY(60%)" }}
-          onClick={scrollLeft}
+    <div className="">
+      <div className="w-full mx-auto relative">
+        <Swiper
+          modules={[Autoplay, Pagination, Navigation]}
+          autoplay={
+            isAutoPlay ? { 
+              delay: 3000, 
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true 
+            } : false
+          }
+          loop={true}
+          spaceBetween={30}
+          slidesPerView="auto"
+          breakpoints={{
+            640: { slidesPerView: 2 },
+            768: { slidesPerView: 3 },
+            1024: { slidesPerView: 4 },
+          }}
+          onBeforeInit={(swiper) => {
+            swiper.params.navigation.prevEl = `.custom-prev-${index}`;
+            swiper.params.navigation.nextEl = `.custom-next-${index}`;
+          }}
+          navigation={{
+            nextEl: `.custom-next-${index}`,
+            prevEl: `.custom-prev-${index}`,
+          }}
+         
+          speed={800}
+          grabCursor={true}
         >
-          <LiaAngleLeftSolid size={25} />
-        </button>
-        <button
-          className={`arrow arrow-right absolute right-1 cursor-pointer rounded-full flex justify-center items-center bg-white hover:bg-[#EE334B] hover:shadow-lg w-12 h-12 hover:text-white`}
-          style={{ top: top ? `${top}%` : "50%", transform: "translateY(60%)" }}
-          onClick={scrollRight}
-        >
-          <LiaAngleRightSolid size={25} />
-        </button>
+          {item?.map((item) => (
+            <SwiperSlide key={item.id}>
+              <div className="bg-[#f7f7f7] p-2 rounded-xl max-w-6xl mx-auto">
+                <ProductCard data={item} disableSelection={disableSelection} />
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+
+        <div className="flex w-full justify-center sm:mt-0 mt-6 gap-3 items-center">
+          <button 
+            className={`custom-prev-${index} md:absolute top-[40%] z-40 md:-left-15 w-10 h-10 bg-[#F6F6F6] text-[#4440E6] hover:bg-[#4440E6] hover:text-white rounded-xl flex items-center justify-center`}
+          >
+            <IoIosArrowBack size={25} />
+          </button>
+          <button 
+            className={`custom-next-${index} w-10 h-10 md:absolute top-[40%] z-40 md:-right-15 bg-[#F6F6F6] text-[#4440E6] hover:bg-[#4440E6] hover:text-white rounded-xl flex items-center justify-center`}
+          >
+            <IoIosArrowForward size={25} />
+          </button>
+        </div>
       </div>
     </div>
   );

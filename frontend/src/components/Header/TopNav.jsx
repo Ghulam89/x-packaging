@@ -1,3 +1,4 @@
+
 import {
   FaFacebookF,
   FaTwitter,
@@ -5,55 +6,125 @@ import {
   FaInstagram,
   FaLinkedinIn,
   FaWhatsapp,
+  FaFacebook,
+  FaLinkedin,
 } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { FiPhone } from "react-icons/fi";
 import { AiOutlineUser } from "react-icons/ai";
-import usa from "../../assets/images/flag/us.svg";
-import uk from "../../assets/images/flag/uk.svg";
-import canada from "../../assets/images/flag/canada.svg";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { canada, uk, usa } from "../../assets";
+
 const TopNav = () => {
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+  
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setFontsLoaded(true);
+    }, 300);
+    
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <div className="">
-      <div className="sm:max-w-7xl max-w-[95%] mx-auto">
-        <div className="flex sm:justify-between justify-center flex-wrap items-center px-6 sm:py-2 py-1.5 border-b border-gray-200 text-sm text-gray-700">
+    <div className="bg-[#F7F7F7]">
+      <div className="sm:max-w-6xl max-w-[95%] mx-auto">
+        <div className="flex sm:justify-between justify-center flex-wrap items-center px-6 sm:py-4 py-2 border-b border-gray-200 text-sm text-gray-700">
           {/* Left Side: Country Flags */}
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center  space-x-1.5">
-              <img src={usa} alt="USA" className="w-8 h-8" />
-              <span>USA</span>
-            </div>
-            <div className="flex items-center space-x-1">
-              <img src={uk} alt="UK" className="w-8 h-8" />
-              <span>UK</span>
-            </div>
-            <div className="flex items-center space-x-1">
-              <img src={canada} alt="Canada" className="w-8 h-8" />
-              <span>Canada</span>
-            </div>
+          <div className="flex items-center space-x-4 min-h-[32px]">
+            <Link 
+              to={'https://xcustompackaging.com/'} 
+              className="flex items-center space-x-1.5"
+              aria-label="Visit Umbrella Packaging USA site"
+            >
+              <img 
+                src={usa} 
+                alt="USA Flag"  
+                className="w-8 h-6 object-contain" 
+                width={32}
+                height={24}
+              />
+              <span className={` transition-opacity`}>USA</span>
+            </Link>
+            <Link 
+              to={'https://umbrellapackaging.co.uk/'}  
+              target="_blank"
+              rel="noopener noreferrer" 
+              className="flex items-center space-x-1"
+               aria-label="Visit Umbrella Packaging UK site"
+            >
+              <img 
+                src={uk} 
+                    alt="UK Flag" 
+
+                className="w-8 h-6 object-contain" 
+                width={32}
+                height={24}
+              />
+              <span className={` transition-opacity`}>UK</span>
+            </Link>
+            <Link 
+              to={'https://umbrellapackaging.ca/'}  
+              target="_blank"
+              rel="noopener noreferrer" 
+              className="flex items-center space-x-1"
+                  aria-label="Visit Umbrella Packaging Canada site"
+
+            >
+              <img 
+                src={canada} 
+                    alt="Canada Flag" 
+
+                className="w-8 h-6 object-contain" 
+                width={32}
+                height={24}
+              />
+              <span className={` transition-opacity`}>Canada</span>
+            </Link>
           </div>
 
           {/* Right Side: Account & Social Media */}
-          <div className="flex flex-wrap  justify-center items-center space-x-4 space-y-1">
-            <div className="flex items-center space-x-2">
+          <div className="flex flex-wrap justify-center items-center space-x-4 space-y-1 min-h-[32px]">
+            <Link 
+              to={'mailto:sales@umbrellapackaging.com'} 
+              className="flex items-center space-x-2"
+            >
               <MdEmail size={15} />
-              <span>sales@xpackaging.com</span>
-            </div>
-            <div className="flex items-center space-x-2">
+              <span className={` transition-opacity`}>sales@umbrellapackaging.com</span>
+            </Link>
+            <Link 
+              to={'tel:747-247-0456'} 
+              className="flex items-center space-x-2"
+            >
               <FiPhone size={15} />
-              <span>747-247-0456</span>
-            </div>
+              <span className={` transition-opacity`}>747-247-0456</span>
+            </Link>
             <div className="flex items-center space-x-2">
               <AiOutlineUser size={18} />
-              <span>My Account</span>
+              <span className={` transition-opacity`}>My Account</span>
             </div>
-            <div className="flex space-x-3 text-gray-600">
-              <FaFacebookF />
-              <FaTwitter size={15} />
-              <FaYoutube size={15} />
-              <FaInstagram size={15} />
-              <FaLinkedinIn size={15} />
-              <FaWhatsapp size={15} />
+            <div>
+              <div className="flex space-x-3 mb-1 text-gray-600">
+                <Link target="_blank" to={'https://www.facebook.com/umbrellapackaging'} aria-label="Visit Umbrella Packaging on Facebook">
+                  <FaFacebook size={17} />
+                </Link>
+                <Link target="_blank" to={'https://twitter.com/umbrellapack'} aria-label="Visit Umbrella Packaging on Twitter">
+                  <FaTwitter size={17} />
+                </Link>
+                <Link target="_blank" to={'https://www.youtube.com/channel/UCkxeWyAJqxjFSzlbnSoIVLQ'} aria-label="Visit Umbrella Packaging on YouTube">
+                  <FaYoutube size={17} />
+                </Link>
+                <Link target="_blank" to={'https://www.instagram.com/umbrellacustompackaging/'} aria-label="Visit Umbrella Packaging on Instagram">
+                  <FaInstagram size={17} />
+                </Link>
+                <Link target="_blank" to={'https://www.linkedin.com/company/umbrellacustompackaging/'} aria-label="Visit Umbrella Packaging on LinkedIn">
+                  <FaLinkedin size={17} />
+                </Link>
+                <Link target="_blank" to={'https://wa.me/message/JTJTB4YWJYNQP1'} aria-label="Chat with Umbrella Packaging on WhatsApp">
+                  <FaWhatsapp size={17} />
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -62,4 +133,4 @@ const TopNav = () => {
   );
 };
 
-export default TopNav;
+export default   TopNav;

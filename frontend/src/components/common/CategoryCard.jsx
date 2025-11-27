@@ -1,22 +1,32 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { BaseUrl } from "../../utils/BaseUrl";
 
-const CategoryCard = ({data}) => {
+const CategoryCard = ({ data }) => {
+  const altText =
+    data?.imageAltText?.trim()
+      ? data.imageAltText
+      : data?.title
+        ? `${data.title} category illustration`
+        : "Category illustration";
+
   return (
-    <>
-    <div className=" w-72">
-    <Link to={data?.id} className="">
-        <div className="">
-          <div className="  sm:h-64 h-44">
-          <img src={data?.image} alt="" className=" w-full h-full  rounded-3xl" />
-          </div>
-          <h6 className="  font-bold text-black  text-center text-lg  pt-3">{data?.title}</h6>
+    <Link to={`/sub-category/${data?.slug}`} className="block">
+      <div>
+        <div>
+          <img
+            src={data?.image ? `${BaseUrl}/${data.image}` : ""}
+            alt={altText}
+            className="w-full sm:h-62 h-auto object-cover overflow-hidden rounded-lg"
+            aria-label="Visit Umbrella Packaging"
+          />
         </div>
-      </Link>
-    </div>
-      
-    </>
+        <h2 className="sm:text-base text-sm font-semibold text-[#333333] uppercase sm:py-5 py-2">
+          {data?.title}
+        </h2>
+      </div>
+    </Link>
   );
 };
 
-export default CategoryCard;
+export default React.memo(CategoryCard);

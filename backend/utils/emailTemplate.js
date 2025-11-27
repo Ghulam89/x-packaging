@@ -48,7 +48,7 @@ export const customerTemplate = (data) => `<!DOCTYPE html>
                   </div>
                   <!-- Right Column (Contact Details) -->
                   <div style="text-align: right; flex: 1;">
-                      <p style="margin: 0;"><a href="https://xelitesilks.com/" style="text-decoration: none; color: #0076a8; font-weight: bold;">www.umbrellapackaging.com</a></p>
+                      <p style="margin: 0;"><a href="https://xcustompackaging.com/" style="text-decoration: none; color: #0076a8; font-weight: bold;">www.umbrellapackaging.com</a></p>
                       <p style="margin: 0;"><a href="tel:+17472470456" style="text-decoration: none; color: #0076a8; font-weight: bold;">+1-747-247-0456</a></p>
                   </div>
               </div>
@@ -168,7 +168,7 @@ export const adminTemplate = (data) => `<!DOCTYPE html>
                 </tr>
                 <tr>
                     <td>Length:</td>
-                    <td>${data.boxStyle}</td>
+                    <td>${data.length}</td>
                 </tr>
                 <tr>
                     <td>Width:</td>
@@ -187,6 +187,10 @@ export const adminTemplate = (data) => `<!DOCTYPE html>
                     <td>${data.color}</td>
                 </tr>
                 <tr>
+                    <td>Unit:</td>
+                    <td>${data.unit}</td>
+                </tr>
+                <tr>
                     <td>Quantity:</td>
                     <td>${data.quantity}</td>
                 </tr>
@@ -194,10 +198,16 @@ export const adminTemplate = (data) => `<!DOCTYPE html>
                     <td>Add-ons:</td>
                     <td>${data.addons}</td>
                 </tr>
-                <tr>
-                    <td>File:</td>
-                    <td><img style="width:'100%'" src=${data.image} /></td>
-                </tr>
+                <td>File:</td>
+              <td>
+  ${
+    data?.image
+      ? `<img style="width: 100%; max-width: 300px; height: auto; display: block;" 
+           src="https://xcustompackaging.com/${data.image}" 
+           alt="Uploaded file" />`
+      : 'No image provided'
+  }
+</td>
                 <tr>
                     <td>Description:</td>
                     <td>${data.message}</td>
@@ -267,7 +277,7 @@ export const instantTemplate = (data) => `<!DOCTYPE html>
                 <td>File:</td>
                 <td>
                     ${data.image ?
-        `<img style="width: 100%; max-width: 300px; height: auto; display: block;" src="${data.image}" alt="Uploaded file" />` :
+        `<img style="width: 100%; max-width: 300px; height: auto; display: block;" src=${`https://xcustompackaging.com/${data.image}`} alt="Uploaded file" />` :
         'No image provided'
     }
                 </td>

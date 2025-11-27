@@ -1,7 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import UnitBG from '../../assets/images/bg-unit.webp';
+import { Link } from 'react-router-dom';
 
 function ProductionUnits() {
+
+  const [isViewerOpen, setIsViewerOpen] = useState(false);
+  
+  const closeImageViewer = () => {
+    setIsViewerOpen(false);
+    document.body.style.overflow = 'auto';
+  };
+
+  const openImageViewer = () => {
+   
+    setIsViewerOpen(true);
+    document.body.style.overflow = 'hidden';
+  };
+
+
   return (
     <div className='bg-[#f4ecfb] mb-5 pb-1'>
       <div className='sm:max-w-6xl mb-3.5 max-w-[95%] mx-auto'>
@@ -9,9 +25,12 @@ function ProductionUnits() {
         <div 
           className='h-[300px] bg-contain flex justify-center items-center bg-no-repeat bg-center relative' 
           style={{ backgroundImage: `url(${UnitBG})` }}
-          aria-label="Production units background"
+           role="presentation"
         >
-          <svg 
+
+            <svg 
+
+              onClick={openImageViewer} 
             width={80} 
             className="text-red-500" 
             aria-hidden="true" 
@@ -22,7 +41,9 @@ function ProductionUnits() {
               d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"
               fill="currentColor"
             />
-          </svg>        
+          </svg>  
+       
+              
         </div>
 
         {/* Title */}
@@ -55,8 +76,34 @@ Umbrella Custom Packaging make your order even more cost effective by providing 
           </div>
         </div>
       </div>
+
+
+        {isViewerOpen && (
+        <div className="fixed inset-0 bg-[rgba(0,0,0,0.8)] bg-opacity-90 z-50 flex items-center justify-center p-4">
+          <div className='absolute top-4 right-4'>
+            <button
+              onClick={closeImageViewer}
+              className="text-white text-3xl   cursor-pointer hover:text-gray-300"
+            >
+              &times;
+            </button>
+          </div>
+
+          <div className="w-full max-w-2xl  bg-[#f4ecfb]  p-2 rounded-lg  overflow-hidden aspect-video">
+           <iframe
+  width="100%"
+  height="100%"
+  src="https://www.youtube.com/embed/AT6X5EGzgPs"
+ title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen
+  className="w-full h-full"
+></iframe>
+
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
 
-export default ProductionUnits;
+export default React.memo(ProductionUnits);

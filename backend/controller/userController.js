@@ -13,31 +13,19 @@ cloudinary.v2.config({
 
 // register user
 export const register = catchAsyncError(async (req, res, next) => {
-  const { email, password, ...rest } = req.body;
-
-  const existingUser = await User.findOne({ email });
+  const data = req.body;
+  const email = data?.email;
+  const existingUser = await User.findOne({ email: email });
   if (existingUser) {
     return res
       .status(400)
       .json({ message: "Email already exists", status: "fail" });
   }
-
-  const saltRounds = 10;
-  const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-  const user = await User.create({
-    email,
-    password: hashedPassword,
-    ...rest,
+  const user = await User.create(data);
+  const token = jwt.sign({ id: user._id, email: user.email }, TOKEN_KEY, {
+    expiresIn: "1h",
   });
-
-  const token = jwt.sign(
-    { id: user._id, email: user.email },
-    TOKEN_KEY,
-    { expiresIn: "1h" }
-  );
-
-  res.status(201).json({
+  res.status(200).json({
     status: "success",
     message: "User registered successfully",
     data: {
@@ -48,35 +36,36 @@ export const register = catchAsyncError(async (req, res, next) => {
 });
 
 // login user
-  export const login = catchAsyncError(async (req, res, next) => {
-    try {
-      const { email, password } = req.body;
+export const login = catchAsyncError(async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    console.log("Request body:", req.body);
+    const existingUser = await User.findOne({ email: email });
+    if (!existingUser) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Account not found",
+      });
+    }
+    console.log("Existing user password:", existingUser.password);
+    if (!password) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Password is required",
+      });
+    }
 
-      console.log(req.body);
-      
-      const existingUser = await User.findOne({ email: email });
-      if (!existingUser) {
-        return res.status(404).json({
-          status: "fail",
-          message: "Account not found",
-        });
-      }
-      console.log("Existing user password:", existingUser.password);
-      if (!password) {
-        return res.status(400).json({
-          status: "fail",
-          message: "Password is required",
-        });
-      }
+    if (!existingUser.password) {
+      return res.status(500).json({
+        status: "fail",
+        message: "User password is missing in the database",
+      });
+    }
 
-      if (!existingUser.password) {
-        return res.status(500).json({
-          status: "fail",
-          message: "User password is missing in the database",
-        });
-      }
-
-     const isPasswordValid = await bcrypt.compare(password, existingUser.password);
+    const isPasswordValid = await bcrypt.compare(
+      password,
+      existingUser.password
+    );
     if (!isPasswordValid) {
       return res.status(401).json({
         status: "fail",
@@ -84,27 +73,27 @@ export const register = catchAsyncError(async (req, res, next) => {
       });
     }
 
-      const token = jwt.sign(
-        { id: existingUser._id, email: existingUser.email },
-        TOKEN_KEY,
-        {
-          expiresIn: "1h",
-        }
-      );
+    const token = jwt.sign(
+      { id: existingUser._id, email: existingUser.email },
+      TOKEN_KEY,
+      {
+        expiresIn: "1h",
+      }
+    );
 
-      res.status(200).json({
-        status: "success",
-        message: "User logged in successfully",
-        data: {
-          user: existingUser,
-          token,
-        },
-      });
-    } catch (error) {
-      console.error("Login error:", error);
-      res.status(500).json({ message: error.message });
-    }
-  });
+    res.status(200).json({
+      status: "success",
+      message: "User logged in successfully",
+      data: {
+        user: existingUser,
+        token,
+      },
+    });
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
 
 // get user by id
 export const getUserById = async (req, res, next) => {
@@ -213,243 +202,6 @@ export const getAllUsers = catchAsyncError(async (req, res, next) => {
 });
 
 
-// Get user profile with addresses
-export const getUserProfile = catchAsyncError(async (req, res, next) => {
-  try {
-    const userId = req.params.id;
-    
-    const user = await User.findById(userId).select('-password');
-    
-    if (!user) {
-      return res.status(404).json({
-        status: "fail",
-        message: "User not found"
-      });
-    }
-
-    res.status(200).json({
-      status: "success",
-      data: user
-    });
-  } catch (error) {
-    console.error("Error fetching user profile:", error);
-    res.status(500).json({
-      status: "fail",
-      error: "Internal Server Error"
-    });
-  }
-});
-
-// Update user profile
-export const updateUserProfile = catchAsyncError(async (req, res, next) => {
-  try {
-    const userId = req.params.id;
-    const { firstName, lastName, phone, image } = req.body;
-
-    const user = await User.findByIdAndUpdate(
-      userId,
-      { 
-        firstName: firstName || "",
-        lastName: lastName || "",
-        phone: phone || "",
-        image: image || ""
-      },
-      { new: true }
-    ).select('-password');
-
-    if (!user) {
-      return res.status(404).json({
-        status: "fail",
-        message: "User not found"
-      });
-    }
-
-    res.status(200).json({
-      status: "success",
-      message: "Profile updated successfully",
-      data: user
-    });
-  } catch (error) {
-    console.error("Error updating profile:", error);
-    res.status(500).json({
-      status: "fail",
-      error: "Internal Server Error"
-    });
-  }
-});
-
-// Add new address
-export const addAddress = catchAsyncError(async (req, res, next) => {
-  try {
-    const userId = req.params.id;
-    const addressData = req.body;
-
-    const user = await User.findById(userId);
-    
-    if (!user) {
-      return res.status(404).json({
-        status: "fail",
-        message: "User not found"
-      });
-    }
-
-    // If this is the first address, make it default
-    if (user.addresses.length === 0) {
-      addressData.isDefault = true;
-    }
-
-    user.addresses.push(addressData);
-    await user.save();
-
-    res.status(200).json({
-      status: "success",
-      message: "Address added successfully",
-      data: user.addresses
-    });
-  } catch (error) {
-    console.error("Error adding address:", error);
-    res.status(500).json({
-      status: "fail",
-      error: "Internal Server Error"
-    });
-  }
-});
-
-// Update address
-export const updateAddress = catchAsyncError(async (req, res, next) => {
-  try {
-    const userId = req.params.id;
-    const addressId = req.params.addressId;
-    const addressData = req.body;
-
-    const user = await User.findById(userId);
-    
-    if (!user) {
-      return res.status(404).json({
-        status: "fail",
-        message: "User not found"
-      });
-    }
-
-    const addressIndex = user.addresses.findIndex(addr => addr._id.toString() === addressId);
-    
-    if (addressIndex === -1) {
-      return res.status(404).json({
-        status: "fail",
-        message: "Address not found"
-      });
-    }
-
-    user.addresses[addressIndex] = { ...user.addresses[addressIndex].toObject(), ...addressData };
-    await user.save();
-
-    res.status(200).json({
-      status: "success",
-      message: "Address updated successfully",
-      data: user.addresses
-    });
-  } catch (error) {
-    console.error("Error updating address:", error);
-    res.status(500).json({
-      status: "fail",
-      error: "Internal Server Error"
-    });
-  }
-});
-
-// Delete address
-export const deleteAddress = catchAsyncError(async (req, res, next) => {
-  try {
-    const userId = req.params.id;
-    const addressId = req.params.addressId;
-
-    const user = await User.findById(userId);
-    
-    if (!user) {
-      return res.status(404).json({
-        status: "fail",
-        message: "User not found"
-      });
-    }
-
-    const addressIndex = user.addresses.findIndex(addr => addr._id.toString() === addressId);
-    
-    if (addressIndex === -1) {
-      return res.status(404).json({
-        status: "fail",
-        message: "Address not found"
-      });
-    }
-
-    const deletedAddress = user.addresses[addressIndex];
-    user.addresses.splice(addressIndex, 1);
-
-    // If deleted address was default, make first remaining address default
-    if (deletedAddress.isDefault && user.addresses.length > 0) {
-      user.addresses[0].isDefault = true;
-    }
-
-    await user.save();
-
-    res.status(200).json({
-      status: "success",
-      message: "Address deleted successfully",
-      data: user.addresses
-    });
-  } catch (error) {
-    console.error("Error deleting address:", error);
-    res.status(500).json({
-      status: "fail",
-      error: "Internal Server Error"
-    });
-  }
-});
-
-// Set default address
-export const setDefaultAddress = catchAsyncError(async (req, res, next) => {
-  try {
-    const userId = req.params.id;
-    const addressId = req.params.addressId;
-
-    const user = await User.findById(userId);
-    
-    if (!user) {
-      return res.status(404).json({
-        status: "fail",
-        message: "User not found"
-      });
-    }
-
-    // Remove default from all addresses
-    user.addresses.forEach(addr => addr.isDefault = false);
-
-    // Set new default
-    const addressIndex = user.addresses.findIndex(addr => addr._id.toString() === addressId);
-    
-    if (addressIndex === -1) {
-      return res.status(404).json({
-        status: "fail",
-        message: "Address not found"
-      });
-    }
-
-    user.addresses[addressIndex].isDefault = true;
-    await user.save();
-
-    res.status(200).json({
-      status: "success",
-      message: "Default address updated successfully",
-      data: user.addresses
-    });
-  } catch (error) {
-    console.error("Error setting default address:", error);
-    res.status(500).json({
-      status: "fail",
-      error: "Internal Server Error"
-    });
-  }
-});
-
 // delete user
 export const deleteCustomerById = async (req, res, next) => {
   const id = req.params.id;
@@ -458,6 +210,12 @@ export const deleteCustomerById = async (req, res, next) => {
     if (!delCustomer) {
       return res.json({ status: "fail", message: "Customer not Found" });
     }
+    // await redisClient.del(`user:${id}`);
+    // await producer.connect();
+    // await producer.send({
+    //   topic: 'user-events',
+    //   messages: [{ value: JSON.stringify({ action: 'delete', id }) }],
+    // });
     res.json({
       status: "success",
       message: "User deleted successfully!",

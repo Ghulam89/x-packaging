@@ -1,2 +1,1 @@
-export const BaseUrl = "https://xelitesilks.com"
-// export const BaseUrl = "http://localhost:9090"
+export const BaseUrl = "https://umbrellapackaging.com"

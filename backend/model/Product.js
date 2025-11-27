@@ -2,36 +2,27 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const productSchema = new Schema({
-  collectionId: {
+  brandId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Collections",
+    ref: "Brands",
+  },
+  categoryId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "MidCategory",
   },
   name: {
     type: String,
     require: true,
   },
-  inspiration:{
-     type: String,
-    require: true,
-  },
-  guide:{
-     type: String,
-    require: true,
-  },
-  stock: {
-    type: Number,
-    default: 0,
-    min: 0,
-  },
-  metaTitle: { type: String },
+ metaTitle: { type: String },
   metaDescription: { type: String },
   keywords: { type: String },
   robots: { type: String },
-  slug: {
+   slug: {
     type: String,
     unique: true,
   },
-  images: [{
+   images: [{
     url: {
       type: String,
       required: true
@@ -49,22 +40,27 @@ const productSchema = new Schema({
     type: String,
     require: true,
   },
-  material: {
-    type: String,
-    require: true,
-  },
-  color: {
-    type: Array,
-    require: true,
-  },
-  pattern: {
-    type: String,
-    require: true,
-  },
   description: {
     type: String,
     require: true,
   },
+  bannerImage:{
+   type:String,
+   require:true 
+  },
+   bannerImageAltText:{
+     type: String,
+    require: true,
+  },
+  
+  bannerTitle:{
+    type:String,
+    require:true 
+   },
+   bannerContent:{
+    type:String,
+    require:true 
+   },
   createdAt: {
     type: Date,
     default: Date.now,
@@ -73,6 +69,14 @@ const productSchema = new Schema({
     type: String,
     enum: ["pending", "approved"],
     default: "pending",
-  },
+  }
 });
+
+productSchema.index({ slug: 1 }, { unique: true });
+productSchema.index({ brandId: 1, categoryId: 1 });
+productSchema.index({ categoryId: 1, createdAt: -1 });
+productSchema.index({ brandId: 1, createdAt: -1 });
+productSchema.index({ status: 1, createdAt: -1 });
+productSchema.index({ name: 1 });
+
 export const Products = mongoose.model("Products", productSchema);

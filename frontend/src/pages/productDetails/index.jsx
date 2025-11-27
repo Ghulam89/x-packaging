@@ -1,730 +1,1175 @@
-import React, { useEffect, useState } from 'react'
-import { TfiAngleLeft, TfiAngleRight } from 'react-icons/tfi'
-import Input from '../../components/common/Input'
-import Button from '../../components/common/Button'
-import CustomPackagingProduced from '../../components/CustomPackagingProduced'
-import Container from '../../components/common/Container'
-import CardSlider from '../../components/common/CardSlider'
-import Tabs from '../../components/common/Tabs'
-import FAQ from '../../components/FAQ/FAQ'
-import CustomPackagingApart from '../../components/CustomPackagingApart/CustomPackagingApart'
-import axios from 'axios'
-import { BaseUrl } from '../../utils/BaseUrl'
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
-import { toast } from 'react-toastify'
-import { useDispatch } from 'react-redux'
-import { addToCart } from '../../store/productSlice'
-import { IoSearch } from 'react-icons/io5'
-import PageMetadata from '../../components/common/PageMetadata'
+// import React, { useEffect, useState } from 'react'
+// import { TfiAngleLeft, TfiAngleRight } from 'react-icons/tfi'
+// import Input from '../../components/common/Input'
+// import Button from '../../components/common/Button'
+// import CustomPackagingProduced from '../../components/CustomPackagingProduced'
+// import Container from '../../components/common/Container'
+// import CardSlider from '../../components/common/CardSlider'
+// import Tabs from '../../components/common/Tabs'
+// import FAQ from '../../components/FAQ/FAQ'
+// import CustomPackagingApart from '../../components/CustomPackagingApart/CustomPackagingApart'
+// import axios from 'axios'
+// import { BaseUrl } from '../../utils/BaseUrl'
+// import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
+// import { toast } from 'react-toastify'
+// import { useDispatch } from 'react-redux'
+// import { addToCart } from '../../store/productSlice'
+// import { IoSearch } from 'react-icons/io5'
+// import PageMetadata from '../../components/common/PageMetadata'
+// import { prefetchProductsBatch, getCachedProduct } from '../../utils/prefetchUtils'
 
-import pd1 from '../../assets/images/pd1.webp';
-import pd2 from '../../assets/images/pd2.webp';
-import pd3 from '../../assets/images/pd3.webp';
-import pd4 from '../../assets/images/pd4.webp';
+// import pd1 from '../../assets/images/pd1.webp';
+// import pd2 from '../../assets/images/pd2.webp';
+// import pd3 from '../../assets/images/pd3.webp';
+// import pd4 from '../../assets/images/pd4.webp';
 
-import sky from '../../assets/images/footer/sky.svg';
-import dhl from '../../assets/images/footer/dhl.png';
-import sups from '../../assets/images/footer/sups.svg';
-import ups from '../../assets/images/footer/ups.svg';
+// import sky from '../../assets/images/footer/sky.svg';
+// import dhl from '../../assets/images/footer/dhl.png';
+// import sups from '../../assets/images/footer/sups.svg';
+// import ups from '../../assets/images/footer/ups.svg';
+// import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
+// const ProductDetails = ({
+//   serverData,
+//   children: slides,
+//   autoSlide = false,
+//   autoSlideInterval = 3000,
+// }) => {
+//   const { slug } = useParams()
+//   const dispatch = useDispatch()
+//   const [product, setProduct] = useState(serverData || null);
+//   const [relatedProduct, setRelatedProduct] = useState([])
+//   const [loading, setLoading] = useState(false);
 
-import tape from "../../assets/images/icon.tape_measure.svg"
-import heart from "../../assets/images/icon.heart.svg"
-import truck from "../../assets/images/icon.truck.svg"
-import retusn from '../../assets/images/icon.return.svg'
-import three from '../../assets/images/three.webp'
-import one from '../../assets/images/one.webp'
-import two from '../../assets/images/two.webp'
-import who from '../../assets/images/2.webp'
-import how from '../../assets/images/1.webp'
-import where from '../../assets/images/3.webp'
-import { FaStar } from 'react-icons/fa'
-import FaqComp from '../../components/common/FaqComp'
-import SingleProductTabs from '../../components/common/SingleProductTabs'
-import AddToCartSideMenu from '../../components/common/AddToCartSideMenu'
-import ReviewCard from '../../components/common/ReviewCard'
-import Navbar from '../../components/Header/Navbar'
-import TopNav from '../../components/Header/TopNav'
-import Footer from '../../components/Footer/Footer'
 
-const ProductDetails = ({
-  serverData,
-  children: slides,
-  autoSlide = false,
-  autoSlideInterval = 3000,
-}) => {
-  const { slug } = useParams()
-  const dispatch = useDispatch()
-  const [product, setProduct] = useState(serverData || null);
-  const [relatedProduct, setRelatedProduct] = useState([])
-  const [reviewProduct, setReviewProduct] = useState(null)
-  const [isLoading, setIsLoading] = useState(!serverData); // Set loading true if no serverData
+//   const navigate = useNavigate();
 
-  const navigate = useNavigate();
-  const [showCartSideMenu, setShowCartSideMenu] = React.useState(false);
 
-  // Fix: Initialize activeImage with the first image when product loads
-  const [activeImage, setActiveImage] = useState(null);
-  const [selectedImage, setSelectedImage] = useState(null);
+//   const features = [
+//     {
+//       name: 'Embossing',
+//       description: 'Raised designs that add a tactile dimension to your packaging',
+//       icon: pd1
+//     },
+//     {
+//       name: 'Debossing',
+//       description: 'Recessed designs that create an elegant, subtle effect',
+//       icon: pd2
+//     },
+//     {
+//       name: 'Foiling',
+//       description: 'Metallic finishes that add luxury and shine to your branding',
+//       icon: pd3
+//     },
+//     {
+//       name: 'Spot UV',
+//       description: 'Glossy coatings that highlight specific areas for visual impact',
+//       icon: pd4
+//     }
+//   ];
 
-  const [curr, setCurr] = useState(0);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isViewerOpen, setIsViewerOpen] = useState(false);
-  const [activeColor, setActiveColor] = useState('orange');
+//   const [curr, setCurr] = useState(0);
+//   const [selectedImage, setSelectedImage] = useState(null);
+//   const [currentIndex, setCurrentIndex] = useState(0);
+//   const [isViewerOpen, setIsViewerOpen] = useState(false);
 
-  const prev = () =>
-    setCurr((curr) =>
-      curr === 0
-        ? product?.images?.length - 1
-        : curr - 1
-    );
+//   const prev = () =>
+//     setCurr((curr) =>
+//       curr === 0
+//         ? product?.images?.length - 1
+//         : curr - 1
+//     );
 
-  const next = () =>
-    setCurr((curr) =>
-      curr === product?.images?.length - 1
-        ? 0
-        : curr + 1
-    );
+//   const next = () =>
+//     setCurr((curr) =>
+//       curr === product?.images?.length - 1
+//         ? 0
+//         : curr + 1
+//     );
 
-  useEffect(() => {
-    if (!autoSlide) return;
-    const slideInterval = setInterval(next, autoSlideInterval);
-    return () => clearInterval(slideInterval);
-  }, []);
+//   useEffect(() => {
+//     if (!autoSlide) return;
+//     const slideInterval = setInterval(next, autoSlideInterval);
+//     return () => clearInterval(slideInterval);
+//   }, []);
 
-  // Fix: Set initial active image when product data is available
-  useEffect(() => {
-    if (product?.images?.length > 0) {
-      setActiveImage(product.images[0]?.url);
-      setSelectedImage(product.images[0]);
-    }
-  }, [product]);
+//   const goToSlide = (index) => {
+//     setCurr(index);
+//   };
 
-  const goToSlide = (index) => {
-    setCurr(index);
-  };
+//   const openImageViewer = (image, index) => {
+//     setSelectedImage(image);
+//     setCurrentIndex(index);
+//     setIsViewerOpen(true);
+//     document.body.style.overflow = 'hidden';
+//   };
 
-  const openImageViewer = (image, index) => {
-    setSelectedImage(image);
-    setCurrentIndex(index);
-    setIsViewerOpen(true);
-    document.body.style.overflow = 'hidden';
-  };
+//   const closeImageViewer = () => {
+//     setIsViewerOpen(false);
+//     document.body.style.overflow = 'auto';
+//   };
 
-  const closeImageViewer = () => {
-    setIsViewerOpen(false);
-    document.body.style.overflow = 'auto';
-  };
+//   const goToPrevious = () => {
+//     const newIndex = (currentIndex - 1 + product?.images?.length) % product?.images?.length;
+//     setSelectedImage(product?.images[newIndex]);
+//     setCurrentIndex(newIndex);
+//   };
 
-  const goToPrevious = () => {
-    const newIndex = (currentIndex - 1 + product?.images?.length) % product?.images?.length;
-    setSelectedImage(product?.images[newIndex]);
-    setCurrentIndex(newIndex);
-  };
+//   const goToNext = () => {
+//     const newIndex = (currentIndex + 1) % product?.images?.length;
+//     setSelectedImage(product?.images[newIndex]);
+//     setCurrentIndex(newIndex);
+//   };
 
-  const goToNext = () => {
-    const newIndex = (currentIndex + 1) % product?.images.length;
-    setSelectedImage(product?.images[newIndex]);
-    setCurrentIndex(newIndex);
-  };
+//   useEffect(() => {
+//     return () => {
+//       document.body.style.overflow = 'auto';
+//     };
+//   }, []);
 
-  useEffect(() => {
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, []);
 
-  const initialFormState = {
-    name: "",
-    email: "",
-    companyName: "",
-    phoneNumber: "",
-    boxStyle: "",
-    length: "",
-    width: "",
-    depth: "",
-    unit: "Inches",
-    stock: "Stock",
-    colors: "Colors",
-    printingSides: "Inside",
-    quantity: "",
-    addOns: "",
-    image: null,
-    description: ""
-  };
 
-  const [formData, setFormData] = useState(initialFormState);
 
-  const validate = () => {
-    return (
-      formData.boxStyle &&
-      formData.length &&
-      formData.width &&
-      formData.depth &&
-      formData.unit &&
-      formData.stock &&
-      formData.colors &&
-      formData.printingSides &&
-      formData.quantity
-    );
-  };
+//   const [isLoading, setIsLoading] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: files ? files[0] : value
-    }));
-  };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    try {
-      const formDataToSend = new FormData();
-      for (const key in formData) {
-        formDataToSend.append(key, formData[key]);
-      }
+//   const initialFormState = {
+//     name: "",
+//     email: "",
+//     companyName: "",
+//     phoneNumber: "",
+//     boxStyle: "",
+//     length: "",
+//     width: "",
+//     depth: "",
+//     unit: "Inches",
+//     stock: "Stock",
+//     color: "Colors",
+//     printingSides: "Inside",
+//     quantity: "",
+//     addons: "",
+//     image: null,
+//     message: "",
+//     pageUrl: typeof window !== "undefined" ? window.location.href : ""
+//   };
 
-      const response = await axios.post(`${BaseUrl}/requestQuote/create`, formDataToSend);
+//   const [formData, setFormData] = useState(initialFormState);
 
-      if (response.data.status === 'success') {
-        toast.success(response.data.message)
-        setIsLoading(false);
-        setFormData(initialFormState);
-      } else {
-        toast.error(response.data.message)
-        setIsLoading(false);
-      }
-    } catch (error) {
-      toast.error(error?.response?.data?.message)
-      setIsLoading(false);
-    }
-  };
+//   const validate = () => {
+//     return (
+//       formData.boxStyle &&
+//       formData.length &&
+//       formData.width &&
+//       formData.depth &&
+//       // formData.unit &&
+//       // formData.stock &&
+//       // formData.color &&
+//       // formData.printingSides &&
+//       formData.quantity
+//     );
+//   };
 
-  const fetchProducts = async () => {
-    try {
-      setIsLoading(true);
-      const response = await axios.get(`${BaseUrl}/products/get?slug=${slug}`)
-      setProduct(response?.data?.data)
-    } catch (error) {
-      console.error('Error fetching product:', error);
-      toast.error('Failed to load product details');
-    } finally {
-      setIsLoading(false);
-    }
-  }
+//   const handleChange = (e) => {
+//     const { name, value, files } = e.target;
+//     setFormData(prev => ({
+//       ...prev,
+//       [name]: files ? files[0] : value
+//     }));
+//   };
 
-  const fetchReviewProducts = async () => {
-    try {
-      const response = await axios.get(`${BaseUrl}/rating/getByProduct?slug=${slug}`)
-      setReviewProduct(response?.data)
-    } catch (error) {
-      console.error('Error fetching reviews:', error);
-    }
-  }
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     setIsLoading(true);
+//     try {
+//       const formDataToSend = new FormData();
+//       for (const key in formData) {
+//         formDataToSend.append(key, formData[key]);
+//       }
 
-  const fetchRelatedProducts = async () => {
-    try {
-      const response = await axios.get(`${BaseUrl}/products/related-products?slug=${slug}`)
-      setRelatedProduct(response?.data?.data?.relatedProducts || [])
-    } catch (error) {
-      console.error('Error fetching related products:', error);
-    }
-  }
+//       const response = await axios.post(`${BaseUrl}/requestQuote/create`, formDataToSend);
 
-  useEffect(() => {
-    // Only fetch if no server data provided
-    if (!serverData) {
-      fetchProducts();
-    }
-    fetchRelatedProducts();
-    fetchReviewProducts();
-  }, [slug])
+//       if (response.data.status === 'success') {
+//         // toast.success(response.data.message)
+//         navigate('/thank-you-page')
+//         setIsLoading(false);
 
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": BaseUrl
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": product?.brandId?.name || "Category",
-        "item": `${BaseUrl}/category/${product?.brandId?.slug}`
-      },
-      {
-        "@type": "ListItem",
-        "position": 3,
-        "name": product?.name || "Product",
-        "item": `${BaseUrl}/sub-category/${slug}`
-      },
-      {
-        "@type": "ListItem",
-        "position": 4,
-        "name": product?.name || "Product",
-        "item": `${BaseUrl}/${slug}`
-      }
-    ]
-  };
+//         setFormData(initialFormState);
+//       } else {
+//         toast.error(response.data.message)
+//         setIsLoading(false);
+//       }
+//     } catch (error) {
+//       toast.error(error?.response?.data?.message)
+//       setIsLoading(false);
+//     }
+//   };
 
-  const productSchema = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "name": product?.name,
-    "description": product?.description,
-    "image": product?.images?.map(img => `${BaseUrl}/${img.url}`) || [],
-    "brand": {
-      "@type": "Brand",
-      "name": "Umbrella Custom Packaging"
-    },
-    "review": {
-      "@type": "Review",
-      "reviewRating": {
-        "@type": "Rating",
-        "ratingValue": "4.7",
-        "bestRating": "5"
-      },
-      "author": {
-        "@type": "Person",
-        "name": "Scott Ray"
-      },
-      "datePublished": new Date().toISOString().split('T')[0],
-      "reviewBody": "Excellent quality packaging and timely delivery. Highly recommended!",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.8",
-        "reviewCount": "42"
-      },
-      "offers": {
-        "@type": "Offer",
-        "url": `${BaseUrl}/${slug}`,
-        "priceCurrency": "USD",
-        "price": product?.actualPrice,
-        "priceValidUntil": new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0],
-        "availability": "https://schema.org/InStock",
-        "itemCondition": "https://schema.org/NewCondition",
-        "seller": {
-          "@type": "Organization",
-          "name": "Umbrella Custom Packaging"
-        }
-      },
-    }
-  };
 
-  // Loading skeleton component
-  const ProductDetailsSkeleton = () => (
-    <div className="container mx-auto my-10 md:px-5 px-3">
-    <div className="grid md:grid-cols-2 grid-cols-1 gap-8">
-      {/* Image Gallery Skeleton - Facebook Style */}
-      <div className="md:sticky md:top-24 md:self-start">
-        <div className="flex gap-6 md:flex-row flex-col-reverse">
-          {/* Thumbnails Skeleton */}
-          <div className="flex md:flex-col flex-row gap-3 md:h-[400px] lg:h-[650px] h-auto overflow-hidden">
-            {[...Array(4)].map((_, i) => (
-              <div 
-                key={i} 
-                className="w-[100px] h-[100px] bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 rounded-lg shimmer"
-              ></div>
-            ))}
-          </div>
-          
-          {/* Main Image Skeleton */}
-          <div className="w-full">
-            <div className="w-full aspect-square bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 rounded-2xl shimmer"></div>
-          </div>
-        </div>
-      </div>
+//   const customBox = [
+//     {
+//       id: 1,
 
-      {/* Product Details Skeleton - Facebook Style */}
-      <div>
-        <div className="py-8 space-y-6">
-          {/* Title */}
-          <div className="space-y-3">
-            <div className="h-8 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 rounded-lg shimmer w-4/5"></div>
-            <div className="h-6 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 rounded shimmer w-3/5"></div>
-          </div>
+//       title: "Description",
+//       content: <div className=' h-96 blog_content  overflow-y-auto px-3 py-3 bg-white rounded-lg'>
 
-          {/* Rating */}
-          <div className="flex items-center gap-3">
-            <div className="flex gap-1">
-              {[...Array(5)].map((_, i) => (
-                <div 
-                  key={i} 
-                  className="w-5 h-5 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 rounded shimmer"
-                ></div>
-              ))}
-            </div>
-            <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 rounded shimmer w-20"></div>
-          </div>
+//         <p dangerouslySetInnerHTML={{ __html: product?.description }}>
 
-          {/* Price */}
-          <div className="h-10 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 rounded-lg shimmer w-32"></div>
+//         </p>
 
-          {/* Colors Section */}
-          <div className="space-y-3">
-            <div className="h-6 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 rounded shimmer w-40"></div>
-            <div className="flex gap-3">
-              {[...Array(4)].map((_, i) => (
-                <div 
-                  key={i} 
-                  className="w-12 h-12 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 rounded-full shimmer"
-                ></div>
-              ))}
-            </div>
-          </div>
+//       </div>,
+//     },
+//     {
+//       id: 2,
+//       title: "Faq's",
+//       content: <div className='  px-3 bg-white'>
+//         <FAQ />
+//       </div>
+//     },
+//     {
+//       id: 3,
+//       title: "Why Us",
+//       content: <div className=' bg-white rounded-lg py-4 px-3'>
+//         <CustomPackagingApart />
+//       </div>
 
-          {/* Add to Cart Button */}
-          <div className="h-14 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 rounded-xl shimmer w-full"></div>
+//     },
+//     {
+//       id: 4,
+//       title: "Specifications",
+//       content: <div className=' bg-white p-2 rounded-lg'>
 
-          {/* Alert Text */}
-          <div className="h-6 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 rounded shimmer w-48"></div>
+//         <table className=' table border border-gray-400 w-full'>
 
-          {/* Features */}
-          <div className="space-y-4 pt-4">
-            {[...Array(4)].map((_, i) => (
-              <div key={i} className="flex items-center gap-4">
-                <div className="w-6 h-6 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 rounded shimmer"></div>
-                <div className="h-5 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 rounded shimmer flex-1"></div>
-              </div>
-            ))}
-          </div>
+//           <tbody className=''>
+//             <tr className=' bg-[#F2F2F2]  border-b border-gray-400'>
+//               <td className='    border-gray-400 pt-3 pb-5 border-r px-2  font-[600] text-sm'>Size</td>
+//               <td className=' text-gray-500 px-2  pt-3 pb-5 text-sm'>All custom shapes and sizes
 
-          {/* FAQ Sections */}
-          <div className="space-y-4 pt-6">
-            {[...Array(3)].map((_, i) => (
-              <div key={i} className="space-y-2">
-                <div className="h-6 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 rounded shimmer w-3/4"></div>
-                <div className="space-y-1">
-                  <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 rounded shimmer w-full"></div>
-                  <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 rounded shimmer w-5/6"></div>
-                  <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 rounded shimmer w-4/6"></div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-    </div>
-  );
+//               </td>
+//             </tr>
+//             <tr className=''>
+//               <td className='    border-gray-400 pt-3 pb-5 border-r px-2  font-[600] text-sm'>Paper Stock</td>
+//               <td className=' text-gray-500 px-2  pt-3 pb-5 text-sm'>14pt cardboard, 16pt cardboard, 18pt cardboard & 24pt cardboard, White SBS C1S C2S, Corrugated, Rigid, Kraft, Linen
 
-  if (isLoading) {
-    return (
-      <>
-        <TopNav />
-        <Navbar />
-        <ProductDetailsSkeleton />
-        <Footer />
-      </>
-    );
-  }
 
-  if (!product) {
-    return (
-      <>
-        <TopNav />
-        <Navbar />
-        <div className="container mx-auto my-10 md:px-5 px-3 text-center py-20">
-          <h1 className="text-2xl font-semibold mb-4">Product Not Found</h1>
-          <p className="text-gray-600 mb-6">The product you're looking for doesn't exist or has been removed.</p>
-          <Button 
-            label="Back to Home" 
-            onClick={() => navigate('/')}
-            className="bg-[#C5A980] text-black hover:bg-white hover:border-[#C5A980]"
-          />
-        </div>
-        <Footer />
-      </>
-    );
-  }
 
-  return (
-    <>
-      <TopNav />
-      <Navbar />
+//               </td>
+//             </tr>
+//             <tr className=' bg-[#F2F2F2] border-t  border-b border-gray-400'>
+//               <td className='    border-gray-400 pt-3 pb-5 border-r px-2  font-[600] text-sm'>Printing</td>
+//               <td className=' text-gray-500 px-2  pt-3 pb-5 text-sm'>Digital, Offset (PMS and CMYK ) and Screen Printing
+
+//               </td>
+//             </tr>
+//             <tr className='   border-b border-gray-400'>
+//               <td className='    border-gray-400 pt-3 pb-5 border-r px-2  font-[600] text-sm'>Options</td>
+//               <td className=' text-gray-500 px-2  pt-3 pb-5 text-sm'>Matte, Glossy, Spot UV, Aqueous Coating and Embossing, Debossing
+
+
+
+//               </td>
+//             </tr>
+//             <tr className=' bg-[#F2F2F2] border-t  border-b border-gray-400'>
+//               <td className='    border-gray-400 pt-3 pb-5 border-r px-2  font-[600] text-sm'>Extras
+
+//               </td>
+//               <td className=' text-gray-500 px-2  pt-3 pb-5 text-sm'>Flaps, Ribbons, thread handles, gold foiling, silver foiling
+
+//               </td>
+//             </tr>
+//             <tr className=' bg-[#F2F2F2] border-t  border-b border-gray-400'>
+//               <td className='    border-gray-400 pt-3 pb-5 border-r px-2  font-[600] text-sm'>Quantities
+
+//               </td>
+//               <td className=' text-gray-500 px-2  pt-3 pb-5 text-sm'>Short run and Bulk orders are accepted
+
+//               </td>
+//             </tr>
+//             <tr className=' bg-[#F2F2F2] border-t  border-b border-gray-400'>
+//               <td className='    border-gray-400 pt-3 pb-5 border-r px-2  font-[600] text-sm'>Proofing
+
+
+
+//               </td>
+//               <td className=' text-gray-500 px-2  pt-3 pb-5 text-sm'>
+//                 3D Digital Mockup, Physical Sampling(On Demand),
+
+//               </td>
+//             </tr>
+//             <tr className=' bg-[#F2F2F2] border-t  border-b border-gray-400'>
+//               <td className='    border-gray-400 pt-3 pb-5 border-r px-2  font-[600] text-sm'>Turnaround Time
+
+
+
+
+
+//               </td>
+//               <td className=' text-gray-500 px-2  pt-3 pb-5 text-sm'>
+//                 6-7 days to print and dispatch, and 2-3 days for ground shipping
+
+
+
+//               </td>
+//             </tr>
+//           </tbody>
+//         </table>
+
+
+//       </div>
+//     },
+//     {
+//       id: 4,
+//       title: "Delivery",
+//       content: <div className=' bg-white rounded-lg  p-3'>
+//         <strong className=' text-2xl'>Experience fastest free delivery
+//         </strong>
+//         <p className=' pt'>We prioritize our customers’ convenience above all at Umbrella Custom Packaging. That’s why we’re happy to offer a wide range of payment options to suit your preferences. So, feel confident knowing that when you choose Umbrella Custom Packaging, paying for your orders is as effortless as possible.
+
+//         </p>
+
+//         <div className=' flex   flex-wrap   gap-2 justify-between pt-8'>
+//           <div className=' sm:w-56 w-28 h-20   border-gray-200 rounded-lg'>
+//             <img src={sky} alt='' className=' w-full h-full object-contain' />
+//           </div>
+//           <div className='sm:w-56 w-28 border-gray-200 rounded-lg'>
+//             <img src={dhl} alt='' className=' w-full h-full object-contain' />
+//           </div>
+//           <div className='  sm:w-56 w-28 border-gray-200 rounded-lg'>
+//             <img src={sups} alt='' className=' w-full h-full object-contain' />
+//           </div>
+//           <div className=' sm:w-56 w-28 border-gray-200 rounded-lg'>
+//             <img src={ups} alt='' className=' w-full h-full object-contain' />
+//           </div>
+//         </div>
+
+
+
+
+//       </div>
+
+//     },
+//     {
+//       id: 4,
+//       title: "Reviews",
+
+//     }
+//   ];
+
+
+//   const fetchProducts = async () => {
+//     setLoading(true);
+//     try {
+//       // Check cache first for instant loading
+//       const cachedProduct = getCachedProduct(slug);
+//       if (cachedProduct) {
+//         setProduct(cachedProduct);
+//         // Reset image carousel when product changes
+//         setCurr(0);
+//         setSelectedImage(null);
+//         setCurrentIndex(0);
+//         setLoading(false);
+//         return;
+//       }
+
+//       const response = await axios.get(`${BaseUrl}/products/get?slug=${slug}`)
+//       setProduct(response?.data?.data)
+//       // Reset image carousel when product changes
+//       setCurr(0);
+//       setSelectedImage(null);
+//       setCurrentIndex(0);
+//     } catch (err) {
+//       console.error('Error fetching product:', err);
+//     } finally {
+//       setLoading(false);
+//     }
+//   }
+
+//   const fetchRelatedProducts = async () => {
+//     try {
+//       const response = await axios.get(`${BaseUrl}/products/related-products?slug=${slug}`)
+//       setRelatedProduct(response?.data?.data)
       
-      {product && (
-        <PageMetadata
-          title={product.metaTitle || "Custom Packaging Solutions"}
-          description={product.metaDescription || ""}
-          keywords={product.keywords || ""}
-          ogUrl={`${BaseUrl}/category/${slug}`}
-          ogImage={`${BaseUrl}/${product.bannerImage || ""}`}
-          ogImageWidth="1200"
-          ogImageHeight="630"
-          canonicalUrl={`${BaseUrl}/${slug}`}
-          breadcrumbSchema={breadcrumbSchema}
-          productSchema={productSchema}
-          robots={"noindex, nofollow"}
-        />
-      )}
+//       // Prefetch related products immediately for fast navigation
+//       if (response?.data?.data?.relatedProducts && response.data.data.relatedProducts.length > 0) {
+//         prefetchProductsBatch(response.data.data.relatedProducts, {
+//           batchSize: 5,
+//           delayBetweenBatches: 50,
+//           priority: true // Priority for related products
+//         });
+//       }
+//     } catch (err) {
+//       console.error('Error fetching related products:', err);
+//     }
+//   }
 
-      <div className='container mx-auto my-10 md:px-5 px-3'>
-        <div className="grid md:grid-cols-2 grid-cols-1 gap-5">
-          {/* Left sticky gallery (desktop only) */}
-          <div className="md:sticky md:top-24 md:self-start">
-            <div className="flex gap-5 md:flex-row flex-col-reverse">
-              {/* Thumbnails */}
-              <div className="flex md:flex-col flex-row overflow-x-auto md:overflow-y-auto gap-2 md:h-[360px] lg:h-[600px] h-auto">
-                {product?.images?.map((img, i) => (
-                  <img
-                    key={i}
-                    className={`w-[110px] h-[110px] rounded cursor-pointer transition-all duration-300 border-2 ${activeImage === img?.url ? 'border-[#c5a980] shadow-lg' : 'border-transparent'}`}
-                    onClick={() => {
-                      setActiveImage(img?.url);
-                      setSelectedImage(img);
-                    }}
-                    src={`${BaseUrl}/${img?.url}`}
-                    alt="thumbnail"
-                    loading="lazy"
-                  />
-                ))}
-              </div>
+//   useEffect(() => {
+//     // Reset states when slug changes
+//     setProduct(null);
+//     setRelatedProduct([]);
+//     setCurr(0);
+//     setSelectedImage(null);
+//     setCurrentIndex(0);
+    
+//     // Check cache first for instant loading
+//     const cachedProduct = getCachedProduct(slug);
+//     if (cachedProduct) {
+//       setProduct(cachedProduct);
+//       fetchRelatedProducts();
+//       return;
+//     }
+    
+//     // If serverData is provided and matches current slug, use it
+//     if (serverData && serverData.slug === slug) {
+//       setProduct(serverData);
+//       fetchRelatedProducts();
+//     } else {
+//       // Fetch new product when slug changes
+//       fetchProducts();
+//       fetchRelatedProducts();
+//     }
+//   }, [slug])
 
-              {/* Main Image */}
-              <div className="w-full h-full">
-                <img
-                  src={`${BaseUrl}/${activeImage || product?.images?.[0]?.url}`}
-                  alt={product?.name}
-                  className="rounded-xl shadow-md transition-opacity duration-500 w-full h-auto"
-                  onClick={() => openImageViewer(selectedImage || product?.images?.[0], 0)}
-                  loading="eager"
-                />
-              </div>
-            </div>
-          </div>
 
-          {/* Right column (details) */}
-          <div>
-            <div className="py-10">
-              <h1 className="md:text-4xl text-2xl font-semibold tracking-wide mb-4">{product?.name}</h1>
-              <div className="reviews text-yellow-500 mb-3 flex gap-1">
-                <FaStar />
-                <FaStar />
-                <FaStar />
-                <FaStar />
-                <FaStar />
-                <span className="text-[#4d4e4f]">(134 reviews)</span>
-              </div>
-              <p className="text-3xl font-semibold mb-6 text-[#111]">${product?.actualPrice}</p>
 
-              {/* Colors */}
-              {product?.color?.length > 0 && (
-                <div className="mb-6">
-                  <h2 className="mb-3 font-medium text-lg">Colors: <span className='text-[#4d4e4f]'>{activeColor}</span></h2>
-                  <ul className="list-color-product flex space-x-1 mt-2">
-                    {product?.color?.map((clr) => (
-                      <li
-                        key={clr}
-                        className={`cursor-pointer p-0.5 rounded-full border-2 ${activeColor === clr ? 'border-gray-800' : 'border-transparent'}`}
-                        onClick={() => setActiveColor(clr)}
-                      >
-                        <span
-                          style={{ backgroundColor: clr }}
-                          className={`block w-9 h-9 border border-[#ddd] rounded-full transition-transform hover:scale-110`}
-                        ></span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
 
-              <Button
-                onClick={() => {
-                  dispatch(
-                    addToCart({
-                      _id: product._id,
-                      image: `${BaseUrl}/${product?.images[0]?.url}`,
-                      title: product.name,
-                      price: product.actualPrice,
-                      description: product.description,
-                      quantity: 1,
-                    })
-                  )
-                  setShowCartSideMenu(true)
-                }}
-                rIcons={
-                  <svg className='' width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="13" cy="13" r="12.5" fill="currentColor" stroke="black" />
-                    <path d="M10.6367 15.3636L14.7731 11.2273M14.7731 11.2273L15.364 13.5909M14.7731 11.2273L12.4094 10.6364" stroke="white" strokeWidth="1.5" />
-                  </svg>
-                }
-                label="Add To Cart"
-                className="mt-5 border-2 border-[#C5A980] bg-[#C5A980] text-black hover:bg-white hover:text-black hover:border-[#C5A980]"
-              />
+//   const breadcrumbSchema = {
+//     "@context": "https://schema.org",
+//     "@type": "BreadcrumbList",
+//     "itemListElement": [
+//       {
+//         "@type": "ListItem",
+//         "position": 1,
+//         "name": "Home",
+//         "item": BaseUrl
+//       },
+//       {
+//         "@type": "ListItem",
+//         "position": 2,
+//         "name": serverData?.brandId?.name,
+//         "item": `${BaseUrl}/category/${serverData?.brandId?.slug}`
+//       },
+//       {
+//         "@type": "ListItem",
+//         "position": 3,
+//         "name": product?.name,
+//         "item": `${BaseUrl}/sub-category/${slug}`
+//       },
+//       {
+//         "@type": "ListItem",
+//         "position": 4,
+//         "name": product?.name,
+//         "item": `${BaseUrl}/${slug}`
+//       }
+//     ]
+//   };
+//   const productSchema = {
+//     "@context": "https://schema.org",
+//     "@type": "Product",
+//     "name": serverData?.name,
+//     "image": `${BaseUrl}/${serverData?.images?.[0]?.url}`,
+//     "description": serverData?.metaDescription,
+//     "sku": "12345",
+//     "brand": {
+//       "@type": "Brand",
+//       "name": "Umbrella Custom Packaging"
+//     },
+//     "aggregateRating": {
+//       "@type": "AggregateRating",
+//       "ratingValue": "4.8",
+//       "reviewCount": "42",
 
-              {/* Alert */}
-              <p className="text-lg mt-3 text-[#5d8fc1] font-light cursor-pointer hover:underline">
-                Alert me when available
-              </p>
+//     },
+//     "review": [
+//       {
+//         "@type": "Review",
+//         "reviewRating": {
+//           "@type": "Rating",
+//           "ratingValue": "4.7",
+//           "bestRating": "5"
+//         },
+//         "author": {
+//           "@type": "Person",
+//           "name": "Scott Ray"
+//         },
+//         "datePublished": "2025-08-26",
+//         "reviewBody": "Excellent quality packaging and timely delivery. Highly recommended!"
+//       }
+//     ],
+//     "offers": {
+//       "@type": "Offer",
+//       "url": `https://umbrellapackaging.com/${serverData?.slug}`,
+//       "priceCurrency": "USD",
+//       "price": serverData?.actualPrice,
+//       "priceValidUntil": serverData?.createdAt,
+//       "availability": "https://schema.org/InStock",
+//       "itemCondition": "https://schema.org/NewCondition",
+//       "seller": {
+//         "@type": "Organization",
+//         "name": "Umbrella Custom Packaging"
+//       }
+//     }
+//   };
 
-              {/* Features */}
-              <div className="my-10 flex flex-col gap-5 divide-y divide-gray-200">
-                <div className="flex items-center gap-3 text-[#4d4e4f]">
-                  <img src={tape} alt="tape" className="w-5" /> <span>20 x 67" (53 x 170cm)</span>
-                </div>
-                <div className="flex items-center gap-3 pt-3 text-[#4d4e4f]">
-                  <img src={truck} alt="truck" className="w-5" /> <span>Free and express US shipping</span>
-                  <span className="text-[#5d8fc1] cursor-pointer hover:underline text-sm whitespace-nowrap">See details</span>
-                </div>
-                <div className="flex items-center gap-3 pt-3 text-[#4d4e4f]">
-                  <img src={retusn} alt="return" className="w-5" /> <span>Free 14 day US returns</span>
-                  <span className="text-[#5d8fc1] cursor-pointer hover:underline whitespace-nowrap">See details</span>
-                </div>
-                <div className="flex items-center gap-3 pt-3 text-[#4d4e4f]">
-                  <img src={heart} alt="heart" className="w-5" /> <span>100% Handmade in Italy</span>
-                </div>
-              </div>
 
-              {/* FAQ */}
-              <div className="space-y-4">
-                {product?.inspiration && (
-                  <FaqComp
-                    title={"Xelitesilks's Inspiration"}
-                    answer={product?.inspiration}
-                  />
-                )}
-                {product?.description && (
-                  <FaqComp
-                    title={"Details"}
-                    answer={product?.description}
-                  />
-                )}
-                {product?.guide && (
-                  <FaqComp
-                    title={"Styling Guide"}
-                    answer={product?.guide}
-                  />
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
+//   return (
+//     <>
 
-        {/* Reviews Section */}
-        <div className="">
-          <div className="max-w-7xl mx-auto pt-12">
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="flex text-yellow-500">
-                {Array(5).fill().map((_, i) => (
-                  <svg key={i} xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="w-5 h-5" viewBox="0 0 24 24">
-                    <path d="M12 17.27L18.18 21 16.54 13.97 22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                  </svg>
-                ))}
-              </div>
-              <p className="text-gray-800 font-medium">{reviewProduct?.totalRatings || 0} Reviews</p>
-            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {reviewProduct?.data?.map((r, i) => (
-                <ReviewCard key={i} name={r.name} text={r.review} rating={r.rating} />
-              ))}
-              {(!reviewProduct?.data || reviewProduct.data.length === 0) && (
-                <p className="text-gray-500 col-span-2 text-center py-8">No reviews yet.</p>
-              )}
-            </div>
+//     {product ? (
+//   <PageMetadata
+//     title={product?.metaTitle}
+//     description={product?.metaDescription || ""}
+//     keywords={product?.keywords || ""}
+//     ogUrl={`${BaseUrl}/category/${slug}`}
+//     ogImage={`${BaseUrl}/${serverData?.images?.[0]?.url || ""}`}
+//     ogImageWidth="1200"
+//     ogImageHeight="630"
+//     canonicalUrl={`${BaseUrl}/${slug}`}
+//     breadcrumbSchema={breadcrumbSchema}
+//     productSchema={productSchema}
+//     robots={product?.robots || serverData?.robots}
+//   />
+// ) : null}
 
-            <div className="text-center mt-6">
-              <button className="px-4 py-2 text-sm border rounded hover:bg-gray-100 transition">
-                Show more reviews
-              </button>
-            </div>
-          </div>
-        </div>
 
-        {/* Rest of your component remains the same... */}
-        {/* Section with alternate bg */}
-        <div className="bg-gray-50 rounded-md py-16 mt-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 px-4 ">
-            {[{ img: one, title: "We take the extra steps to make our scarves exceptional", desc: "From the design to the final hem, each piece is crafted in small workshops and carefully inspected to ensure it meets our highest standards of quality." }, { img: three, title: "100% Made in Como, Italy", desc: "Indulge in the luxury of Como silk - world-renowned for its exquisite craftsmanship and finest silk. Our silk scarves are a testament to the skill passed down from generation to generation." }, { img: two, title: "Exceptional eco-friendly print quality", desc: "We're proud to use non-toxic vegetable dyes in a modern, innovative printing process that's kinder to the planet—using less ink and water while delivering sharp, well-defined patterns." }].map((item, i) => (
-              <div key={i} className="flex flex-col items-center bg-white rounded-xl md:p-6 p-4 shadow-md hover:shadow-xl transition duration-300">
-                <img src={item.img} alt={item.title} className="w-full h-72 object-cover rounded-lg mb-5 transform transition-transform duration-300 group-hover:scale-105" />
-                <span className="text-lg font-semibold text-center">{item.title}</span>
-                <p className="text-sm text-gray-600 text-center">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+//       <section className='py-8'>
+//         <div className='lg:max-w-6xl max-w-[95%] bg-[#F7F7F7] rounded-lg p-2 flex lg:flex-row flex-col gap-4 mx-auto'>
+//           <div className='lg:w-6/12'>
 
-        {/* Who / How / Where */}
-        <div className='grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-8 mt-16'>
-          {[{ img: who, label: "who", desc: "Handmade by Italian artisans, carrying generations of silk craftsmanship." }, { img: how, label: "how", desc: "Sustainably produced with eco-friendly dyes and timeless design." }, { img: where, label: "where", desc: "100% made in Italy, inspired by the country's rich heritage." }].map((item, i) => (
-            <div key={i} className='flex flex-col items-center md:p-10 p-4 text-center gap-4 bg-gray-50 rounded-xl hover:shadow-md transition-all duration-300'>
-              <div className='bg-[#c5a980] p-2 rounded-full mb-2'>
-                <img src={item.img} alt={item.label} width={90} height={90} className='object-cover transform transition-transform duration-300 hover:rotate-6' />
-              </div>
-              <h4 className='text-3xl font-semibold capitalize'>{item.label}</h4>
-              <p className='text-lg text-gray-600 text-pretty'>{item.desc}</p>
-            </div>
-          ))}
-        </div>
+//             <div className=' pb-7 pt-3'>
+//               {/* <h1 className='pb-2  font-sans text-[28px] block sm:hidden'>{product?.name}</h1> */}
 
-        {/* What makes us different */}
-        <div className='md:my-20  my-10 space-y-12 '>
-          <h3 className='text-3xl font-semibold text-center '>What makes us different</h3>
-          <div className='grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-5 text-pretty md:text-balance'>
-            {[{ title: "Love it or your money back", desc: ["Your happiness is our priority and we are committed to providing you with the best customer service and quality products.", "If for any reason, your purchase is not right for you, you can return or exchange it."] }, { title: "Slow fashion. Affordable luxury.", desc: ["We create timeless products that honor craftsmanship and sustainability.", "Our designs are made to last while keeping prices accessible."] }, { title: "We make scarves you'll be proud to wear", desc: ["Each scarf is an art piece, crafted with care and designed to elevate your wardrobe.", "Wear it with confidence, knowing it's made with integrity."] }].map((card, i) => (
-              <div key={i} className='flex flex-col gap-4 border border-gray-200 shadow-sm rounded-xl p-6 hover:shadow-lg transition-all duration-300'>
-                <h4 className='text-2xl font-semibold'>{card.title}</h4>
-                {card.desc.map((d, j) => (<p key={j} className='text-lg font-light text-gray-600'>{d}</p>))}
-              </div>
-            ))}
-          </div>
-        </div>
+//               <p className=' flex  flex-wrap items-center gap-1'><strong className=' font-normal  text-[#4440E6]'> <Link to={'/'} className='   font-sans' > Home </Link> </strong>/<strong className=' font-normal text-[#4440E6] capitalize'> <Link className='font-sans whitespace-nowrap' to={`/category/${product?.brandId?.slug}`}>{product?.brandId?.name}</Link> </strong> /<strong className='font-normal text-[#4440E6] capitalize'> <Link className=' font-sans whitespace-nowrap' to={`/sub-category/${product?.categoryId?.slug}`}>{product?.categoryId?.title}</Link> </strong> /<span className=' font-sans  whitespace-nowrap '>{product?.name} </span></p>
+//             </div>
+//             <div className='w-full'>
+//               <div className="overflow-hidden relative">
+//                 <div
+//                   className="flex relative transition-transform ease-out duration-500"
+//                   style={{ transform: `translateX(-${curr * 100}%)` }}
+//                 >
+//                   {product?.images?.map((image, i) => (
+//                     <div key={i} className="flex-none w-full rounded-lg overflow-hidden h-full">
+//                       <img
+//                         onClick={() => openImageViewer(image, i)}
+//                         src={`${BaseUrl}/${image?.url}`}
+//                         alt={image?.altText}
+//                         className="w-full cursor-pointer h-full object-cover"
+//                       />
 
-        {/* Related / Tabs */}
-        <div className='sm:mt-16 mt-9'>
-          <SingleProductTabs relatedProduct={relatedProduct} />
-        </div>
-      </div>
 
-      {isViewerOpen && selectedImage && (
-        <div className="fixed inset-0 bg-[rgba(0,0,0,0.8)] bg-opacity-90 z-50 flex items-center justify-center p-4">
-          <div className='absolute top-4 right-4'>
-            <button
-              onClick={closeImageViewer}
-              className="text-white text-3xl cursor-pointer hover:text-gray-300"
-            >
-              &times;
-            </button>
-          </div>
-          <button
-            onClick={goToPrevious}
-            className="absolute left-4 text-white text-3xl cursor-pointer hover:text-gray-300 p-4"
-          >
-            &#10094;
-          </button>
-          <div className="max-w-4xl max-h-screen overflow-auto">
-            <img
-              src={`${BaseUrl}/${selectedImage.url}`}
-              alt={selectedImage.altText}
-              className="max-w-full max-h-screen object-contain"
-            />
-          </div>
-          <button
-            onClick={goToNext}
-            className="absolute right-4 text-white text-3xl cursor-pointer hover:text-gray-300 p-4"
-          >
-            &#10095;
-          </button>
-          <div className="absolute bottom-4 text-white">
-            {currentIndex + 1} / {product?.images.length}
-          </div>
-        </div>
-      )}
+//                     </div>
+//                   ))}
+//                 </div>
+//                 <div onClick={() => openImageViewer(product?.images?.[curr], curr)} className=' flex justify-center items-center cursor-pointer w-10 h-10 bg-white rounded-full absolute top-3 right-3'>
+//                   <IoSearch size={25} />
+//                 </div>
+//                 {/* <button
+//                   onClick={prev}
+//                   className="w-12 h-12 shadow rounded-full cursor-pointer absolute left-5 sm:top-56 top-40 flex justify-center items-center bg-white/80 text-gray-800 hover:bg-white"
+//                 >
+//                   <TfiAngleLeft size={20} className="" />
+//                 </button>
+//                 <button
+//                   onClick={next}
+//                   className="w-12 h-12 rounded-full absolute cursor-pointer right-5 sm:top-56 top-40 flex justify-center items-center shadow bg-white/80 text-gray-800 hover:bg-white"
+//                 >
+//                   <TfiAngleRight size={20} />
+//                 </button> */}
+//               </div>
 
-      {showCartSideMenu && (
-        <AddToCartSideMenu onClose={() => setShowCartSideMenu(false)} />
-      )}
+//               <div className="flex flex-row pt-4 items-center justify-between gap-2">
+//                 {product?.images?.map((image, i) => (
+//                   <div
+//                     key={i}
+//                     onClick={() => goToSlide(i)}
+//                     className={`
+//                                             transition-all  w-32 rounded-lg  h-auto overflow-hidden bg-white 
+//                                             ${curr === i ? "w-20 h-20 border-2 border-[#4440E6] border-dashed" : "bg-opacity-100 bg-white"}
+//                                         `}
+//                   >
+//                     <img
+//                       src={`${BaseUrl}/${image?.url}`}
+//                       alt=""
+//                       className="w-full h-full object-center"
+//                     />
+//                   </div>
+//                 ))}
+//               </div>
+//             </div>
+//           </div>
 
-      <FAQ />
-      <Footer />
-    </>
+//           <div className="pt-3.5 lg:w-6/12">
+//             <h1 className='pb-2 font-semibold font-sans sm:text-[28px]  text-[20px]'>{product?.name}</h1>
+//             <form onSubmit={handleSubmit}>
+//               <div className="grid grid-cols-2 gap-4">
+//                 <div className="w-full">
+//                   <Input
+//                     label="Name"
+//                     star={"*"}
+//                     name="name"
+//                     value={formData.name}
+//                     onChange={handleChange}
+//                     placeholder="Your Name"
+//                     className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
+//                     required
+//                   />
+//                 </div>
+
+//                 <div className="w-full">
+//                   <Input
+//                     label="Email"
+//                     star={"*"}
+//                     name="email"
+//                     type="email"
+//                     value={formData.email}
+//                     onChange={handleChange}
+//                     placeholder="Your Email"
+//                     className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
+//                     required
+//                   />
+//                 </div>
+
+//                 <div className="w-full">
+//                   <Input
+//                     label="Company Name"
+//                     name="companyName"
+//                     value={formData.companyName}
+//                     onChange={handleChange}
+//                     placeholder="Company Name"
+//                     className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
+//                   />
+//                 </div>
+
+//                 <div className="w-full">
+//                   <Input
+//                     label="Phone Number"
+//                     name="phoneNumber"
+//                     value={formData.phoneNumber}
+//                     onChange={handleChange}
+//                     placeholder="Phone Number"
+//                     className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
+//                   />
+//                 </div>
+//               </div>
+//               <div className="grid grid-cols-2 mt-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+//                 <div className="w-full col-span-1 sm:col-span-1">
+//                   <Input
+//                     label="Box Style"
+//                     star={"*"}
+//                     name="boxStyle"
+//                     type={'text'}
+//                     value={formData.boxStyle}
+//                     onChange={handleChange}
+//                     placeholder="Box Style"
+//                     className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
+//                     required
+//                   />
+//                 </div>
+
+//                 <div className="w-full col-span-1 sm:col-span-1">
+//                   <Input
+//                     label="Size (Length)"
+//                     star={"*"}
+//                     name="length"
+//                     type={'number'}
+//                     value={formData.length}
+//                     onChange={handleChange}
+//                     placeholder="Length"
+//                     className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
+//                     required
+//                   />
+//                 </div>
+
+//                 <div className="w-full col-span-1 sm:col-span-1">
+//                   <Input
+//                     label="Size (Width)"
+//                     star={"*"}
+//                     name="width"
+//                     type={'number'}
+//                     value={formData.width}
+//                     onChange={handleChange}
+//                     placeholder="width"
+//                     className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
+//                     required
+//                   />
+//                 </div>
+
+//                 <div className="w-full col-span-1 sm:col-span-1">
+//                   <Input
+//                     label="Size (Depth)"
+//                     star={"*"}
+//                     name="depth"
+//                     type={'number'}
+//                     value={formData.depth}
+//                     onChange={handleChange}
+//                     placeholder="Depth"
+//                     className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
+//                     required
+//                   />
+//                 </div>
+
+//                 <div className="w-full col-span-1 sm:col-span-1">
+
+//                   <label
+//                     htmlFor="Unit"
+//                     className="  pb-1 flex  text-[#333333] text-sm font-medium   text-textColor"
+//                   >
+//                     Unit
+
+//                   </label>
+//                   <select name="unit" value={formData.unit}
+//                     onChange={handleChange} className="w-full outline-none bg-lightGray   text-gray-500 placeholder:text-gray-400 placeholder:text-sm  border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
+//                     required
+//                   >
+//                     <option value={'Inches'}>Inches</option>
+//                     <option value={'mm'}>mm</option>
+//                     <option value={'cm'}>cm</option>
+//                   </select>
+//                 </div>
+
+
+
+//                 <div className="w-full col-span-1 sm:col-span-1">
+
+//                   <label
+//                     htmlFor="Stock"
+//                     className="  pb-1 flex  text-[#333333] text-sm font-medium   text-textColor"
+//                   >
+//                     Stock
+
+//                   </label>
+//                   <select name="stock" value={formData.stock}
+//                     onChange={handleChange} className="w-full border text-gray-500 border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
+//                     required
+//                   >
+//                     <option value={'Stock'}>Stock</option>
+//                     <option value={'12pt Cardboard'}>12pt Cardboard</option>
+//                     <option value={'14pt Cardboard'}>14pt Cardboard</option>
+//                     <option value={'16pt Cardboard'}>16pt Cardboard</option>
+//                     <option value={'18pt Cardboard'}>18pt Cardboard</option>
+//                     <option value={'20pt Cardboard'}>20pt Cardboard</option>
+//                     <option value={'22pt Cardboard'}>22pt Cardboard</option>
+//                     <option value={'24pt Cardboard'}>24pt Cardboard</option>
+//                     <option value={'White SBS C1S C25'}>White SBS C1S C25</option>
+//                     <option value={'Corrugated'}>Corrugated</option>
+//                     <option value={'Rigid'}>Rigid</option>
+//                     <option value={'Kraft'}>Kraft</option>
+//                     <option value={'Linen'}>Linen</option>
+//                   </select>
+//                 </div>
+
+
+
+//                 <div className="w-full col-span-1 sm:col-span-1">
+
+//                   <label
+//                     htmlFor="Colors"
+//                     className="  pb-1 flex  text-[#333333] text-sm font-medium   text-textColor"
+//                   >
+//                     Colors
+
+//                   </label>
+//                   <select name="color" value={formData.color}
+//                     onChange={handleChange} className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
+//                     required
+//                   >
+//                     <option value={'Colors'}>Colors</option>
+//                     <option value={'Plain (No Printing)'}>Plain (No Printing)</option>
+//                     <option value={'1 Color'}>1 Color</option>
+//                     <option value={'2 Color'}>2 Color</option>
+//                     <option value={'3 Color'}>3 Color</option>
+//                     <option value={'4 Color'}>4 Color</option>
+//                     <option value={'4/1 Color'}>4/1 Color</option>
+//                     <option value={'4/2 Color'}>4/2 Color</option>
+//                     <option value={'4/3 Color'}>4/3 Color</option>
+//                     <option value={'4/4 Color'}>4/4 Color</option>
+
+//                   </select>
+//                 </div>
+
+
+
+//                 <div className="w-full col-span-1 sm:col-span-1">
+
+//                   <label
+//                     htmlFor="Printing Sides"
+//                     className="  pb-1 flex  text-[#333333] text-sm font-medium   text-textColor"
+//                   >
+//                     Printing Sides
+
+//                   </label>
+//                   <select name="printingSides" value={formData.printingSides}
+//                     onChange={handleChange} className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
+//                     required
+//                   >
+//                     <option value={'Inside'}>Inside</option>
+//                     <option value={'Outside'}>Outside</option>
+//                     <option value={'2 Color'}>Both (Inside & Outside)</option>
+
+//                   </select>
+//                 </div>
+
+
+//                 <div className="w-full col-span-1 sm:col-span-1">
+//                   <Input
+//                     label="Quantity"
+//                     star={"*"}
+//                     name="quantity"
+//                     type={'number'}
+//                     value={formData.quantity}
+//                     onChange={handleChange}
+//                     placeholder="Quantity"
+//                     className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
+//                     required
+//                   />
+//                 </div>
+
+
+
+//                 <div className="w-full col-span-1 sm:col-span-1">
+
+//                   <label
+//                     htmlFor="Add-Ons"
+//                     className="  pb-1 flex  text-[#333333] text-sm font-medium   text-textColor"
+//                   >
+//                     Add-Ons
+
+//                   </label>
+//                   <select name="addons" value={formData.addons}
+//                     onChange={handleChange} className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
+//                   // required
+//                   >
+//                     <option selected></option>
+//                     <option value={'Foiling'}>Foiling</option>
+//                     <option value={'Spot UV'}>Spot UV</option>
+//                     <option value={'Embossing'}>Embossing</option>
+//                     <option value={'Debossing'}>Debossing</option>
+//                     <option value={'handles'}>handles</option>
+//                     <option value={'Inserts'}>Inserts</option>
+//                     <option value={'Windows'}>Windows</option>
+
+//                   </select>
+//                 </div>
+
+
+//               </div>
+
+//               <div className=' grid md:grid-cols-2 grid-cols-1 gap-4 mt-4'>
+//                 <div className="w-full">
+//                   <label
+//                     htmlFor="design_upload"
+//                     className="block pb-1.5 text-[#333333] text-sm md:text-base font-medium"
+//                   >
+//                     Upload Your Design, Max Size 5MB
+//                     <p className="flex flex-wrap gap-0.5 text-xs md:text-sm mt-1">
+//                       Allowed File Types:
+//                       <span className="font-semibold"> png, pdf, jpg, jpeg, webp</span>
+//                     </p>
+//                   </label>
+//                   <Input
+//                     type="file"
+//                     name="image"
+//                     onChange={handleChange}
+//                     className="border w-full bg-white rounded-lg border-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#4440E6] file:text-white hover:file:bg-[#3a36c7]"
+//                     accept=".png,.pdf,.jpg,.jpeg,.webp"
+//                   />
+//                 </div>
+
+//                 <div className="w-full ">
+//                   <label
+//                     htmlFor="description"
+//                     className="block pb-1.5 text-[#333333] text-sm md:text-base font-medium"
+//                   >
+//                     Description
+//                   </label>
+//                   <textarea
+//                     id="message"
+//                     name="message"
+//                     value={formData.message}
+//                     onChange={handleChange}
+//                     rows={3}
+//                     className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
+//                     placeholder="Tell us the size / dimensions, material, finising, add-ons, and design preferences."
+
+//                   ></textarea>
+//                 </div>
+
+//               </div>
+
+//               <div>
+//                 <div className="w-full flex justify-end mt-2">
+
+//                   <Button
+//                     type="submit"
+//                     label={isLoading ? "Sending..." : "Request A Quote"}
+//                     // disabled={!validate() || isLoading}
+//                     className={`bg-[#4440E6] w-full text-white py-2.5 px-4 rounded-lg hover:bg-[#3938b8] transition-colors ${!validate || isLoading ? 'opacity-50 cursor-not-allowed' : ''
+//                       }`}
+//                   />
+//                 </div>
+//               </div>
+//             </form>
+//           </div>
+//         </div>
+//       </section>
+
+
+//       <section>
+//         <div className=' sm:max-w-6xl bg-[#F7F7F7] p-3 rounded-xl mb-8 max-w-[95%] mx-auto'>
+//           <div className="my-10">
+//             <Tabs defaultTab={"Description"} className={' bg-white'} tabs={customBox} />
+//           </div>
+//         </div>
+//       </section>
+
+//       <section className='  '>
+//         <div className=' sm:max-w-6xl max-w-[95%] bg-[#FFDEBF] rounded-lg mx-auto'>
+//           <div className="flex flex-col  px-4 py-3 rounded-lg lg:flex-row  gap-8 items-center">
+//             <div className="w-full  lg:w-1/2">
+//               <img
+//                 src={`${BaseUrl}/${product?.bannerImage}`}
+//                 alt="Custom packaging example"
+//                 className="w-full h-auto rounded-xl shadow-md object-cover"
+//                 loading="lazy"
+//               />
+
+//             </div>
+
+//             <div className='w-full lg:w-1/2 '>
+
+//               <div className=" pt-3">
+//                 <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
+//                   {product?.bannerTitle}
+
+//                 </h2>
+//                 <div className=' overflow-y-auto blog_content  h-56'>
+//                   <p dangerouslySetInnerHTML={{ __html: product?.bannerContent }} className="text-sm leading-6 text-gray-700 mb-6">
+
+
+
+//                   </p>
+
+//                 </div>
+
+
+//               </div>
+
+//               <div className=" flex flex-wrap   mt-7 gap-2.5 items-center">
+//                 <Button
+
+//                   label={"Order Process"}
+//                   className=" bg-[#4440E6] text-white"
+//                 />
+
+//               </div>
+//             </div>
+
+
+
+//           </div>
+//         </div>
+//       </section>
+
+
+
+
+
+
+//       <div className=" sm:max-w-6xl max-w-[95%]  mt-5 py-4 bg-[#F7F7F7] rounded-lg  px-3 mx-auto">
+//         <div className="text-center mb-12">
+//           <h2 className="sm:text-[35px] text-[25px]   text-center   font-sans   font-[600] text-[#333333]">
+//             Enhance Your Product Presentation with Our Special Packaging Features
+
+//           </h2>
+
+//         </div>
+
+//         <div className="grid grid-cols-2 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+//           {features.map((feature) => (
+//             <div
+//               key={feature.name}
+//               className="bg-white"
+//             >
+//               <div className="text-center">
+//                 <div>
+//                   <img src={feature.icon} alt='' className=' rounded-lg w-full' />
+//                 </div>
+//                 <strong className="text-xl font-medium text-gray-900 mb-2">{feature.name}</strong>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//       </div>
+
+//       <section className="my-8 md:my-12">
+//         <div className=" sm:max-w-6xl max-w-[95%] mx-auto">
+//           <div className="flex flex-col lg:flex-row gap-6 md:gap-8">
+//             {/* Image Section */}
+//             <div className="w-full lg:w-3/12">
+//               {product?.images?.[0]?.url && (
+//                 <img
+//                   className="rounded-xl w-full h-auto object-cover shadow-md"
+//                   src={`${BaseUrl}/${product.images[0].url}`}
+//                   alt="Automobile Tuck End Boxes"
+//                 />
+//               )}
+//             </div>
+
+//             {/* Content Section */}
+//             <div className="w-full lg:w-9/12">
+//               {/* Buy Now Button */}
+//               <button className="bg-black hover:bg-gray-800 transition-colors duration-300 w-full text-white text-xl md:text-2xl font-bold py-3 px-4 rounded-lg shadow-lg">
+//                 Buy Now!
+//               </button>
+
+//               {/* Description */}
+//               <p className="text-center py-4 md:py-6 text-gray-700 text-sm md:text-base leading-relaxed">
+//                 Please note that it is our standard packaging for Automobile Tuck End Boxes.
+//                 If you want to customize your packaging, please send a custom quote request above.
+//                 We will respond to you immediately.
+//               </p>
+
+//               {/* Product Info Grid */}
+//               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 md:gap-4 w-full mb-4">
+//                 {/* Product Name */}
+//                 <div className="border border-gray-200 rounded-lg p-2 md:p-3 bg-white shadow-sm">
+//                   <button className="bg-[#5A56E9] mb-2 hover:bg-[#4440E6] text-white w-full text-sm md:text-base font-medium py-2 px-3 rounded">
+//                     Product Name
+//                   </button>
+//                   <div className=' pt-3 text-center'>
+//                     <strong className="  text-gray-400  font-medium text-[16px]">{product?.name}</strong>
+
+//                   </div>
+//                 </div>
+
+//                 {/* Size */}
+//                 <div className="border border-gray-200 rounded-lg p-2 md:p-3 bg-white shadow-sm">
+//                   <button className="bg-[#5A56E9] mb-2 hover:bg-[#4440E6] text-white w-full text-sm md:text-base font-medium py-2 px-3 rounded">
+//                     Size
+//                   </button>
+//                   <div className=' pt-3 text-center'>
+//                     <strong className="  text-gray-400  font-medium text-[16px]">{product?.size}</strong>
+
+//                   </div>
+//                 </div>
+
+//                 {/* Price */}
+//                 <div className="border border-gray-200 rounded-lg p-2 md:p-3 bg-white shadow-sm">
+//                   <button className="bg-[#5A56E9] hover:bg-[#4440E6] text-white w-full text-sm md:text-base font-medium py-2 px-3 rounded">
+//                     Price
+//                   </button>
+//                   <div className=' pt-3 text-center'>
+//                     <strong className="  text-gray-400  font-medium text-[16px]">${product?.actualPrice}</strong>
+
+//                   </div>
+//                 </div>
+//               </div>
+
+//               {/* Quantity and Add to Cart */}
+//               <div className="flex flex-col sm:flex-row justify-center items-center gap-3 pt-2">
+//                 <div className="flex items-center gap-2">
+//                   <label htmlFor="quantity" className="text-gray-700 font-medium hidden sm:block">Qty:</label>
+//                   <input
+//                     type="number"
+//                     id="quantity"
+//                     min="1"
+//                     defaultValue={1}
+//                     className="rounded-lg border-2 border-gray-300 focus:border-[#5A56E9] focus:ring-1 focus:ring-[#5A56E9] w-16 md:w-20 py-2 px-3 text-center"
+//                   />
+//                 </div>
+//                 <button onClick={() => {
+//                   dispatch(
+//                     addToCart({
+//                       _id: product._id,
+//                       image: `${BaseUrl}/${product?.images[0]?.url}`,
+//                       title: product.name,
+//                       price: product.actualPrice,
+//                       description: product.description,
+//                       quantity: 1,
+//                     })
+//                   )
+//                   navigate('/cart')
+//                 }} className="bg-[#4440E6] cursor-pointer hover:bg-[#3835C7] text-white font-bold py-2 px-6 rounded-lg transition-colors duration-300 shadow-md w-full sm:w-auto">
+//                   Add to cart
+//                 </button>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </section>
+
+//       <section className=' '>
+//         <CustomPackagingProduced />
+//       </section>
+
+//       <div className=" py-4 sm:max-w-6xl max-w-[95%] mx-auto">
+//         <Container fullWidth={false} className="">
+//           <div className="">
+//             <div>
+//               <h3 className=" text-2xl font-semibold">RELATED PRODUCTS</h3>
+//             </div>
+//             <div className=' py-5'>
+//               <CardSlider item={relatedProduct?.relatedProducts} disableSelection={true} />
+//             </div>
+
+
+//           </div>
+//         </Container>
+//       </div>
+
+
+//       {isViewerOpen && selectedImage && (
+//         <div className="fixed inset-0 bg-[rgba(0,0,0,0.8)] bg-opacity-90 z-50 flex items-center justify-center p-4">
+//           <div className='absolute top-4 right-4'>
+//             <button
+//               onClick={closeImageViewer}
+//               className=" text-white text-3xl  cursor-pointer hover:text-gray-300"
+//             >
+//               &times;
+//             </button>
+
+
+//           </div>
+//           <button
+//             onClick={goToPrevious}
+//             className="absolute left-6 text-white text-3xl w-12 h-12 rounded-2xl bg-[#4440E6] cursor-pointer hover:text-gray-300 flex justify-center items-center "
+//           >
+//             <FaAngleLeft color="white" />
+//           </button>
+
+
+//           <div className="max-w-4xl max-h-screen overflow-auto">
+//             <img
+//               src={`${BaseUrl}/${selectedImage.url}`}
+//               alt={selectedImage.altText}
+//               className="max-w-full max-h-screen object-contain"
+//             />
+//           </div>
+
+
+//           <button
+//             onClick={goToNext}
+//             className="absolute right-6 w-12 h-12 rounded-2xl text-white bg-[#4440E6] text-3xl cursor-pointer hover:text-gray-300 flex justify-center items-center "
+//           >
+//             <FaAngleRight color="white" />
+//           </button>
+
+//           <div className="absolute bottom-4 text-white">
+//             {currentIndex + 1} / {product?.images.length}
+//           </div>
+//         </div>
+//       )}
+//     </>
+//   )
+// }
+
+// export default ProductDetails
+
+
+import React from 'react'
+
+const ProductDetails = () => {
+  return (
+    <div>ProductDetails</div>
   )
 }
 

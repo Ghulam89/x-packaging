@@ -33,10 +33,6 @@ const blogSchema = new Schema({
     type: String,
     require: true,
   },
-  type: {
-    type: String,
-    require: true,
-  },
   image: {
     type: String,
     require: true,
@@ -62,5 +58,10 @@ const blogSchema = new Schema({
     default: "pending",
   },
 });
+
+blogSchema.index({ slug: 1 }, { unique: true });
+blogSchema.index({ title: 1 });
+blogSchema.index({ status: 1, createdAt: -1 });
+blogSchema.index({ createdAt: -1 });
 
 export const Blogs = mongoose.model("Blogs", blogSchema);

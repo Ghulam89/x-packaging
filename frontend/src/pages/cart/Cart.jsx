@@ -1,19 +1,12 @@
-import React from "react";
-import banner from "../../assets/images/about-banner.webp";
-import fire from "../../assets/images/icon-fire.png";
-import cartimg from "../../assets/images/product-cart.webp";
-import { FaTrashAlt } from "react-icons/fa";
-import { BaseUrl } from "../../utils/BaseUrl";
-import { useDispatch, useSelector } from "react-redux";
-import PageMetadata from "../../components/common/PageMetadata";
-import TopNav from "../../components/Header/TopNav";
-import Navbar from "../../components/Header/Navbar";
-import Footer from "../../components/Footer/Footer";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteProduct, updateQuantity } from '../../store/productSlice';
+import { Link } from 'react-router-dom';
+import { BaseUrl } from '../../utils/BaseUrl';
+import PageMetadata from '../../components/common/PageMetadata';
+const Cart = () => {
 
-function Cart() {
 
-  
 
   const { productData: cartItems } = useSelector((state) => state.product);
 
@@ -49,136 +42,95 @@ function Cart() {
 
   return (
     <>
-     <TopNav />
-     <Navbar />
-    <PageMetadata {...metadata} />
-      {/* Hero Banner */}
-      <div className="container-fluid mx-auto">
-        <div
-          className="md:pt-30 pt-10 md:pb-20 pb-10 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${banner})` }}
-        >
-          <div className="text-center w-full">
-            <div className="flex flex-col bg-[#ffffffca] justify-center items-center gap-4 md:p-10 p-2 rounded-md md:w-2xl w-[300px] mx-auto">
-              <h3 className="md:text-4xl text-lg font-semibold text-[#454444] md:leading-10 leading-6">
-                Cart
-              </h3>
-              <span className="md:text-lg text-sm text-gray-500">
-                Homepage / Cart
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <PageMetadata {...metadata} />
+      <div className="sm:max-w-6xl max-w-[95%] mx-auto  py-8">
+        {/* Cart Table */}
 
-      {/* Main Cart Section */}
-      <div className="container mx-auto py-10 px-2">
-        <div className="grid grid-cols-12 gap-6">
-          {/* Left Side - Cart Items */}
-          <div className="col-span-12 md:col-span-8 space-y-6">
-            {/* Cart Notice */}
-            
-              <div className="flex md:flex-row flex-col justify-center items-center p-3 bg-[#fff3f3] gap-3 rounded-md text-base text-red-600 font-medium shadow-sm animate-pulse">
-                <img src={fire} alt="alert" className="h-6" />
-                <p className="text-center">Your cart will expire in <span className="font-bold">10:00</span> minutes! Checkout now before items sell out!</p>
-                
-              </div>
-          
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm text-left border border-gray-300">
+            <thead className="bg-gray-100 text-gray-700">
+              <tr>
+                <th className="p-3 w-12"></th>
+                <th className="p-3">Product</th>
+                <th className="p-3">Price</th>
+                <th className="p-3">Quantity</th>
+                <th className="p-3">Subtotal</th>
+              </tr>
+            </thead>
+            <tbody className="text-gray-700">
 
-            {/* Cart Table */}
-            <div className="overflow-x-auto bg-white shadow-md rounded-lg p-4">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="border-b bg-gray-100 text-gray-700">
-                    <th className="p-3">Product</th>
-                    <th className="p-3">Price</th>
-                    <th className="p-3">Quantity</th>
-                    <th className="p-3">Total</th>
-                    <th className="p-3 text-center">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                 
-
-                  {
-                    cartItems?.map((item,index)=>{
-                      return (
- <tr className="border-b hover:bg-gray-50 transition">
-                    <td className="p-3">
-                      <div className="flex sm:flex-col lg:flex-col flex-col gap-3 items-center">
+              {cartItems?.map((item, index) => {
+                return (
+                  <tr className="border-t">
+                    <td className="text-center">
+                      <button onClick={() => dispatch(deleteProduct(item._id))} className="text-red-500 hover:text-red-700">✖</button>
+                    </td>
+                    <td className="flex items-center gap-4 p-3">
+                      <div className="w-10 h-10 bg-orange-500 rounded overflow-hidden">
                         <img
                           src={item?.image}
-                          alt="product"
-                          className="h-20 w-20 object-cover rounded-md shadow-sm"
+                          alt="Product"
+                          className="w-full h-full object-cover"
                         />
-                        <h5 className="text-sm md:text-base font-medium text-gray-700 whitespace-nowrap">
-                          {item?.title}
-                        </h5>
                       </div>
+                      <span className="text-pink-600">{item?.title}</span>
                     </td>
-                    <td className="p-3 text-gray-600">${item?.price}</td>
+                    <td className="p-3">${item?.price}</td>
                     <td className="p-3">
-                      <div className="flex items-center gap-2">
-                        <button className="px-2 h-10 w-10 text-2xl text-center py-1 border border-gray-300 rounded hover:bg-gray-100 bg-[#c5a980]">-</button>
-                        <input
-                          type="text"
-                          value="2"
-                          readOnly
-                          className="w-20 h-10 text-center border rounded"
-                        />
-                        <button className="px-2 h-10 w-10 text-2xl text-center py-1 border border-gray-300 rounded hover:bg-gray-100 bg-[#c5a980]">+</button>
-                      </div>
+                      <input
+                        type="number"
+                        min="1"
+                        value={item?.quantity}
+                        onChange={(e) => handleQuantityChange(item._id, e.target.value)}
+                        className="w-14 h-10 border border-gray-300 text-center rounded"
+                      />
                     </td>
-                    <td className="p-3 font-semibold text-gray-700">$190.00</td>
-                    <td className="p-3 text-center">
-                      <button  className="text-red-500 hover:text-red-700">
-                        <FaTrashAlt />
-                      </button>
-                    </td>
+                    <td className="p-3"> ${(item.price * item.quantity)}</td>
                   </tr>
-                      )
-                    })
-                  }
-                 
-                </tbody>
-              </table>
+                )
+              })}
+            </tbody>
+          </table>
+          <div className="text-right mt-2">
+            <button className="bg-gray-200 text-gray-500 text-sm px-4 py-2 rounded" disabled>
+              Update cart
+            </button>
+          </div>
+        </div>
+
+        {/* Cart Totals */}
+        <div className="mt-8 max-w-md ml-auto">
+          <h3 className="">Cart totals</h3>
+          <div className="border border-gray-300 rounded divide-y">
+            <div className="flex justify-between p-4">
+              <span className="font-semibold">Subtotal</span>
+              <span>${subtotal.toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between items-center p-4">
+              <span className="font-semibold">Shipping</span>
+              <button className="text-pink-600 flex text-sm items-center gap-1">
+                Calculate shipping
+                <span role="img" aria-label="truck">🚚</span>
+              </button>
+            </div>
+            <div className="flex justify-between p-4 font-bold">
+              <span>Total</span>
+              <span>${total.toFixed(2)}</span>
             </div>
           </div>
 
-          {/* Right Side - Cart Summary */}
-          <div className="col-span-12 md:col-span-4">
-            <div className="bg-white shadow-lg rounded-lg p-6 space-y-5">
-              <h4 className="text-lg font-semibold text-gray-700 border-b pb-3">
-                Cart Summary
-              </h4>
-              <div className="flex justify-between text-gray-600">
-                <span>Subtotal</span>
-                <span>$315.00</span>
-              </div>
-              <div className="flex justify-between text-gray-600">
-                <span>Shipping</span>
-                <span>$15.00</span>
-              </div>
-              <div className="flex justify-between text-gray-800 font-semibold text-lg border-t pt-3">
-                <span>Total</span>
-                <span>$330.00</span>
-              </div>
-              <Link to={'/checkout'} className="">
-              <button className="w-full py-3 rounded-md bg-[#c5a980] text-white font-medium hover:bg-[#b4976e] transition">
-                Proceed to Checkout
-              </button>
-              </Link>
-              
-              <button className="w-full py-3 mt-4 rounded-md border border-[#c5a980] text-[#c5a980] font-medium hover:bg-[#c5a980] hover:text-white transition">
-                Continue Shopping
-              </button>
-            </div>
+          {/* Checkout Buttons */}
+          <div className="mt-6 flex flex-col gap-4">
+            <Link to={'/checkout'} className="bg-[#7249A4] hover:bg-purple-700 text-white py-3 rounded text-center font-semibold">
+              Proceed to checkout
+            </Link>
+
           </div>
         </div>
       </div>
-      <Footer/>
     </>
+
   );
-}
+};
 
 export default Cart;

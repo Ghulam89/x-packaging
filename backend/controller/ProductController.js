@@ -1,11 +1,13 @@
 
 import { catchAsyncError } from "../middleware/catchAsyncError.js";
-import { Collections } from "../model/Collection.js";
+import { Brands } from "../model/Brand.js";
 import { Products } from "../model/Product.js";
+import { MidCategory } from "../model/MidCategory.js";
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import mongoose from "mongoose";
+import { redisClient } from "../redis_APIS/redis.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -47,18 +49,18 @@ export const createProducts = catchAsyncError(async (req, res, next) => {
       robots,
     actualPrice,
     size,
-    material,
-    pattern,
-    color,
     description,
-    stock,
-    collectionId,
+    bannerTitle,
+    bannerContent,
+    brandId,
+    categoryId,
+    bannerImageAltText
   } = req.body;
 
-  if (!req.files || !req.files['images']) {
+  if (!req.files || !req.files['images'] || !req.files['bannerImage']) {
     return res.status(400).json({
       status: "fail",
-      message: "product images are required",
+      message: "Both product images (field name: 'images') and banner image (field name: 'bannerImage') are required",
     });
   }
 
@@ -74,7 +76,12 @@ export const createProducts = catchAsyncError(async (req, res, next) => {
         }
       });
     }
-    
+    if (req.files['bannerImage']) {
+      const bannerPath = req.files['bannerImage'][0].path;
+      if (fs.existsSync(bannerPath)) {
+        fs.unlinkSync(bannerPath);
+      }
+    }
 
     return res.status(409).json({
       status: "fail",
@@ -92,7 +99,12 @@ export const createProducts = catchAsyncError(async (req, res, next) => {
       altText: formatFileName(image.originalname)
     }));
 
-   
+    const bannerImageFile = Array.isArray(req.files['bannerImage'])
+      ? req.files['bannerImage'][0]
+      : req.files['bannerImage'];
+
+    const bannerPath = `images/${bannerImageFile.filename}`.replace(/\\/g, '/');
+
     const productData = {
       name,
       slug,
@@ -102,13 +114,14 @@ export const createProducts = catchAsyncError(async (req, res, next) => {
       robots,
       actualPrice,
       size,
-      material,
-      pattern,
-      color,
       description,
-      stock,
+      bannerTitle,
+      bannerContent,
       images,
-      collectionId,
+      bannerImage: bannerPath,
+      bannerImageAltText,
+      brandId,
+      categoryId,
     };
 
     const newProduct = await Products.create(productData);
@@ -124,121 +137,106 @@ export const createProducts = catchAsyncError(async (req, res, next) => {
         fs.unlinkSync(path.join(__dirname, '..', image.path));
       });
     }
-    
+    if (req.files['bannerImage']) {
+      const bannerImageFile = Array.isArray(req.files['bannerImage'])
+        ? req.files['bannerImage'][0]
+        : req.files['bannerImage'];
+      fs.unlinkSync(path.join(__dirname, '..', bannerImageFile.path));
+    }
     return next(error);
   }
 });
 
-export const getCollectionByProducts = catchAsyncError(async (req, res, next) => {
-  const collectionId = req.params.collectionId;
-  const collection = await Collections.findById(collectionId);
-  
-  if (!collection) {
-    return res.status(404).json({
-      status: "fail",
-      message: "Collection not found",
+export const getBrandProductsByCategory = catchAsyncError(async (req, res, next) => {
+  const brandId = req.params.brandId;
+
+  try {
+    const brand = await Brands.findById(brandId);
+    if (!brand) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Brand not found",
+      });
+    }
+    const productsByCategory = await Products.aggregate([
+       {
+        $match: {
+          brandId: new mongoose.Types.ObjectId(brandId)
+        }
+      },
+      {
+        $lookup: {
+          from: "midcategories",
+          localField: "categoryId",
+          foreignField: "_id",
+          as: "categoryInfo"
+        }
+      },
+      {
+        $unwind: {
+          path: "$categoryInfo",
+          preserveNullAndEmptyArrays: true
+        }
+      },
+      {
+        $group: {
+          _id: "$categoryInfo._id",
+          categoryName: { $first: "$categoryInfo.title" },
+          categoryImage: { $first: "$categoryInfo.image" },
+          categorySlug: { $first: "$categoryInfo.slug" },
+          products: {
+            $push: {
+              _id: "$_id",
+              name: "$name",
+              slug: "$slug",
+              price: "$price",
+              images: "$images",
+              actualPrice: "$actualPrice",
+              size: "$size",
+              description: "$description",
+
+            }
+          }
+        }
+      },
+      {
+        $match: {
+          _id: { $ne: null }
+        }
+      },
+      {
+        $project: {
+          _id: 1,
+          categoryName: 1,
+          categoryImage: 1,
+          categorySlug: 1,
+          products: 1,
+          productCount: { $size: "$products" }
+        }
+      },
+      {
+        $sort: { categoryName: 1 }
+      }
+    ]);
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        brand: {
+          _id: brand._id,
+          name: brand.name,
+          image: brand.image,
+          slug: brand.slug,
+        },
+        categories: productsByCategory
+      }
     });
+
+  } catch (error) {
+    next(error);
   }
-
-  let filter = { collectionId: collection._id };
-
-  if (req.query.colors) {
-    const colors = Array.isArray(req.query.colors) ? req.query.colors : [req.query.colors];
-    filter.color = { $in: colors.map(color => new RegExp(color, 'i')) };
-  }
-
-  if (req.query.materials) { 
-    filter.material = new RegExp(req.query.materials, "i");
-  }
-
-  if (req.query.patterns) {
-    filter.pattern = new RegExp(req.query.patterns, "i"); 
-  }
-
-  if (req.query.minPrice || req.query.maxPrice) {
-    filter.$or = [
-      { actualPrice: {} },
-      { salePrice: {} }
-    ];
-    
-    if (req.query.minPrice) {
-      const minPrice = parseFloat(req.query.minPrice);
-      filter.$or[0].actualPrice.$gte = minPrice;
-      filter.$or[1].salePrice.$gte = minPrice;
-    }
-    
-    if (req.query.maxPrice) {
-      const maxPrice = parseFloat(req.query.maxPrice);
-      filter.$or[0].actualPrice.$lte = maxPrice; 
-      filter.$or[1].salePrice.$lte = maxPrice;
-    }
-  }
-
-  if (req.query.name) {
-    filter.name = new RegExp(req.query.name, "i");
-  }
-
-  if (req.query.status) {
-    filter.status = req.query.status;
-  }
-
-  const page = parseInt(req.query.page, 10) || 1;
-  const perPage = parseInt(req.query.perPage, 10) || 15;
-  const skip = (page - 1) * perPage;
-
-  let sortOption = {};
-  if (req.query.sort) {
-    switch (req.query.sort) {
-      case 'price-low':
-        sortOption = { actualPrice: 1 }; 
-        break;
-      case 'price-high':
-        sortOption = { actualPrice: -1 }; 
-        break;
-      case 'newest':
-        sortOption = { createdAt: -1 };
-        break;
-      case 'name':
-        sortOption = { name: 1 };
-        break;
-      default:
-        sortOption = { createdAt: -1 };
-    }
-  } else {
-    sortOption = { createdAt: -1 };
-  }
-
-  const products = await Products.find(filter)
-    .populate({
-      path: "collectionId",
-      select: "name slug"
-    })
-    .sort(sortOption)
-    .skip(skip)
-    .limit(perPage);
-
-  const totalProducts = await Products.countDocuments(filter);
-  const totalPages = Math.ceil(totalProducts / perPage);
-
-  res.status(200).json({
-    status: "success",
-    data: {
-      collection: {
-        _id: collection._id,
-        name: collection.name,
-        slug: collection.slug,
-        image: collection.image,
-      },
-      products: products,
-      totalProducts: totalProducts,
-      pagination: {
-        page,
-        perPage,
-        totalPages,
-      },
-    },
-  });
 });
+
 
 export const getRelatedProducts = catchAsyncError(async (req, res, next) => {
   const productSlug = req.query.slug;
@@ -255,9 +253,7 @@ export const getRelatedProducts = catchAsyncError(async (req, res, next) => {
 
     const relatedProducts = await Products.find({
       _id: { $ne: mainProduct._id },
-      $or: [
-        { collectionId: mainProduct.collectionId }, 
-      ],
+      categoryId: mainProduct.categoryId,
     })
       .limit(8) 
       .sort({ createdAt: -1 }); 
@@ -273,7 +269,62 @@ export const getRelatedProducts = catchAsyncError(async (req, res, next) => {
   }
 });
 
+export const getProductsByCategory = catchAsyncError(async (req, res, next) => {
+  const categoryId = req.params.categoryId;
+  const page = parseInt(req.query.page) || 1;
+  const limit = 12;
 
+  try {
+
+    const category = await MidCategory.findById(categoryId);
+
+    if (!category) {
+
+      return res.status(404).json({
+        status: "fail",
+        message: "Category not found",
+      });
+    }
+
+    console.log('Found category:', category.name);
+
+    const skip = (page - 1) * limit;
+
+    const queryConditions = {
+      $or: [
+        { category: categoryId },
+        { midCategory: categoryId },
+        { categoryId: categoryId }
+      ]
+    };
+
+
+    const products = await Products.find(queryConditions)
+      .skip(skip)
+      .limit(limit)
+      .lean();
+
+
+    const totalProducts = await Products.countDocuments(queryConditions);
+    const totalPages = Math.ceil(totalProducts / limit);
+
+    res.status(200).json({
+      status: "success",
+      results: products.length,
+      currentPage: page,
+      totalPages: totalPages,
+      totalProducts: totalProducts,
+      data: products
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: "Internal server error",
+
+    });
+  }
+});
 
 export const getProductsById = async (req, res, next) => {
   const { id, slug } = req.query;
@@ -293,7 +344,8 @@ export const getProductsById = async (req, res, next) => {
       query = Products.findOne({ slug }); 
     }
 
-    query = query.populate("collectionId","_id name slug");
+    // Always populate categoryId and brandId
+    query = query.populate("categoryId","_id title slug").populate("brandId","_id name slug");
 
     const data = await query.exec();
 
@@ -338,7 +390,8 @@ export const updateProducts = catchAsyncError(async (req, res, next) => {
       // Remove image-related fields that we'll handle separately
       images: undefined,
       bannerImage: undefined,
-      existingImages: undefined
+      existingImages: undefined,
+      description: req.body.description
     };
 
     // Handle images - both existing and new
@@ -389,6 +442,47 @@ export const updateProducts = catchAsyncError(async (req, res, next) => {
       { new: true, runValidators: true }
     );
 
+    // Invalidate Redis caches for this product (by id and slug)
+    try {
+      const keysToDelete = [];
+      // old keys
+      if (currentProduct?._id) keysToDelete.push(`product:${currentProduct._id.toString()}:`);
+      if (currentProduct?.slug) keysToDelete.push(`product::${currentProduct.slug}`);
+      // new keys
+      if (updatedProduct?._id) keysToDelete.push(`product:${updatedProduct._id.toString()}:`);
+      if (updatedProduct?.slug) keysToDelete.push(`product::${updatedProduct.slug}`);
+
+      // Delete exact keys and any wildcard matches (product:*:slug and product:id:*)
+      // First try exact keys
+      const exactKeys = keysToDelete;
+      if (exactKeys.length > 0) {
+        await redisClient.unlink(exactKeys);
+      }
+
+      // Scan for wildcard patterns
+      let cursor = 0;
+      do {
+        const reply = await redisClient.scan(cursor, { MATCH: 'product:*', COUNT: 100 });
+        cursor = reply.cursor;
+        const keys = reply.keys.filter(k => {
+          const idStr = productId?.toString();
+          const oldSlug = currentProduct?.slug;
+          const newSlug = updatedProduct?.slug;
+          return (
+            (idStr && k.startsWith(`product:${idStr}:`)) ||
+            (oldSlug && k.endsWith(`:${oldSlug}`)) ||
+            (newSlug && k.endsWith(`:${newSlug}`))
+          );
+        });
+        if (keys.length > 0) {
+          await redisClient.unlink(keys);
+        }
+      } while (cursor !== 0);
+    } catch (e) {
+      // Log and continue without failing the request
+      console.error('Redis invalidation (update) failed:', e.message);
+    }
+
     res.status(200).json({
       status: "success",
       data: updatedProduct,
@@ -419,54 +513,43 @@ export const getAllProducts = catchAsyncError(async (req, res, next) => {
     const perPage = parseInt(req.query.perPage, 10) || 15;
     const skip = (page - 1) * perPage;
     const sortOption = getSortOption(req.query.sort);
-    
     let filter = {};
-    
-    // Collection/Brand filtering
-    if (req.query.collectionId) {
-      filter['collectionId'] = req.query.collectionId;
+    if (req.query.categoryId) {
+      filter['categoryId'] = req.query.categoryId;
+    } else if (req.query.categoryTitle) {
+      filter['categoryId'] = await Category.findOne({
+        title: new RegExp(req.query.categoryTitle, "i")
+      }).select('_id');
+    }
+
+    if (req.query.brandId) {
+      filter['brandId'] = req.query.brandId;
     } else if (req.query.brandName) {
-      filter['collectionId'] = await Collections.findOne({
+      filter['brandId'] = await Brands.findOne({
         name: new RegExp(req.query.brandName, "i")
       }).select('_id');
     }
 
-    // Name search
     if (req.query.name) {
       filter.name = new RegExp(req.query.name, "i");
     }
-
-    // Price range filtering
     if (req.query.minPrice || req.query.maxPrice) {
-      filter.actualPrice = {};
-      if (req.query.minPrice) filter.actualPrice.$gte = parseFloat(req.query.minPrice);
-      if (req.query.maxPrice) filter.actualPrice.$lte = parseFloat(req.query.maxPrice);
+      filter.price = {};
+      if (req.query.minPrice) filter.price.$gte = parseFloat(req.query.minPrice);
+      if (req.query.maxPrice) filter.price.$lte = parseFloat(req.query.maxPrice);
     }
 
-    // Color filtering (supports multiple colors)
-    if (req.query.color) {
-      const colors = Array.isArray(req.query.color) ? req.query.color : [req.query.color];
-      filter.color = { $in: colors.map(color => new RegExp(color, 'i')) };
-    }
-
-    // Material filtering
-    if (req.query.material) {
-      filter.material = new RegExp(req.query.material, 'i');
-    }
-
-    // Pattern filtering
-    if (req.query.pattern) {
-      filter.pattern = new RegExp(req.query.pattern, 'i');
-    }
-
-    // Status filtering
     if (req.query.status) {
       filter.status = req.query.status;
     }
 
     const products = await Products.find(filter)
       .populate({
-        path: "collectionId",
+        path: "categoryId",
+        select: "title slug"
+      })
+      .populate({
+        path: "brandId",
         select: "name slug"
       })
       .sort(sortOption)
@@ -484,6 +567,7 @@ export const getAllProducts = catchAsyncError(async (req, res, next) => {
         page,
         perPage,
         totalPages,
+        
       },
     });
   } catch (error) {
@@ -544,9 +628,39 @@ const getSortOption = (sort) => {
 export const deleteproductsById = async (req, res, next) => {
   const id = req.params.id;
   try {
+    const existing = await Products.findById(id);
     const delProducts = await Products.findByIdAndDelete(id);
     if (!delProducts) {
       return res.json({ status: "fail", message: "Product not Found" });
+    }
+    // Invalidate Redis caches for this product (by id and slug)
+    try {
+      const keysToDelete = [];
+      if (id) keysToDelete.push(`product:${id}:`);
+      if (existing?.slug) keysToDelete.push(`product::${existing.slug}`);
+
+      if (keysToDelete.length > 0) {
+        await redisClient.unlink(keysToDelete);
+      }
+
+      // Also scan to catch any other product cache variants
+      let cursor = 0;
+      do {
+        const reply = await redisClient.scan(cursor, { MATCH: 'product:*', COUNT: 100 });
+        cursor = reply.cursor;
+        const keys = reply.keys.filter(k => {
+          const oldSlug = existing?.slug;
+          return (
+            (id && k.startsWith(`product:${id}:`)) ||
+            (oldSlug && k.endsWith(`:${oldSlug}`))
+          );
+        });
+        if (keys.length > 0) {
+          await redisClient.unlink(keys);
+        }
+      } while (cursor !== 0);
+    } catch (e) {
+      console.error('Redis invalidation (delete) failed:', e.message);
     }
     res.json({
       status: "success",

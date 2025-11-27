@@ -1,33 +1,66 @@
 import express from "express";
+import cluster from "cluster";
+import os from "os";
 import { connectDB } from "./config/database.js";
 import ErrorMiddleware from "./middleware/Error.js";
 import cors from "cors";
+import bannerRouter from "./routes/bannerRoute.js";
 import ContactusRouter from "./routes/contactusrouter.js";
 import blogRouter from "./routes/blogRouter.js";
 import FaqRouter from "./routes/FaqRouter.js";
 import adminRoute from "./routes/AdminRouter.js";
+import subcategoryRouter from "./routes/SubCategory.js";
 import productRouter from "./routes/ProductRouter.js";
-import collectionRouter from "./routes/CollectionRouter.js";
+import brandRouter from "./routes/BrandRouter.js";
 import checkoutRouter from "./routes/CheckoutRouter.js";
 import userRoute from "./routes/userRoute.js";
+import categoryRouter from "./routes/MidCategoryRouter.js";
 import ratingRoute from "./routes/RatingRouter.js";
 import subscribeRouter from "./routes/SubscribeRouter.js";
 import requestQuoteRouter from "./routes/RequestQuote.js";
 import instantQuoteRouter from "./routes/InstantQuote.js";
 import sitemapRouter from "./routes/sitemapRouter.js";
+import { REDIS, redisClient }  from './redis_APIS/redis.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
 // SSR/Frontend imports
 import fs from 'node:fs/promises';
+
+const numCPUs = os.cpus().length;
+const isProduction = process.env.NODE_ENV === 'production';
+
+if (cluster.isPrimary) {
+  console.log(`Primary ${process.pid} is running`);
+  console.log(`Forking server for ${numCPUs} CPUs`);
+
+  // Fork workers based on CPU cores
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork();
+  }
+
+  // Handle worker exit and restart
+  cluster.on('exit', (worker, code, signal) => {
+    console.log(`Worker ${worker.process.pid} died with code: ${code}, and signal: ${signal}`);
+    console.log('Starting a new worker');
+    cluster.fork();
+  });
+
+  // Log worker online events
+  cluster.on('online', (worker) => {
+    console.log(`Worker ${worker.process.pid} is online`);
+  });
+
+} else {
+
+   // Worker process - this is where your Express app runs
+  console.log(`Worker ${process.pid} started`);
+
 
 // Connect to database
 connectDB();
 const app = express();
-
-// Static files and images
 app.use(express.static("static"));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
@@ -37,13 +70,36 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
+   
+// const redisClient = redis.createClient({
+//         socket: {
+//         host: "31.97.14.21",
+//         port: 6379,
+//     },
+//     username: "umbrella",
+//     password: "umbrella123",
+// });
+
+// redisClient.connect()
+//     .then(() => console.log("Connected to Redis"))
+//     .catch(err => console.error("Redis connection error:", err));
+
+
+
+
+app.use("/redis", REDIS);
+
+
 // Backend API routes
-app.use("/collections", collectionRouter);
+app.use("/brands", brandRouter);
 app.use("/user", userRoute);
+app.use("/banner", bannerRouter);
 app.use("/contactus", ContactusRouter);
 app.use("/blog", blogRouter);
 app.use("/faq", FaqRouter);
 app.use("/admin", adminRoute);
+app.use("/category", categoryRouter);
+app.use("/subcategory", subcategoryRouter);
 app.use("/products", productRouter);
 app.use("/checkout", checkoutRouter);
 app.use("/rating", ratingRoute);
@@ -56,12 +112,11 @@ app.use("/", sitemapRouter);
 app.get("/apis", async (req, res) => {
   res.send("App Is Running backend!");
 });
-
 // Error middleware for APIs
 app.use(ErrorMiddleware);
 
 // ================= SSR/Frontend optimization =================
-const isProduction = process.env.NODE_ENV === 'production';
+// const isProduction = process.env.NODE_ENV === 'production';
 const base = process.env.BASE || '/';
 
 // Cache for production template and render function
@@ -105,7 +160,7 @@ if (isProduction) {
   }
 }
 
-// In production, serve static files with caching headers rsdsd
+// In production, serve static files with caching headers
 if (isProduction) {
   try {
     const compression = (await import('compression')).default;
@@ -121,18 +176,60 @@ if (isProduction) {
   }
 }
 
+// Cache for rendered pages with LRU strategy
+const ssrCache = new Map();
+const CACHE_TTL = 1000 * 60 * 5; // 5 minutes cache
+const MAX_CACHE_SIZE = 100; // Limit cache size to prevent memory issues
+
+// Function to generate cache key from request
+function getCacheKey(req) {
+  return req.originalUrl;
+}
+
+// Function to clean up cache periodically
+function cleanCache() {
+  const now = Date.now();
+  for (const [key, value] of ssrCache.entries()) {
+    if (value.expiry < now) {
+      ssrCache.delete(key);
+    }
+  }
+  
+  // Enforce size limit
+  if (ssrCache.size > MAX_CACHE_SIZE) {
+    const entries = Array.from(ssrCache.entries());
+    // Remove oldest entries (first in the array)
+    for (let i = 0; i < entries.length - MAX_CACHE_SIZE; i++) {
+      ssrCache.delete(entries[i][0]);
+    }
+  }
+}
+
+setInterval(cleanCache, 60000);
 
 app.use('*', async (req, res, next) => {
   const startTime = Date.now();
-  const url = req.originalUrl.replace(base, '') || '/';
+  const url = req.originalUrl;
   
   if (url.startsWith('/api/') || 
       url.startsWith('/_vite') || 
-      url.includes('.') && !url.endsWith('/')) {
+      url.includes('.')) {
     return next();
   }
-  
 
+  if (url.length > 1 && url.endsWith('/')) {
+    const newUrl = url.slice(0, -1);
+    return res.redirect(301, newUrl);
+  }
+  // Check cache first
+  const cacheKey = getCacheKey(req);
+  const cached = ssrCache.get(cacheKey);
+  
+  if (cached && cached.expiry > Date.now()) {
+    res.set(cached.headers).status(200).send(cached.html);
+    console.log(`SSR Cache hit for ${url}: ${Date.now() - startTime}ms`);
+    return;
+  }
   
   let template, render;
   let rendered = { html: '', helmet: {}, serverData: {} };
@@ -150,15 +247,14 @@ app.use('*', async (req, res, next) => {
         render = (await vite.ssrLoadModule('../frontend/src/entry-server.jsx')).render;
       } catch (error) {
         console.error('Vite development error:', error);
-        // return sendErrorResponse(res, 'Development server error');
+        
       }
     } else if (isProduction && productionTemplate && productionRender) {
       // Production mode
       template = productionTemplate;
       render = productionRender;
     } else {
-      // Server not ready
-      // return sendErrorResponse(res, 'Server not ready yet');
+     
     }
     
     const renderPromise = render(url);
@@ -180,7 +276,13 @@ app.use('*', async (req, res, next) => {
         `<script>window.__SERVER_DATA__ = ${JSON.stringify(rendered.serverData || {})}</script>`
       );
     
-   
+    if (isProduction && res.statusCode === 200) {
+      ssrCache.set(cacheKey, {
+        html,
+        headers: { 'Content-Type': 'text/html' },
+        expiry: Date.now() + CACHE_TTL
+      });
+    }
     
     res.status(200).set({ 'Content-Type': 'text/html' }).send(html);
     console.log(`SSR completed for ${url}: ${Date.now() - startTime}ms`);
@@ -197,36 +299,18 @@ app.use('*', async (req, res, next) => {
         
         res.status(200).set({ 'Content-Type': 'text/html' }).send(fallbackHtml);
       } else {
-        // sendErrorResponse(res, 'SSR timeout and no template available');
+        
       }
     } else {
       console.error('SSR Error:', e.stack);
-      // sendErrorResponse(res, 'Server rendering error');
+     
     }
   }
 });
 
-// function sendErrorResponse(res, message) {
-//   res.status(500).send(`
-//     <!DOCTYPE html>
-//     <html>
-//       <head>
-//         <title>Error</title>
-//         <style>
-//           body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
-//           h1 { color: #d32f2f; }
-//         </style>
-//       </head>
-//       <body>
-//         <h1>Something went wrong</h1>
-//         <p>${message}</p>
-//         <p>Please try again later.</p>
-//       </body>
-//     </html>
-//   `);
-// }
-
-const PORT = process.env.PORT || 9000;
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server is running on port ${PORT} in dev mode`);
-});
+// Start server
+const PORT = process.env.PORT || 8000;
+ app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Worker ${process.pid} is running on port ${PORT} in ${isProduction ? 'production' : 'development'} mode`);
+ });
+}

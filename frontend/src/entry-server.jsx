@@ -1,66 +1,86 @@
-import { StrictMode } from 'react'
-import { renderToString } from 'react-dom/server'
-import { StaticRouter } from 'react-router-dom/server'
-import App from './App'
-
-import { HelmetProvider } from 'react-helmet-async'
-import axios from 'axios'
-import { BaseUrl } from './utils/BaseUrl'
-import { Provider } from 'react-redux'
-import { store } from './store/store'
-
+import { StrictMode } from "react";
+import { renderToString } from "react-dom/server";
+import { StaticRouter } from "react-router-dom/server";
+import App from "./App";
+import "./index.css";
+import { HelmetProvider } from "react-helmet-async";
+import axios from "axios";
+import { BaseUrl } from "./utils/BaseUrl";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
 export async function render(url) {
-  const normalizedUrl = url.startsWith('/') ? url : `/${url}`;
-  const helmetContext = {};
-  let serverData = null;
-  let CategoryProducts = null;
-  const cleanUrl = normalizedUrl.endsWith('/')
+  const normalizedUrl = url.startsWith("/") ? url : `/${url}`;
+  const cleanUrl = normalizedUrl.endsWith("/")
     ? normalizedUrl.slice(0, -1)
     : normalizedUrl;
 
   // Remove query parameters
-  const baseUrl = cleanUrl.split('?')[0];
-  try {
-    if (baseUrl.startsWith('/collections/')) {
-      const slug = baseUrl.split('/')[2];
-      const response = await axios.get(`${BaseUrl}/collections/get?slug=${slug}`);
-      serverData = response?.data?.data;
+  const baseUrl = cleanUrl.split("?")[0];
+  const helmetContext = {};
+  let serverData = null;
+  let CategoryProducts = null;
 
-    } else if (baseUrl.split('/').length === 2 && baseUrl !== '/') {
-      const slug = baseUrl.split('/')[1];
-      const response = await axios.get(`${BaseUrl}/products/get?slug=${slug}`);
-      serverData = response?.data?.data;
-    } else if (baseUrl.startsWith('/blog/')) {
-      const slug = baseUrl.split('/')[2];
-      const response = await axios.get(`${BaseUrl}/blog/get?slug=${slug}`);
-      serverData = response?.data?.data;
+  try {
+    if (baseUrl.startsWith("/category/")) {
+      // Handle category route
+      const slug = baseUrl.split("/")[2];
+      const { data } = await axios.get(`${BaseUrl}/brands/get?slug=${slug}`);
+      serverData = data?.data;
+
+    } else if (baseUrl.startsWith("/sub-category/")) {
+      // Handle sub-category route
+      const slug = baseUrl.split("/")[2];
+      const { data } = await axios.get(`${BaseUrl}/redis/category/get?slug=${slug}`);
+      serverData = data?.data;
+
+      if (serverData?._id) {
+        const { data: productData } = await axios.get(
+          `${BaseUrl}/products/categoryProducts/${serverData._id}`
+        );
+        CategoryProducts = productData?.data;
+      }
+
+    } else if (baseUrl.split("/").length === 2 && baseUrl !== "/") {
+      // Handle product route
+      const slug = baseUrl.split("/")[1];
+      const { data } = await axios.get(`${BaseUrl}/products/get?slug=${slug}`);
+      serverData = data?.data;
+
+    } else if (baseUrl.startsWith("/blog/")) {
+      // Handle blog route
+      const slug = baseUrl.split("/")[2];
+      const { data } = await axios.get(`${BaseUrl}/blog/get?slug=${slug}`);
+      serverData = data?.data;
     }
   } catch (err) {
+    // On error → noindex meta
     helmetContext.helmet = {
-      meta: { toString: () => '<meta name="robots" content="noindex" />' }
+      meta: { toString: () => `<meta name="robots" content="noindex nofollow" />` },
     };
   }
+
+  // Render app
   const appHtml = renderToString(
-    <>
-    <HelmetProvider context={helmetContext}>
-      <Provider store={store}>
-        <StaticRouter location={normalizedUrl}>
-          <App serverData={serverData} CategoryProducts={CategoryProducts} />
-        </StaticRouter>
-      </Provider>
-    </HelmetProvider>
-  </>
+    <StrictMode>
+      <HelmetProvider context={helmetContext}>
+        <Provider store={store}>
+          <StaticRouter location={normalizedUrl}>
+            <App serverData={serverData} CategoryProducts={CategoryProducts} />
+          </StaticRouter>
+        </Provider>
+      </HelmetProvider>
+    </StrictMode>
   );
-  const { helmet } = helmetContext
+
+  const { helmet } = helmetContext;
 
   return {
     html: appHtml,
     helmet: {
-      title: helmet?.title?.toString() || '',
-      meta: helmet?.meta?.toString() || '',
-      link: helmet?.link?.toString() || '',
-      script: helmet?.script?.toString() || '',
+      title: helmet?.title?.toString() || "",
+      meta: helmet?.meta?.toString() || "",
+      link: helmet?.link?.toString() || "",
+      script: helmet?.script?.toString() || "",
     },
-    
   };
 }
