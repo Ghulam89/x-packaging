@@ -1,321 +1,260 @@
-import React, { memo, useState } from 'react';
+import React from 'react'
 import { Link } from 'react-router-dom'
-import { FaWhatsapp } from 'react-icons/fa';
+import logo from '../../assets/images/brand/logo.png';
+import { FaFacebookSquare, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
+import { RiInstagramLine } from 'react-icons/ri';
+import { IoLogoYoutube } from 'react-icons/io';
+import img1 from '../../assets/images/footer/google-reviws-logo.webp';
+import img2 from '../../assets/images/footer/Trustpilot_logo.png';
+import img3 from '../../assets/images/footer/reviews-io-logo.webp';
+import img4 from '../../assets/images/footer/fedex.png';
+import img5 from '../../assets/images/footer/dhl.png';
+import img6 from '../../assets/images/footer/United_States_Postal_Service.png';
 import { IoCallOutline, IoLocationOutline } from 'react-icons/io5';
-import google from '../../assets/images/footer/google-reviws-logo.webp';
-import trust from '../../assets/images/footer/trust-index.jpg';
-import trustpilot from '../../assets/images/footer/Trustpilot_logo.png';
-import sitejabber from '../../assets/images/footer/sitejabber.jpg';
-import social from '../../assets/images/footer/bank-icons.webp';
-import Input from '../common/Input';
-import Button from '../common/Button';
-import Partners from './Partners';
-import { BaseUrl } from '../../utils/BaseUrl';
-import { toast } from 'react-toastify';
-import axios from 'axios';
-import { logo } from '../../assets';
-import { prefetchSubCategory } from '../../utils/prefetchUtils';
-import discover from '../../assets/images/discover.png'
-import american from '../../assets/images/emrican-expreess.png'
-import bankTranfer from '../../assets/images/ebank-transfer.png'
-import masterCard from '../../assets/images/master-card.png'
-import paypal from '../../assets/images/paypal.png'
-import wireTransfer from '../../assets/images/wire-transfer.png'
-import maestro from '../../assets/images/mastro.png'
-import visa from '../../assets/images/visa.png'
-
 const Footer = () => {
-const images = [discover, american, bankTranfer, masterCard, paypal, wireTransfer, maestro, visa]
+  return (
+    <div className=''>
 
-    const [email, setEmail] = useState('');
-    const [loading, setLoading] = useState(false);
+    <div className=' sm:max-w-7xl max-w-[95%] mx-auto'>
+    <div  className=''>
+     <div  className=' flex sm:flex-row flex-col border-b gap-1.5 border-gray-200 justify-between pb-10 sm:pt-10 pt-0'>
+        <div className=' sm:w-4/12 w-12/12'>
+          <img src={logo} alt='' className=' w-[300px]' />
+          <p className=' text-[#213554] pt-1.5'>We offer Packaging Boxes delivered to your door. Secure, professional, and affordable, our custom made packaging boxes are guaranteed to protect and transport your valuable items. Our devoted team is always there to serve you.</p>
+        </div>
+        <div className=' sm:w-7/12 w-full text-center'>
+           <h2 className=''>Need Quick Assistance? Get In Touch</h2>
+           <Link className=' flex  pt-2 items-center justify-center'>
+           <IoCallOutline size={40} className='' /> 
+                <h1>747-247-0456</h1>
+            </Link>
+            <div className=' pt-5'>
+                <ul className=' flex flex-wrap gap-4 items-center justify-center '>
+                    <li >
+                       <Link className=' flex  gap-2 items-center'>
+                       <FaWhatsapp size={25} />
+                        <p className='text-lg'>747-247-0456</p>
+                       </Link>
+                    
+                    </li>
+                    <li >
+                        <Link className=' flex  gap-2 items-center'>
+                        <svg width={20} aria-hidden="true" class="e-font-icon-svg e-fab-skype" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M424.7 299.8c2.9-14 4.7-28.9 4.7-43.8 0-113.5-91.9-205.3-205.3-205.3-14.9 0-29.7 1.7-43.8 4.7C161.3 40.7 137.7 32 112 32 50.2 32 0 82.2 0 144c0 25.7 8.7 49.3 23.3 68.2-2.9 14-4.7 28.9-4.7 43.8 0 113.5 91.9 205.3 205.3 205.3 14.9 0 29.7-1.7 43.8-4.7 19 14.6 42.6 23.3 68.2 23.3 61.8 0 112-50.2 112-112 .1-25.6-8.6-49.2-23.2-68.1zm-194.6 91.5c-65.6 0-120.5-29.2-120.5-65 0-16 9-30.6 29.5-30.6 31.2 0 34.1 44.9 88.1 44.9 25.7 0 42.3-11.4 42.3-26.3 0-18.7-16-21.6-42-28-62.5-15.4-117.8-22-117.8-87.2 0-59.2 58.6-81.1 109.1-81.1 55.1 0 110.8 21.9 110.8 55.4 0 16.9-11.4 31.8-30.3 31.8-28.3 0-29.2-33.5-75-33.5-25.7 0-42 7-42 22.5 0 19.8 20.8 21.8 69.1 33 41.4 9.3 90.7 26.8 90.7 77.6 0 59.1-57.1 86.5-112 86.5z"></path></svg>
+                        <p className='text-lg'>747-247-0456</p>
+                        </Link>
+                  
+                    </li>
+                    <li className=' flex  gap-2 items-center'>
 
-    const handleSubscribe = async (e) => {
-        e.preventDefault();
-        if (!/\S+@\S+\.\S+/.test(email)) {
-            toast.error('Please enter a valid email address');
-            return;
-        }
-
-        setLoading(true);
-        try {
-            const response = await axios.post(`${BaseUrl}/subscribe/create`, {
-                email: email
-            });
-
-            if (response.data.status === "success") {
-                toast.success(response.data.message);
-                setEmail('');
-            } else {
-                toast.error(response.data.message);
-            }
-        } catch (error) {
-
-            toast.error(error.response?.data?.message);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-
-    return (
-        <div className=' bg-[#F7F7F7] pt-4'>
-
-            <div className=' sm:max-w-6xl max-w-[95%] mx-auto'>
-                <div className=''>
-                    <div className=' flex sm:flex-row   flex-col border-b gap-1.5 border-gray-500 justify-between pb-10 sm:pt-10 pt-0'>
-                        <div className=' sm:w-4/12 w-12/12'>
-                            <Link to={'/'} aria-label="Visit Umbrella Packaging">
-                                <img src={logo} alt='' className=' w-36' />
-                            </Link>
-
-                            <p className=' text-[#213554] pt-1.5'>We offer Packaging Boxes delivered to your door. Secure, professional, and affordable, our custom made packaging boxes are guaranteed to protect and transport your valuable items. Our devoted team is always there to serve you.</p>
-                        </div>
-                        <div className=' sm:w-7/12 w-full text-center'>
-                            <h2 className="sm:text-[38px] text-[25px]     font-sans   font-[700] text-[#333333]">Need Quick Assistance? Get In Touch</h2>
-                            <Link  to={'tel:+1%20747-247-0456'} className=' flex  pt-2 items-center justify-center'>
-                                <IoCallOutline size={40} className='' />
-                                <h2 className="sm:text-[50px] text-[25px]     font-sans   font-[800] text-[#333333]">747-247-0456</h2>
-                            </Link>
-                            <div className=' pt-5'>
-                                <ul className=' flex flex-wrap gap-5 items-center justify-center '>
-                                    <li >
-                                        <Link to="https://wa.me/17472470456" target="_blank" rel="noopener noreferrer" className=' flex  gap-2 items-center'>
-                                            <FaWhatsapp size={22} />
-                                            <p className=' text-gray-700 text-base'>747-247-0456</p>
-                                        </Link>
-
-                                    </li>
-                                    <li >
-                                        <Link to="https://join.skype.com/invite/YOUR_SKYPE_ID" target="_blank" rel="noopener noreferrer" className=' flex  gap-2 items-center'>
-                                            <svg width={20} aria-hidden="true" className="e-font-icon-svg e-fab-skype" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M424.7 299.8c2.9-14 4.7-28.9 4.7-43.8 0-113.5-91.9-205.3-205.3-205.3-14.9 0-29.7 1.7-43.8 4.7C161.3 40.7 137.7 32 112 32 50.2 32 0 82.2 0 144c0 25.7 8.7 49.3 23.3 68.2-2.9 14-4.7 28.9-4.7 43.8 0 113.5 91.9 205.3 205.3 205.3 14.9 0 29.7-1.7 43.8-4.7 19 14.6 42.6 23.3 68.2 23.3 61.8 0 112-50.2 112-112 .1-25.6-8.6-49.2-23.2-68.1zm-194.6 91.5c-65.6 0-120.5-29.2-120.5-65 0-16 9-30.6 29.5-30.6 31.2 0 34.1 44.9 88.1 44.9 25.7 0 42.3-11.4 42.3-26.3 0-18.7-16-21.6-42-28-62.5-15.4-117.8-22-117.8-87.2 0-59.2 58.6-81.1 109.1-81.1 55.1 0 110.8 21.9 110.8 55.4 0 16.9-11.4 31.8-30.3 31.8-28.3 0-29.2-33.5-75-33.5-25.7 0-42 7-42 22.5 0 19.8 20.8 21.8 69.1 33 41.4 9.3 90.7 26.8 90.7 77.6 0 59.1-57.1 86.5-112 86.5z"></path></svg>
-                                            <p className=' text-gray-700 text-base'>747-247-0456</p>
-                                        </Link>
-
-                                    </li>
-                                    <li className=' flex   gap-2 items-center'>
-                                        <Link to={'mailto:sales@umbrellapackaging.com'} className=' flex gap-1.5'>
-                                            <svg width={22} xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 122.88 81.51"><path className="cls-1" d="M122.88,58.27l-23,23.24V69.93c-14.54-3-26,.31-34.76,11.37,1.51-22.75,17.06-33.73,34.76-34.46V35l23,23.23ZM6.68,0h93.6a6.54,6.54,0,0,1,2.54.51A6.72,6.72,0,0,1,105,2a6.65,6.65,0,0,1,2,4.72V26.4a.62.62,0,0,1-.62.62.66.66,0,0,1-.48-.22,9.31,9.31,0,0,0-2-1.61,9.77,9.77,0,0,0-2.36-1,.63.63,0,0,1-.45-.59V9.86L70.92,35.55l5.49,5.76a.63.63,0,0,1,0,.87l-.16.1c-.68.37-1.36.75-2,1.15s-1.32.82-2,1.26a.61.61,0,0,1-.82-.12l-5-5.21-10.21,8.7a2.92,2.92,0,0,1-3.76,0L41.72,39.34,9.35,71.8H52.93a.61.61,0,0,1,.62.61l0,.19c-.17.74-.33,1.48-.47,2.22v0c-.14.73-.27,1.51-.39,2.32a.62.62,0,0,1-.61.52H6.68a6.59,6.59,0,0,1-2.55-.51A6.83,6.83,0,0,1,2,75.72,6.72,6.72,0,0,1,.51,73.55v0A6.57,6.57,0,0,1,0,71V6.68A6.63,6.63,0,0,1,.51,4.13,6.83,6.83,0,0,1,2,2,6.94,6.94,0,0,1,4.13.51,6.59,6.59,0,0,1,6.68,0ZM5.89,67,37.15,35.61,5.89,10.12V67ZM10,5.89,54.29,42,96.69,5.89Z"></path></svg>
-                                            <p className=' text-gray-700 text-base'>sales@umbrellapackaging.com</p>
-                                        </Link>
-
-                                    </li>
-                                </ul>
-                                <ul>
-                                    <li className=' flex  gap-2 justify-center pt-2.5 items-center'>
-                                    <Link to={'https://maps.app.goo.gl/FCBPReqBvveR9ox96'} className=' flex   gap-1.5'>
-                                        <IoLocationOutline size={25} />
-                                        <p className=' text-base text-gray-700'>9854 National Blvd # 1042 Los Angeles, CA 90034 USA</p>
-                                    </Link>
-
-                                </li>
-                                  <li className=' flex  gap-2 justify-center pt-2.5 items-center'>
-                                    <Link to={'https://goo.gl/maps/v4gh8SA8wXSMuJYN9?coh=178572&entry=tt'} className=' flex   gap-1.5'>
-                                        <IoLocationOutline size={25} />
-                                        <p className=' text-base text-gray-700'>7211 Regency Square Blvd, Suite 202, Houston TX 77036</p>
-                                    </Link>
-
-                                </li>
-                                </ul>
-                            </div>
-
-                        </div>
-                        <div>
-
-                        </div>
-                    </div>
-                    <div className=' sm:pt-8 sm:gap-12  gap-7  pt-4 grid md:grid-cols-5 grid-cols-2'>
-                         <div className="col-span-2 order-4 md:order-1">
-                            <Partners />
-                            <div className=' bg-white h-56  rounded-md flex   justify-center w-full items-center' >
-                                <div className=' grid   py-5 grid-cols-2 gap-6 w-full'>
-                                    <Link to={'https://www.google.com/search?q=Umbrella+Packaging&sca_esv=595745443&rlz=1C1CHBD_enPK1075PK1075&sxsrf=AM9HkKnBl0W9ivYXDrDVqm1eeUaJMzvaUQ%3A1704396144882&ei=cAWXZdq9NZDii-gPp4yrgAE&ved=0ahUKEwjatZa2usSDAxUQ8QIHHSfGChAQ4dUDCBA&uact=5&oq=Umbrella+Packaging&gs_lp=Egxnd3Mtd2l6LXNlcnAiElVtYnJlbGxhIFBhY2thZ2luZzIHECMYsAIYJzIHECMYsAIYJzIHECMYsAIYJzIHEAAYgAQYDTIHEAAYgAQYDTIGEAAYHhgNMggQABgFGB4YDTIIEAAYBRgeGA0yCBAAGAgYHhgNMggQABgIGB4YDUiZQVDqBVjyPnACeAGQAQCYAb8DoAGrEKoBBTMtNS4xuAEDyAEA-AEBwgIKEAAYRxjWBBiwA8ICChAAGAgYHhgNGA_CAgsQABiABBiKBRiGA8ICBBAjGCfCAgoQIxiABBiKBRgnwgIGEAAYBxgewgIFEAAYgATCAgQQABgewgIGEAAYBRgewgIGEAAYCBge4gMEGAAgQYgGAZAGCA&sclient=gws-wiz-serp'} className=' flex justify-center w-full items-center' aria-label="Visit Umbrella Packaging in Google">
-                                        <img src={google} alt='' className=' w-28' />
-                                    </Link>
-                                    <Link to={'https://www.trustindex.io/reviews/www.umbrellapackaging.com?lang=ko'} className=' flex justify-center items-center' aria-label="Visit Umbrella Packaging in Trustindex">
-                                        <img src={trust} alt='' className=' w-36' />
-                                    </Link>
-                                    <Link to={'https://www.trustpilot.com/review/umbrellapackaging.com?utm_medium=trustbox&utm_source=MicroReviewCount'} className=' flex justify-center items-center' aria-label="Visit Umbrella Packaging in Trustpilot">
-                                        <img src={trustpilot} alt='' className=' w-36' />
-                                    </Link>
-                                    <Link to={'https://www.sitejabber.com/reviews/umbrellapackaging.com'} className=' flex justify-center items-center' aria-label="Visit Umbrella Packaging in Sitejabber">
-                                        <img src={sitejabber} alt='' className=' w-36' />
-                                    </Link>
-                                </div>
-
-                            </div>
-                        </div>
-                          <div className="order-1 md:order-2">
-                            <strong className='  text-lg '>Quick Links</strong>
-                            <ul className=' pt-3 leading-8'>
-                                <li>
-                                    <Link to={'/'} className='  text-[#2e2d2d]'>Home</Link>
-                                </li>
-                                <li>
-                                    <Link to={'/shop'} className='  text-[#2e2d2d]'>Shop</Link>
-                                </li>
-                                <li>
-                                    <Link to={'/get-custom-quote'} className='  text-[#2e2d2d]'>Get A Quote</Link>
-                                </li>
-                                <li>
-                                    <Link to={'/contact-us'} className='  text-[#2e2d2d]'>Order Sample Kit</Link>
-                                </li>
-                                <li>
-                                    <Link to={'/dielines'} className='  text-[#2e2d2d]'>Get Custom Template</Link>
-                                </li>
-                                <li>
-                                    <Link to={'/reviews'} className='  text-[#2e2d2d]'>Customer Reviews</Link>
-                                </li>
-                                <li>
-                                    <Link to={'/target-price'} className='  text-[#2e2d2d]'>Beat My Quote</Link>
-                                </li>
-                            </ul>
-                        </div>
-                      <div className="order-2 md:order-3">
-                            <strong className='  text-lg '>Useful Links</strong>
-                            <ul className=' pt-3 leading-8'>
-                                <li>
-                                    <Link 
-                                        to={'/sub-category/custom-cardboard-boxes'} 
-                                        className='  text-[#2e2d2d]'
-                                        onMouseEnter={() => prefetchSubCategory('custom-cardboard-boxes')}
-                                        onMouseDown={() => prefetchSubCategory('custom-cardboard-boxes', true)}
-                                    >Cardboard Boxes</Link>
-                                </li>
-                                <li>
-                                    <Link 
-                                        to={'/sub-category/custom-corrugated-boxes'} 
-                                        className='  text-[#2e2d2d]'
-                                        onMouseEnter={() => prefetchSubCategory('custom-corrugated-boxes')}
-                                        onMouseDown={() => prefetchSubCategory('custom-corrugated-boxes', true)}
-                                    >Corrugated Boxes</Link>
-                                </li>
-                                <li>
-                                    <Link 
-                                        to={'/sub-category/kraft-packaging-boxes'} 
-                                        className='  text-[#2e2d2d]'
-                                        onMouseEnter={() => prefetchSubCategory('kraft-packaging-boxes')}
-                                        onMouseDown={() => prefetchSubCategory('kraft-packaging-boxes', true)}
-                                    >Karft Boxes</Link>
-                                </li>
-                                <li>
-                                    <Link 
-                                        to={'/sub-category/custom-rigid-boxes'} 
-                                        className='  text-[#2e2d2d]'
-                                        onMouseEnter={() => prefetchSubCategory('custom-rigid-boxes')}
-                                        onMouseDown={() => prefetchSubCategory('custom-rigid-boxes', true)}
-                                    >Rigid Boxes</Link>
-                                </li>
-                                <li>
-                                    <Link 
-                                        to={'/sub-category/custom-laminated-boxes'} 
-                                        className='  text-[#2e2d2d]'
-                                        onMouseEnter={() => prefetchSubCategory('custom-laminated-boxes')}
-                                        onMouseDown={() => prefetchSubCategory('custom-laminated-boxes', true)}
-                                    >Laminated Boxes</Link>
-                                </li>
-                                <li>
-                                    <Link 
-                                        to={'/sub-category/custom-textured-boxes'} 
-                                        className='  text-[#2e2d2d]'
-                                        onMouseEnter={() => prefetchSubCategory('custom-textured-boxes')}
-                                        onMouseDown={() => prefetchSubCategory('custom-textured-boxes', true)}
-                                    >Textured Boxes</Link>
-                                </li>
-                                <li>
-                                    <Link 
-                                        to={'/sub-category/cbd-packaging-boxes'} 
-                                        className='  text-[#2e2d2d] '
-                                        onMouseEnter={() => prefetchSubCategory('cbd-packaging-boxes')}
-                                        onMouseDown={() => prefetchSubCategory('cbd-packaging-boxes', true)}
-                                    >CBD Packaging</Link>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="order-3 md:order-4">
-                            <strong className='  text-lg '>About</strong>
-                            <ul className=' pt-3 leading-8'>
-                                <li>
-                                    <Link to={'/about-us'} className='  text-[#2e2d2d]'>About us</Link>
-                                </li>
-                                <li>
-                                    <Link to={'/privacy-policy'} className='  text-[#2e2d2d]'>Privacy Policy</Link>
-                                </li>
-                                <li>
-                                    <Link to={'/terms-and-conditions'} className='  text-[#2e2d2d]'>Terms And Conditions</Link>
-                                </li>
-                                <li>
-                                    <Link to={'/returns-refunds'} className='  text-[#2e2d2d]'>RETURNS & REFUNDS</Link>
-                                </li>
-                                <li>
-                                    <Link to={'/shipping-policy'} className='  text-[#2e2d2d]'>Shipping Policy</Link>
-                                </li>
-                                <li>
-                                    <Link to={'/blogs'} className='  text-[#2e2d2d]'>Blog</Link>
-                                </li>
-                                <li>
-                                    <Link to={'/faqs'} className='  text-[#2e2d2d] '>FAQs</Link>
-                                </li>
-                                <li>
-                                    <Link to={'/contact-us'} className='  text-[#2e2d2d] '>Contact us</Link>
-                                </li>
-                            </ul>
-                        </div>
-
-                    </div>
-
-
-                    <div className=' flex sm:flex-row flex-col py-5 justify-between items-end'>
-
-                        <div className=' sm:w-5/12 w-full'>
-                            <label className=''>Get More Update Join Our Newsletters:</label>
-
-                            <form onSubmit={handleSubscribe}>
-                                <div className='pt-3 flex sm:flex-row flex-col gap-3'>
-                                    <Input
-                                        placeholder={'Enter Your Email Here'}
-                                        className={'border border-black w-full py-1.5 rounded-sm bg-white placeholder:text-gray-600'}
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        type="email"
-                                        required
-                                    />
-                                    <Button
-                                        label={loading ? 'Submitting...' : 'Submit'}
-                                        className='text-white md:mb-0 mb-2 rounded-md bg-[#4440E6]'
-                                        type="submit"
-                                        disabled={loading}
-                                    />
-                                </div>
-                            </form>
-                        </div>
-                        <div className=' sm:w-7/12 w-full'>
-                            <div className=' flex sm:flex-row items-center flex-col  justify-between'>
-                                 <div className=' flex gap-2  flex-wrap justify-center items-center'>
-          {images.map((image, index) => (
-            <div key={index} >
-
-              <img src={image} width={50} alt=""  className={`transition-all duration-300 ease-in-out`} /></div>
-
-          ))}
-
+                    <svg width={25} xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 122.88 81.51"><path class="cls-1" d="M122.88,58.27l-23,23.24V69.93c-14.54-3-26,.31-34.76,11.37,1.51-22.75,17.06-33.73,34.76-34.46V35l23,23.23ZM6.68,0h93.6a6.54,6.54,0,0,1,2.54.51A6.72,6.72,0,0,1,105,2a6.65,6.65,0,0,1,2,4.72V26.4a.62.62,0,0,1-.62.62.66.66,0,0,1-.48-.22,9.31,9.31,0,0,0-2-1.61,9.77,9.77,0,0,0-2.36-1,.63.63,0,0,1-.45-.59V9.86L70.92,35.55l5.49,5.76a.63.63,0,0,1,0,.87l-.16.1c-.68.37-1.36.75-2,1.15s-1.32.82-2,1.26a.61.61,0,0,1-.82-.12l-5-5.21-10.21,8.7a2.92,2.92,0,0,1-3.76,0L41.72,39.34,9.35,71.8H52.93a.61.61,0,0,1,.62.61l0,.19c-.17.74-.33,1.48-.47,2.22v0c-.14.73-.27,1.51-.39,2.32a.62.62,0,0,1-.61.52H6.68a6.59,6.59,0,0,1-2.55-.51A6.83,6.83,0,0,1,2,75.72,6.72,6.72,0,0,1,.51,73.55v0A6.57,6.57,0,0,1,0,71V6.68A6.63,6.63,0,0,1,.51,4.13,6.83,6.83,0,0,1,2,2,6.94,6.94,0,0,1,4.13.51,6.59,6.59,0,0,1,6.68,0ZM5.89,67,37.15,35.61,5.89,10.12V67ZM10,5.89,54.29,42,96.69,5.89Z"></path></svg>
+                        <p className=' text-lg'>sales@x-packaging.com</p>
+                    </li>
+                </ul>
+                <li className=' flex  gap-2 justify-center pt-2.5 items-center'>
+                    <Link className=' flex gap-1.5'>
+                    <IoLocationOutline size={25} />
+                        <p className=' text-lg'>9854 National Blvd # 1042 Los Angeles, CA 90034 USA</p>
+                    </Link>
+                
+                    </li>
+            </div>
 
         </div>
-                                <p className=' text-sm font-semibold'>Our Secure Payment Modes</p>
-                            </div>
+        <div>
+            
+        </div>
+    </div>   
+    <div className=' sm:py-8  py-4 grid md:grid-cols-5 grid-cols-2'>
+     <div className=''>
+        <h6 className=' uppercase text-lg text-[#EE334B]'>Company</h6>
+        <ul className=' pt-1.5'>
+            <li>
+                <Link to={'#'} className=' font-semibold'>About Us</Link>
+            </li>
+            <li>
+                <Link to={'#'} className=' font-semibold'>Terms & Conditions</Link>
+            </li>
+            <li>
+                <Link to={'#'} className=' font-semibold'>Refund / Cancellation Policy</Link>
+            </li>
+            <li>
+                <Link to={'#'} className=' font-semibold'>Shipping Policy</Link>
+            </li>
+            <li>
+                <Link to={'#'} className=' font-semibold'>Bulk Order</Link>
+            </li>
+        </ul>
+    </div>
+    <div className=''>
+        <h6  className=' uppercase text-lg text-[#EE334B]'>Products Packaging</h6>
+        <ul  className=' pt-1.5'>
+            <li>
+                <Link to={'#'} className=' font-semibold'>Mailer Boxes</Link>
+            </li>
+            <li>
+                <Link to={'#'} className=' font-semibold'>Rigid Boxes</Link>
+            </li>
+            <li>
+                <Link to={'#'} className=' font-semibold'>Kraft Boxes</Link>
+            </li>
+            <li>
+                <Link to={'#'} className=' font-semibold'>Cardboard Boxes</Link>
+            </li>
+            <li>
+                <Link to={'#'} className=' font-semibold'>Sustainable Packaging</Link>
+            </li>
+            <li>
+                <Link to={'#'} className=' font-semibold'>Product Boxes</Link>
+            </li>
+        </ul>
+    </div>  
 
-                        </div>
-                    </div>
+    <div className=''>
+        <h6  className=' uppercase text-lg text-[#EE334B]'>Packaging Styles</h6>
+        <ul className=' pt-1.5'>
+            <li>
+                <Link to={'#'} className=' font-semibold'>Sleeve and Tray</Link>
+            </li>
+            <li>
+                <Link to={'#'} className=' font-semibold'>Die Cut Boxes</Link>
+            </li>
+            <li>
+                <Link to={'#'} className=' font-semibold'>Cigarette Boxes</Link>
+            </li>
+            <li>
+                <Link to={'#'} className=' font-semibold'>Child Resistant Boxes</Link>
+            </li>
+            <li>
+                <Link to={'#'} className=' font-semibold'>Window Boxes</Link>
+            </li>
+            <li>
+                <Link to={'#'} className=' font-semibold'>Gable Boxes</Link>
+            </li>
+        </ul>
+    </div>  
+    <div className=''>
+        <h6  className=' uppercase text-lg text-[#EE334B]'>Inspiration</h6>
+        <ul className=' pt-1.5'>
+            <li>
+                <Link to={'#'} className=' font-semibold'>Blog</Link>
+            </li>
+            <li>
+                <Link to={'#'} className=' font-semibold'>Client Success Stories</Link>
+            </li>
+            <li>
+                <Link to={'#'} className=' font-semibold'>Materials</Link>
+            </li>
+           
+        </ul>
+    </div> 
+    <div className=''>
+        <h6  className=' uppercase text-lg text-[#EE334B]'>Contact Us</h6>
+        <ul className=' pt-1.5'>
+            <li>
+                <Link to={'#'} className=' font-semibold'>866-255-2112</Link>
+            </li>
+            <li>
+                <Link to={'#'} className=' font-semibold'>orders@halfpricepackaging.com</Link>
+            </li>
+            <li>
+                <Link to={'#'} className=' font-semibold'>Contact Us</Link>
+            </li>
+           
+        </ul>
+    </div> 
+    </div>
 
-                </div>
-
-
-            </div>
-            <div className=' bg-white flex justify-center py-1'>
-                <p className=' text-gray-800'>© 2025 Umbrella Packaging All rights reserved.</p>
+    <div  className=' flex sm:flex-row gap-2.5 flex-col justify-between border-t border-gray-200 items-center py-4'>
+        <div className=' sm:w-6/12 w-full'>
+         <h5 className=' uppercase font-bold'>WHERE WE'RE TRUSTED</h5>
+          <ul className=' flex items-center gap-5'>
+            <li>
+            <img  src={img1} alt='' className=' w-24' />
+            </li>
+            <li>
+            <img  src={img2} alt='' className=' w-32' />
+            </li>
+            <li>
+            <img  src={img3} alt='' className=' w-32' />
+            </li>
+          </ul>
+        </div>
+        <div className=' sm:w-6/12 w-full flex sm:justify-end justify-start'>
+            <div>
+            <h5 className=' uppercase font-bold'>Our Logistics Partners</h5>
+            <ul className=' flex  items-center gap-2 pt-2'>
+                <li>
+                    <img  src={img4} className=' w-32' alt='' />
+                </li>
+                <li>
+                    <img  src={img5} className=' w-32' alt='' />
+                </li>
+                <li>
+                    <img  src={img6} className=' w-32' alt='' />
+                </li>
+            </ul>
             </div>
         </div>
-    )
+        <div>
+
+        </div>
+    </div>
+
+
+    </div>
+
+    {/* bottom footer */}
+    <div  className=' py-2 border-gray-200 border-t'>
+    <div className=' flex sm:flex-row flex-col gap-2 justify-between items-center'>
+
+<div className=' flex  items-end'>
+   <div>
+   <img  src={logo}  className=' w-[200px]' />
+   </div>
+   <div className=' flex items-center gap-2'>
+      <Link to={'#'}>
+      <FaFacebookSquare className=' text-gray-400' size={20} />
+      </Link>
+      <Link to={'#'}>
+      <FaXTwitter   className=' text-gray-400' size={20} />
+      </Link>
+      <Link to={'#'}>
+      <RiInstagramLine  className=' text-gray-400' size={20} />
+      </Link>
+      <Link to={'#'}>
+      <FaLinkedin  className=' text-gray-400' size={20} />
+      </Link>
+      <Link to={'#'}>
+      <IoLogoYoutube  className=' text-gray-400' size={25} />
+      </Link>
+    
+   </div>
+</div>
+<div>
+    <ul className=' flex flex-wrap  sm:justify-start justify-between  items-center  gap-3'>
+        <li className=' text-sm'>
+        © Half Price Packaging 2025
+        </li>
+        <li>
+          <Link to={''} className=' font-semibold'>
+          Terms & Conditions
+          </Link>
+        </li>
+        <li>
+          <Link to={''} className=' font-semibold'>
+          Privacy Policy
+          </Link>
+        </li>
+    </ul>
+</div>
+</div>
+    </div>
+     
+    </div>
+     
+    </div>
+  )
 }
 
-export default React.memo(Footer)
+export default Footer

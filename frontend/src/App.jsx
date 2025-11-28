@@ -29,10 +29,9 @@ function App({ serverData, CategoryProducts }) {
           />
           <TopNav />
           <Navbar />
-           {/* sds */}
-         <Suspense fallback={<div className="page-loader" />}>
+          
            {element}
-         </Suspense>
+         
        <Footer />
     </>
   );

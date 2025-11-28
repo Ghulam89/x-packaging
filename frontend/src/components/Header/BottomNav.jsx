@@ -1,58 +1,126 @@
-import React, { useEffect, useState } from "react";
-import { FaAngleDown, FaTimes } from "react-icons/fa";
-import { Link, NavLink, useLocation } from "react-router-dom";
-import axios from "axios";
-import { BaseUrl } from "../../utils/BaseUrl";
-import BrandsData from "../../api/BrandsData";
-import { logo } from "../../assets";
-import { prefetchSubCategory } from "../../utils/prefetchUtils";
+import React, { useState } from "react";
+import { FaAngleDown, FaAngleRight, FaBed } from "react-icons/fa";
+import { MdOutdoorGrill } from "react-icons/md";
+import { TbToolsKitchen3 } from "react-icons/tb";
+import { Link } from "react-router-dom";
+import { LiaAngleRightSolid } from "react-icons/lia";
+import logo from '../../assets/images/brand/logo.png';
+import Button from "../common/Button";
 
-const BottomNav = React.memo(({ Menu, OpenMenu, setCategoriesLoaded }) => {
+const BottomNav = ({ Menu, OpenMenu }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [hoveredCategory, setHoveredCategory] = useState(null);
-  const [allCategories, setAllCategories] = useState([]);
-  const [mobileSubmenu, setMobileSubmenu] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const location = useLocation();
 
-  useEffect(() => {
-    // Load categories immediately but don't block rendering
-    // Use fallback data first, then update when API responds
-    setAllCategories(BrandsData);
-    setCategoriesLoaded(true); // Allow menu to work with fallback data
-    
-    const fetchCategories = async () => {
-      try {
-        // Fetch in background without blocking
-        const response = await axios.get(`${BaseUrl}/brands/getAll`, {
-          timeout: 5000 // 5 second timeout
-        });
-        if (response?.data?.data?.length) {
-          setAllCategories(response.data.data);
-        }
-      } catch (error) {
-        // Silently fail - already using fallback data
-        console.error('Category fetch failed, using fallback:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    // Defer API call slightly to not block initial render
-    setTimeout(() => {
-      fetchCategories();
-    }, 100);
-  }, [setCategoriesLoaded]);
-
-  useEffect(() => {
-    setHoveredCategory(null);
-    setSelectedCategory(null);
-    setMobileSubmenu(null);
-  }, [location.pathname]);
+  const categories = [
+    {
+      category: "Box by industry",
+      icon: <FaBed />,
+      menu: [
+        {
+          title: "Cosmetics",
+          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/cosmetics.png",
+        },
+        {
+          title: "Candle",
+          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/candle.png",
+        },
+        {
+          title: "Bakery",
+          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/bakery.png",
+        },
+        {
+          title: "CBD",
+          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/cbd.png",
+        },
+        {
+          title: "Sustainable Packaging",
+          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/sustainable%20packaging.png",
+        },
+      ],
+    },
+    {
+      category: "Shapes & styles",
+      icon: <MdOutdoorGrill />,
+      menu: [
+        {
+          title: "Cosmetics",
+          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/cosmetics.png",
+        },
+        {
+          title: "Candle",
+          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/candle.png",
+        },
+        {
+          title: "Bakery",
+          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/bakery.png",
+        },
+        {
+          title: "CBD",
+          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/cbd.png",
+        },
+        {
+          title: "Sustainable Packaging",
+          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/sustainable%20packaging.png",
+        },
+      ],
+    },
+    {
+      category: "Materials",
+      icon: <TbToolsKitchen3 />,
+      menu: [
+        {
+          title: "Cosmetics",
+          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/cosmetics.png",
+        },
+        {
+          title: "Candle",
+          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/candle.png",
+        },
+        {
+          title: "Bakery",
+          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/bakery.png",
+        },
+        {
+          title: "CBD",
+          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/cbd.png",
+        },
+        {
+          title: "Sustainable Packaging",
+          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/sustainable%20packaging.png",
+        },
+      ],
+    },
+    {
+      category: "Sticker labels & others",
+      icon: <TbToolsKitchen3 />,
+      menu: [
+        {
+          title: "Cosmetics",
+          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/cosmetics.png",
+        },
+        {
+          title: "Candle",
+          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/candle.png",
+        },
+        {
+          title: "Bakery",
+          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/bakery.png",
+        },
+        {
+          title: "CBD",
+          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/cbd.png",
+        },
+        {
+          title: "Sustainable Packaging",
+          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/sustainable%20packaging.png",
+        },
+      ],
+    },
+  ];
 
   const handleCategoryHover = (category) => {
     setHoveredCategory(category);
-    setSelectedCategory(category.midcategories);
+    setSelectedCategory(category.menu);
   };
 
   const handleCategoryLeave = () => {
@@ -60,244 +128,207 @@ const BottomNav = React.memo(({ Menu, OpenMenu, setCategoriesLoaded }) => {
     setSelectedCategory(null);
   };
 
-  const handleLinkClick = () => {
-    if (OpenMenu) OpenMenu();
-    handleCategoryLeave();
-    setMobileSubmenu(null);
-  };
-
-  const toggleMobileSubmenu = (category) => {
-    if (mobileSubmenu === category.name) {
-      setMobileSubmenu(null);
-    } else {
-      setMobileSubmenu(category.name);
-    }
-  };
-
   return (
     <div className="relative">
       {/* Desktop Menu */}
-      <div className="sm:block hidden pt-5">
-        <ul className="flex justify-between items-center max-w-6xl mx-auto">
-          <li>
-            <NavLink to="/" className="transition-colors text-[#333333] font-medium">
-              HOME
-            </NavLink>
-          </li>
-          {BrandsData.map((category, index) => (
-            <li
+      <div className="hidden sm:block py-2">
+        <ul className="flex gap-7 items-center max-w-7xl mx-auto px-4">
+          <Link
+            to="#"
+            className="flex items-center gap-1 py-2.5 text-sm font-semibold transition-colors"
+          >
+            Home
+          </Link>
+          {categories.map((category, index) => (
+            <Link
+              to={`/${category?.category}`}
               key={index}
               onMouseEnter={() => handleCategoryHover(category)}
               onMouseLeave={handleCategoryLeave}
-              className="relative group"
+              className="flex relative cursor-pointer group items-center gap-1 py-2.5 text-sm font-semibold transition-colors"
             >
-              <NavLink
-                onClick={handleCategoryLeave}
-                to={`/category/${category?.slug}`}
-                className="flex items-center gap-1 text-[#333333] uppercase py-2.5 text-sm font-medium transition-colors"
-              >
-                {category.name}
-                {category.midcategories?.length > 0 && (
-                  <FaAngleDown className="ml-1" size={15} />
-                )}
-              </NavLink>
-            </li>
-          ))}
-          <li>
-            <NavLink to="/portfolio" className="uppercase font-medium text-[#333333] transition-colors">
-              Portfolio
-            </NavLink>
-          </li>
-          <li>
-            <Link to="/blogs" className="uppercase font-medium text-[#333333] transition-colors">
-              Blog
+              {category.category}
+              {category.menu?.length > 0 && (
+                <FaAngleDown className="ml-1" size={15} />
+              )}
             </Link>
-          </li>
-          <li>
-            <NavLink to="/about-us" className="uppercase font-medium text-[#333333] transition-colors">
-              About us
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/contact-us" className="uppercase font-medium text-[#333333] transition-colors">
-              Contact us
-            </NavLink>
-          </li>
+          ))}
+          <Link
+            to="#"
+            className="flex items-center gap-1 py-2.5 text-sm font-semibold transition-colors"
+          >
+            About Us
+          </Link>
+          <Link
+            to="#"
+            className="flex items-center gap-1 py-2.5 text-sm font-semibold transition-colors"
+          >
+            Contact Us
+          </Link>
         </ul>
 
         {/* Dropdown Menu */}
         {hoveredCategory && selectedCategory && (
           <div
-            className="absolute top-12 pt-3 left-0 w-full z-50"
+            className="absolute top-12 pt-2.5 bg-white left-0 w-full z-50"
             onMouseEnter={() => handleCategoryHover(hoveredCategory)}
             onMouseLeave={handleCategoryLeave}
           >
-            <div className="bg-[#F7F7F7] rounded-lg mt-5">
-              <div className="max-w-8xl mx-auto px-4 py-3 grid grid-cols-4 gap-4">
+            <div className="bg-white">
+              <div className="max-w-7xl mx-auto px-4 justify-between py-3 flex gap-3">
                 {selectedCategory.map((submenu, index) => (
-                  <NavLink
-                    key={submenu._id || index}
-                    onClick={handleCategoryLeave}
-                    to={`/sub-category/${submenu.slug}`}
-                    className="flex font-semibold text-[#333333] capitalize gap-1 items-center transition-colors"
-                    onMouseEnter={() => {
-                      if (submenu?.slug) {
-                        prefetchSubCategory(submenu.slug);
-                      }
-                    }}
-                    onMouseDown={() => {
-                      if (submenu?.slug) {
-                        prefetchSubCategory(submenu.slug, true);
-                      }
-                    }}
+                  <Link
+                    key={index}
+                    to={`/category/${submenu.title}`}
+                    className="text-gray-700 w-5/12 flex font-bold flex-col gap-0.5 items-center transition-colors"
                   >
-                    <img src={`${BaseUrl}/${submenu?.icon}`} alt="" className="w-8" />{" "}
-                    {submenu.title}
-                  </NavLink>
+                    <div className="h-44 w-44 bg-[#F9F9F9] rounded-3xl">
+                      <img
+                        src={submenu?.icon}
+                        alt=""
+                        className="w-full h-full object-contain rounded-3xl"
+                      />
+                    </div>
+                    <p className="pt-2 font-bold">{submenu.title}</p>
+                  </Link>
                 ))}
+
+                <div className="w-6/12 border-l border-gray-200 pl-5">
+                  <ul className="flex flex-col gap-1.5">
+                    {selectedCategory?.map((item, index) => (
+                      <Link
+                        to={"#"}
+                        key={index}
+                        className="font-bold flex items-center justify-between"
+                      >
+                        {item?.title}
+                        <LiaAngleRightSolid size={15} color="#EE334B" />
+                      </Link>
+                    ))}
+
+                    <Link className="mt-5">
+                      <Button
+                        className="bg-[#213554] text-white"
+                        label={"View all Industries"}
+                      />
+                    </Link>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
         )}
       </div>
 
-      {/* Mobile Menu Overlay */}
-      {Menu && (
-        <div 
-          className="sm:hidden fixed inset-0 bg-[rgba(0,0,0,0.5)] bg-opacity-50 z-40"
-          onClick={OpenMenu}
-        ></div>
-      )}
-
-      {/* Mobile Menu Sidebar */}
-      <div className={`sm:hidden fixed top-0 h-full left-0  z-50 bg-[#F7F7F7]  transform transition-transform duration-300 ease-in-out ${Menu ? "translate-x-0" : "-translate-x-full"} sm:w-80 w-64`}>
-        <div className="flex justify-between items-center p-4 border-b border-gray-200">
-          <Link to={`/`} onClick={handleLinkClick}>
-            <img src={logo} alt="" className="w-[100px]" />
-          </Link>
-          <div className="cursor-pointer bg-[#B8B6FA99] text-[#4440E6] p-2 rounded-sm" onClick={OpenMenu}>
-            <FaTimes size={20} />
-          </div>
-        </div>
+      {/* Mobile Menu */}
+      <div
         
-        <div className=" overflow-y-auto pb-20">
-          {isLoading ? (
-            <div className="flex justify-center items-center h-32">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#4440E6]"></div>
-            </div>
-          ) : (
-            <ul className="flex flex-col">
-              <li className="border-b border-gray-200">
-                <NavLink 
-                  to="/" 
-                  className="block py-3 px-4 text-[#333333] font-medium transition-colors hover:bg-gray-100"
-                  onClick={handleLinkClick}
-                >
-                  HOME
-                </NavLink>
-              </li>
-              
-              {BrandsData?.map((category, index) => (
-                <li key={index} className="border-b border-gray-200">
-                  <div className="flex justify-between items-center">
-                    <NavLink
-                      to={`/category/${category?.slug}`}
-                      style={{fontSize:'13px'}}
-                      className="block py-3 px-4  text-[#333333] font-medium flex-grow transition-colors hover:bg-gray-100"
-                      onClick={handleLinkClick}
-                    >
-                      {category.name}
-                    </NavLink>
-                    
-                    {category.midcategories?.length > 0 && (
-                      <button 
-                        className="p-3 mr-2"
-                        onClick={() => toggleMobileSubmenu(category)}
+        className={`sm:hidden ${Menu ? "block" : "hidden"} bg-[rgba(0,0,0,0.5)]   fixed  inset-0 left-0     z-40  right-0 top-0 w-full`}
+      >
+        <div className=" bg-white md:w-96  w-80 h-full  overflow-y-auto">
+         <div className=" p-3 w-fy border-b flex justify-between  items-center border-gray-200">
+          <div>
+          <img src={logo} alt=""   className=" w-36" />
+          </div>
+          <div className=" cursor-pointer">
+          <div className="  bg-[#EE334B] w-8 h-8   rounded-full flex justify-center items-center">
+          <svg
+              onClick={()=>OpenMenu(false)}
+              width={20}
+              aria-hidden="true"
+              color="white"
+              role="presentation"
+              className=" text-white"
+              fill="white"
+              viewBox="0 0 1000 1000"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M742 167L500 408 258 167C246 154 233 150 217 150 196 150 179 158 167 167 154 179 150 196 150 212 150 229 154 242 171 254L408 500 167 742C138 771 138 800 167 829 196 858 225 858 254 829L496 587 738 829C750 842 767 846 783 846 800 846 817 842 829 829 842 817 846 804 846 783 846 767 842 750 829 737L588 500 833 258C863 229 863 200 833 171 804 137 775 137 742 167Z"></path>
+            </svg>
+            
+          </div>
+          </div>
+          
+         </div>
+        <ul className="flex flex-col p-4">
+          <li>
+            <Link
+              to="/"
+              className="font-semibold transition-colors"
+              onClick={OpenMenu}
+            >
+              Home
+            </Link>
+          </li>
+          {categories.map((category, index) => (
+            <li key={index}>
+              <Link
+                to="#"
+                className="flex items-center gap-1 py-2.5 font-semibold transition-colors"
+                onClick={OpenMenu}
+              >
+                {category.category}
+              </Link>
+              {category.menu?.length > 0 && (
+                <ul className="pl-4">
+                  {category.menu.map((submenu, subIndex) => (
+                    <li key={subIndex}>
+                      <Link
+                        to={`/sub-category/${submenu.title}`}
+                        className="text-gray-700 flex gap-0.5 items-center transition-colors"
+                        onClick={OpenMenu}
                       >
-                        <FaAngleDown 
-                          className={`transition-transform duration-300 ${mobileSubmenu === category.name ? 'rotate-180' : ''}`} 
-                          size={15} 
-                        />
-                      </button>
-                    )}
-                  </div>
-                  
-                  {category.midcategories?.length > 0 && (
-                    <div className={`  overflow-y-auto  h-48 transition-all duration-500 ease-in-out ${mobileSubmenu === category.name ? 'max-h-[500px]' : 'max-h-0'}`}>
-                      <ul className="pl-2 pb-2">
-                        {category.midcategories.map((submenu, subIndex) => (
-                          <li key={subIndex} className="border-t border-gray-100">
-                            <NavLink
-                              to={`/sub-category/${submenu.slug}`}
-                              className="text-sm text-[#333333] font-medium flex items-center py-2 px-4 transition-colors hover:bg-gray-100"
-                              onClick={handleLinkClick}
-                              onMouseEnter={() => {
-                                if (submenu?.slug) {
-                                  prefetchSubCategory(submenu.slug);
-                                }
-                              }}
-                              onMouseDown={() => {
-                                if (submenu?.slug) {
-                                  prefetchSubCategory(submenu.slug, true);
-                                }
-                              }}
-                            >
-                              <img src={`${BaseUrl}/${submenu?.icon}`} alt="" className="w-6 h-6 mr-2 object-contain" />
-                              {submenu.title}
-                            </NavLink>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </li>
-              ))}
-              
-              <li className="border-b border-gray-200">
-                <NavLink 
-                  to="/portfolio" 
-                  className="block py-3 px-4 text-[#333333] font-medium transition-colors hover:bg-gray-100"
-                  onClick={handleLinkClick}
-                >
-                  Portfolio
-                </NavLink>
-              </li>
-              
-              <li className="border-b border-gray-200">
-                <NavLink 
-                  to="/blogs" 
-                  className="block py-3 px-4 text-[#333333] font-medium transition-colors hover:bg-gray-100"
-                  onClick={handleLinkClick}
-                >
-                  Blog
-                </NavLink>
-              </li>
-              
-              <li className="border-b border-gray-200">
-                <NavLink 
-                  to="/about-us" 
-                  className="block py-3 px-4 text-[#333333] font-medium transition-colors hover:bg-gray-100"
-                  onClick={handleLinkClick}
-                >
-                  About us
-                </NavLink>
-              </li>
-              
-              <li className="border-b border-gray-200">
-                <NavLink 
-                  to="/contact-us" 
-                  className="block py-3 px-4 text-[#333333] font-medium transition-colors hover:bg-gray-100"
-                  onClick={handleLinkClick}
-                >
-                  Contact us
-                </NavLink>
-              </li>
-            </ul>
-          )}
+                        {submenu.title}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+          <li>
+            <Link
+              to="/portfolio"
+              className="font-semibold transition-colors"
+              onClick={OpenMenu}
+            >
+              Portfolio
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/blog"
+              className="font-semibold transition-colors"
+              onClick={OpenMenu}
+            >
+              Blog
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/about-us"
+              className="hover:text-orange-500 transition-colors"
+              onClick={OpenMenu}
+            >
+              About us
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/contact-us"
+              className="hover:text-orange-500 transition-colors"
+              onClick={OpenMenu}
+            >
+              Contact us
+            </Link>
+          </li>
+        </ul>
+
         </div>
+      
       </div>
     </div>
   );
-});
+};
 
 export default BottomNav;
