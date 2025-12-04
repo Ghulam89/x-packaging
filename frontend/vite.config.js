@@ -13,11 +13,11 @@ export default defineConfig({
     },
   },
 
-  // server: {
-  //   allowedHosts: ["umbrellapackaging.com", "www.umbrellapackaging.com"],
-  //   strictPort: true,
+  server: {
+    allowedHosts: ["xcustompackaging.com", "www.xcustompackaging.com"],
+    strictPort: true,
     
-  // },
+  },
 
   ssr: {
     noExternal: [
