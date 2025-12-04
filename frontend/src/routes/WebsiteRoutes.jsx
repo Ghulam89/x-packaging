@@ -11,6 +11,7 @@ import React, { useEffect, useState, useMemo, useCallback } from "react";
 // import ContactUs from "../pages/contactUs/ContactUs";
 // import GetCustomQoutePage from "../pages/getCustomQuote/GetCustomQoutePage";
 import { Home } from "../pages/home/Home";
+import Shop from "../pages/shop";
 // import Portfolio from "../pages/Portfolio/Portfolio";
 // import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
 // import ProductDetails from "../pages/productDetails";
@@ -85,7 +86,7 @@ export default function useWebsiteRoutes(serverData, CategoryProducts) {
     // { path: '/contact-us', element: <ContactUs key="contact" /> },
     // { path: '/blogs', element: <Blogs key="blogs" /> },
     // { path: '/thank-you-page', element: <SuccessPage key="success" /> },
-    // { path: '/shop', element: <Shop key="shop" /> },
+    { path: '/shop', element: <Shop key="shop" /> },
     // { path: '/cart', element: <Cart key="cart" /> },
     // { path: '/checkout', element: <Checkout key="checkout" /> },
     // { path: '/privacy-policy', element: <PrivacyPolicy key="privacy-policy" /> },
