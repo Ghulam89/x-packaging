@@ -1,6 +1,7 @@
 import React from "react";
 import hero from "../../assets/images/banner-slider-image.webp";
 import Button from "../../components/common/Button";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -24,7 +25,10 @@ const Hero = () => {
             </p>
             <p className=" text-white">Let's Showcase Your Brand Better</p>
           </div>
+          <Link to={'/shop'}>
           <Button className="bg-white font-semibold" label="Browse Our Catalogue" />
+          </Link>
+          
         </div>
       </div>
 

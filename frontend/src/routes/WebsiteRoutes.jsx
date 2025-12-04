@@ -12,6 +12,9 @@ import React, { useEffect, useState, useMemo, useCallback } from "react";
 // import GetCustomQoutePage from "../pages/getCustomQuote/GetCustomQoutePage";
 import { Home } from "../pages/home/Home";
 import Shop from "../pages/shop";
+import ProductDetails from "../pages/productDetails";
+import SubCategory from "../pages/subCategory/SubCategory";
+import Category from "../pages/category/Category";
 // import Portfolio from "../pages/Portfolio/Portfolio";
 // import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
 // import ProductDetails from "../pages/productDetails";
@@ -101,10 +104,12 @@ export default function useWebsiteRoutes(serverData, CategoryProducts) {
     // { path: '/portfolio', element: <Portfolio key="portfolio" /> },
     // { path: '/404', element: <NotFound key="not-found" /> },
     // { path: '/category/:slug', element: <Category key="category" serverData={sharedServer} /> },
+   { path: '/category/:slug', element: <Category key="category" /> },
     // { path: '/blog/:slug', element: <SingleBlog key="blog" serverData={sharedServer} /> },
     // { path: '/sub-category/:slug', element: <SubCategory key="subcategory" serverData={sharedServer} CategoryProducts={CategoryProducts} /> },
+    { path: '/sub-category/:slug', element: <SubCategory key="subcategory"/> },
     // // { path: '/:slug', element: <MemoProductDetailsWrapper key="product" initialProduct={initialProduct} /> },
-    // { path: '/:slug', element: <ProductDetails key="product"  /> },
+    { path: '/:slug', element: <ProductDetails key="product"  /> },
     // { path: '*', element: <NotFound key="catch-all" /> }
   ], [sharedServer, CategoryProducts, initialProduct]);
 

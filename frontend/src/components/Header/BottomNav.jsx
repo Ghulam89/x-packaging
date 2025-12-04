@@ -141,7 +141,7 @@ const BottomNav = ({ Menu, OpenMenu }) => {
           </Link>
           {categories.map((category, index) => (
             <Link
-              to={`/${category?.category}`}
+              to={`/category/${category?.category}`}
               key={index}
               onMouseEnter={() => handleCategoryHover(category)}
               onMouseLeave={handleCategoryLeave}
@@ -179,7 +179,7 @@ const BottomNav = ({ Menu, OpenMenu }) => {
                 {selectedCategory.map((submenu, index) => (
                   <Link
                     key={index}
-                    to={`/category/${submenu.title}`}
+                    to={`/sub-category/${submenu.title}`}
                     className="text-gray-700 w-5/12 flex font-bold flex-col gap-0.5 items-center transition-colors"
                   >
                     <div className="h-44 w-44 bg-[#F9F9F9] rounded-3xl">

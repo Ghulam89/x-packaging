@@ -1166,15 +1166,13 @@
 import React, { useEffect, useState } from 'react'
 import SampleKit from '../../components/SampleKit'
 import Tabs from '../../components/common/Tabs'
-import ProductDetail from '../../components/common/ProductDetail'
-import Navbar from '../../components/Header/Navbar'
 import { TfiAngleLeft, TfiAngleRight } from 'react-icons/tfi'
 import Input from '../../components/common/Input'
 import Button from '../../components/common/Button'
 import { IoHomeOutline } from 'react-icons/io5'
 import { LiaAngleRightSolid } from 'react-icons/lia'
 import BottomHero from '../../components/Hero/BottomHero'
-
+import ProductDetail from '../../components/common/ProductDetail'
 const ProductDetails = ({
     children: slides,
     autoSlide = false,
@@ -1232,7 +1230,7 @@ const ProductDetails = ({
           description:
             "Rigid boxes are like super strong and unbreakable homes for extraordinary things. The manufacturers make these boxes using special materials to keep toys, makeup, and nice things protected. Additionally, people use printed rigid boxes to make things look extra special by painting them with cool colors and designs.",
           image:
-            "https://umbrellapackaging.com/wp-content/uploads/2024/01/rigid-box.webp",
+            "https://umbrellapackaging.com/images/rigid-box.webp",
           buttonUrl: "#",
         },
         {
@@ -1295,9 +1293,12 @@ const ProductDetails = ({
         content: <ProductDetail {...box} />,
       }));
 
+
+    
+    
   return (
     <>
-    
+   
      <section className=' bg-[#F4F4F4] py-8'>
      <div className=' lg:max-w-7xl max-w-[95%]   flex lg:flex-row flex-col gap-4 mx-auto'>
         <div className='  lg:w-6/12 '>
@@ -1597,8 +1598,7 @@ const ProductDetails = ({
         </section>
        
         <SampleKit/>
-     
-    
+
     </>
   )
 }
