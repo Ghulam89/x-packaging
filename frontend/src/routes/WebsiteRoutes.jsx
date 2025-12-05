@@ -4,7 +4,7 @@ import React, { useEffect, useState, useMemo, useCallback } from "react";
 // import NotFound from "../pages/404";
 // import { About } from "../pages/about/About";
 // import Blogs from "../pages/blogs/Blogs";
-// import SingleBlog from "../pages/blogs/SingleBlog";
+import SingleBlog from "../pages/blogs/SingleBlog";
 // import Cart from "../pages/cart/Cart";
 // import Category from "../pages/category/Category";
 // import Checkout from "../pages/checkout/Checkout";
@@ -15,6 +15,7 @@ import Shop from "../pages/shop";
 import ProductDetails from "../pages/productDetails";
 import SubCategory from "../pages/subCategory/SubCategory";
 import Category from "../pages/category/Category";
+import Blogs from "../pages/blogs/Blogs";
 // import Portfolio from "../pages/Portfolio/Portfolio";
 // import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
 // import ProductDetails from "../pages/productDetails";
@@ -87,7 +88,7 @@ export default function useWebsiteRoutes(serverData, CategoryProducts) {
     { path: '/', element: <Home key="home" /> },
     // { path: '/about-us', element: <About key="about" /> },
     // { path: '/contact-us', element: <ContactUs key="contact" /> },
-    // { path: '/blogs', element: <Blogs key="blogs" /> },
+    { path: '/blogs', element: <Blogs key="blogs" /> },
     // { path: '/thank-you-page', element: <SuccessPage key="success" /> },
     { path: '/shop', element: <Shop key="shop" /> },
     // { path: '/cart', element: <Cart key="cart" /> },
@@ -105,7 +106,7 @@ export default function useWebsiteRoutes(serverData, CategoryProducts) {
     // { path: '/404', element: <NotFound key="not-found" /> },
     // { path: '/category/:slug', element: <Category key="category" serverData={sharedServer} /> },
    { path: '/category/:slug', element: <Category key="category" /> },
-    // { path: '/blog/:slug', element: <SingleBlog key="blog" serverData={sharedServer} /> },
+   { path: '/blog/:slug', element: <SingleBlog key="blog" serverData={sharedServer} /> },
     // { path: '/sub-category/:slug', element: <SubCategory key="subcategory" serverData={sharedServer} CategoryProducts={CategoryProducts} /> },
     { path: '/sub-category/:slug', element: <SubCategory key="subcategory"/> },
     // // { path: '/:slug', element: <MemoProductDetailsWrapper key="product" initialProduct={initialProduct} /> },

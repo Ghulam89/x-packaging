@@ -175,11 +175,11 @@ export const Home = React.memo(() => {
           </div>
         </div>
         <Testimonials />
-         <GetPriceQuote/>
-        <Blogs />
-       
+        <GetPriceQuote />
+        {/* <Blogs /> */}
+
         <InspirationPackaging />
-  
+
         <Capabilities />
         <SampleKit />
         <FAQ />

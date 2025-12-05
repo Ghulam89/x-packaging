@@ -15,9 +15,9 @@ const BlogCard = ({ data }) => {
   return (
     <div className="group relative">
       <Link to={`/blog/${data?.slug}`}>
-        <div className="p-3 rounded-[10px] h-96 bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100">
+        <div className="rounded-[15px]  overflow-hidden h-96 bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100">
           {/* Blog Image */}
-          <div className="w-full h-40 overflow-hidden rounded-[10px]">
+          <div className="w-full h-56 overflow-hidden">
             <img
               src={`${BaseUrl}/${data?.image}`}
               alt={data?.title}
@@ -26,19 +26,20 @@ const BlogCard = ({ data }) => {
           </div>
 
           {/* Blog Content */}
-          <div className="p-4 text-center text-[#333333]">
-            <h2 className="text-xl font-semibold text-gray-800 line-clamp-2 mb-2">
+          <div className="p-4 text-start text-[#333333]">
+            <button className="  bg-gray-50">Knowledge Base</button>
+            <h3 className="text-xl font-semibold text-gray-800 line-clamp-2 mb-2">
               {data?.title?.slice(0, 70)}
-            </h2>
+            </h3>
 
-            <p className="text-gray-600 line-clamp-3 mb-4 text-sm">
+            {/* <p className="text-gray-600 line-clamp-3 mb-4 text-sm">
               {previewText}
-            </p>
+            </p> */}
 
-            <div className="absolute bottom-4 left-0 flex justify-center items-center w-full">
+            <div className="flex justify-start items-center w-full">
               <Button
-                className="bg-transparent border border-[#4440E6] text-[#4440E6] font-medium px-4 py-2 rounded-lg 
-                           hover:bg-[#4440E6] hover:text-white transition-colors duration-300 uppercase"
+                className=" bg-transparent shadow-none text-[#4440E6] font-medium px-4 py-2 rounded-lg 
+                             transition-colors duration-300 uppercase"
                 label="Continue Reading"
               />
             </div>
