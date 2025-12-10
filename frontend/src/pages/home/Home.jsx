@@ -16,9 +16,7 @@ import Category from '../../components/Category'
 import Blogs from '../blogs/Blogs'
 import GetPriceQuote from '../../components/GetPriceQuote/GetPriceQuote'
 export const Home = React.memo(() => {
-  // Prefetch data on home page load for faster navigation
   useEffect(() => {
-    // Prefetch subcategories from Hero buttons (priority for user experience)
     const heroSubCategories = [
       'fashion-apparel-packaging-boxes',
       'food-packaging-boxes',
@@ -26,12 +24,10 @@ export const Home = React.memo(() => {
       'custom-cardboard-boxes'
     ];
 
-    // Prefetch all hero subcategories in parallel with priority
     heroSubCategories.forEach(slug => {
-      prefetchSubCategory(slug, true); // true = priority
+      prefetchSubCategory(slug, true);
     });
 
-    // Prefetch kraft-packaging-boxes from PackagingBanner
     prefetchSubCategory('kraft-packaging-boxes', true);
 
     // Prefetch popular products from first page (non-blocking, lower priority)
