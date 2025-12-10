@@ -16,6 +16,7 @@ import ProductDetails from "../pages/productDetails";
 import SubCategory from "../pages/subCategory/SubCategory";
 import Category from "../pages/category/Category";
 import Blogs from "../pages/blogs/Blogs";
+import About from "../pages/about/About";
 // import Portfolio from "../pages/Portfolio/Portfolio";
 // import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
 // import ProductDetails from "../pages/productDetails";
@@ -86,7 +87,7 @@ export default function useWebsiteRoutes(serverData, CategoryProducts) {
 
   const routes = useMemo(() => [
     { path: '/', element: <Home key="home" /> },
-    // { path: '/about-us', element: <About key="about" /> },
+ { path: '/about-us', element: <About key="about" /> },
     // { path: '/contact-us', element: <ContactUs key="contact" /> },
     { path: '/blogs', element: <Blogs key="blogs" /> },
     // { path: '/thank-you-page', element: <SuccessPage key="success" /> },

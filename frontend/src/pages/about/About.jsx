@@ -175,10 +175,11 @@
 
 
 import React from 'react'
+import AboutBanner from '../../components/common/AboutBanner'
 
 const About = () => {
   return (
-    <div>About</div>
+    <div><AboutBanner/></div>
   )
 }
 

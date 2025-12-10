@@ -1,12 +1,15 @@
-import React from "react";
+import React from 'react'
+import Button from './Button'
 import hero from "../../assets/images/banner-slider-image.webp";
-import Button from "../../components/common/Button";
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
+import { IoHomeOutline } from 'react-icons/io5'
+import { LiaAngleRightSolid } from 'react-icons/lia'
 
-const Hero = () => {
+
+function AboutBanner() {
   return (
-    <div
-      className="w-full sm:h-[490px] h-[60vh]"
+     <div
+      className="w-full sm:h-[60vh] h-[70vh]"
       style={{
         backgroundImage: `url(${hero})`,
         backgroundSize: "cover",
@@ -16,6 +19,12 @@ const Hero = () => {
       <div className="sm:max-w-8xl h-full flex   items-center max-w-[95%] mx-auto">
       <div className=" max-w-xl">
         <div>
+             <div className=' flex gap-2 items-center text-white'>
+       <Link to={'/'}><IoHomeOutline color='#fff'/></Link> <LiaAngleRightSolid color='#fff' />
+            <p>About us</p>
+        </div>
+            
+
           <h1 className=" text-white">
             Custom Packaging That Defines Your Brand!
           </h1>
@@ -35,7 +44,7 @@ const Hero = () => {
       </div>
     
     </div>
-  );
-};
+  )
+}
 
-export default Hero;
+export default AboutBanner
