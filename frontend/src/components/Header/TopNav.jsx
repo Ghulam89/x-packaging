@@ -15,7 +15,7 @@ import canada from "../../assets/images/flag/canada.svg";
 const TopNav = () => {
   return (
     <div className="">
-      <div className="sm:max-w-7xl max-w-[95%] mx-auto">
+      <div className="sm:max-w-8xl max-w-[95%] mx-auto">
         <div className="flex sm:justify-between justify-center flex-wrap items-center px-6 sm:py-2 py-1.5 border-b border-gray-200 text-sm text-gray-700">
           {/* Left Side: Country Flags */}
           <div className="flex items-center space-x-4">

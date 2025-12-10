@@ -351,7 +351,7 @@ const Category = () => {
   return (
     <>
  
-    <section className=' max-w-7xl mx-auto'>
+    <section className=' sm:max-w-8xl w-[95%] mx-auto'>
       <div className=' flex gap-2 pt-3 items-center'>
              <IoHomeOutline /> <LiaAngleRightSolid />
                   <h6 className=''> 

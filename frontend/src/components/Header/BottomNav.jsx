@@ -132,7 +132,7 @@ const BottomNav = ({ Menu, OpenMenu }) => {
     <div className="relative">
       {/* Desktop Menu */}
       <div className="hidden sm:block py-2">
-        <ul className="flex gap-7 items-center max-w-7xl mx-auto px-4">
+        <ul className="flex gap-7 items-center sm:max-w-8xl max-w-[95%] mx-auto">
           <Link
             to="#"
             className="flex items-center gap-1 py-2.5 text-sm font-semibold transition-colors"
@@ -170,19 +170,19 @@ const BottomNav = ({ Menu, OpenMenu }) => {
         {/* Dropdown Menu */}
         {hoveredCategory && selectedCategory && (
           <div
-            className="absolute top-12 pt-2.5 bg-white left-0 w-full z-50"
+            className="absolute top-10 pt-2.5  left-0 w-full z-50"
             onMouseEnter={() => handleCategoryHover(hoveredCategory)}
             onMouseLeave={handleCategoryLeave}
           >
-            <div className="bg-white">
-              <div className="max-w-7xl mx-auto px-4 justify-between py-3 flex gap-3">
+            <div className="mx-8">
+              <div className="max-w-8xl mx-auto shadow-lg rounded-br-lg  rounded-bl-lg bg-white justify-between p-3 flex gap-3">
                 {selectedCategory.map((submenu, index) => (
                   <Link
                     key={index}
                     to={`/sub-category/${submenu.title}`}
                     className="text-gray-700 w-5/12 flex font-bold flex-col gap-0.5 items-center transition-colors"
                   >
-                    <div className="h-44 w-44 bg-[#F9F9F9] rounded-3xl">
+                    <div className="h-56 w-56 bg-[#F9F9F9] rounded-3xl">
                       <img
                         src={submenu?.icon}
                         alt=""

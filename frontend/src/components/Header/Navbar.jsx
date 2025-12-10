@@ -3,6 +3,7 @@ import logo from "../../assets/images/brand/logo.png";
 import Input from "../common/Input";
 import Button from "../common/Button";
 import BottomNav from "./BottomNav";
+import { Link } from "react-router-dom";
 const Navbar = () => {
   const [menu, setMenu] = useState(false);
 
@@ -12,11 +13,11 @@ const Navbar = () => {
 
   return (
     <div className="">
-      <div className="sm:max-w-7xl max-w-[95%] mx-auto">
+      <div className="sm:max-w-8xl max-w-[95%] mx-auto">
         <div className="flex space-x-5 w-full justify-between h-16 items-center">
-          <div>
+          <Link to={'/'}>
             <img src={logo} alt="" className="sm:w-[200px] w-auto" />
-          </div>
+          </Link>
           <div className="w-lg">
             <Input
               placeholder={"Search..."}

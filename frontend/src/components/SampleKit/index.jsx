@@ -5,7 +5,7 @@ import Button from '../common/Button';
 const SampleKit = () => {
   return (
     <div className=' bg-[#F9F9F9]  py-8'>
-       <div className=' sm:max-w-7xl mx-auto w-[95%] flex sm:flex-row flex-col justify-between'>
+       <div className=' sm:max-w-8xl mx-auto w-[95%] flex sm:flex-row flex-col justify-between'>
          <div className=' sm:w-6/12 w-full'> 
            <h2>Order a Sample Kit</h2>
            <p className=' text-[#213554] pt-1.5'>Get Free Consultation and Order Your Sample Kit to feel More Confident for Choosing Half Price Packaging as your product packaging partner.</p>

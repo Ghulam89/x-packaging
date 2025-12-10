@@ -1300,7 +1300,7 @@ const ProductDetails = ({
     <>
    
      <section className=' bg-[#F4F4F4] py-8'>
-     <div className=' lg:max-w-7xl max-w-[95%]   flex lg:flex-row flex-col gap-4 mx-auto'>
+     <div className=' lg:max-w-8xl max-w-[95%]   flex lg:flex-row flex-col gap-4 mx-auto'>
         <div className='  lg:w-6/12 '>
             <div className=' flex gap-2 pb-5 items-center'>
                        <IoHomeOutline size={20} /> <LiaAngleRightSolid />

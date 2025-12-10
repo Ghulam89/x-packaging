@@ -16,7 +16,7 @@ const Footer = () => {
   return (
     <div className=''>
 
-    <div className=' sm:max-w-7xl max-w-[95%] mx-auto'>
+    <div className=' sm:max-w-8xl max-w-[95%] mx-auto'>
     <div  className=''>
      <div  className=' flex sm:flex-row flex-col border-b gap-1.5 border-gray-200 justify-between pb-10 sm:pt-10 pt-0'>
         <div className=' sm:w-4/12 w-12/12'>

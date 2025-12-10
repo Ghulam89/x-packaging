@@ -103,7 +103,7 @@ const GetPriceQuote = () => {
   const prevStep = () => setStep(step - 1);
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="sm:max-w-8xl w-[95%] mx-auto">
       {/* Header Section */}
       <div className="text-center mb-10">
         

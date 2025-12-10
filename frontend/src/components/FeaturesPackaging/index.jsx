@@ -64,7 +64,7 @@ const FeaturesPackaging = () => {
 
   return (
     <div className=' my-12'>
-        <div className=' max-w-7xl mx-auto'>
+        <div className=' sm:max-w-8xl  w-[95%] mx-auto'>
         <div className=' mb-5 flex  sm:flex-row  flex-col items-center gap-2.5'>
         <h2  className=' text-left'>Featured Product Packaging</h2>
        

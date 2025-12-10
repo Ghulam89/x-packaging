@@ -771,7 +771,8 @@ import { MdOutdoorGrill } from 'react-icons/md'
 import { TbToolsKitchen3 } from 'react-icons/tb'
 import Capabilities from '../../components/Capabilities'
 import BottomHero from '../../components/Hero/BottomHero'
-
+import Testimonials from '../../components/Testimonials'
+import google from '../../assets/images/footer/google-reviws-logo.webp';
 const SubCategory = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
 
@@ -890,7 +891,7 @@ const SubCategory = () => {
     <>
 
       <section className=' bg-[#F9FAFB]  py-5'>
-        <div className=" sm:max-w-7xl max-w-[95%] mx-auto">
+        <div className=" sm:max-w-8xl max-w-[95%] mx-auto">
           <div className=' flex sm:flex-row flex-col justify-between'>
             <div className=' w-6/12'>
 
@@ -998,7 +999,7 @@ const SubCategory = () => {
       </section>
       <BottomHero/>
       <section className=' py-8'>
-        <div className=" sm:max-w-7xl max-w-[95%] mx-auto">
+        <div className=" sm:max-w-8xl max-w-[95%] mx-auto">
           <div className=' mb-5 flex  sm:flex-row  flex-col items-center gap-2.5'>
 
             <h2 className=' text-left'>Cosmetic Packaging Products</h2>
@@ -1016,11 +1017,11 @@ const SubCategory = () => {
       </section>
 
 
-      <div className="container md:px-5 px-3 mx-auto pb-10 pt-10">
+      <div className=" sm:max-w-8xl w-[95%] md:px-5 px-3 mx-auto pb-10 pt-10">
 
         <div className="flex  sm:flex-row flex-col pt-4 gap-12">
 
-          <div
+          {/* <div
 
           >
 
@@ -1049,7 +1050,7 @@ const SubCategory = () => {
 
 
             </div>
-          </div>
+          </div> */}
 
 
           <div className="w-full sm:w-9/12 mx-auto">
@@ -1080,58 +1081,8 @@ const SubCategory = () => {
           </button>
         </div>
       </div>
-
-      <section className=' py-8'>
-        <div className=" sm:max-w-7xl  justify-between gap-5 items-center max-w-[95%]  flex sm:flex-row flex-col  mx-auto">
-
-          <div className=' sm:w-6/12 w-full'>
-            <h2>Key Features of Our Custom Retail Boxes:
-            </h2>
-            <p className=' py-2'>Our custom retail boxes are the perfect choice if you want to boost your product's presentation in the market. You get some amazing features, including:
-
-            </p>
-
-            <ul className=' list-disc mt-1.5 m-0'>
-              <li>
-                <strong>Sturdy Construction:</strong> durable material options that promise protection along with a premium look.
-              </li>
-              <li>
-                <strong>Attractive Presentation:</strong> Attractive Presentation: offer a sleek and catchy presentation to get your products noticed.
-              </li>
-              <li>
-                <strong>Consistent Branding:</strong> a printable surface that allows you to add your logo and branding elements
-              </li>
-              <li>
-                <strong>Versatile Packaging:</strong> customize the shape and size to perfectly fit your product.
-              </li>
-              <li>
-                <strong>Eco-Friendly:</strong> sustainable materials and inks to improve your brand identity
-              </li>
-              <li>
-                <strong>Amazing Unboxing:</strong> impressive locking styles to improve the unboxing experience
-              </li>
-            </ul>
-
-            <div className=' mt-3.5'>
-              <Button
-                className="bg-[#213554] text-white"
-                label={"Get Custom Quote"}
-              />
-            </div>
-
-          </div>
-
-          <div className=' sm:w-5/12 w-full
-        '>
-            <img src='https://www.halfpricepackaging.com/_ipx/f_webp&fit_cover&s_556x363/https://www.halfpricepackaging.com/storage/cat_uploads/cosmetic-shipping-packaging.webp' className='  shadow-2xl w-full rounded-2xl' alt='' />
-          </div>
-
-        </div>
-      </section>
-
-
-      <section className=' mb-6'>
-        <div className=" sm:max-w-7xl  bg-[#F6F6F6] rounded-xl p-6 justify-between gap-5 items-center max-w-[95%]   mx-auto">
+<section className=' mb-6'>
+        <div className=" sm:max-w-8xl  bg-[#F6F6F6] rounded-xl p-8 justify-between gap-5 items-center max-w-[95%]   mx-auto">
 
 
           <h2 className=' text-center'>Learn More About Custom Bakery Boxes</h2>
@@ -1174,13 +1125,70 @@ const SubCategory = () => {
 
         </div>
       </section>
+      <section className=' py-8'>
+        <div className=" sm:max-w-8xl  justify-between gap-5 items-center max-w-[95%]  flex sm:flex-row flex-col  mx-auto">
 
+          <div className=' sm:w-6/12 w-full'>
+            <h2>Key Features of Our Custom Retail Boxes:
+            </h2>
+            <p className=' py-2'>Our custom retail boxes are the perfect choice if you want to boost your product's presentation in the market. You get some amazing features, including:
+
+            </p>
+
+            <ul className=' list-disc mt-1.5 m-0'>
+              <li>
+                <strong>Sturdy Construction:</strong> durable material options that promise protection along with a premium look.
+              </li>
+              <li>
+                <strong>Attractive Presentation:</strong> Attractive Presentation: offer a sleek and catchy presentation to get your products noticed.
+              </li>
+              <li>
+                <strong>Consistent Branding:</strong> a printable surface that allows you to add your logo and branding elements
+              </li>
+              <li>
+                <strong>Versatile Packaging:</strong> customize the shape and size to perfectly fit your product.
+              </li>
+              <li>
+                <strong>Eco-Friendly:</strong> sustainable materials and inks to improve your brand identity
+              </li>
+              <li>
+                <strong>Amazing Unboxing:</strong> impressive locking styles to improve the unboxing experience
+              </li>
+            </ul>
+
+            <div className=' mt-3.5'>
+              <Button
+                className="bg-[#213554] text-white"
+                label={"Get Custom Quote"}
+              />
+            </div>
+
+          </div>
+
+          <div className=' sm:w-5/12 w-full
+        '>
+            <img src='https://www.halfpricepackaging.com/_ipx/f_webp&fit_cover&s_556x363/https://www.halfpricepackaging.com/storage/cat_uploads/cosmetic-shipping-packaging.webp' className='  shadow-xl w-full rounded-2xl' alt='' />
+          </div>
+
+        </div>
+      </section>
+
+
+      
+      <div className="  mt-8  sm:max-w-8xl bg-[#F6F6F6] p-8 flex sm:flex-row flex-col gap-5 justify-between items-center rounded-xl max-w-[95%] mx-auto">
+          <div>
+            <img src={google} alt='' />
+          </div>
+          <div>
+            <button className='px-6 py-2.5 rounded-lg flex bg-blue-500 text-white  hover:bg-[#EE334B] hover:text-white hover:border-[#EE334B] text-sm items-center justify-center gap-2 
+      transition-all duration-300 ease-in-out transform 
+      hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed'>Review us on Google</button>
+          </div>
+        </div>
+        <Testimonials />
       <Capabilities />
 
 
-
-
-      <SampleKit />
     </>
   )
 }

@@ -63,7 +63,7 @@ const Testimonials = () => {
 
   return (
     <div className="py-12">
-      <div className=" sm:max-w-7xl max-w-[95%] mx-auto  text-center">
+      <div className=" sm:max-w-8xl max-w-[95%] mx-auto  text-center">
      
         <div className="w-full  mx-auto">
           <Swiper

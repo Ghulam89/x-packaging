@@ -8,7 +8,7 @@ import brand5 from "../../assets/images/brand/channel.png";
 const BottomHero = () => {
   return (
     <div className=" py-2 bg-[#F7F7F7]">
-      <div className=" sm:max-w-7xl w-[90%] mx-auto flex flex-wrap     justify-between items-center">
+      <div className=" sm:max-w-8xl w-[95%] mx-auto flex flex-wrap     justify-between items-center">
         <div className=" flex flex-wrap justify-center  gap-3 items-center">
           <span className=" font-bold">More than 5,000 customers love us:</span>
           <ul className=" flex items-center gap-4">

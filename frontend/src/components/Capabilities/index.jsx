@@ -4,7 +4,7 @@ import Button from '../common/Button'
 const Capabilities = () => {
   return (
     <div className=" pb-8">
-      <div className="   sm:max-w-7xl max-w-[95%] mx-auto">
+      <div className="   sm:max-w-8xl max-w-[95%] mx-auto">
         <div className="w-full  lg:pr-[20px] mb-[40px] lg:mb-0">
   <div className=" mb-8">
     <h2 className="font-headings text-[36px] leading-[40px] font-bold tracking-tight  md:text-4xl mb-3">

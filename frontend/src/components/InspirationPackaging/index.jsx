@@ -93,7 +93,7 @@ const InspirationPackaging = () => {
     }, []);
 
     return (
-        <div className="sm:max-w-7xl bg-[#f9fafb] px-4 mb-5  py-6 rounded-2xl max-w-[95%] mx-auto">
+        <div className="sm:max-w-8xl bg-[#f9fafb]  px-4 my-8  py-6 rounded-2xl max-w-[95%] mx-auto">
             <div className="pb-7 text-center">
                 <h2 className="sm:text-[35px] text-[25px] font-sans font-[600] text-[#333333]">
                     Inspiration for Creative Packaging

@@ -76,7 +76,7 @@ const FAQ = () => {
 
   return (
     <div className="">
-      <div className="   sm:max-w-7xl max-w-[95%] mx-auto">
+      <div className="   sm:max-w-8xl max-w-[95%] mx-auto">
       <div  className="sm:pb-10 pb-4">
       <div className="">
        

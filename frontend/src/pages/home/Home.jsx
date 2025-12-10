@@ -160,7 +160,7 @@ export const Home = React.memo(() => {
         <OfferCard discount={'Get 30%'} title={'Off Your First Order!'} />
         <FeaturesPackaging />
         <OfferCard discount={'Save 30%'} title={'on Bulk Orders'} subTitle={'Need more this year?'} />
-        <div className="  mt-8  sm:max-w-7xl bg-[#F6F6F6] p-8 flex sm:flex-row flex-col gap-5 justify-between items-center rounded-xl max-w-[95%] mx-auto">
+        <div className="  mt-8  sm:max-w-8xl bg-[#F6F6F6] p-8 flex sm:flex-row flex-col gap-5 justify-between items-center rounded-xl max-w-[95%] mx-auto">
           <div>
             <img src={google} alt='' />
           </div>
