@@ -4,16 +4,25 @@ import Button from './Button'
 
 const OfferCard = ({discount,title,subTitle}) => {
   return (
-    <div className=' bg-[#EE334B] py-4'>
-
-    <div className=' sm:max-w-8xl mx-auto w-[95%] flex sm:flex-row flex-col gap-3 justify-between items-center'>
-    <div>
-        <h3 className=' font-bold text-white  flex gap-1.5   flex-wrap  items-center'> {subTitle} <h5 className=' text-2xl  text-[#213554]'> {discount}</h5> {title}</h3>
-     </div>
-     <div>
-        <Button label={'Order Now'} rIcons={<RiShoppingCartLine color='white' size={15} />} className='  bg-[#213554]   hover:border-white hover:border text-white font-semibold' />
-     </div>
-    </div>
+    <div className='bg-gradient-to-r from-[#EE334B] to-[#EE334B]/90 py-6 shadow-lg'>
+      <div className='sm:max-w-8xl mx-auto w-[95%] flex sm:flex-row flex-col gap-4 justify-between items-center'>
+        <div>
+          <h3 className='font-bold text-white flex gap-2 flex-wrap items-center text-lg sm:text-xl'> 
+            {subTitle} 
+            <span className='text-3xl sm:text-4xl font-extrabold text-[#213554] bg-white px-3 py-1 rounded-lg shadow-md'> 
+              {discount}
+            </span> 
+            {title}
+          </h3>
+        </div>
+        <div>
+          <Button 
+            label={'Order Now'} 
+            rIcons={<RiShoppingCartLine size={18} />} 
+            className='bg-[#213554] hover:bg-[#213554]/90 text-white font-semibold shadow-lg hover:shadow-xl' 
+          />
+        </div>
+      </div>
     </div>
   )
 }

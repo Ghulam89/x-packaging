@@ -8,7 +8,7 @@ const Capabilities = () => {
         <div className="w-full  lg:pr-[20px] mb-[40px] lg:mb-0">
   <div className=" mb-8">
     <h2 className="font-headings text-[36px] leading-[40px] font-bold tracking-tight  md:text-4xl mb-3">
-      Our Capabilities
+      Our Capabilities as a cad
     </h2>
     <p className=" text-[#213554]">
       At Half Price Packaging, we are committed to delivering exceptional
@@ -19,7 +19,7 @@ const Capabilities = () => {
   </div>
   <div className=" mx-auto mb-6">
     <dl className="grid grid-cols-2 md:grid-cols-4 gap-[10px]">
-            <div className="group relative   px-[6px] py-[32px] bg-[#F0F0F0] hover:bg-[#EE334B] hover:text-white rounded-[16px]">
+            <div className="group relative   px-[6px] py-[32px] bg-[#F0F0F0] hover:bg-[#EE334B] hover:text-white rounded-[16px] shadow-md hover:shadow-lg transition-shadow duration-300">
 
         <dt className="text-base font-semibold leading-7  text-center">
           <div className="flex h-20 w-20 items-center justify-center mb-3 mx-auto">
@@ -54,7 +54,7 @@ const Capabilities = () => {
           </p>
         </dt>
       </div>
-            <div className="group relative   px-[6px] py-[32px] bg-[#F0F0F0] hover:bg-[#EE334B] hover:text-white rounded-[16px]">
+            <div className="group relative   px-[6px] py-[32px] bg-[#F0F0F0] hover:bg-[#EE334B] hover:text-white rounded-[16px] shadow-md hover:shadow-lg transition-shadow duration-300">
 
         <dt className="text-base font-semibold leading-7  text-center">
           <div className="flex h-20 w-20 items-center justify-center mb-3 mx-auto">
@@ -101,7 +101,7 @@ const Capabilities = () => {
           </p>
         </dt>
       </div>
-            <div className="group relative   px-[6px] py-[32px] bg-[#F0F0F0] hover:bg-[#EE334B] hover:text-white rounded-[16px]">
+            <div className="group relative   px-[6px] py-[32px] bg-[#F0F0F0] hover:bg-[#EE334B] hover:text-white rounded-[16px] shadow-md hover:shadow-lg transition-shadow duration-300">
 
         <dt className="text-base font-semibold leading-7  text-center">
           <div className="flex h-20 w-20 items-center justify-center mb-3 mx-auto">
@@ -151,7 +151,7 @@ const Capabilities = () => {
           </p>
         </dt>
       </div>
-            <div className="group relative   px-[6px] py-[32px] bg-[#F0F0F0] hover:bg-[#EE334B] hover:text-white rounded-[16px]">
+            <div className="group relative   px-[6px] py-[32px] bg-[#F0F0F0] hover:bg-[#EE334B] hover:text-white rounded-[16px] shadow-md hover:shadow-lg transition-shadow duration-300">
 
         <dt className="text-base font-semibold leading-7  text-center">
           <div className="flex h-20 w-20 items-center justify-center mb-3 mx-auto">
@@ -268,7 +268,7 @@ const Capabilities = () => {
           </p>
         </dt>
       </div>
-            <div className="group relative   px-[6px] py-[32px] bg-[#F0F0F0] hover:bg-[#EE334B] hover:text-white rounded-[16px]">
+            <div className="group relative   px-[6px] py-[32px] bg-[#F0F0F0] hover:bg-[#EE334B] hover:text-white rounded-[16px] shadow-md hover:shadow-lg transition-shadow duration-300">
 
         <dt className="text-base font-semibold leading-7  text-center">
           <div className="flex h-20 w-20 items-center justify-center mb-3 mx-auto">

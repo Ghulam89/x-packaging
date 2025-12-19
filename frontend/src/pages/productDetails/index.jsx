@@ -1,1606 +1,1203 @@
-// import React, { useEffect, useState } from 'react'
-// import { TfiAngleLeft, TfiAngleRight } from 'react-icons/tfi'
-// import Input from '../../components/common/Input'
-// import Button from '../../components/common/Button'
-// import CustomPackagingProduced from '../../components/CustomPackagingProduced'
-// import Container from '../../components/common/Container'
-// import CardSlider from '../../components/common/CardSlider'
-// import Tabs from '../../components/common/Tabs'
-// import FAQ from '../../components/FAQ/FAQ'
-// import CustomPackagingApart from '../../components/CustomPackagingApart/CustomPackagingApart'
-// import axios from 'axios'
-// import { BaseUrl } from '../../utils/BaseUrl'
-// import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
-// import { toast } from 'react-toastify'
-// import { useDispatch } from 'react-redux'
-// import { addToCart } from '../../store/productSlice'
-// import { IoSearch } from 'react-icons/io5'
-// import PageMetadata from '../../components/common/PageMetadata'
-// import { prefetchProductsBatch, getCachedProduct } from '../../utils/prefetchUtils'
-
-// import pd1 from '../../assets/images/pd1.webp';
-// import pd2 from '../../assets/images/pd2.webp';
-// import pd3 from '../../assets/images/pd3.webp';
-// import pd4 from '../../assets/images/pd4.webp';
-
-// import sky from '../../assets/images/footer/sky.svg';
-// import dhl from '../../assets/images/footer/dhl.png';
-// import sups from '../../assets/images/footer/sups.svg';
-// import ups from '../../assets/images/footer/ups.svg';
-// import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
-// const ProductDetails = ({
-//   serverData,
-//   children: slides,
-//   autoSlide = false,
-//   autoSlideInterval = 3000,
-// }) => {
-//   const { slug } = useParams()
-//   const dispatch = useDispatch()
-//   const [product, setProduct] = useState(serverData || null);
-//   const [relatedProduct, setRelatedProduct] = useState([])
-//   const [loading, setLoading] = useState(false);
-
-
-//   const navigate = useNavigate();
-
-
-//   const features = [
-//     {
-//       name: 'Embossing',
-//       description: 'Raised designs that add a tactile dimension to your packaging',
-//       icon: pd1
-//     },
-//     {
-//       name: 'Debossing',
-//       description: 'Recessed designs that create an elegant, subtle effect',
-//       icon: pd2
-//     },
-//     {
-//       name: 'Foiling',
-//       description: 'Metallic finishes that add luxury and shine to your branding',
-//       icon: pd3
-//     },
-//     {
-//       name: 'Spot UV',
-//       description: 'Glossy coatings that highlight specific areas for visual impact',
-//       icon: pd4
-//     }
-//   ];
-
-//   const [curr, setCurr] = useState(0);
-//   const [selectedImage, setSelectedImage] = useState(null);
-//   const [currentIndex, setCurrentIndex] = useState(0);
-//   const [isViewerOpen, setIsViewerOpen] = useState(false);
-
-//   const prev = () =>
-//     setCurr((curr) =>
-//       curr === 0
-//         ? product?.images?.length - 1
-//         : curr - 1
-//     );
-
-//   const next = () =>
-//     setCurr((curr) =>
-//       curr === product?.images?.length - 1
-//         ? 0
-//         : curr + 1
-//     );
-
-//   useEffect(() => {
-//     if (!autoSlide) return;
-//     const slideInterval = setInterval(next, autoSlideInterval);
-//     return () => clearInterval(slideInterval);
-//   }, []);
-
-//   const goToSlide = (index) => {
-//     setCurr(index);
-//   };
-
-//   const openImageViewer = (image, index) => {
-//     setSelectedImage(image);
-//     setCurrentIndex(index);
-//     setIsViewerOpen(true);
-//     document.body.style.overflow = 'hidden';
-//   };
-
-//   const closeImageViewer = () => {
-//     setIsViewerOpen(false);
-//     document.body.style.overflow = 'auto';
-//   };
-
-//   const goToPrevious = () => {
-//     const newIndex = (currentIndex - 1 + product?.images?.length) % product?.images?.length;
-//     setSelectedImage(product?.images[newIndex]);
-//     setCurrentIndex(newIndex);
-//   };
-
-//   const goToNext = () => {
-//     const newIndex = (currentIndex + 1) % product?.images?.length;
-//     setSelectedImage(product?.images[newIndex]);
-//     setCurrentIndex(newIndex);
-//   };
-
-//   useEffect(() => {
-//     return () => {
-//       document.body.style.overflow = 'auto';
-//     };
-//   }, []);
-
-
-
-
-//   const [isLoading, setIsLoading] = useState(false);
-
-
-//   const initialFormState = {
-//     name: "",
-//     email: "",
-//     companyName: "",
-//     phoneNumber: "",
-//     boxStyle: "",
-//     length: "",
-//     width: "",
-//     depth: "",
-//     unit: "Inches",
-//     stock: "Stock",
-//     color: "Colors",
-//     printingSides: "Inside",
-//     quantity: "",
-//     addons: "",
-//     image: null,
-//     message: "",
-//     pageUrl: typeof window !== "undefined" ? window.location.href : ""
-//   };
-
-//   const [formData, setFormData] = useState(initialFormState);
-
-//   const validate = () => {
-//     return (
-//       formData.boxStyle &&
-//       formData.length &&
-//       formData.width &&
-//       formData.depth &&
-//       // formData.unit &&
-//       // formData.stock &&
-//       // formData.color &&
-//       // formData.printingSides &&
-//       formData.quantity
-//     );
-//   };
-
-//   const handleChange = (e) => {
-//     const { name, value, files } = e.target;
-//     setFormData(prev => ({
-//       ...prev,
-//       [name]: files ? files[0] : value
-//     }));
-//   };
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     setIsLoading(true);
-//     try {
-//       const formDataToSend = new FormData();
-//       for (const key in formData) {
-//         formDataToSend.append(key, formData[key]);
-//       }
-
-//       const response = await axios.post(`${BaseUrl}/requestQuote/create`, formDataToSend);
-
-//       if (response.data.status === 'success') {
-//         // toast.success(response.data.message)
-//         navigate('/thank-you-page')
-//         setIsLoading(false);
-
-//         setFormData(initialFormState);
-//       } else {
-//         toast.error(response.data.message)
-//         setIsLoading(false);
-//       }
-//     } catch (error) {
-//       toast.error(error?.response?.data?.message)
-//       setIsLoading(false);
-//     }
-//   };
-
-
-//   const customBox = [
-//     {
-//       id: 1,
-
-//       title: "Description",
-//       content: <div className=' h-96 blog_content  overflow-y-auto px-3 py-3 bg-white rounded-lg'>
-
-//         <p dangerouslySetInnerHTML={{ __html: product?.description }}>
-
-//         </p>
-
-//       </div>,
-//     },
-//     {
-//       id: 2,
-//       title: "Faq's",
-//       content: <div className='  px-3 bg-white'>
-//         <FAQ />
-//       </div>
-//     },
-//     {
-//       id: 3,
-//       title: "Why Us",
-//       content: <div className=' bg-white rounded-lg py-4 px-3'>
-//         <CustomPackagingApart />
-//       </div>
-
-//     },
-//     {
-//       id: 4,
-//       title: "Specifications",
-//       content: <div className=' bg-white p-2 rounded-lg'>
-
-//         <table className=' table border border-gray-400 w-full'>
-
-//           <tbody className=''>
-//             <tr className=' bg-[#F2F2F2]  border-b border-gray-400'>
-//               <td className='    border-gray-400 pt-3 pb-5 border-r px-2  font-[600] text-sm'>Size</td>
-//               <td className=' text-gray-500 px-2  pt-3 pb-5 text-sm'>All custom shapes and sizes
-
-//               </td>
-//             </tr>
-//             <tr className=''>
-//               <td className='    border-gray-400 pt-3 pb-5 border-r px-2  font-[600] text-sm'>Paper Stock</td>
-//               <td className=' text-gray-500 px-2  pt-3 pb-5 text-sm'>14pt cardboard, 16pt cardboard, 18pt cardboard & 24pt cardboard, White SBS C1S C2S, Corrugated, Rigid, Kraft, Linen
-
-
-
-//               </td>
-//             </tr>
-//             <tr className=' bg-[#F2F2F2] border-t  border-b border-gray-400'>
-//               <td className='    border-gray-400 pt-3 pb-5 border-r px-2  font-[600] text-sm'>Printing</td>
-//               <td className=' text-gray-500 px-2  pt-3 pb-5 text-sm'>Digital, Offset (PMS and CMYK ) and Screen Printing
-
-//               </td>
-//             </tr>
-//             <tr className='   border-b border-gray-400'>
-//               <td className='    border-gray-400 pt-3 pb-5 border-r px-2  font-[600] text-sm'>Options</td>
-//               <td className=' text-gray-500 px-2  pt-3 pb-5 text-sm'>Matte, Glossy, Spot UV, Aqueous Coating and Embossing, Debossing
-
-
-
-//               </td>
-//             </tr>
-//             <tr className=' bg-[#F2F2F2] border-t  border-b border-gray-400'>
-//               <td className='    border-gray-400 pt-3 pb-5 border-r px-2  font-[600] text-sm'>Extras
-
-//               </td>
-//               <td className=' text-gray-500 px-2  pt-3 pb-5 text-sm'>Flaps, Ribbons, thread handles, gold foiling, silver foiling
-
-//               </td>
-//             </tr>
-//             <tr className=' bg-[#F2F2F2] border-t  border-b border-gray-400'>
-//               <td className='    border-gray-400 pt-3 pb-5 border-r px-2  font-[600] text-sm'>Quantities
-
-//               </td>
-//               <td className=' text-gray-500 px-2  pt-3 pb-5 text-sm'>Short run and Bulk orders are accepted
-
-//               </td>
-//             </tr>
-//             <tr className=' bg-[#F2F2F2] border-t  border-b border-gray-400'>
-//               <td className='    border-gray-400 pt-3 pb-5 border-r px-2  font-[600] text-sm'>Proofing
-
-
-
-//               </td>
-//               <td className=' text-gray-500 px-2  pt-3 pb-5 text-sm'>
-//                 3D Digital Mockup, Physical Sampling(On Demand),
-
-//               </td>
-//             </tr>
-//             <tr className=' bg-[#F2F2F2] border-t  border-b border-gray-400'>
-//               <td className='    border-gray-400 pt-3 pb-5 border-r px-2  font-[600] text-sm'>Turnaround Time
-
-
-
-
-
-//               </td>
-//               <td className=' text-gray-500 px-2  pt-3 pb-5 text-sm'>
-//                 6-7 days to print and dispatch, and 2-3 days for ground shipping
-
-
-
-//               </td>
-//             </tr>
-//           </tbody>
-//         </table>
-
-
-//       </div>
-//     },
-//     {
-//       id: 4,
-//       title: "Delivery",
-//       content: <div className=' bg-white rounded-lg  p-3'>
-//         <strong className=' text-2xl'>Experience fastest free delivery
-//         </strong>
-//         <p className=' pt'>We prioritize our customers’ convenience above all at Umbrella Custom Packaging. That’s why we’re happy to offer a wide range of payment options to suit your preferences. So, feel confident knowing that when you choose Umbrella Custom Packaging, paying for your orders is as effortless as possible.
-
-//         </p>
-
-//         <div className=' flex   flex-wrap   gap-2 justify-between pt-8'>
-//           <div className=' sm:w-56 w-28 h-20   border-gray-200 rounded-lg'>
-//             <img src={sky} alt='' className=' w-full h-full object-contain' />
-//           </div>
-//           <div className='sm:w-56 w-28 border-gray-200 rounded-lg'>
-//             <img src={dhl} alt='' className=' w-full h-full object-contain' />
-//           </div>
-//           <div className='  sm:w-56 w-28 border-gray-200 rounded-lg'>
-//             <img src={sups} alt='' className=' w-full h-full object-contain' />
-//           </div>
-//           <div className=' sm:w-56 w-28 border-gray-200 rounded-lg'>
-//             <img src={ups} alt='' className=' w-full h-full object-contain' />
-//           </div>
-//         </div>
-
-
-
-
-//       </div>
-
-//     },
-//     {
-//       id: 4,
-//       title: "Reviews",
-
-//     }
-//   ];
-
-
-//   const fetchProducts = async () => {
-//     setLoading(true);
-//     try {
-//       // Check cache first for instant loading
-//       const cachedProduct = getCachedProduct(slug);
-//       if (cachedProduct) {
-//         setProduct(cachedProduct);
-//         // Reset image carousel when product changes
-//         setCurr(0);
-//         setSelectedImage(null);
-//         setCurrentIndex(0);
-//         setLoading(false);
-//         return;
-//       }
-
-//       const response = await axios.get(`${BaseUrl}/products/get?slug=${slug}`)
-//       setProduct(response?.data?.data)
-//       // Reset image carousel when product changes
-//       setCurr(0);
-//       setSelectedImage(null);
-//       setCurrentIndex(0);
-//     } catch (err) {
-//       console.error('Error fetching product:', err);
-//     } finally {
-//       setLoading(false);
-//     }
-//   }
-
-//   const fetchRelatedProducts = async () => {
-//     try {
-//       const response = await axios.get(`${BaseUrl}/products/related-products?slug=${slug}`)
-//       setRelatedProduct(response?.data?.data)
-      
-//       // Prefetch related products immediately for fast navigation
-//       if (response?.data?.data?.relatedProducts && response.data.data.relatedProducts.length > 0) {
-//         prefetchProductsBatch(response.data.data.relatedProducts, {
-//           batchSize: 5,
-//           delayBetweenBatches: 50,
-//           priority: true // Priority for related products
-//         });
-//       }
-//     } catch (err) {
-//       console.error('Error fetching related products:', err);
-//     }
-//   }
-
-//   useEffect(() => {
-//     // Reset states when slug changes
-//     setProduct(null);
-//     setRelatedProduct([]);
-//     setCurr(0);
-//     setSelectedImage(null);
-//     setCurrentIndex(0);
-    
-//     // Check cache first for instant loading
-//     const cachedProduct = getCachedProduct(slug);
-//     if (cachedProduct) {
-//       setProduct(cachedProduct);
-//       fetchRelatedProducts();
-//       return;
-//     }
-    
-//     // If serverData is provided and matches current slug, use it
-//     if (serverData && serverData.slug === slug) {
-//       setProduct(serverData);
-//       fetchRelatedProducts();
-//     } else {
-//       // Fetch new product when slug changes
-//       fetchProducts();
-//       fetchRelatedProducts();
-//     }
-//   }, [slug])
-
-
-
-
-//   const breadcrumbSchema = {
-//     "@context": "https://schema.org",
-//     "@type": "BreadcrumbList",
-//     "itemListElement": [
-//       {
-//         "@type": "ListItem",
-//         "position": 1,
-//         "name": "Home",
-//         "item": BaseUrl
-//       },
-//       {
-//         "@type": "ListItem",
-//         "position": 2,
-//         "name": serverData?.brandId?.name,
-//         "item": `${BaseUrl}/category/${serverData?.brandId?.slug}`
-//       },
-//       {
-//         "@type": "ListItem",
-//         "position": 3,
-//         "name": product?.name,
-//         "item": `${BaseUrl}/sub-category/${slug}`
-//       },
-//       {
-//         "@type": "ListItem",
-//         "position": 4,
-//         "name": product?.name,
-//         "item": `${BaseUrl}/${slug}`
-//       }
-//     ]
-//   };
-//   const productSchema = {
-//     "@context": "https://schema.org",
-//     "@type": "Product",
-//     "name": serverData?.name,
-//     "image": `${BaseUrl}/${serverData?.images?.[0]?.url}`,
-//     "description": serverData?.metaDescription,
-//     "sku": "12345",
-//     "brand": {
-//       "@type": "Brand",
-//       "name": "Umbrella Custom Packaging"
-//     },
-//     "aggregateRating": {
-//       "@type": "AggregateRating",
-//       "ratingValue": "4.8",
-//       "reviewCount": "42",
-
-//     },
-//     "review": [
-//       {
-//         "@type": "Review",
-//         "reviewRating": {
-//           "@type": "Rating",
-//           "ratingValue": "4.7",
-//           "bestRating": "5"
-//         },
-//         "author": {
-//           "@type": "Person",
-//           "name": "Scott Ray"
-//         },
-//         "datePublished": "2025-08-26",
-//         "reviewBody": "Excellent quality packaging and timely delivery. Highly recommended!"
-//       }
-//     ],
-//     "offers": {
-//       "@type": "Offer",
-//       "url": `https://umbrellapackaging.com/${serverData?.slug}`,
-//       "priceCurrency": "USD",
-//       "price": serverData?.actualPrice,
-//       "priceValidUntil": serverData?.createdAt,
-//       "availability": "https://schema.org/InStock",
-//       "itemCondition": "https://schema.org/NewCondition",
-//       "seller": {
-//         "@type": "Organization",
-//         "name": "Umbrella Custom Packaging"
-//       }
-//     }
-//   };
-
-
-//   return (
-//     <>
-
-
-//     {product ? (
-//   <PageMetadata
-//     title={product?.metaTitle}
-//     description={product?.metaDescription || ""}
-//     keywords={product?.keywords || ""}
-//     ogUrl={`${BaseUrl}/category/${slug}`}
-//     ogImage={`${BaseUrl}/${serverData?.images?.[0]?.url || ""}`}
-//     ogImageWidth="1200"
-//     ogImageHeight="630"
-//     canonicalUrl={`${BaseUrl}/${slug}`}
-//     breadcrumbSchema={breadcrumbSchema}
-//     productSchema={productSchema}
-//     robots={product?.robots || serverData?.robots}
-//   />
-// ) : null}
-
-
-//       <section className='py-8'>
-//         <div className='lg:max-w-6xl max-w-[95%] bg-[#F7F7F7] rounded-lg p-2 flex lg:flex-row flex-col gap-4 mx-auto'>
-//           <div className='lg:w-6/12'>
-
-//             <div className=' pb-7 pt-3'>
-//               {/* <h1 className='pb-2  font-sans text-[28px] block sm:hidden'>{product?.name}</h1> */}
-
-//               <p className=' flex  flex-wrap items-center gap-1'><strong className=' font-normal  text-[#4440E6]'> <Link to={'/'} className='   font-sans' > Home </Link> </strong>/<strong className=' font-normal text-[#4440E6] capitalize'> <Link className='font-sans whitespace-nowrap' to={`/category/${product?.brandId?.slug}`}>{product?.brandId?.name}</Link> </strong> /<strong className='font-normal text-[#4440E6] capitalize'> <Link className=' font-sans whitespace-nowrap' to={`/sub-category/${product?.categoryId?.slug}`}>{product?.categoryId?.title}</Link> </strong> /<span className=' font-sans  whitespace-nowrap '>{product?.name} </span></p>
-//             </div>
-//             <div className='w-full'>
-//               <div className="overflow-hidden relative">
-//                 <div
-//                   className="flex relative transition-transform ease-out duration-500"
-//                   style={{ transform: `translateX(-${curr * 100}%)` }}
-//                 >
-//                   {product?.images?.map((image, i) => (
-//                     <div key={i} className="flex-none w-full rounded-lg overflow-hidden h-full">
-//                       <img
-//                         onClick={() => openImageViewer(image, i)}
-//                         src={`${BaseUrl}/${image?.url}`}
-//                         alt={image?.altText}
-//                         className="w-full cursor-pointer h-full object-cover"
-//                       />
-
-
-//                     </div>
-//                   ))}
-//                 </div>
-//                 <div onClick={() => openImageViewer(product?.images?.[curr], curr)} className=' flex justify-center items-center cursor-pointer w-10 h-10 bg-white rounded-full absolute top-3 right-3'>
-//                   <IoSearch size={25} />
-//                 </div>
-//                 {/* <button
-//                   onClick={prev}
-//                   className="w-12 h-12 shadow rounded-full cursor-pointer absolute left-5 sm:top-56 top-40 flex justify-center items-center bg-white/80 text-gray-800 hover:bg-white"
-//                 >
-//                   <TfiAngleLeft size={20} className="" />
-//                 </button>
-//                 <button
-//                   onClick={next}
-//                   className="w-12 h-12 rounded-full absolute cursor-pointer right-5 sm:top-56 top-40 flex justify-center items-center shadow bg-white/80 text-gray-800 hover:bg-white"
-//                 >
-//                   <TfiAngleRight size={20} />
-//                 </button> */}
-//               </div>
-
-//               <div className="flex flex-row pt-4 items-center justify-between gap-2">
-//                 {product?.images?.map((image, i) => (
-//                   <div
-//                     key={i}
-//                     onClick={() => goToSlide(i)}
-//                     className={`
-//                                             transition-all  w-32 rounded-lg  h-auto overflow-hidden bg-white 
-//                                             ${curr === i ? "w-20 h-20 border-2 border-[#4440E6] border-dashed" : "bg-opacity-100 bg-white"}
-//                                         `}
-//                   >
-//                     <img
-//                       src={`${BaseUrl}/${image?.url}`}
-//                       alt=""
-//                       className="w-full h-full object-center"
-//                     />
-//                   </div>
-//                 ))}
-//               </div>
-//             </div>
-//           </div>
-
-//           <div className="pt-3.5 lg:w-6/12">
-//             <h1 className='pb-2 font-semibold font-sans sm:text-[28px]  text-[20px]'>{product?.name}</h1>
-//             <form onSubmit={handleSubmit}>
-//               <div className="grid grid-cols-2 gap-4">
-//                 <div className="w-full">
-//                   <Input
-//                     label="Name"
-//                     star={"*"}
-//                     name="name"
-//                     value={formData.name}
-//                     onChange={handleChange}
-//                     placeholder="Your Name"
-//                     className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
-//                     required
-//                   />
-//                 </div>
-
-//                 <div className="w-full">
-//                   <Input
-//                     label="Email"
-//                     star={"*"}
-//                     name="email"
-//                     type="email"
-//                     value={formData.email}
-//                     onChange={handleChange}
-//                     placeholder="Your Email"
-//                     className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
-//                     required
-//                   />
-//                 </div>
-
-//                 <div className="w-full">
-//                   <Input
-//                     label="Company Name"
-//                     name="companyName"
-//                     value={formData.companyName}
-//                     onChange={handleChange}
-//                     placeholder="Company Name"
-//                     className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
-//                   />
-//                 </div>
-
-//                 <div className="w-full">
-//                   <Input
-//                     label="Phone Number"
-//                     name="phoneNumber"
-//                     value={formData.phoneNumber}
-//                     onChange={handleChange}
-//                     placeholder="Phone Number"
-//                     className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
-//                   />
-//                 </div>
-//               </div>
-//               <div className="grid grid-cols-2 mt-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-//                 <div className="w-full col-span-1 sm:col-span-1">
-//                   <Input
-//                     label="Box Style"
-//                     star={"*"}
-//                     name="boxStyle"
-//                     type={'text'}
-//                     value={formData.boxStyle}
-//                     onChange={handleChange}
-//                     placeholder="Box Style"
-//                     className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
-//                     required
-//                   />
-//                 </div>
-
-//                 <div className="w-full col-span-1 sm:col-span-1">
-//                   <Input
-//                     label="Size (Length)"
-//                     star={"*"}
-//                     name="length"
-//                     type={'number'}
-//                     value={formData.length}
-//                     onChange={handleChange}
-//                     placeholder="Length"
-//                     className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
-//                     required
-//                   />
-//                 </div>
-
-//                 <div className="w-full col-span-1 sm:col-span-1">
-//                   <Input
-//                     label="Size (Width)"
-//                     star={"*"}
-//                     name="width"
-//                     type={'number'}
-//                     value={formData.width}
-//                     onChange={handleChange}
-//                     placeholder="width"
-//                     className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
-//                     required
-//                   />
-//                 </div>
-
-//                 <div className="w-full col-span-1 sm:col-span-1">
-//                   <Input
-//                     label="Size (Depth)"
-//                     star={"*"}
-//                     name="depth"
-//                     type={'number'}
-//                     value={formData.depth}
-//                     onChange={handleChange}
-//                     placeholder="Depth"
-//                     className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
-//                     required
-//                   />
-//                 </div>
-
-//                 <div className="w-full col-span-1 sm:col-span-1">
-
-//                   <label
-//                     htmlFor="Unit"
-//                     className="  pb-1 flex  text-[#333333] text-sm font-medium   text-textColor"
-//                   >
-//                     Unit
-
-//                   </label>
-//                   <select name="unit" value={formData.unit}
-//                     onChange={handleChange} className="w-full outline-none bg-lightGray   text-gray-500 placeholder:text-gray-400 placeholder:text-sm  border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
-//                     required
-//                   >
-//                     <option value={'Inches'}>Inches</option>
-//                     <option value={'mm'}>mm</option>
-//                     <option value={'cm'}>cm</option>
-//                   </select>
-//                 </div>
-
-
-
-//                 <div className="w-full col-span-1 sm:col-span-1">
-
-//                   <label
-//                     htmlFor="Stock"
-//                     className="  pb-1 flex  text-[#333333] text-sm font-medium   text-textColor"
-//                   >
-//                     Stock
-
-//                   </label>
-//                   <select name="stock" value={formData.stock}
-//                     onChange={handleChange} className="w-full border text-gray-500 border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
-//                     required
-//                   >
-//                     <option value={'Stock'}>Stock</option>
-//                     <option value={'12pt Cardboard'}>12pt Cardboard</option>
-//                     <option value={'14pt Cardboard'}>14pt Cardboard</option>
-//                     <option value={'16pt Cardboard'}>16pt Cardboard</option>
-//                     <option value={'18pt Cardboard'}>18pt Cardboard</option>
-//                     <option value={'20pt Cardboard'}>20pt Cardboard</option>
-//                     <option value={'22pt Cardboard'}>22pt Cardboard</option>
-//                     <option value={'24pt Cardboard'}>24pt Cardboard</option>
-//                     <option value={'White SBS C1S C25'}>White SBS C1S C25</option>
-//                     <option value={'Corrugated'}>Corrugated</option>
-//                     <option value={'Rigid'}>Rigid</option>
-//                     <option value={'Kraft'}>Kraft</option>
-//                     <option value={'Linen'}>Linen</option>
-//                   </select>
-//                 </div>
-
-
-
-//                 <div className="w-full col-span-1 sm:col-span-1">
-
-//                   <label
-//                     htmlFor="Colors"
-//                     className="  pb-1 flex  text-[#333333] text-sm font-medium   text-textColor"
-//                   >
-//                     Colors
-
-//                   </label>
-//                   <select name="color" value={formData.color}
-//                     onChange={handleChange} className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
-//                     required
-//                   >
-//                     <option value={'Colors'}>Colors</option>
-//                     <option value={'Plain (No Printing)'}>Plain (No Printing)</option>
-//                     <option value={'1 Color'}>1 Color</option>
-//                     <option value={'2 Color'}>2 Color</option>
-//                     <option value={'3 Color'}>3 Color</option>
-//                     <option value={'4 Color'}>4 Color</option>
-//                     <option value={'4/1 Color'}>4/1 Color</option>
-//                     <option value={'4/2 Color'}>4/2 Color</option>
-//                     <option value={'4/3 Color'}>4/3 Color</option>
-//                     <option value={'4/4 Color'}>4/4 Color</option>
-
-//                   </select>
-//                 </div>
-
-
-
-//                 <div className="w-full col-span-1 sm:col-span-1">
-
-//                   <label
-//                     htmlFor="Printing Sides"
-//                     className="  pb-1 flex  text-[#333333] text-sm font-medium   text-textColor"
-//                   >
-//                     Printing Sides
-
-//                   </label>
-//                   <select name="printingSides" value={formData.printingSides}
-//                     onChange={handleChange} className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
-//                     required
-//                   >
-//                     <option value={'Inside'}>Inside</option>
-//                     <option value={'Outside'}>Outside</option>
-//                     <option value={'2 Color'}>Both (Inside & Outside)</option>
-
-//                   </select>
-//                 </div>
-
-
-//                 <div className="w-full col-span-1 sm:col-span-1">
-//                   <Input
-//                     label="Quantity"
-//                     star={"*"}
-//                     name="quantity"
-//                     type={'number'}
-//                     value={formData.quantity}
-//                     onChange={handleChange}
-//                     placeholder="Quantity"
-//                     className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
-//                     required
-//                   />
-//                 </div>
-
-
-
-//                 <div className="w-full col-span-1 sm:col-span-1">
-
-//                   <label
-//                     htmlFor="Add-Ons"
-//                     className="  pb-1 flex  text-[#333333] text-sm font-medium   text-textColor"
-//                   >
-//                     Add-Ons
-
-//                   </label>
-//                   <select name="addons" value={formData.addons}
-//                     onChange={handleChange} className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
-//                   // required
-//                   >
-//                     <option selected></option>
-//                     <option value={'Foiling'}>Foiling</option>
-//                     <option value={'Spot UV'}>Spot UV</option>
-//                     <option value={'Embossing'}>Embossing</option>
-//                     <option value={'Debossing'}>Debossing</option>
-//                     <option value={'handles'}>handles</option>
-//                     <option value={'Inserts'}>Inserts</option>
-//                     <option value={'Windows'}>Windows</option>
-
-//                   </select>
-//                 </div>
-
-
-//               </div>
-
-//               <div className=' grid md:grid-cols-2 grid-cols-1 gap-4 mt-4'>
-//                 <div className="w-full">
-//                   <label
-//                     htmlFor="design_upload"
-//                     className="block pb-1.5 text-[#333333] text-sm md:text-base font-medium"
-//                   >
-//                     Upload Your Design, Max Size 5MB
-//                     <p className="flex flex-wrap gap-0.5 text-xs md:text-sm mt-1">
-//                       Allowed File Types:
-//                       <span className="font-semibold"> png, pdf, jpg, jpeg, webp</span>
-//                     </p>
-//                   </label>
-//                   <Input
-//                     type="file"
-//                     name="image"
-//                     onChange={handleChange}
-//                     className="border w-full bg-white rounded-lg border-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#4440E6] file:text-white hover:file:bg-[#3a36c7]"
-//                     accept=".png,.pdf,.jpg,.jpeg,.webp"
-//                   />
-//                 </div>
-
-//                 <div className="w-full ">
-//                   <label
-//                     htmlFor="description"
-//                     className="block pb-1.5 text-[#333333] text-sm md:text-base font-medium"
-//                   >
-//                     Description
-//                   </label>
-//                   <textarea
-//                     id="message"
-//                     name="message"
-//                     value={formData.message}
-//                     onChange={handleChange}
-//                     rows={3}
-//                     className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
-//                     placeholder="Tell us the size / dimensions, material, finising, add-ons, and design preferences."
-
-//                   ></textarea>
-//                 </div>
-
-//               </div>
-
-//               <div>
-//                 <div className="w-full flex justify-end mt-2">
-
-//                   <Button
-//                     type="submit"
-//                     label={isLoading ? "Sending..." : "Request A Quote"}
-//                     // disabled={!validate() || isLoading}
-//                     className={`bg-[#4440E6] w-full text-white py-2.5 px-4 rounded-lg hover:bg-[#3938b8] transition-colors ${!validate || isLoading ? 'opacity-50 cursor-not-allowed' : ''
-//                       }`}
-//                   />
-//                 </div>
-//               </div>
-//             </form>
-//           </div>
-//         </div>
-//       </section>
-
-
-//       <section>
-//         <div className=' sm:max-w-6xl bg-[#F7F7F7] p-3 rounded-xl mb-8 max-w-[95%] mx-auto'>
-//           <div className="my-10">
-//             <Tabs defaultTab={"Description"} className={' bg-white'} tabs={customBox} />
-//           </div>
-//         </div>
-//       </section>
-
-//       <section className='  '>
-//         <div className=' sm:max-w-6xl max-w-[95%] bg-[#FFDEBF] rounded-lg mx-auto'>
-//           <div className="flex flex-col  px-4 py-3 rounded-lg lg:flex-row  gap-8 items-center">
-//             <div className="w-full  lg:w-1/2">
-//               <img
-//                 src={`${BaseUrl}/${product?.bannerImage}`}
-//                 alt="Custom packaging example"
-//                 className="w-full h-auto rounded-xl shadow-md object-cover"
-//                 loading="lazy"
-//               />
-
-//             </div>
-
-//             <div className='w-full lg:w-1/2 '>
-
-//               <div className=" pt-3">
-//                 <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
-//                   {product?.bannerTitle}
-
-//                 </h2>
-//                 <div className=' overflow-y-auto blog_content  h-56'>
-//                   <p dangerouslySetInnerHTML={{ __html: product?.bannerContent }} className="text-sm leading-6 text-gray-700 mb-6">
-
-
-
-//                   </p>
-
-//                 </div>
-
-
-//               </div>
-
-//               <div className=" flex flex-wrap   mt-7 gap-2.5 items-center">
-//                 <Button
-
-//                   label={"Order Process"}
-//                   className=" bg-[#4440E6] text-white"
-//                 />
-
-//               </div>
-//             </div>
-
-
-
-//           </div>
-//         </div>
-//       </section>
-
-
-
-
-
-
-//       <div className=" sm:max-w-6xl max-w-[95%]  mt-5 py-4 bg-[#F7F7F7] rounded-lg  px-3 mx-auto">
-//         <div className="text-center mb-12">
-//           <h2 className="sm:text-[35px] text-[25px]   text-center   font-sans   font-[600] text-[#333333]">
-//             Enhance Your Product Presentation with Our Special Packaging Features
-
-//           </h2>
-
-//         </div>
-
-//         <div className="grid grid-cols-2 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-//           {features.map((feature) => (
-//             <div
-//               key={feature.name}
-//               className="bg-white"
-//             >
-//               <div className="text-center">
-//                 <div>
-//                   <img src={feature.icon} alt='' className=' rounded-lg w-full' />
-//                 </div>
-//                 <strong className="text-xl font-medium text-gray-900 mb-2">{feature.name}</strong>
-//               </div>
-//             </div>
-//           ))}
-//         </div>
-//       </div>
-
-//       <section className="my-8 md:my-12">
-//         <div className=" sm:max-w-6xl max-w-[95%] mx-auto">
-//           <div className="flex flex-col lg:flex-row gap-6 md:gap-8">
-//             {/* Image Section */}
-//             <div className="w-full lg:w-3/12">
-//               {product?.images?.[0]?.url && (
-//                 <img
-//                   className="rounded-xl w-full h-auto object-cover shadow-md"
-//                   src={`${BaseUrl}/${product.images[0].url}`}
-//                   alt="Automobile Tuck End Boxes"
-//                 />
-//               )}
-//             </div>
-
-//             {/* Content Section */}
-//             <div className="w-full lg:w-9/12">
-//               {/* Buy Now Button */}
-//               <button className="bg-black hover:bg-gray-800 transition-colors duration-300 w-full text-white text-xl md:text-2xl font-bold py-3 px-4 rounded-lg shadow-lg">
-//                 Buy Now!
-//               </button>
-
-//               {/* Description */}
-//               <p className="text-center py-4 md:py-6 text-gray-700 text-sm md:text-base leading-relaxed">
-//                 Please note that it is our standard packaging for Automobile Tuck End Boxes.
-//                 If you want to customize your packaging, please send a custom quote request above.
-//                 We will respond to you immediately.
-//               </p>
-
-//               {/* Product Info Grid */}
-//               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 md:gap-4 w-full mb-4">
-//                 {/* Product Name */}
-//                 <div className="border border-gray-200 rounded-lg p-2 md:p-3 bg-white shadow-sm">
-//                   <button className="bg-[#5A56E9] mb-2 hover:bg-[#4440E6] text-white w-full text-sm md:text-base font-medium py-2 px-3 rounded">
-//                     Product Name
-//                   </button>
-//                   <div className=' pt-3 text-center'>
-//                     <strong className="  text-gray-400  font-medium text-[16px]">{product?.name}</strong>
-
-//                   </div>
-//                 </div>
-
-//                 {/* Size */}
-//                 <div className="border border-gray-200 rounded-lg p-2 md:p-3 bg-white shadow-sm">
-//                   <button className="bg-[#5A56E9] mb-2 hover:bg-[#4440E6] text-white w-full text-sm md:text-base font-medium py-2 px-3 rounded">
-//                     Size
-//                   </button>
-//                   <div className=' pt-3 text-center'>
-//                     <strong className="  text-gray-400  font-medium text-[16px]">{product?.size}</strong>
-
-//                   </div>
-//                 </div>
-
-//                 {/* Price */}
-//                 <div className="border border-gray-200 rounded-lg p-2 md:p-3 bg-white shadow-sm">
-//                   <button className="bg-[#5A56E9] hover:bg-[#4440E6] text-white w-full text-sm md:text-base font-medium py-2 px-3 rounded">
-//                     Price
-//                   </button>
-//                   <div className=' pt-3 text-center'>
-//                     <strong className="  text-gray-400  font-medium text-[16px]">${product?.actualPrice}</strong>
-
-//                   </div>
-//                 </div>
-//               </div>
-
-//               {/* Quantity and Add to Cart */}
-//               <div className="flex flex-col sm:flex-row justify-center items-center gap-3 pt-2">
-//                 <div className="flex items-center gap-2">
-//                   <label htmlFor="quantity" className="text-gray-700 font-medium hidden sm:block">Qty:</label>
-//                   <input
-//                     type="number"
-//                     id="quantity"
-//                     min="1"
-//                     defaultValue={1}
-//                     className="rounded-lg border-2 border-gray-300 focus:border-[#5A56E9] focus:ring-1 focus:ring-[#5A56E9] w-16 md:w-20 py-2 px-3 text-center"
-//                   />
-//                 </div>
-//                 <button onClick={() => {
-//                   dispatch(
-//                     addToCart({
-//                       _id: product._id,
-//                       image: `${BaseUrl}/${product?.images[0]?.url}`,
-//                       title: product.name,
-//                       price: product.actualPrice,
-//                       description: product.description,
-//                       quantity: 1,
-//                     })
-//                   )
-//                   navigate('/cart')
-//                 }} className="bg-[#4440E6] cursor-pointer hover:bg-[#3835C7] text-white font-bold py-2 px-6 rounded-lg transition-colors duration-300 shadow-md w-full sm:w-auto">
-//                   Add to cart
-//                 </button>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </section>
-
-//       <section className=' '>
-//         <CustomPackagingProduced />
-//       </section>
-
-//       <div className=" py-4 sm:max-w-6xl max-w-[95%] mx-auto">
-//         <Container fullWidth={false} className="">
-//           <div className="">
-//             <div>
-//               <h3 className=" text-2xl font-semibold">RELATED PRODUCTS</h3>
-//             </div>
-//             <div className=' py-5'>
-//               <CardSlider item={relatedProduct?.relatedProducts} disableSelection={true} />
-//             </div>
-
-
-//           </div>
-//         </Container>
-//       </div>
-
-
-//       {isViewerOpen && selectedImage && (
-//         <div className="fixed inset-0 bg-[rgba(0,0,0,0.8)] bg-opacity-90 z-50 flex items-center justify-center p-4">
-//           <div className='absolute top-4 right-4'>
-//             <button
-//               onClick={closeImageViewer}
-//               className=" text-white text-3xl  cursor-pointer hover:text-gray-300"
-//             >
-//               &times;
-//             </button>
-
-
-//           </div>
-//           <button
-//             onClick={goToPrevious}
-//             className="absolute left-6 text-white text-3xl w-12 h-12 rounded-2xl bg-[#4440E6] cursor-pointer hover:text-gray-300 flex justify-center items-center "
-//           >
-//             <FaAngleLeft color="white" />
-//           </button>
-
-
-//           <div className="max-w-4xl max-h-screen overflow-auto">
-//             <img
-//               src={`${BaseUrl}/${selectedImage.url}`}
-//               alt={selectedImage.altText}
-//               className="max-w-full max-h-screen object-contain"
-//             />
-//           </div>
-
-
-//           <button
-//             onClick={goToNext}
-//             className="absolute right-6 w-12 h-12 rounded-2xl text-white bg-[#4440E6] text-3xl cursor-pointer hover:text-gray-300 flex justify-center items-center "
-//           >
-//             <FaAngleRight color="white" />
-//           </button>
-
-//           <div className="absolute bottom-4 text-white">
-//             {currentIndex + 1} / {product?.images.length}
-//           </div>
-//         </div>
-//       )}
-//     </>
-//   )
-// }
-
-// export default ProductDetails
 import React, { useEffect, useState } from 'react'
 import SampleKit from '../../components/SampleKit'
 import Tabs from '../../components/common/Tabs'
 import { TfiAngleLeft, TfiAngleRight } from 'react-icons/tfi'
 import Input from '../../components/common/Input'
+import Select from '../../components/common/Select'
+import Textarea from '../../components/common/Textarea'
 import Button from '../../components/common/Button'
 import { IoHomeOutline } from 'react-icons/io5'
 import { LiaAngleRightSolid } from 'react-icons/lia'
 import BottomHero from '../../components/Hero/BottomHero'
 import ProductDetail from '../../components/common/ProductDetail'
+import axios from 'axios'
+import { BaseUrl } from '../../utils/BaseUrl'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { useDispatch } from 'react-redux'
+import { addToCart } from '../../store/productSlice'
+import { IoSearch } from 'react-icons/io5'
+import PageMetadata from '../../components/common/PageMetadata'
+import { prefetchProductsBatch, getCachedProduct } from '../../utils/prefetchUtils'
+import Container from '../../components/common/Container'
+import CardSlider from '../../components/common/CardSlider'
+import ProductCard from '../../components/common/ProductCard'
+import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
+
+// Skeleton shimmer animation style
+const shimmerStyle = {
+    animation: 'shimmer 2s infinite linear',
+    background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
+    backgroundSize: '200% 100%'
+}
+
+// Add shimmer keyframes to document head
+if (typeof document !== 'undefined' && !document.getElementById('shimmer-style')) {
+    const style = document.createElement('style');
+    style.id = 'shimmer-style';
+    style.textContent = `
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        @keyframes zoomIn {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        .animate-zoomIn {
+            animation: zoomIn 0.3s ease-out;
+        }
+        .animate-fadeIn {
+            animation: fadeIn 0.3s ease-out;
+        }
+    `;
+    document.head.appendChild(style);
+}
+
 const ProductDetails = ({
+    serverData,
     children: slides,
     autoSlide = false,
     autoSlideInterval = 3000,
 }) => {
-
-    const images = [
-        "https://www.halfpricepackaging.com/_ipx/f_webp&fit_cover&s_550x550/https://www.halfpricepackaging.com/storage/product_uploads/tuck-top-mailing-boxes.jpg",
-        "https://www.halfpricepackaging.com/_ipx/f_webp&fit_cover&s_550x550/https://www.halfpricepackaging.com/storage/product_uploads/corrugated-tuck-top-box.jpg",
-        "https://www.halfpricepackaging.com/_ipx/f_webp&fit_cover&s_550x550/https://www.halfpricepackaging.com/storage/product_uploads/tuck-top-mailer.jpg",
-      ];
-
+    const { slug } = useParams()
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const [product, setProduct] = useState(null);
+    const [relatedProduct, setRelatedProduct] = useState([])
+    const [loading, setLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [curr, setCurr] = useState(0);
-    const prev = () =>
-      setCurr((curr) =>
-        curr === 0
-          ? [
-              images?.[0],
-              images?.[1],
-              images?.[2],
-              images?.[0],
-            ].length - 1
-          : curr - 1
-      );
-    const next = () =>
-      setCurr((curr) =>
-        curr ===
-        [
-            images?.[0],
-            images?.[1],
-            images?.[2],
-            images?.[0],
-        ]?.length -
-          1
-          ? 0
-          : curr + 1
-      );
-  
+    const [materialCurr, setMaterialCurr] = useState(0);
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [isViewerOpen, setIsViewerOpen] = useState(false);
+    const [loadedImages, setLoadedImages] = useState(new Set());
+    const [thumbnailLoadedImages, setThumbnailLoadedImages] = useState(new Set());
+
+    const initialFormState = {
+        name: "",
+        email: "",
+        companyName: "",
+        phoneNumber: "",
+        boxStyle: "",
+        length: "",
+        width: "",
+        depth: "",
+        unit: "Inches",
+        stock: "Stock",
+        color: "Colors",
+        printingSides: "Inside",
+        quantity: "",
+        addons: "",
+        image: null,
+        message: "",
+        pageUrl: typeof window !== "undefined" ? window.location.href : ""
+    };
+
+    const [formData, setFormData] = useState(initialFormState);
+
+    const validate = () => {
+        return (
+            formData.boxStyle &&
+            formData.length &&
+            formData.width &&
+            formData.depth &&
+            formData.quantity
+        );
+    };
+
+    const handleChange = (e) => {
+        const { name, value, files } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: files ? files[0] : value
+        }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+        try {
+            const formDataToSend = new FormData();
+            for (const key in formData) {
+                formDataToSend.append(key, formData[key]);
+            }
+
+            const response = await axios.post(`${BaseUrl}/requestQuote/create`, formDataToSend);
+
+            if (response.data.status === 'success') {
+                navigate('/thank-you-page')
+                setIsLoading(false);
+                setFormData(initialFormState);
+            } else {
+                toast.error(response.data.message)
+                setIsLoading(false);
+            }
+        } catch (error) {
+            toast.error(error?.response?.data?.message)
+            setIsLoading(false);
+        }
+    };
+
+    const fetchProducts = async () => {
+        setLoading(true);
+        try {
+            // Check cache first for instant loading
+            const cachedProduct = getCachedProduct(slug);
+            if (cachedProduct) {
+                setProduct(cachedProduct);
+                setCurr(0);
+                setSelectedImage(null);
+                setCurrentIndex(0);
+                // Preload first image immediately for instant display
+                if (cachedProduct?.images && cachedProduct.images.length > 0) {
+                    const firstImage = new Image();
+                    firstImage.src = `${BaseUrl}/${cachedProduct.images[0].url}`;
+                    firstImage.onload = () => {
+                        setLoadedImages(prev => new Set([...prev, 0]));
+                    };
+                    firstImage.onerror = () => {
+                        setLoadedImages(prev => new Set([...prev, 0]));
+                    };
+                }
+                setLoading(false);
+                return;
+            }
+
+            const response = await axios.get(`${BaseUrl}/products/get?slug=${slug}`)
+            const productData = response?.data?.data;
+            setProduct(productData);
+            setCurr(0);
+            setSelectedImage(null);
+            setCurrentIndex(0);
+            
+            // Preload first image immediately for instant display
+            if (productData?.images && productData.images.length > 0) {
+                const firstImage = new Image();
+                firstImage.src = `${BaseUrl}/${productData.images[0].url}`;
+                firstImage.onload = () => {
+                    setLoadedImages(prev => new Set([...prev, 0]));
+                };
+                firstImage.onerror = () => {
+                    setLoadedImages(prev => new Set([...prev, 0]));
+                };
+            }
+        } catch (err) {
+            console.error('Error fetching product:', err);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const fetchRelatedProducts = async () => {
+        try {
+            const response = await axios.get(`${BaseUrl}/products/related-products?slug=${slug}`)
+            setRelatedProduct(response?.data?.data)
+            
+            // Prefetch related products immediately for fast navigation
+            if (response?.data?.data?.relatedProducts && response.data.data.relatedProducts.length > 0) {
+                prefetchProductsBatch(response.data.data.relatedProducts, {
+                    batchSize: 5,
+                    delayBetweenBatches: 50,
+                    priority: true
+                });
+            }
+        } catch (err) {
+            console.error('Error fetching related products:', err);
+        }
+    }
+
     useEffect(() => {
-      if (!autoSlide) return;
-      const slideInterval = setInterval(next, autoSlideInterval);
-      return () => clearInterval(slideInterval);
-    }, []);
+        // Reset states when slug changes
+        setProduct(null);
+        setRelatedProduct([]);
+        setCurr(0);
+        setSelectedImage(null);
+        setCurrentIndex(0);
+        setLoadedImages(new Set());
+        setThumbnailLoadedImages(new Set());
+        
+        // If serverData is provided and matches current slug, use it first
+        if (serverData && serverData.slug === slug) {
+            setProduct(serverData);
+            // Preload first image immediately
+            if (serverData.images && serverData.images.length > 0) {
+                const firstImage = new Image();
+                firstImage.src = `${BaseUrl}/${serverData.images[0].url}`;
+                firstImage.onload = () => {
+                    setLoadedImages(prev => new Set([...prev, 0]));
+                };
+                firstImage.onerror = () => {
+                    setLoadedImages(prev => new Set([...prev, 0]));
+                };
+            }
+            fetchRelatedProducts();
+        }
+        
+        // Always fetch fresh data to ensure we have the latest
+        fetchProducts();
+        fetchRelatedProducts();
+    }, [slug])
+
+    // Use product images from API only (no default fallback images)
+    const images = product?.images?.length
+        ? product.images.map(img => `${BaseUrl}/${img.url}`)
+        : [];
+
+    const prev = () =>
+        setCurr((curr) =>
+            curr === 0
+                ? images.length - 1
+                : curr - 1
+        );
+
+    const next = () =>
+        setCurr((curr) =>
+            curr === images.length - 1
+                ? 0
+                : curr + 1
+        );
+
+    useEffect(() => {
+        if (!autoSlide) return;
+        const slideInterval = setInterval(next, autoSlideInterval);
+        return () => clearInterval(slideInterval);
+    }, [images]);
 
     const goToSlide = (index) => {
         setCurr(index);
-      };
+    };
 
-    const customBox = [
-        {
-          id: 1,
-        
-          title: "Description",
-          subTitle: "Strong Boxes for Special Things: Rigid Boxes Explained!",
-          description:
-            "Rigid boxes are like super strong and unbreakable homes for extraordinary things. The manufacturers make these boxes using special materials to keep toys, makeup, and nice things protected. Additionally, people use printed rigid boxes to make things look extra special by painting them with cool colors and designs.",
-          image:
-            "https://umbrellapackaging.com/images/rigid-box.webp",
-          buttonUrl: "#",
-        },
-        {
-          id: 2,
-          title: "Add-ons & Finishing",
-          subTitle: "Super Boxes: How Corrugated Magic Keeps Things Safe!",
-          description:
-            "Corrugated boxes are special types of containers made from a material called corrugated cardboard. Essentially, these boxes consist of three layers. The inner layer, known as corrugation, adds strength and durability to the box. Perfect for mailing and shipping, they make sure your items reach their destination in great shape. Trust corrugated boxes for a safe and secure journey!",
-          image:
-            "https://umbrellapackaging.com/wp-content/uploads/2024/01/corrugated2.webp",
-          buttonUrl: "#",
-        },
-        {
-          id: 3,
-          title: "Paper weight",
-          subTitle: "Go Green with Kraft Boxes!",
-          description:
-            "Make a smart choice with Kraft boxes—good for your stuff and good for the environment! These boxes are strong containers for packing things, and they’re made from a special paper called kraft paper. These boxes are handy for packing lots of different things, showing that they work well for many uses.",
-          image:
-            "https://umbrellapackaging.com/wp-content/uploads/2024/01/kraft.webp",
-          buttonUrl: "#",
-        },
-        {
-          id: 4,
-          title: "Shipping",
-          subTitle:
-            "Magic of Cardboard: Versatile Containers for Retail Packaging!",
-          description:
-            "Cardboard boxes are like strong, big containers made out of thick paper. They’re used for packing and carrying lots of different things. They come in all shapes and sizes, like small ones for holding toys or big ones. These boxes are perfect for packaging your items and making them look neat on the shelves. They keep your products safe and make your shop look great!",
-          image:
-            "https://umbrellapackaging.com/wp-content/uploads/2024/01/cardboard.webp",
-          buttonUrl: "#",
-        },
-        {
-          id: 4,
-          title: "Materials",
-          subTitle:
-            "Fancy Boxes: Cool Black Linen Style!",
-          description:
-            "Get sleek Black Linen boxes for your special items! These boxes look cool and feel smooth. They come in black color. These boxes are eco-friendly helping to keep the Earth healthy. Perfect for keeping your things safe and looking fancy. You can choose black Linen boxes for a stylish way to store and protect your stuff!",
-          image:
-            "https://umbrellapackaging.com/wp-content/uploads/2024/01/blak-linen-boxes.webp",
-          buttonUrl: "#",
-        },
-        {
-            id: 4,
-            title: "Faq's",
-            subTitle:
-              "Fancy Boxes: Cool Black Linen Style!",
-            description:
-              "Get sleek Black Linen boxes for your special items! These boxes look cool and feel smooth. They come in black color. These boxes are eco-friendly helping to keep the Earth healthy. Perfect for keeping your things safe and looking fancy. You can choose black Linen boxes for a stylish way to store and protect your stuff!",
-            image:
-              "https://umbrellapackaging.com/wp-content/uploads/2024/01/blak-linen-boxes.webp",
-            buttonUrl: "#",
-          }
-      ];
-    
-      const data = customBox.map((box) => ({
-        title: box.title,
-        content: <ProductDetail {...box} />,
-      }));
+    const openImageViewer = (image, index) => {
+        if (product?.images?.[index]) {
+            setSelectedImage(product.images[index]);
+            setCurrentIndex(index);
+            setIsViewerOpen(true);
+            document.body.style.overflow = 'hidden';
+        }
+    };
 
+    const closeImageViewer = () => {
+        setIsViewerOpen(false);
+        document.body.style.overflow = 'auto';
+    };
+
+    const goToPrevious = () => {
+        if (product?.images?.length) {
+            const newIndex = (currentIndex - 1 + product.images.length) % product.images.length;
+            setSelectedImage(product.images[newIndex]);
+            setCurrentIndex(newIndex);
+        }
+    };
+
+    const goToNext = () => {
+        if (product?.images?.length) {
+            const newIndex = (currentIndex + 1) % product.images.length;
+            setSelectedImage(product.images[newIndex]);
+            setCurrentIndex(newIndex);
+        }
+    };
+
+    useEffect(() => {
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, []);
+
+    // Keyboard navigation for image viewer
+    useEffect(() => {
+        if (!isViewerOpen) return;
+
+        const handleKeyDown = (e) => {
+            if (e.key === 'Escape') {
+                closeImageViewer();
+            } else if (e.key === 'ArrowLeft' && product?.images?.length > 1) {
+                goToPrevious();
+            } else if (e.key === 'ArrowRight' && product?.images?.length > 1) {
+                goToNext();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [isViewerOpen]);
 
     
-    
-  return (
-    <>
-   
-     <section className=' bg-[#F4F4F4] py-8'>
-     <div className=' lg:max-w-8xl max-w-[95%]   flex lg:flex-row flex-col gap-4 mx-auto'>
-        <div className='  lg:w-6/12 '>
-            <div className=' flex gap-2 pb-5 items-center'>
-                       <IoHomeOutline size={20} /> <LiaAngleRightSolid />
-                            <h6 className=''> 
-                              Box By industry
+    const materialSlides = [
+        {
+            title: "White",
+            image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+        },
+        {
+            title: "Card Stock",
+            image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+        },
+        {
+            title: "Corrugated",
+            image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+        },
+        {
+            title: "Foil",
+            image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+        },
+        {
+            title: "Foil",
+            image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+        },
+        {
+            title: "Foil",
+            image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+        },
+        {
+            title: "Foil",
+            image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+        },
+        {
+            title: "Foil",
+            image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+        }
+
+    ];
+
+    const materialChunks = [];
+    for (let i = 0; i < materialSlides.length; i += 4) {
+        materialChunks.push(materialSlides.slice(i, i + 4));
+    }
+
+    const prevMaterial = () => {
+        setMaterialCurr((prevIndex) =>
+            prevIndex === 0 ? materialChunks.length - 1 : prevIndex - 1
+        );
+    };
+
+    const nextMaterial = () => {
+        setMaterialCurr((prevIndex) =>
+            prevIndex === materialChunks.length - 1 ? 0 : prevIndex + 1
+        );
+    };
+
+    const data = [
+        {
+            title: "MATERIALS",
+            content: (
+                <div className="flex flex-col lg:flex-row gap-8 bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+                    <div className="lg:w-6/12 w-full">
+                        <h3 className="text-lg font-semibold text-[#213554]">
+                            Discover our range of high-quality packaging materials
+                        </h3>
+                        <p className="mt-3 text-sm text-gray-700 leading-relaxed">
+                            Discover our range of high-quality packaging materials designed to
+                            tailor your packaging order to perfection. From sturdy cardboard
+                            boxes to eco-friendly options, we have the ideal materials for your
+                            unique needs. Elevate your brand and protect your products with our
+                            customizable packaging solutions.
+                        </p>
+                    </div>
+
+                    <div className="lg:w-6/12 w-full">
+                        <div className="relative rounded-2xl pb-12 overflow-hidden bg-white/50">
+                            <div className="overflow-hidden">
+                                <div
+                                    className="flex transition-transform duration-500 ease-out"
+                                    style={{
+                                        transform: `translateX(-${materialCurr * 100}%)`,
+                                    }}
+                                >
+                                    {materialChunks.map((chunk, chunkIndex) => (
+                                        <div
+                                            key={chunkIndex}
+                                            className="w-full flex-shrink-0 flex justify-between gap-3 sm:gap-4"
+                                        >
+                                            {chunk.map((slide) => (
+                                                <div
+                                                    key={slide.title}
+                                                    className="flex-1 flex flex-col items-center group"
+                                                >
+                                                    <div className="w-full flex justify-center">
+                                                        <div className="w-44 h-32 lg:w-48 lg:h-36 rounded-xl overflow-hidden bg-white shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 group-hover:scale-105">
+                                                            <img
+                                                                src={slide.image}
+                                                                alt={slide.title}
+                                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <h4 className="mt-4 text-sm font-semibold text-[#213554] group-hover:text-[#EE334B] transition-colors duration-300">
+                                                        {slide.title}
+                                                    </h4>
+                                                    <p className="mt-1 text-[11px] text-gray-600 text-center">
+                                                        {slide.description}
+                                                    </p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="absolute bottom-3 right-4 flex items-center gap-3">
+                                <button
+                                    type="button"
+                                    onClick={prevMaterial}
+                                    className="w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-md hover:bg-gradient-to-r hover:from-[#213554] hover:to-[#213554]/90 hover:shadow-lg transition-all duration-300 group"
+                                >
+                                    <TfiAngleLeft size={18} className="text-[#213554] group-hover:text-white transition-colors duration-300" />
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={nextMaterial}
+                                    className="w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-md hover:bg-gradient-to-r hover:from-[#213554] hover:to-[#213554]/90 hover:shadow-lg transition-all duration-300 group"
+                                >
+                                    <TfiAngleRight size={18} className="text-[#213554] group-hover:text-white transition-colors duration-300" />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ),
+        },
+        {
+            title: "ADD-ONS & FINISHING",
+            content: (
+                <div className="flex flex-col lg:flex-row gap-8 bg-gradient-to-br from-white to-gray-50 rounded-2xl border border-gray-200 shadow-lg p-6 sm:p-8">
+                    <div className="lg:w-6/12 w-full">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="w-1 h-10 bg-gradient-to-b from-[#EE334B] to-[#213554] rounded-full"></div>
+                            <h3 className="text-xl sm:text-2xl font-bold text-[#213554]">
+                                Discover our range of high-quality packaging materials
+                            </h3>
+                        </div>
+                        <p className="mt-4 text-sm sm:text-base text-gray-700 leading-relaxed">
+                            Discover our range of high-quality packaging materials designed to
+                            tailor your packaging order to perfection. From sturdy cardboard
+                            boxes to eco-friendly options, we have the ideal materials for your
+                            unique needs. Elevate your brand and protect your products with our
+                            customizable packaging solutions.
+                        </p>
+                    </div>
+
+                    <div className="lg:w-6/12 w-full">
+                        <div className="relative rounded-2xl pb-12 overflow-hidden bg-white/50">
+                            <div className="overflow-hidden">
+                                <div
+                                    className="flex transition-transform duration-500 ease-out"
+                                    style={{
+                                        transform: `translateX(-${materialCurr * 100}%)`,
+                                    }}
+                                >
+                                    {materialChunks.map((chunk, chunkIndex) => (
+                                        <div
+                                            key={chunkIndex}
+                                            className="w-full flex-shrink-0 flex justify-between gap-3 sm:gap-4"
+                                        >
+                                            {chunk.map((slide) => (
+                                                <div
+                                                    key={slide.title}
+                                                    className="flex-1 flex flex-col items-center group"
+                                                >
+                                                    <div className="w-full flex justify-center">
+                                                        <div className="w-44 h-32 lg:w-48 lg:h-36 rounded-xl overflow-hidden bg-white shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 group-hover:scale-105">
+                                                            <img
+                                                                src={slide.image}
+                                                                alt={slide.title}
+                                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <h4 className="mt-4 text-sm font-semibold text-[#213554] group-hover:text-[#EE334B] transition-colors duration-300">
+                                                        {slide.title}
+                                                    </h4>
+                                                    <p className="mt-1 text-[11px] text-gray-600 text-center">
+                                                        {slide.description}
+                                                    </p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="absolute bottom-3 right-4 flex items-center gap-3">
+                                <button
+                                    type="button"
+                                    onClick={prevMaterial}
+                                    className="w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-md hover:bg-gradient-to-r hover:from-[#213554] hover:to-[#213554]/90 hover:shadow-lg transition-all duration-300 group"
+                                >
+                                    <TfiAngleLeft size={18} className="text-[#213554] group-hover:text-white transition-colors duration-300" />
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={nextMaterial}
+                                    className="w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-md hover:bg-gradient-to-r hover:from-[#213554] hover:to-[#213554]/90 hover:shadow-lg transition-all duration-300 group"
+                                >
+                                    <TfiAngleRight size={18} className="text-[#213554] group-hover:text-white transition-colors duration-300" />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ),
+        },
+        {
+            title: "PAPER WEIGHT",
+            content: <></>,
+        },
+        {
+            title: "SHIPPING",
+            content: <></>,
+        }
+      
+    ]
+
+    const breadcrumbSchema = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": BaseUrl
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": product?.brandId?.name || "Category",
+                "item": `${BaseUrl}/category/${product?.brandId?.slug || ''}`
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": product?.name || "Product",
+                "item": `${BaseUrl}/sub-category/${slug || ''}`
+            },
+            {
+                "@type": "ListItem",
+                "position": 4,
+                "name": product?.name || "Product",
+                "item": `${BaseUrl}/${slug || ''}`
+            }
+        ]
+    };
+
+    const productSchema = {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": product?.name || serverData?.name,
+        "image": product?.images?.[0]?.url ? `${BaseUrl}/${product.images[0].url}` : `${BaseUrl}/${serverData?.images?.[0]?.url}`,
+        "description": product?.metaDescription || serverData?.metaDescription,
+        "sku": "12345",
+        "brand": {
+            "@type": "Brand",
+            "name": "Umbrella Custom Packaging"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "42",
+        },
+        "offers": {
+            "@type": "Offer",
+            "url": `https://umbrellapackaging.com/${product?.slug || serverData?.slug}`,
+            "priceCurrency": "USD",
+            "price": product?.actualPrice || serverData?.actualPrice,
+            "priceValidUntil": product?.createdAt || serverData?.createdAt,
+            "availability": "https://schema.org/InStock",
+            "itemCondition": "https://schema.org/NewCondition",
+            "seller": {
+                "@type": "Organization",
+                "name": "Umbrella Custom Packaging"
+            }
+        }
+    };
+
+    return (
+        <>
+            {/* {product ? (
+                <PageMetadata
+                    title={product?.metaTitle}
+                    description={product?.metaDescription || ""}
+                    keywords={product?.keywords || ""}
+                    ogUrl={`${BaseUrl}/category/${slug}`}
+                    ogImage={`${BaseUrl}/${product?.images?.[0]?.url || serverData?.images?.[0]?.url || ""}`}
+                    ogImageWidth="1200"
+                    ogImageHeight="630"
+                    canonicalUrl={`${BaseUrl}/${slug}`}
+                    breadcrumbSchema={breadcrumbSchema}
+                    productSchema={productSchema}
+                    robots={product?.robots || serverData?.robots}
+                />
+            ) : null} */}
+
+            <section className=' bg-[#F4F4F4] py-8'>
+                <div className=' lg:max-w-8xl max-w-[95%]   flex lg:flex-row flex-col gap-4 mx-auto'>
+                    <div className='  lg:w-6/12 '>
+                        <div className=' flex gap-2 pb-5 items-center'>
+                            <IoHomeOutline size={20} /> <LiaAngleRightSolid />
+                            <h6 className=' flex items-center '>
+                                <Link to={'/'} className='text-[#213554]'>Home</Link>
+                                {product?.brandId?.name && (
+                                    <>
+                                        <LiaAngleRightSolid />
+                                        <Link to={`/category/${product.brandId.slug}`} className='text-[#213554] capitalize'>
+                                            {product.brandId.name}
+                                        </Link>
+                                    </>
+                                )}
+                                {product?.categoryId?.title && (
+                                    <>
+                                        <LiaAngleRightSolid />
+                                        <Link to={`/sub-category/${product.categoryId.slug}`} className='text-[#213554] capitalize'>
+                                            {product.categoryId.title}
+                                        </Link>
+                                    </>
+                                )}
+                                {product?.name && (
+                                    <>
+                                        <LiaAngleRightSolid />
+                                        <span>{product.name}</span>
+                                    </>
+                                )}
                             </h6>
                         </div>
-        <div className='w-full flex gap-7'>
-        <div className="  sm:block md:block hidden">
-            <div className="flex flex-col items-center justify-center gap-2">
-              {[
-                images?.[0],
-                images?.[1],
-                images?.[2],
-                images?.[0],
-              ]?.map((_, i) => (
-                <div
-                  key={i}
-                  onClick={() => goToSlide(i)}
-                  className={`
-              transition-all w-28 rounded-xl  h-28  overflow-hidden bg-white 
-              ${curr === i ? " w-20 h-20 border-2 border-[#F05367] border-dashed" : "bg-opacity-50"}
-            `}
-                >
-                  <img
-                    src={_}
-                    alt=""
-                    className=" w-full h-full   object-center  "
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        <div className="overflow-hidden relative">
-            <div
-              className="flex  relative transition-transform ease-out duration-500 h-[90vh]"
-              style={{ transform: `translateX(-${curr * 100}%)` }}
-            >
-              {[
-                images[0],
-                images?.[1],
-                images?.[2],
-                images?.[0],
-              ]?.map((image, i) => {
-                console.log(image, "slider image============>>>>>>>>>>>>>>");
-                return (
-                  <div key={i} className="flex-none w-full  rounded-2xl overflow-hidden h-full">
-                    <img
-                    //   onClick={openSlider}
-                      src={image}
-                      alt=""
-                      className="w-full cursor-pointer h-full object-cover"
-                    />
-                  </div>
-                );
-              })}
-            </div>
+                        <div className='w-full flex gap-7'>
+                            <div className="  sm:block md:block hidden">
+                                <div className="flex flex-col items-center justify-center gap-2">
+                                    {images?.map((_, i) => (
+                                        <div
+                                            key={i}
+                                            onClick={() => goToSlide(i)}
+                                            className={`
+                                                transition-all w-28 rounded-xl h-28 overflow-hidden bg-white relative cursor-pointer group
+                                                ${curr === i ? " w-20 h-20 border-2 border-[#F05367] border-dashed ring-2 ring-[#F05367]/30" : "bg-opacity-50 hover:bg-opacity-100 hover:scale-105"}
+                                            `}
+                                        >
+                                            {!thumbnailLoadedImages.has(i) && (
+                                                <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 rounded-xl overflow-hidden">
+                                                    <div className="absolute inset-0" style={shimmerStyle}></div>
+                                                </div>
+                                            )}
+                                            <img
+                                                src={_}
+                                                alt=""
+                                                className={`w-full h-full object-center transition-opacity duration-300 ${
+                                                    thumbnailLoadedImages.has(i) ? 'opacity-100' : 'opacity-0'
+                                                }`}
+                                                onLoad={() => setThumbnailLoadedImages(prev => new Set([...prev, i]))}
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="overflow-hidden relative rounded-2xl group">
+                                <div
+                                    className="flex relative transition-transform ease-in-out duration-500 h-[90vh]"
+                                    style={{ transform: `translateX(-${curr * 100}%)` }}
+                                >
+                                    {images?.map((image, i) => {
+                                        const isFirstImage = i === 0;
+                                        const isCurrentSlide = i === curr;
+                                        const shouldShowSkeleton = !loadedImages.has(i) && !isFirstImage;
+                                        
+                                        return (
+                                            <div key={i} className="flex-none w-full h-full rounded-2xl overflow-hidden relative">
+                                                {shouldShowSkeleton && (
+                                                    <div className="absolute inset-0 bg-gradient-to-br from-gray-100 via-gray-50 to-gray-100 rounded-2xl overflow-hidden z-10">
+                                                        <div className="absolute inset-0" style={shimmerStyle}></div>
+                                                        <div className="absolute inset-0 flex items-center justify-center">
+                                                            <div className="w-16 h-16 border-4 border-gray-200 border-t-[#213554] rounded-full animate-spin"></div>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                                <div className="relative w-full h-full overflow-hidden rounded-2xl">
+                                                    <img
+                                                        onClick={() => openImageViewer(product?.images?.[i] || { url: image }, i)}
+                                                        src={image}
+                                                        alt={product?.images?.[i]?.altText || ""}
+                                                        loading={isFirstImage ? "eager" : "lazy"}
+                                                        className={`w-full h-full cursor-pointer object-cover rounded-2xl transition-all duration-500 group-hover:scale-110 ${
+                                                            loadedImages.has(i) || isFirstImage ? 'opacity-100' : 'opacity-0'
+                                                        }`}
+                                                        onLoad={() => {
+                                                            setLoadedImages(prev => new Set([...prev, i]));
+                                                        }}
+                                                        onError={() => {
+                                                            setLoadedImages(prev => new Set([...prev, i]));
+                                                        }}
+                                                    />
+                                                    {/* Hover Overlay Gradient */}
+                                                    <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                                                    {/* Shine Effect */}
+                                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none"></div>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                                {product?.images?.[curr] && (
+                                    <div onClick={() => openImageViewer(product.images[curr], curr)} className=' flex justify-center items-center cursor-pointer w-10 h-10 bg-white rounded-full absolute top-3 right-3'>
+                                        <IoSearch size={25} />
+                                    </div>
+                                )}
+                                <button
+                                    onClick={prev}
+                                    className=" w-12 h-12 shadow rounded-full cursor-pointer  absolute left-5 top-56 flex  justify-center items-center bg-white/80 text-gray-800 hover:bg-white"
+                                >
+                                    <TfiAngleLeft size={20} className="" />
+                                </button>
+                                <button
+                                    onClick={next}
+                                    className=" w-12 h-12  rounded-full absolute cursor-pointer right-5 top-56 flex justify-center items-center shadow bg-white/80 text-gray-800 hover:bg-white"
+                                >
+                                    <TfiAngleRight size={20} />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
 
-            <button
-              onClick={prev}
-              className=" w-12 h-12 shadow rounded-full cursor-pointer  absolute left-5 top-56 flex  justify-center items-center bg-white/80 text-gray-800 hover:bg-white"
-            >
-              <TfiAngleLeft size={20} className="" />
-            </button>
-            <button
-              onClick={next}
-              className=" w-12 h-12  rounded-full absolute cursor-pointer right-5 top-56 flex justify-center items-center shadow bg-white/80 text-gray-800 hover:bg-white"
-            >
-              <TfiAngleRight size={20} />
-            </button>
-            {/* </div> */}
-          </div>
-        </div>
-      
+                    <div className="pt-3.5 lg:w-6/12 w-full">
+                    <div className=' flex gap-2 items-center  mb-2'>
+                    <div className="w-1 h-12 bg-gradient-to-b from-[#EE334B] to-[#213554] rounded-full"></div>
+                    <h3 className=' pb-2'>{product?.name || "Tuck Top Mailer Boxes"}</h3>
+                    </div>
+                        <form onSubmit={handleSubmit}>
+                            <div className=' grid grid-cols-2 pb-2 gap-2'>
+                                <div className=" w-full">
+                                    <Input
+                                        label="Name"
+                                        star={"*"}
+                                        name="name"
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        placeholder="Name"
+                                        required
+                                    />
+                                </div>
+                                <div className=" w-full">
+                                    <Input
+                                        label="Email"
+                                        star={"*"}
+                                        name="email"
+                                        type="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        placeholder="Email"
+                                        required
+                                    />
+                                </div>
+                                <div className=" w-full">
+                                    <Input
+                                        label="Phone Number"
+                                        star={"*"}
+                                        name="phoneNumber"
+                                        value={formData.phoneNumber}
+                                        onChange={handleChange}
+                                        placeholder="Phone Number"
+                                    />
+                                </div>
+                                <div className=" w-full">
+                                    <Input
+                                        label="Company Name"
+                                        star={"*"}
+                                        name="companyName"
+                                        value={formData.companyName}
+                                        onChange={handleChange}
+                                        placeholder="Company Name"
+                                    />
+                                </div>
+                            </div>
+                            <div className="grid md:grid-cols-5 sm:grid-cols-3 grid-cols-2 gap-2">
+                                <div className=" w-full">
+                                    <Input
+                                        label="Box Style"
+                                        star={"*"}
+                                        name="boxStyle"
+                                        value={formData.boxStyle}
+                                        onChange={handleChange}
+                                        placeholder="Box Style"
+                                        required
+                                    />
+                                </div>
+                                <div className=" w-full">
+                                    <Input
+                                        label="Size (Length)"
+                                        star={"*"}
+                                        name="length"
+                                        type="number"
+                                        value={formData.length}
+                                        onChange={handleChange}
+                                        placeholder="Length"
+                                        required
+                                    />
+                                </div>
+                                <div className=" w-full">
+                                    <Input
+                                        label="Size (Width)"
+                                        star={"*"}
+                                        name="width"
+                                        type="number"
+                                        value={formData.width}
+                                        onChange={handleChange}
+                                        placeholder="width"
+                                        required
+                                    />
+                                </div>
+                                <div className=" w-full">
+                                    <Input
+                                        label="Size (Depth)"
+                                        star={"*"}
+                                        name="depth"
+                                        type="number"
+                                        value={formData.depth}
+                                        onChange={handleChange}
+                                        placeholder="Depth"
+                                        required
+                                    />
+                                </div>
+                                <div className=" w-full">
+                                    <Select
+                                        label="Unit"
+                                        name="unit"
+                                        value={formData.unit}
+                                        onChange={handleChange}
+                                        required
+                                    >
+                                        <option value={'Inches'}>Inches</option>
+                                        <option value={'mm'}>mm</option>
+                                        <option value={'cm'}>cm</option>
+                                    </Select>
+                                </div>
+                                <div className=" w-full">
+                                    <Select
+                                        label="Stock"
+                                        name="stock"
+                                        value={formData.stock}
+                                        onChange={handleChange}
+                                        required
+                                    >
+                                        <option value={'Stock'}>Stock</option>
+                                        <option value={'12pt Cardboard'}>12pt Cardboard</option>
+                                        <option value={'14pt Cardboard'}>14pt Cardboard</option>
+                                        <option value={'16pt Cardboard'}>16pt Cardboard</option>
+                                        <option value={'18pt Cardboard'}>18pt Cardboard</option>
+                                        <option value={'20pt Cardboard'}>20pt Cardboard</option>
+                                        <option value={'22pt Cardboard'}>22pt Cardboard</option>
+                                        <option value={'24pt Cardboard'}>24pt Cardboard</option>
+                                        <option value={'White SBS C1S C25'}>White SBS C1S C25</option>
+                                        <option value={'Corrugated'}>Corrugated</option>
+                                        <option value={'Rigid'}>Rigid</option>
+                                        <option value={'Kraft'}>Kraft</option>
+                                        <option value={'Linen'}>Linen</option>
+                                    </Select>
+                                </div>
+                                <div className=" w-full">
+                                    <Select
+                                        label="Colors"
+                                        name="color"
+                                        value={formData.color}
+                                        onChange={handleChange}
+                                        required
+                                    >
+                                        <option value={'Colors'}>Colors</option>
+                                        <option value={'Plain (No Printing)'}>Plain (No Printing)</option>
+                                        <option value={'1 Color'}>1 Color</option>
+                                        <option value={'2 Color'}>2 Color</option>
+                                        <option value={'3 Color'}>3 Color</option>
+                                        <option value={'4 Color'}>4 Color</option>
+                                        <option value={'4/1 Color'}>4/1 Color</option>
+                                        <option value={'4/2 Color'}>4/2 Color</option>
+                                        <option value={'4/3 Color'}>4/3 Color</option>
+                                        <option value={'4/4 Color'}>4/4 Color</option>
+                                    </Select>
+                                </div>
+                                <div className=" w-full">
+                                    <Select
+                                        label="Printing Sides"
+                                        name="printingSides"
+                                        value={formData.printingSides}
+                                        onChange={handleChange}
+                                        required
+                                    >
+                                        <option value={'Inside'}>Inside</option>
+                                        <option value={'Outside'}>Outside</option>
+                                        <option value={'Both (Inside & Outside)'}>Both (Inside & Outside)</option>
+                                    </Select>
+                                </div>
+                                <div className=" w-full">
+                                    <Input
+                                        label="Quantity"
+                                        star={"*"}
+                                        name="quantity"
+                                        type="number"
+                                        value={formData.quantity}
+                                        onChange={handleChange}
+                                        placeholder="Quantity"
+                                        required
+                                    />
+                                </div>
+                                <div className=" w-full">
+                                    <Select
+                                        label="Add-Ons"
+                                        name="addons"
+                                        value={formData.addons}
+                                        onChange={handleChange}
+                                        placeholder="Select Add-Ons"
+                                    >
+                                        <option value={''}></option>
+                                        <option value={'Foiling'}>Foiling</option>
+                                        <option value={'Spot UV'}>Spot UV</option>
+                                        <option value={'Embossing'}>Embossing</option>
+                                        <option value={'Debossing'}>Debossing</option>
+                                        <option value={'handles'}>handles</option>
+                                        <option value={'Inserts'}>Inserts</option>
+                                        <option value={'Windows'}>Windows</option>
+                                    </Select>
+                                </div>
+                                <div className="col-span-5 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div className="flex flex-col">
+                                        <label
+                                            htmlFor="design_upload"
+                                            className="block pb-1.5 text-[#213554] text-sm font-semibold mb-1"
+                                        >
+                                            Upload Your Design
+                                            <span className="text-[#EE334B] ml-1">*</span>
+                                        </label>
+                                        <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-[#213554] transition-all duration-300 bg-gradient-to-br from-gray-50 to-white group cursor-pointer flex flex-col justify-center" style={{ minHeight: '120px', height: '100%' }}>
+                                            <input
+                                                type="file"
+                                                name="image"
+                                                id="design_upload"
+                                                onChange={handleChange}
+                                                className="hidden"
+                                                accept=".png,.pdf,.jpg,.jpeg,.webp"
+                                            />
+                                            <label htmlFor="design_upload" className="cursor-pointer flex flex-col items-center">
+                                                <div className="w-12 h-12 bg-gradient-to-br from-[#213554]/10 to-[#EE334B]/10 rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform duration-300">
+                                                    <svg className="w-6 h-6 text-[#213554]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                                    </svg>
+                                                </div>
+                                                <p className="text-sm text-[#213554] font-semibold mb-0.5 group-hover:text-[#EE334B] transition-colors duration-300">
+                                                    {formData.image ? formData.image.name : 'Click to upload or drag and drop'}
+                                                </p>
+                                                <p className="text-xs text-gray-500">
+                                                    Max Size: 5MB | Allowed: PNG, PDF, JPG, JPEG, WEBP
+                                                </p>
+                                                {formData.image && (
+                                                    <div className="mt-2 px-3 py-1.5 bg-[#213554]/10 text-[#213554] rounded-lg text-xs font-medium">
+                                                        ✓ {formData.image.name}
+                                                    </div>
+                                                )}
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <Textarea
+                                            label="Description"
+                                            name="message"
+                                            star={"*"}
+                                            value={formData.message}
+                                            onChange={handleChange}
+                                            rows={7}
+                                            placeholder="Tell us the size / dimensions, material, finising, add-ons, and design preferences."
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div className=" w-full  flex justify-end mt-4">
+                                    <Button
+                                        type="submit"
+                                        label={isLoading ? "Sending..." : "Request A Quote"}
+                                        className={`bg-[#213554] w-full text-white ${!validate() || isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                        disabled={!validate() || isLoading}
+                                    />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+            <BottomHero />
+            {/* Learn More About Section - Moved up and Modernized */}
+            {product?.description && (
+                <section className='sm:max-w-8xl max-w-[95%] mx-auto py-8'>
+                    <div className="bg-gradient-to-br from-gray-50 via-white to-gray-50 rounded-2xl p-6 sm:p-8 shadow-lg border border-gray-100">
+                        <div className="flex items-center gap-4 mb-6">
+                            <div className="w-1 h-12 bg-gradient-to-b from-[#EE334B] to-[#213554] rounded-full"></div>
+                            <h2 className='text-2xl sm:text-3xl font-bold text-[#213554]'>
+                                Learn More About {product?.name || 'Our Products'}
+                            </h2>
+                        </div>
+                        <div className='pt-2'>
+                            <div 
+                                className='prose prose-sm sm:prose-base max-w-none text-gray-700 leading-relaxed'
+                                dangerouslySetInnerHTML={{ __html: product?.description}}
+                                style={{
+                                    lineHeight: '1.75'
+                                }}
+                            ></div>
+                        </div>
+                    </div>
+                </section>
+            )}
+
+<section className=' sm:max-w-8xl max-w-[95%] mx-auto'>
+                <div className="mt-10">
+                    <Tabs defaultTab={"MATERIALS"} tabs={data} />
+                </div>
+            </section>
+            <section className=' pt-12 pb-5'>
+                <div className=" sm:max-w-8xl  justify-between gap-5  max-w-[95%]  flex sm:flex-row flex-col  mx-auto">
+                    <div className=' sm:w-6/12 w-full'>
+                        <h2 className=' py-2'>{product?.bannerTitle}</h2>
+                        <p className=' py-2' dangerouslySetInnerHTML={{ __html: product?.bannerContent}}></p>
+                    </div>
+                    {product?.bannerImage && (
+                        <div className=' sm:w-5/12 w-full'>
+                            <img 
+                                src={`${BaseUrl}/${product.bannerImage}`}
+                                className='  shadow-2xl w-full rounded-2xl' 
+                                alt={product?.name || ''} 
+                            />
+                        </div>
+                    )}
+                </div>
+            </section>
           
-        </div>
-
-        <div className="pt-3.5 lg:w-6/12 w-full">
-            <h3 className=' pb-2'>Tuck Top Mailer Boxes
-            </h3>
-            <from>
-              <div className=' grid grid-cols-2 pb-2 gap-2'>
-              <div className=" w-full">
-                  <Input
-                    label="Name"
-                    star={"*"}
-                    placeholder="Name"
-                    className={
-                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
-                    }
-                  />
-                </div>
-                <div className=" w-full">
-                  <Input
-                    label="Email"
-                    star={"*"}
-                    placeholder="Email"
-                    className={
-                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
-                    }
-                  />
-                </div>
-                <div className=" w-full">
-                  <Input
-                    label="Phone Number"
-                    star={"*"}
-                    placeholder="Phone Number"
-                    className={
-                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
-                    }
-                  />
-                </div>
-                <div className=" w-full">
-                  <Input
-                    label="Company Name"
-                    star={"*"}
-                    placeholder="Company Name"
-                    className={
-                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
-                    }
-                  />
-                </div>
-            </div>  
-              <div className="grid md:grid-cols-5 sm:grid-cols-3 grid-cols-2 gap-2">
-              
-                <div className=" w-full">
-                  <Input
-                    label="Box Style"
-                    star={"*"}
-                    placeholder="Box Style"
-                    className={
-                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
-                    }
-                  />
-                </div>
-                <div className=" w-full">
-                  <Input
-                    label="Size (Length)"
-                    star={"*"}
-                    placeholder="Length"
-                    className={
-                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
-                    }
-                  />
-                </div>
-                <div className=" w-full">
-                  <Input
-                    label="Size (Width)"
-                    star={"*"}
-                    placeholder="width"
-                    className={
-                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
-                    }
-                  />
-                </div>
-                <div className=" w-full">
-                  <Input
-                    label="Size (Depth)"
-                    star={"*"}
-                    placeholder="Depth"
-                    className={
-                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
-                    }
-                  />
-                </div>
-                <div className=" w-full">
-                  <Input
-                    label="Unit"
-                    star={"*"}
-                    placeholder="Inches"
-                    className={
-                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
-                    }
-                  />
-                </div>
-                <div className=" w-full">
-                  <Input
-                    label="Stock"
-                    star={"*"}
-                    placeholder="Stock"
-                    className={
-                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
-                    }
-                  />
-                </div>
-                <div className=" w-full">
-                  <Input
-                    label="Colors"
-                    star={"*"}
-                    placeholder="Colors"
-                    className={
-                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
-                    }
-                  />
-                </div>
-                <div className=" w-full">
-                  <Input
-                    label="Printing Sides"
-                    star={"*"}
-                    placeholder="Inside"
-                    className={
-                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
-                    }
-                  />
-                </div>
-                <div className=" w-full">
-                  <Input
-                    label="Quantity"
-                    star={"*"}
-                    placeholder="Quantity"
-                    className={
-                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
-                    }
-                  />
-                </div>
-                <div className=" w-full">
-                  <Input
-                    label="Add-Ons"
-                    star={"*"}
-                    placeholder=""
-                    className={
-                      " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
-                    }
-                  />
-                </div>
-                <div className=" col-span-5">
-                <label
-                    htmlFor="first_name"
-                    className="  pb-1.5   text-[#333333] text-sm font-medium   text-textColor"
-                  >
-                    Upload Your Design, Max Size 5MB
-                    <p className=" flex gap-0.5   text-xs m-0 pl-1">Allowed File Types:<p className=" font-semibold text-xs"> png, pdf, jpg, jpeg, webp</p></p>
-                  </label>
-                  <input placeholder=""  className=" p-2.5 bg-white rounded-lg text-sm mt-2" type="file" />
-                </div>
-                <div className="col-span-5">
-                  <label
-                    htmlFor="first_name"
-                    className="  pb-1.5 flex  text-sm font-medium   text-textColor"
-                  >
-                    Description
-                    <p className=" text-red-600 m-0 pl-1">*</p>
-                  </label>
-                  <textarea
-                  rows={4}
-                    className=" w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
-                    placeholder="Tell us the size / dimensions, material, finising, add-ons, and design preferences."
-                  ></textarea>
-                </div>
-                
-              </div>
-              <div>
-              <div className=" w-full  flex justify-end mt-2">
-                <Button
-                label="Request A Quote"
-                className="bg-[#213554]    w-full text-white"
-              />
-                </div>
-              </div>
-            </from>
-          </div>
-     </div>
-     </section>
-     
-     <BottomHero/>
-     <section className=' py-8'>
-      <div className=" sm:max-w-7xl  justify-between gap-5 items-center max-w-[95%]  flex sm:flex-row flex-col  mx-auto">
-        
-        <div className=' sm:w-6/12 w-full'>
-        <h2>Product Overview
-
-        </h2>
-<p className=' py-2'>Every business owner and company looks for a unique and protective way to ship their products to their customers. Tuck top mailer boxes are elegant, reusable, and recyclable containers that are highly in demand in the market. You can get them customized according to your requirements, whether it is a size or artwork - you get exactly what you want.
-</p>
-<p className=' py-2'>At Half Price Packaging, we specialize in designing customized mailer boxes that align with your brand. Our world-class graphic design team understands your vision and presents it in the best possible way. From manufacturing tab lock tuck top box flaps to delivering jaw-dropping printing, we ensure perfection in every detail. These crates are constructed using high-quality cardboard material, ensuring the safe transportation of your items without any damage.
 
 
+          
+                <section className="py-8 sm:max-w-8xl max-w-[95%] mx-auto">
+                    <div className='mb-8 flex sm:flex-row flex-col items-center justify-between gap-4'>
+                        <div className="flex items-center gap-4">
+                            <div className="w-1 h-12 bg-gradient-to-b from-[#EE334B] to-[#213554] rounded-full"></div>
+                            <div>
+                                <h2 className='text-2xl sm:text-3xl font-bold text-[#213554]'>Related Products</h2>
+                                <p className='text-gray-600 text-sm mt-1'>Discover packaging tailored for your products</p>
+                            </div>
+                        </div>
+                        <Link to="" className="group">
+                            <div className='font-bold text-[#EE334B] flex items-center hover:text-[#213554] transition-colors duration-300 uppercase text-sm px-4 py-2 rounded-lg hover:bg-[#EE334B]/10'>
+                                View all <FaAngleRight className="ml-1 group-hover:translate-x-1 transition-transform duration-300" size={15} />
+                            </div>
+                        </Link>
+                    </div>
+                    
+                    {relatedProduct?.relatedProducts && relatedProduct.relatedProducts.length > 0 && (
+                        <div className="relative  border-gray-100">
+                            <CardSlider
+                                top={20}
+                                items={relatedProduct.relatedProducts.map((item, index) => (
+                                    <div key={item?._id || index} className=" w-72 flex-shrink-0 px-2">
+                                        <ProductCard data={item} disableSelection={true} />
+                                    </div>
+                                ))}
+                            />
+                        </div>
+                    )}
+                </section>
 
+            <SampleKit />
 
-</p>
+            {isViewerOpen && selectedImage && (
+                <div 
+                    className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn"
+                    onClick={closeImageViewer}
+                >
+                    {/* Close Button */}
+                    <button
+                        onClick={closeImageViewer}
+                        className="absolute top-6 right-6 z-10 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 hover:scale-110 transition-all duration-300 flex items-center justify-center group"
+                    >
+                        <svg className="w-6 h-6 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
 
-        </div>
+                    {/* Previous Button */}
+                    {product?.images?.length > 1 && (
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                goToPrevious();
+                            }}
+                            className="absolute left-6 z-10 w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-gradient-to-r hover:from-[#213554] hover:to-[#213554]/90 hover:border-[#213554] hover:scale-110 cursor-pointer hover:shadow-xl flex justify-center items-center transition-all duration-300 group"
+                        >
+                            <FaAngleLeft className="text-xl group-hover:scale-110 transition-transform duration-300" />
+                        </button>
+                    )}
 
-        <div className=' sm:w-5/12 w-full
-        '>
-          <img src='https://www.halfpricepackaging.com/_ipx/f_webp&fit_cover&s_600x600/https://www.halfpricepackaging.com/storage/product_uploads/tuck-top-mailer-boxes.jpg' className='  shadow-2xl w-full rounded-2xl' alt='' />
-        </div>
-         
-      </div>
-        </section>
-        <section className=' max-w-7xl mx-auto'>
-        <div className="my-10">
-        <Tabs defaultTab={"Rigid Boxes"} tabs={data} />
-      </div>
-        </section>
-       
-        <SampleKit/>
+                    {/* Image Container */}
+                    <div 
+                        className="max-w-6xl max-h-[90vh] overflow-auto rounded-2xl bg-white/5 backdrop-blur-sm p-4 custom-scrollbar"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <img
+                            src={`${BaseUrl}/${selectedImage.url}`}
+                            alt={selectedImage.altText || 'Product Image'}
+                            className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl animate-zoomIn"
+                        />
+                    </div>
 
-    </>
-  )
+                    {/* Next Button */}
+                    {product?.images?.length > 1 && (
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                goToNext();
+                            }}
+                            className="absolute right-6 z-10 w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-gradient-to-r hover:from-[#213554] hover:to-[#213554]/90 hover:border-[#213554] hover:scale-110 cursor-pointer hover:shadow-xl flex justify-center items-center transition-all duration-300 group"
+                        >
+                            <FaAngleRight className="text-xl group-hover:scale-110 transition-transform duration-300" />
+                        </button>
+                    )}
+
+                    {/* Image Counter */}
+                    {product?.images?.length > 1 && (
+                        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white/10 backdrop-blur-md border border-white/20 text-white px-6 py-2.5 rounded-full text-sm font-semibold shadow-lg">
+                            <span className="text-white/90">{currentIndex + 1}</span>
+                            <span className="mx-2 text-white/50">/</span>
+                            <span className="text-white/90">{product?.images?.length || 0}</span>
+                        </div>
+                    )}
+
+                    {/* Thumbnail Strip (Optional - shows at bottom) */}
+                    {product?.images?.length > 1 && product.images.length <= 10 && (
+                        <div className="absolute bottom-20 left-1/2 -translate-x-1/2 flex gap-2 max-w-4xl overflow-x-auto px-4 py-2 bg-white/5 backdrop-blur-md rounded-full border border-white/10 custom-scrollbar">
+                            {product.images.map((img, idx) => (
+                                <button
+                                    key={idx}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setSelectedImage(img);
+                                        setCurrentIndex(idx);
+                                    }}
+                                    className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
+                                        currentIndex === idx
+                                            ? 'border-[#EE334B] ring-2 ring-[#EE334B]/50 scale-110'
+                                            : 'border-white/20 hover:border-white/40 hover:scale-105'
+                                    }`}
+                                >
+                                    <img
+                                        src={`${BaseUrl}/${img.url}`}
+                                        alt={img.altText || `Thumbnail ${idx + 1}`}
+                                        className="w-full h-full object-cover"
+                                    />
+                                </button>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            )}
+        </>
+    )
 }
 
 export default ProductDetails
+

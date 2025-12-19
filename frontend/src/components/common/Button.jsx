@@ -8,20 +8,45 @@ const Button = ({
   onClick,
   Icons,
   rIcons,
+  variant = "primary", // "primary", "outline", "ghost"
+  size = "md", // "sm", "md", "lg"
 }) => {
+  const baseClasses =
+    "inline-flex items-center justify-center gap-2 font-semibold rounded-lg transition-all duration-300 ease-in-out transform focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
+
+  const sizeClasses = {
+    sm: "px-3 py-1.5 text-xs",
+    md: "px-5 py-2.5 text-sm",
+    lg: "px-6 py-3 text-base",
+  }[size];
+
+  const variantClasses =
+    variant === "outline"
+      ? "border-2 border-[#213554] text-[#213554] bg-transparent hover:bg-[#213554] hover:text-white relative overflow-hidden group"
+      : variant === "ghost"
+      ? "text-[#213554] bg-transparent hover:bg-[#213554]/5 relative overflow-hidden group"
+      : // primary (default)
+        "bg-gradient-to-r from-[#213554] to-[#213554]/90 text-white shadow-md hover:from-[#EE334B] hover:to-[#EE334B]/90 hover:shadow-lg hover:text-white relative overflow-hidden group";
+
+  // Ensure white text for primary variant even if className overrides
+  const buttonStyle = variant === "primary" ? { color: "#ffffff" } : {};
+  
   return (
     <button
       onClick={onClick}
       type={type}
-      className={`px-6 py-2.5 rounded-lg flex   shadow-2xl hover:bg-[#EE334B] hover:text-white hover:border-[#EE334B] text-sm items-center justify-center gap-2 
-      transition-all duration-300 ease-in-out transform 
-      hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed
-      ${className}`}
+      className={`${baseClasses} ${sizeClasses} ${variantClasses} ${className}`}
       disabled={disabled}
+      style={buttonStyle}
     >
-      {Icons && <span className="text-lg">{Icons}</span>}
-      {label}
-      {rIcons && <span className="text-lg">{rIcons}</span>}
+      {/* Animated background effect - left to right */}
+      <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out"></span>
+      
+      <span className="relative z-10 flex items-center justify-center gap-2">
+        {Icons && <span className="text-lg" style={variant === "primary" ? { color: "#ffffff" } : {}}>{Icons}</span>}
+        <span style={variant === "primary" ? { color: "#ffffff" } : {}}>{label}</span>
+        {rIcons && <span className="text-lg" style={variant === "primary" ? { color: "#ffffff" } : {}}>{rIcons}</span>}
+      </span>
     </button>
   );
 };

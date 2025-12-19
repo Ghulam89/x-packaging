@@ -1,66 +1,35 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
-import { FaAngleDown, FaAngleRight } from 'react-icons/fa';
+import { FaAngleRight } from 'react-icons/fa';
 import CardSlider from '../common/CardSlider';
-import CategoryCard from '../common/CategoryCard';
+import ProductCard, { ProductSelectionProvider } from '../common/ProductCard';
+import axios from 'axios';
+import { BaseUrl } from '../../utils/BaseUrl';
 
 const FeaturesPackaging = () => {
-    const Data = [
-    {
-      id: 1,
-      title: "Apparel and Fashion Boxes",
-      image:
-        "https://umbrellapackaging.com/images/Personalized-Two-piece-Apparel-Boxes.webp",
-    },
-    {
-      id: 2,
-      title: "Bakery boxes",
-      image:
-        "https://umbrellapackaging.com/images/Custom-Luxury-Candle-Packaging.webp",
-    },
-    {
-      id: 3,
-      title: "Candle Boxes",
-      image:
-        "https://umbrellapackaging.com/images/Personalized-Two-piece-Apparel-Boxes.webp",
-    },
-    {
-      id: 4,
-      title: "Cardboard Boxes",
-      image:
-        "https://umbrellapackaging.com/images/Custom-Luxury-Candle-Packaging.webp",
-    },
-    {
-      id: 5,
-      title: "CBD Boxes",
-      image:
-        "https://umbrellapackaging.com/images/Personalized-Two-piece-Apparel-Boxes.webp",
-    },
-    {
-      id: 6,
-      title: " Chocolate Boxes",
-      image:
-        "https://umbrellapackaging.com/wp-content/uploads/2024/04/cbd-boxes--250x179.webp",
-    },
-    {
-      id: 6,
-      title: " Chocolate Boxes",
-      image:
-        "https://umbrellapackaging.com/images/Personalized-Two-piece-Apparel-Boxes.webp",
-    },
-    {
-      id: 6,
-      title: " Chocolate Boxes",
-      image:
-        "https://umbrellapackaging.com/images/Personalized-Two-piece-Apparel-Boxes.webp",
-    },
-    {
-      id: 6,
-      title: " Chocolate Boxes",
-      image:
-        "https://umbrellapackaging.com/images/Personalized-Two-piece-Apparel-Boxes.webp",
-    },
-  ];
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        // Fetch products using getAll API without category filter (same as Top Packaging Styles - page 1)
+        const response = await axios.get(`${BaseUrl}/products/getAll?page=1&perPage=8`);
+        
+        if (response?.data?.status === 'success' && response?.data?.data) {
+          setProducts(response.data.data);
+        }
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        setProducts([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   return (
     <div className=' my-12'>
@@ -69,24 +38,29 @@ const FeaturesPackaging = () => {
         <h2  className=' text-left'>Featured Product Packaging</h2>
        
         <p className=' border-l  border-gray-300 pl-3 '>
-        Discover packaging tailored for your products. Can’t find what you need?</p>
+        Discover packaging tailored for your products. Can't find what you need?</p>
          <Link to=""  className=" uppercase">
           <p className=' font-bold  text-[#EE334B] flex items-center'>View all  <FaAngleRight className="ml-1" size={15} />  </p>
          </Link>
         </div>
-<CardSlider
-              top={20}
-              items={Data?.map((item, index) => {
-                
-                return (
-                  <>
-                    <div className="">
-                      <CategoryCard data={item} />
+        {loading ? (
+          <div className="text-center py-8">Loading products...</div>
+        ) : (
+          <ProductSelectionProvider>
+            <div className="py-2">
+              <CardSlider
+                top={40}
+                items={products?.map((item, index) => {
+                  return (
+                    <div key={item._id || index} className="w-[390px] flex-shrink-0 px-2">
+                      <ProductCard data={item} disableSelection={true} />
                     </div>
-                  </>
-                );
-              })}
-            />
+                  );
+                })}
+              />
+            </div>
+          </ProductSelectionProvider>
+        )}
         </div>
         
     </div>

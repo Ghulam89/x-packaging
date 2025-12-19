@@ -26,9 +26,11 @@ const BlogCard = ({ data }) => {
           </div>
 
           {/* Blog Content */}
-          <div className="p-4 text-start text-[#333333]">
-            <button className="  bg-gray-50">Knowledge Base</button>
-            <h3 className="text-xl font-semibold text-gray-800 line-clamp-2 mb-2">
+          <div className="p-5 text-start">
+            <span className="inline-block px-3 py-1 text-xs font-semibold text-[#EE334B] bg-[#EE334B]/10 rounded-full mb-3">
+              Knowledge Base
+            </span>
+            <h3 className="text-xl font-bold text-[#213554] line-clamp-2 mb-3 group-hover:text-[#EE334B] transition-colors duration-300">
               {data?.title?.slice(0, 70)}
             </h3>
 
@@ -38,7 +40,8 @@ const BlogCard = ({ data }) => {
 
             <div className="flex justify-start items-center w-full">
               <Button
-                className=" bg-transparent shadow-none text-[#4440E6] font-medium px-4 py-2 rounded-lg 
+                variant="ghost"
+                className="text-[#213554] hover:text-[#EE334B] font-medium px-4 py-2 rounded-lg 
                              transition-colors duration-300 uppercase"
                 label="Continue Reading"
               />

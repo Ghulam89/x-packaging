@@ -3,10 +3,36 @@ import Button from "../common/Button";
 import { Link } from "react-router-dom";
 import { gallery1, gallery2, gallery3, gallery4, gallery5, gallery6, gallery7, gallery8, gallery9 } from "../../assets";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
+
+// Add animations to document head
+if (typeof document !== 'undefined' && !document.getElementById('gallery-modal-animations')) {
+    const style = document.createElement('style');
+    style.id = 'gallery-modal-animations';
+    style.textContent = `
+        @keyframes zoomIn {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        .animate-zoomIn {
+            animation: zoomIn 0.3s ease-out;
+        }
+        .animate-fadeIn {
+            animation: fadeIn 0.3s ease-out;
+        }
+    `;
+    document.head.appendChild(style);
+}
+
 const InspirationPackaging = () => {
     const [selectedImage, setSelectedImage] = useState(null);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isViewerOpen, setIsViewerOpen] = useState(false);
+    const [hoveredImageIndex, setHoveredImageIndex] = useState(0); // Track hovered image
+    const [isFirstLoad, setIsFirstLoad] = useState(true); // Track first load
     const imageDescriptions = [
         "Eco-friendly cosmetic packaging with botanical design",
         "Luxury wine bottle with embossed label",
@@ -92,81 +118,151 @@ const InspirationPackaging = () => {
         });
     }, []);
 
+    // Show hover effect on first image on initial load
+    useEffect(() => {
+        if (isFirstLoad) {
+            const timer = setTimeout(() => {
+                setIsFirstLoad(false);
+            }, 2000); // Show hover effect for 2 seconds on first load
+            return () => clearTimeout(timer);
+        }
+    }, [isFirstLoad]);
+
     return (
-        <div className="sm:max-w-8xl bg-[#f9fafb]  px-4 my-8  py-6 rounded-2xl max-w-[95%] mx-auto">
-            <div className="pb-7 text-center">
-                <h2 className="sm:text-[35px] text-[25px] font-sans font-[600] text-[#333333]">
+        <div className="sm:max-w-8xl bg-gradient-to-br from-gray-50 via-white to-gray-50 px-4 my-8 py-8 rounded-2xl max-w-[95%] mx-auto shadow-lg border border-gray-100">
+            <div className="pb-8 text-center">
+                <h2 className="sm:text-[35px] text-[25px] font-bold text-[#213554] mb-3">
                     Inspiration for Creative Packaging
                 </h2>
+                <p className="text-gray-600 text-sm sm:text-base mb-4 max-w-2xl mx-auto">
+                    Explore our gallery of stunning packaging designs that inspire creativity and innovation
+                </p>
                 <Link to={'/contact-us'}>
                     <Button
                         label={'Contact Our Design Department'}
-                        className=" text-white mx-auto mt-2  bg-[#213554] transition-colors"
+                        className="text-white mx-auto mt-2 bg-[#213554] transition-colors"
                     />
                 </Link>
             </div>
             
             {/* Gallery Grid */}
-            <div className="columns-2 sm:columns-3 md:columns-4 gap-1.5">
-                {images.map((img, index) => (
-                    <div 
-                        key={index} 
-                        className="mt-1.5 cursor-pointer break-inside-avoid"
-                        onClick={() => openImageViewer(index)}
-                    >
-                        <img
-                            src={img.src}
-                            alt={img.alt}
-                            className="w-full rounded-lg hover:opacity-90 transition-opacity"
-                            loading="lazy"
-                        />
-                    </div>
-                ))}
+            <div className="columns-2 sm:columns-3 md:columns-4 gap-2">
+                {images.map((img, index) => {
+                    const isHovered = hoveredImageIndex === index || (isFirstLoad && index === 0);
+                    return (
+                        <div 
+                            key={index} 
+                            className="mt-2 cursor-pointer break-inside-avoid group"
+                            onClick={() => openImageViewer(index)}
+                            onMouseEnter={() => setHoveredImageIndex(index)}
+                            onMouseLeave={() => setHoveredImageIndex(-1)}
+                        >
+                            <div className="relative overflow-hidden rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                                <img
+                                    src={img.src}
+                                    alt={img.alt}
+                                    className={`w-full rounded-xl transition-transform duration-500 ${
+                                        isHovered ? 'scale-110' : 'scale-100'
+                                    }`}
+                                    loading={index === 0 ? "eager" : "lazy"}
+                                />
+                                {/* Hover Overlay Gradient */}
+                                <div className={`absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent transition-opacity duration-300 ${
+                                    isHovered ? 'opacity-100' : 'opacity-0'
+                                }`}></div>
+                                {/* Shine Effect */}
+                                <div className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 ease-in-out ${
+                                    isHovered ? 'translate-x-full' : '-translate-x-full'
+                                }`}></div>
+                            </div>
+                        </div>
+                    );
+                })}
             </div>
 
             {/* Image Viewer Modal */}
-            
-                  {isViewerOpen && selectedImage && (
-                    <div className="fixed inset-0 bg-[rgba(0,0,0,0.8)] bg-opacity-90 z-50 flex items-center justify-center p-4">
-                      <div className='absolute top-4 right-4'>
-                        <button
-                          onClick={closeImageViewer}
-                          className=" text-white text-3xl  cursor-pointer hover:text-gray-300"
-                        >
-                          &times;
-                        </button>
-            
-            
-                      </div>
-                      <button
-                        onClick={goToPrevious}
-                        className="absolute left-6 text-white text-3xl w-12 h-12 rounded-2xl bg-[#4440E6] cursor-pointer hover:text-gray-300 flex justify-center items-center "
-                      >
-                        <FaAngleLeft color="white" />
-                      </button>
-            
-            
-                      <div className="max-w-4xl max-h-screen overflow-auto">
+            {isViewerOpen && selectedImage && (
+                <div 
+                    className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn"
+                    onClick={closeImageViewer}
+                >
+                    {/* Close Button */}
+                    <button
+                        onClick={closeImageViewer}
+                        className="absolute top-6 right-6 z-10 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 hover:scale-110 transition-all duration-300 flex items-center justify-center group"
+                    >
+                        <svg className="w-6 h-6 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+
+                    {/* Previous Button */}
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            goToPrevious();
+                        }}
+                        className="absolute left-6 z-10 w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-gradient-to-r hover:from-[#213554] hover:to-[#213554]/90 hover:border-[#213554] hover:scale-110 cursor-pointer hover:shadow-xl flex justify-center items-center transition-all duration-300 group"
+                    >
+                        <FaAngleLeft className="text-xl group-hover:scale-110 transition-transform duration-300" />
+                    </button>
+
+                    {/* Image Container */}
+                    <div 
+                        className="max-w-6xl max-h-[90vh] overflow-auto rounded-2xl bg-white/5 backdrop-blur-sm p-4 custom-scrollbar"
+                        onClick={(e) => e.stopPropagation()}
+                    >
                         <img
-                           src={selectedImage}
-    alt={imageDescriptions[currentIndex]}
-                          className="max-w-full max-h-screen object-contain"
+                            src={selectedImage}
+                            alt={imageDescriptions[currentIndex]}
+                            className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl animate-zoomIn"
                         />
-                      </div>
-            
-            
-                      <button
-                        onClick={goToNext}
-                        className="absolute right-6 w-12 h-12 rounded-2xl text-white bg-[#4440E6] text-3xl cursor-pointer hover:text-gray-300 flex justify-center items-center "
-                      >
-                        <FaAngleRight color="white" />
-                      </button>
-            
-                      <div className="absolute bottom-4 text-white">
-                        {currentIndex + 1} / {images.length}
-                      </div>
                     </div>
-                  )}
+
+                    {/* Next Button */}
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            goToNext();
+                        }}
+                        className="absolute right-6 z-10 w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-gradient-to-r hover:from-[#213554] hover:to-[#213554]/90 hover:border-[#213554] hover:scale-110 cursor-pointer hover:shadow-xl flex justify-center items-center transition-all duration-300 group"
+                    >
+                        <FaAngleRight className="text-xl group-hover:scale-110 transition-transform duration-300" />
+                    </button>
+
+                    {/* Image Counter */}
+                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white/10 backdrop-blur-md border border-white/20 text-white px-6 py-2.5 rounded-full text-sm font-semibold shadow-lg">
+                        <span className="text-white/90">{currentIndex + 1}</span>
+                        <span className="mx-2 text-white/50">/</span>
+                        <span className="text-white/90">{images.length}</span>
+                    </div>
+
+                    {/* Thumbnail Strip */}
+                    <div className="absolute bottom-20 left-1/2 -translate-x-1/2 flex gap-2 max-w-4xl overflow-x-auto px-4 py-2 bg-white/5 backdrop-blur-md rounded-full border border-white/10 custom-scrollbar">
+                        {images.map((img, idx) => (
+                            <button
+                                key={idx}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setSelectedImage(img.src);
+                                    setCurrentIndex(idx);
+                                }}
+                                className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
+                                    currentIndex === idx
+                                        ? 'border-[#EE334B] ring-2 ring-[#EE334B]/50 scale-110'
+                                        : 'border-white/20 hover:border-white/40 hover:scale-105'
+                                }`}
+                            >
+                                <img
+                                    src={img.src}
+                                    alt={img.alt || `Thumbnail ${idx + 1}`}
+                                    className="w-full h-full object-cover"
+                                />
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

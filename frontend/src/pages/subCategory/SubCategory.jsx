@@ -761,11 +761,14 @@
 // export default SubCategory
 
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import SampleKit from '../../components/SampleKit'
 import Button from '../../components/common/Button'
 import Input from '../../components/common/Input'
-import { Link } from 'react-router-dom'
+import Select from '../../components/common/Select'
+import Textarea from '../../components/common/Textarea'
+import ProductCard, { ProductSelectionProvider } from '../../components/common/ProductCard'
+import { Link, useParams } from 'react-router-dom'
 import { FaAngleRight, FaBed } from 'react-icons/fa'
 import { MdOutdoorGrill } from 'react-icons/md'
 import { TbToolsKitchen3 } from 'react-icons/tb'
@@ -773,247 +776,243 @@ import Capabilities from '../../components/Capabilities'
 import BottomHero from '../../components/Hero/BottomHero'
 import Testimonials from '../../components/Testimonials'
 import google from '../../assets/images/footer/google-reviws-logo.webp';
-const SubCategory = () => {
+import axios from 'axios';
+import { BaseUrl } from '../../utils/BaseUrl';
+import { prefetchProduct, prefetchProductsBatch, prefetchSubCategory, getCachedSubCategory } from '../../utils/prefetchUtils';
+
+const SubCategory = ({ serverData, CategoryProducts }) => {
+  const { slug } = useParams();
   const [isMenuOpen, setMenuOpen] = useState(false);
+  const [categoryData, setCategoryData] = useState(null)
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [allProducts, setAllProducts] = useState([]);
+  const [loading, setLoading] = useState(false)
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [loadingProducts, setLoadingProducts] = useState([]);
 
   const toggleMenu = () => {
     setMenuOpen(!isMenuOpen);
   };
 
+  const fetchProduct = async (page = 1) => {
+    // Only set main loading for first page
+    if (page === 1) {
+      setLoading(true);
+      setLoadingProducts(Array(8).fill(null)); // 8 loading skeletons
+    } else {
+      // For subsequent pages, use loadingMore
+      setLoadingMore(true);
+    }
 
-  const categories = [
-    {
-      category: "Box by industry",
-      icon: <FaBed />,
-      menu: [
-        {
-          title: "Cosmetics",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/cosmetics.png",
-        },
-        {
-          title: "Candle",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/candle.png",
-        },
-        {
-          title: "Bakery",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/bakery.png",
-        },
-        {
-          title: "CBD",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/cbd.png",
-        },
-        {
-          title: "Sustainable Packaging",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/sustainable%20packaging.png",
-        },
-      ],
-    },
-    {
-      category: "Shapes & styles",
-      icon: <MdOutdoorGrill />,
-      menu: [
-        {
-          title: "Cosmetics",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/cosmetics.png",
-        },
-        {
-          title: "Candle",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/candle.png",
-        },
-        {
-          title: "Bakery",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/bakery.png",
-        },
-        {
-          title: "CBD",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/cbd.png",
-        },
-        {
-          title: "Sustainable Packaging",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/sustainable%20packaging.png",
-        },
-      ],
-    },
-    {
-      category: "Materials",
-      icon: <TbToolsKitchen3 />,
-      menu: [
-        {
-          title: "Cosmetics",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/cosmetics.png",
-        },
-        {
-          title: "Candle",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/candle.png",
-        },
-        {
-          title: "Bakery",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/bakery.png",
-        },
-        {
-          title: "CBD",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/cbd.png",
-        },
-        {
-          title: "Sustainable Packaging",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/sustainable%20packaging.png",
-        },
-      ],
-    },
-    {
-      category: "Sticker labels & others",
-      icon: <TbToolsKitchen3 />,
-      menu: [
-        {
-          title: "Cosmetics",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/cosmetics.png",
-        },
-        {
-          title: "Candle",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/candle.png",
-        },
-        {
-          title: "Bakery",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/bakery.png",
-        },
-        {
-          title: "CBD",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/cbd.png",
-        },
-        {
-          title: "Sustainable Packaging",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/sustainable%20packaging.png",
-        },
-      ],
-    },
-  ];
+    try {
+      const response = await axios.get(`${BaseUrl}/category/get?slug=${slug}`);
+
+      setCategoryData(response?.data?.data);
+
+      const response2 = await axios.get(
+        `${BaseUrl}/products/categoryProducts/${response?.data?.data?._id}?page=${page}`
+      );
+      if (page === 1) {
+        setAllProducts(response2?.data?.data);
+        setLoadingProducts([]);
+      } else {
+        // Prevent duplicates by checking if product already exists
+        setAllProducts(prev => {
+          const existingIds = new Set(prev.map(p => p._id));
+          const newProducts = response2?.data?.data.filter(p => !existingIds.has(p._id));
+          return [...prev, ...newProducts];
+        });
+      }
+      setCurrentPage(response2?.data?.currentPage);
+      setTotalPages(response2?.data?.totalPages);
+
+    } catch (err) {
+      if (page === 1) {
+        setLoadingProducts([]);
+      }
+    } finally {
+      if (page === 1) {
+        setLoading(false);
+      } else {
+        setLoadingMore(false);
+      }
+    }
+
+  };
+
+  useEffect(() => {
+    if (slug) {
+      // Check cache first for faster loading
+      const cachedData = getCachedSubCategory(slug);
+      if (cachedData) {
+        setCategoryData(cachedData);
+      }
+
+      // Prefetch SubCategory data for faster navigation
+      prefetchSubCategory(slug, true);
+
+      // If we have server-side data, use it initially
+      if (CategoryProducts && CategoryProducts.length > 0) {
+        setAllProducts(CategoryProducts);
+        setCurrentPage(1);
+        setTotalPages(1);
+      } else {
+        setAllProducts([]);
+        setCurrentPage(1);
+        setTotalPages(1);
+        fetchProduct();
+      }
+    }
+  }, [slug, CategoryProducts]);
+
+  // Automatically prefetch all products when they load (for fast navigation) - OPTIMIZED
+  useEffect(() => {
+    if (allProducts && allProducts.length > 0) {
+      // Use optimized batch prefetching for faster loading
+      prefetchProductsBatch(allProducts, {
+        batchSize: 5, // Increased from 3 to 5 for faster prefetching
+        delayBetweenBatches: 50, // Reduced from 100ms to 50ms for faster loading
+        priority: true // Priority for faster loading
+      });
+    }
+  }, [allProducts]);
+
+  const loadMoreProducts = () => {
+    const nextPage = currentPage + 1;
+    if (nextPage <= totalPages && !loadingMore && !loading) {
+      fetchProduct(nextPage);
+    }
+  };
+
+
   return (
     <>
 
-      <section className=' bg-[#F9FAFB]  py-5'>
-        <div className=" sm:max-w-8xl max-w-[95%] mx-auto">
-          <div className=' flex sm:flex-row flex-col justify-between'>
-            <div className=' w-6/12'>
-
-              <h2>Cosmetic Packaging</h2>
-
-              <p className=' pt-1.5'>Luxurious and stunning high-quality cosmetic packaging to influence and indulge potential customers instantly. Stand out from the competition by using packaging with sturdy construction and eye-catching designs.
-              </p>
-              <img src='https://www.halfpricepackaging.com/storage/cat_uploads/custom-cosmetic-boxes.webp' alt='' />
+      <section className='bg-gradient-to-br from-gray-50 to-white pb-8'>
+        <div className="sm:max-w-8xl max-w-[95%] mx-auto">
+          <div className='flex sm:flex-row flex-col  gap-8 lg:gap-12'>
+            <div className='sm:w-6/12 w-full'>
+              <div className="from-gray-50 to-white rounded-2xl  p-8 h-full">
+                <div className="mb-4">
+                  <span className="inline-block px-4 py-1.5 text-sm font-semibold text-[#EE334B] bg-[#EE334B]/10 rounded-full">
+                    Custom Packaging Solutions
+                  </span>
+                </div>
+                <h2 className="text-3xl sm:text-4xl font-bold text-[#213554] mb-4 leading-tight">
+                  {categoryData?.title || serverData?.title || 'Premium Packaging'}
+                </h2>
+                <div
+                  className='text-gray-600 leading-relaxed mb-6'
+                  dangerouslySetInnerHTML={{ __html: categoryData?.description || serverData?.description }}>
+                </div>
+                {categoryData?.image || serverData?.image ? (
+                  <div className="mt-6 rounded-xl overflow-hidden shadow-md">
+                    <img
+                      src={`${BaseUrl}/${categoryData?.image || serverData?.image}`}
+                      alt={categoryData?.imageAltText || categoryData?.title}
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                ) : null}
+              </div>
             </div>
 
-            <div className=' sm:w-5/12 w-full'>
-              <h2>Get an Instant Quote</h2>
+            <div className='sm:w-5/12 w-full'>
+              <div className=" rounded-2xl from-gray-50 to-white  p-8 sticky top-4">
+                <div className="flex items-center gap-2 mb-6">
+                  <div className="w-1 h-8 bg-gradient-to-b from-[#EE334B] to-[#213554] rounded-full"></div>
+                  <h2 className="text-2xl font-bold text-[#213554]">Get an Instant Quote</h2>
+                </div>
 
-              <div className=' pt-4'>
-                <form className=' grid grid-cols-2 gap-3'>
-                  <div className=' w-full'>
-                    <Input
-                      label="Full Name"
-                      star={"*"}
-                      placeholder="Full Name"
-                      className={
-                        " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
-                      }
-                    />
-                  </div>
-                  <div className=' w-full'>
-                    <Input
-                      label="Email"
-                      star={"*"}
-                      placeholder="Email"
-                      className={
-                        " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
-                      }
-                    />
-                  </div>
-                  <div className=' w-full'>
-                    <Input
-                      label="Phone"
-                      star={"*"}
-                      placeholder="Phone"
-                      className={
-                        " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
-                      }
-                    />
-                  </div>
-                  <div className=' w-full'>
-                    <Input
-                      label="Quantity"
-                      star={"*"}
-                      placeholder="Quantity (min: 200)*"
-                      className={
-                        " w-full border  border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg"
-                      }
-                    />
-                  </div>
+                <div className='pt-2'>
+                  <form className='grid grid-cols-2 gap-4'>
+                    <div className='w-full col-span-2 sm:col-span-1'>
+                      <Input
+                        label="Full Name"
+                        star={"*"}
+                        placeholder="Full Name"
+                      />
+                    </div>
+                    <div className='w-full col-span-2 sm:col-span-1'>
+                      <Input
+                        label="Email"
+                        star={"*"}
+                        placeholder="Email"
+                      />
+                    </div>
+                    <div className='w-full col-span-2 sm:col-span-1'>
+                      <Input
+                        label="Phone"
+                        star={"*"}
+                        placeholder="Phone"
+                      />
+                    </div>
+                    <div className='w-full col-span-2 sm:col-span-1'>
+                      <Input
+                        label="Quantity"
+                        star={"*"}
+                        placeholder="Quantity (min: 200)*"
+                      />
+                    </div>
 
-
-                  <div className='  col-span-2'>
-                    <label
-                      htmlFor="first_name"
-                      className="  pb-1.5 flex  text-[#333333] text-sm font-medium   text-textColor"
-                    >
-                      Select Industry
-                      <p className=" text-red-600 m-0 pl-1">*</p>
-                    </label>
-                    <select
-
-                      placeholder="Quantity"
-                      className={
-                        " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg outline-none bg-lightGray  text-textColor placeholder:text-gray-500 "
-                      }
-                    >
-                      <option>Select Industry</option>
-                      <option>Automotive</option>
-                      <option>Electonics</option>
-                      <option>Bakery</option>
-                    </select>
-                  </div>
-                  <div className='  col-span-2'>
-                    <label
-                      htmlFor="first_name"
-                      className="  pb-1.5 flex  text-[#333333] text-sm font-medium   text-textColor"
-                    >
-                      Description
-                      <p className=" text-red-600 m-0 pl-1">*</p>
-                    </label>
-                    <textarea
-                      rows={5}
-                      placeholder="Description"
-                      className={
-                        " w-full border border-gray-300 shadow bg-white  text-xs p-2.5 rounded-lg outline-none bg-lightGray  text-textColor placeholder:text-gray-500 "
-                      }
-                    />
-                  </div>
-                  <div className=' w-full'>
-                    <Button label={'Get a Quote'} className="bg-[#213554] text-white" />
-                  </div>
-                </form>
+                    <div className='col-span-2'>
+                      <Select
+                        label="Select Industry"
+                        name="industry"
+                        star={"*"}
+                        placeholder="Select Industry"
+                      >
+                        <option>Select Industry</option>
+                        <option>Automotive</option>
+                        <option>Electronics</option>
+                        <option>Bakery</option>
+                      </Select>
+                    </div>
+                    <div className='col-span-2'>
+                      <Textarea
+                        label="Description"
+                        name="description"
+                        star={"*"}
+                        rows={5}
+                        placeholder="Describe your packaging requirements..."
+                      />
+                    </div>
+                    <div className='w-full col-span-2'>
+                      <Button
+                        label={'Get a Quote'}
+                        className="bg-gradient-to-r from-[#213554] to-[#213554]/90 hover:from-[#213554]/90 hover:to-[#213554] text-white w-full py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
+                      />
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
         </div>
-
-
       </section>
-      <BottomHero/>
-      <section className=' py-8'>
-        <div className=" sm:max-w-8xl max-w-[95%] mx-auto">
-          <div className=' mb-5 flex  sm:flex-row  flex-col items-center gap-2.5'>
-
-            <h2 className=' text-left'>Cosmetic Packaging Products</h2>
-            <p className=' border-l  border-gray-300 pl-3 '>
-              We cover all your packaging needs. Can't find yours?</p>
-            <Link to="" className=" uppercase">
-              <p className=' font-bold  text-[#EE334B] flex items-center'>View all  <FaAngleRight className="ml-1" size={15} />  </p>
+      <BottomHero />
+      <section className='py-8 bg-white'>
+        <div className="sm:max-w-8xl max-w-[95%] mx-auto">
+          <div className='mb-8 flex sm:flex-row flex-col items-center justify-between gap-4'>
+            <div className="flex items-center gap-4">
+              <div className="w-1 h-12 bg-gradient-to-b from-[#EE334B] to-[#213554] rounded-full"></div>
+              <div>
+                <h2 className='text-3xl sm:text-4xl font-bold text-[#213554] text-left'>
+                  {categoryData?.title || serverData?.title || 'Products'}
+                </h2>
+                <p className='text-gray-600 mt-1'>
+                  We cover all your packaging needs. Can't find yours?
+                </p>
+              </div>
+            </div>
+            <Link to="" className="group">
+              <p className='font-bold text-[#EE334B] flex items-center hover:text-[#213554] transition-colors duration-300 uppercase text-sm'>
+                View all <FaAngleRight className="ml-1 group-hover:translate-x-1 transition-transform duration-300" size={15} />
+              </p>
             </Link>
           </div>
         </div>
-
-
-
-
       </section>
 
 
@@ -1053,139 +1052,179 @@ const SubCategory = () => {
           </div> */}
 
 
-          <div className="w-full sm:w-9/12 mx-auto">
-            <div className="grid  gap-6 grid-cols-2 md:grid-cols-4  lg:grid-cols-4">
-              {/* <ProductCard/>
-              <ProductCard />
-              <ProductCard />
-              <ProductCard />
-              <ProductCard />
-              <ProductCard />
-              <ProductCard /> */}
+          <div className=" sm:max-w-8xl w-full mx-auto">
+            <ProductSelectionProvider>
+              <div className="grid  gap-6 grid-cols-2 md:grid-cols-4  lg:grid-cols-4">
+                {/* Loading Skeletons */}
+                {loading && loadingProducts.length > 0 && loadingProducts.map((_, index) => (
+                  <div className=' w-full' key={`loading-${index}`}>
+                    <div className="animate-pulse">
+                      <div className="bg-gray-200 rounded-lg w-full sm:h-62 h-48 mb-2"></div>
+                      <div className="bg-gray-200 rounded h-4 w-3/4 mx-auto mb-2"></div>
+                      <div className="bg-gray-200 rounded h-3 w-1/2 mx-auto"></div>
+                    </div>
+                  </div>
+                ))}
 
-            </div>
+                {/* Actual Products - Show even when loading more */}
+                {allProducts?.map((item, index) => {
+                  return (
+                    <ProductCard
+                      key={item._id || index}
+                      data={item}
+                      disableSelection={false}
+                    />
+                  );
+                })}
 
+              </div>
+            </ProductSelectionProvider>
+            {currentPage < totalPages && (
+              <div className="flex justify-center mt-8">
+                <Button
+                  label={loadingMore ? "Loading..." : "Explore More"}
+                  className="bg-gradient-to-r from-[#213554] to-[#213554]/90 hover:from-[#EE334B] hover:to-[#EE334B]/90 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                  onClick={loadMoreProducts}
+                  disabled={loadingMore || loading}
+                />
+              </div>
+            )}
           </div>
         </div>
-
-        {/* Pagination Section */}
-        <div className="flex justify-end gap-2 items-center p-4">
-          <button className="px-4 py-2 text-black  bg-gray-200 rounded disabled:opacity-50">
-            Previous
-          </button>
-          <div className="flex items-center gap-4">
-            <p className="font-medium">Page 1 of 12</p>
+      </div>
+      <section className='mb-8'>
+        <div className="sm:max-w-8xl bg-gradient-to-br from-gray-50 to-white rounded-2xl p-8 sm:p-12 shadow-lg max-w-[95%] mx-auto border border-gray-100">
+          <div className="text-center mb-8">
+            <span className="inline-block px-4 py-1.5 text-sm font-semibold text-[#EE334B] bg-[#EE334B]/10 rounded-full mb-4">
+              Why Choose Us
+            </span>
+            <h2 className='text-3xl sm:text-4xl font-bold text-[#213554] mb-4'>
+              Learn More About Custom Bakery Boxes
+            </h2>
+            <h3 className='text-xl sm:text-2xl font-semibold text-[#213554]/80 pt-2'>
+              Keep Your Baked Goods Fresh & Preserved with Durable Custom Bakery Boxes
+            </h3>
           </div>
-          <button className="px-4 py-2 text-black bg-gray-200 rounded disabled:opacity-50">
-            Next
+
+          <div
+            className='prose prose-sm sm:prose-base max-w-none text-gray-700 leading-relaxed'
+            dangerouslySetInnerHTML={{ __html: categoryData?.description }}
+            style={{
+              lineHeight: '1.75'
+            }}
+          ></div>
+
+        </div>
+      </section>
+      <section className='py-12 bg-gradient-to-br from-white to-gray-50'>
+        <div className="sm:max-w-8xl justify-between gap-8 lg:gap-12 items-center max-w-[95%] flex sm:flex-row flex-col mx-auto">
+          <div className='sm:w-6/12 w-full'>
+            <div className="bg-white rounded-2xl shadow-lg p-8">
+              <div className="mb-4">
+                <span className="inline-block px-4 py-1.5 text-sm font-semibold text-[#EE334B] bg-[#EE334B]/10 rounded-full">
+                  Premium Features
+                </span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-[#213554] mb-4">
+                Key Features of Our Custom Retail Boxes
+              </h2>
+              <p className='text-gray-600 leading-relaxed mb-6'>
+                Our custom retail boxes are the perfect choice if you want to boost your product's presentation in the market. You get some amazing features, including:
+              </p>
+
+              <ul className='space-y-3 mt-4 mb-6'>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-[#EE334B]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <div className="w-2 h-2 rounded-full bg-[#EE334B]"></div>
+                  </div>
+                  <div>
+                    <strong className="text-[#213554]">Sturdy Construction:</strong>
+                    <span className="text-gray-700"> durable material options that promise protection along with a premium look.</span>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-[#EE334B]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <div className="w-2 h-2 rounded-full bg-[#EE334B]"></div>
+                  </div>
+                  <div>
+                    <strong className="text-[#213554]">Attractive Presentation:</strong>
+                    <span className="text-gray-700"> offer a sleek and catchy presentation to get your products noticed.</span>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-[#EE334B]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <div className="w-2 h-2 rounded-full bg-[#EE334B]"></div>
+                  </div>
+                  <div>
+                    <strong className="text-[#213554]">Consistent Branding:</strong>
+                    <span className="text-gray-700"> a printable surface that allows you to add your logo and branding elements</span>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-[#EE334B]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <div className="w-2 h-2 rounded-full bg-[#EE334B]"></div>
+                  </div>
+                  <div>
+                    <strong className="text-[#213554]">Versatile Packaging:</strong>
+                    <span className="text-gray-700"> customize the shape and size to perfectly fit your product.</span>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-[#EE334B]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <div className="w-2 h-2 rounded-full bg-[#EE334B]"></div>
+                  </div>
+                  <div>
+                    <strong className="text-[#213554]">Eco-Friendly:</strong>
+                    <span className="text-gray-700"> sustainable materials and inks to improve your brand identity</span>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-[#EE334B]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <div className="w-2 h-2 rounded-full bg-[#EE334B]"></div>
+                  </div>
+                  <div>
+                    <strong className="text-[#213554]">Amazing Unboxing:</strong>
+                    <span className="text-gray-700"> impressive locking styles to improve the unboxing experience</span>
+                  </div>
+                </li>
+              </ul>
+
+              <div className='mt-6'>
+                <Button
+                  className="bg-gradient-to-r from-[#213554] to-[#213554]/90 hover:from-[#EE334B] hover:to-[#EE334B]/90 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                  label={"Get Custom Quote"}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className='sm:w-5/12 w-full'>
+            <div className="rounded-2xl overflow-hidden shadow-xl">
+              <img
+                src='https://www.halfpricepackaging.com/_ipx/f_webp&fit_cover&s_556x363/https://www.halfpricepackaging.com/storage/cat_uploads/cosmetic-shipping-packaging.webp'
+                className='w-full h-auto object-cover hover:scale-105 transition-transform duration-500'
+                alt='Custom Packaging'
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
+      <div className="mt-8 sm:max-w-8xl bg-gradient-to-r from-[#213554] to-[#213554]/95 p-8 flex sm:flex-row flex-col gap-5 justify-between items-center rounded-2xl max-w-[95%] mx-auto shadow-xl">
+        <div>
+          <img src={google} alt='Google Reviews' className="filter brightness-0 invert" />
+        </div>
+        <div>
+          <button className='px-8 py-3 rounded-lg flex bg-white text-[#213554] hover:bg-[#EE334B] hover:text-white font-semibold text-sm items-center justify-center gap-2 
+      transition-all duration-300 ease-in-out transform 
+      hover:-translate-y-1 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed'>
+            Review us on Google
           </button>
         </div>
       </div>
-<section className=' mb-6'>
-        <div className=" sm:max-w-8xl  bg-[#F6F6F6] rounded-xl p-8 justify-between gap-5 items-center max-w-[95%]   mx-auto">
-
-
-          <h2 className=' text-center'>Learn More About Custom Bakery Boxes</h2>
-
-          <h3 className=' pt-2.5'>Keep Your Baked Goods Fresh & Preserved with Durable Custom Bakery Boxes
-          </h3>
-
-          <p>Use our 100% food-safe and expertly designed custom bakery boxes to make your sweets more enticing for your customers. We offer exciting customization options for a variety of packaging boxes for various items. This includes cakes, pies, cupcakes, and donuts. We ensure the protection and better presentation of your bakery items. We do this by offering high-end material options. This includes kraft, cardboard, corrugated cardboard, and rigid paperboard.
-
-          </p>
-
-          <p>We provide all of the boxes and packaging options at competitive prices. Whether you’re looking for:
-
-          </p>
-
-
-          <ul className='  mt-1.5 m-0'>
-            <li>
-              <strong>Sturdy Construction:</strong> durable material options that promise protection along with a premium look.
-            </li>
-            <li>
-              <strong>Attractive Presentation:</strong> Attractive Presentation: offer a sleek and catchy presentation to get your products noticed.
-            </li>
-            <li>
-              <strong>Consistent Branding:</strong> a printable surface that allows you to add your logo and branding elements
-            </li>
-            <li>
-              <strong>Versatile Packaging:</strong> customize the shape and size to perfectly fit your product.
-            </li>
-            <li>
-              <strong>Eco-Friendly:</strong> sustainable materials and inks to improve your brand identity
-            </li>
-            <li>
-              <strong>Amazing Unboxing:</strong> impressive locking styles to improve the unboxing experience
-            </li>
-          </ul>
-
-
-
-
-        </div>
-      </section>
-      <section className=' py-8'>
-        <div className=" sm:max-w-8xl  justify-between gap-5 items-center max-w-[95%]  flex sm:flex-row flex-col  mx-auto">
-
-          <div className=' sm:w-6/12 w-full'>
-            <h2>Key Features of Our Custom Retail Boxes:
-            </h2>
-            <p className=' py-2'>Our custom retail boxes are the perfect choice if you want to boost your product's presentation in the market. You get some amazing features, including:
-
-            </p>
-
-            <ul className=' list-disc mt-1.5 m-0'>
-              <li>
-                <strong>Sturdy Construction:</strong> durable material options that promise protection along with a premium look.
-              </li>
-              <li>
-                <strong>Attractive Presentation:</strong> Attractive Presentation: offer a sleek and catchy presentation to get your products noticed.
-              </li>
-              <li>
-                <strong>Consistent Branding:</strong> a printable surface that allows you to add your logo and branding elements
-              </li>
-              <li>
-                <strong>Versatile Packaging:</strong> customize the shape and size to perfectly fit your product.
-              </li>
-              <li>
-                <strong>Eco-Friendly:</strong> sustainable materials and inks to improve your brand identity
-              </li>
-              <li>
-                <strong>Amazing Unboxing:</strong> impressive locking styles to improve the unboxing experience
-              </li>
-            </ul>
-
-            <div className=' mt-3.5'>
-              <Button
-                className="bg-[#213554] text-white"
-                label={"Get Custom Quote"}
-              />
-            </div>
-
-          </div>
-
-          <div className=' sm:w-5/12 w-full
-        '>
-            <img src='https://www.halfpricepackaging.com/_ipx/f_webp&fit_cover&s_556x363/https://www.halfpricepackaging.com/storage/cat_uploads/cosmetic-shipping-packaging.webp' className='  shadow-xl w-full rounded-2xl' alt='' />
-          </div>
-
-        </div>
-      </section>
-
-
-      
-      <div className="  mt-8  sm:max-w-8xl bg-[#F6F6F6] p-8 flex sm:flex-row flex-col gap-5 justify-between items-center rounded-xl max-w-[95%] mx-auto">
-          <div>
-            <img src={google} alt='' />
-          </div>
-          <div>
-            <button className='px-6 py-2.5 rounded-lg flex bg-blue-500 text-white  hover:bg-[#EE334B] hover:text-white hover:border-[#EE334B] text-sm items-center justify-center gap-2 
-      transition-all duration-300 ease-in-out transform 
-      hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed'>Review us on Google</button>
-          </div>
-        </div>
-        <Testimonials />
+      <Testimonials />
       <Capabilities />
 
 

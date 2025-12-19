@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaAngleDown, FaAngleRight, FaBed } from "react-icons/fa";
 import { MdOutdoorGrill } from "react-icons/md";
 import { TbToolsKitchen3 } from "react-icons/tb";
@@ -6,117 +6,167 @@ import { Link } from "react-router-dom";
 import { LiaAngleRightSolid } from "react-icons/lia";
 import logo from '../../assets/images/brand/logo.png';
 import Button from "../common/Button";
+import axios from "axios";
+import { BaseUrl } from "../../utils/BaseUrl";
+
+// Add animations to document head
+if (typeof document !== 'undefined' && !document.getElementById('bottomnav-animations')) {
+    const style = document.createElement('style');
+    style.id = 'bottomnav-animations';
+    style.textContent = `
+        @keyframes slideDown {
+            0% { transform: translateY(-10px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes slideInLeft {
+            0% { transform: translateX(-100%); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        .animate-slideDown {
+            animation: slideDown 0.3s ease-out;
+        }
+        .animate-slideInLeft {
+            animation: slideInLeft 0.3s ease-out;
+        }
+        .animate-fadeIn {
+            animation: fadeIn 0.3s ease-out;
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// Cache for brands data
+const BRANDS_CACHE_KEY = 'brands_cache';
+const BRANDS_CACHE_TIMESTAMP = 'brands_cache_timestamp';
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes cache
+
+// Get cached brands data
+const getCachedBrands = () => {
+  try {
+    const cached = localStorage.getItem(BRANDS_CACHE_KEY);
+    const timestamp = localStorage.getItem(BRANDS_CACHE_TIMESTAMP);
+    
+    if (cached && timestamp) {
+      const now = Date.now();
+      const cacheTime = parseInt(timestamp, 10);
+      
+      // Return cached data if still valid
+      if (now - cacheTime < CACHE_DURATION) {
+        return JSON.parse(cached);
+      }
+    }
+  } catch (error) {
+    console.error('Error reading cache:', error);
+  }
+  return null;
+};
+
+// Save brands data to cache
+const saveBrandsToCache = (data) => {
+  try {
+    localStorage.setItem(BRANDS_CACHE_KEY, JSON.stringify(data));
+    localStorage.setItem(BRANDS_CACHE_TIMESTAMP, Date.now().toString());
+  } catch (error) {
+    console.error('Error saving cache:', error);
+  }
+};
 
 const BottomNav = ({ Menu, OpenMenu }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [hoveredCategory, setHoveredCategory] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const categories = [
-    {
-      category: "Box by industry",
-      icon: <FaBed />,
-      menu: [
-        {
-          title: "Cosmetics",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/cosmetics.png",
-        },
-        {
-          title: "Candle",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/candle.png",
-        },
-        {
-          title: "Bakery",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/bakery.png",
-        },
-        {
-          title: "CBD",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/cbd.png",
-        },
-        {
-          title: "Sustainable Packaging",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/sustainable%20packaging.png",
-        },
-      ],
-    },
-    {
-      category: "Shapes & styles",
-      icon: <MdOutdoorGrill />,
-      menu: [
-        {
-          title: "Cosmetics",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/cosmetics.png",
-        },
-        {
-          title: "Candle",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/candle.png",
-        },
-        {
-          title: "Bakery",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/bakery.png",
-        },
-        {
-          title: "CBD",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/cbd.png",
-        },
-        {
-          title: "Sustainable Packaging",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/sustainable%20packaging.png",
-        },
-      ],
-    },
-    {
-      category: "Materials",
-      icon: <TbToolsKitchen3 />,
-      menu: [
-        {
-          title: "Cosmetics",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/cosmetics.png",
-        },
-        {
-          title: "Candle",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/candle.png",
-        },
-        {
-          title: "Bakery",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/bakery.png",
-        },
-        {
-          title: "CBD",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/cbd.png",
-        },
-        {
-          title: "Sustainable Packaging",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/sustainable%20packaging.png",
-        },
-      ],
-    },
-    {
-      category: "Sticker labels & others",
-      icon: <TbToolsKitchen3 />,
-      menu: [
-        {
-          title: "Cosmetics",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/cosmetics.png",
-        },
-        {
-          title: "Candle",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/candle.png",
-        },
-        {
-          title: "Bakery",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/bakery.png",
-        },
-        {
-          title: "CBD",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/cbd.png",
-        },
-        {
-          title: "Sustainable Packaging",
-          icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/sustainable%20packaging.png",
-        },
-      ],
-    },
-  ];
+  // Icon mapping for categories
+  const categoryIconMap = {
+    "box by industry": <FaBed />,
+    "Box by industry": <FaBed />,
+    "Shapes & Styles": <MdOutdoorGrill />,
+    "Shapes & styles": <MdOutdoorGrill />,
+    "Materials": <TbToolsKitchen3 />,
+    "Boxes By Material": <TbToolsKitchen3 />,
+    "Sticker labels & others": <TbToolsKitchen3 />,
+    "Sticker Labels & Others": <TbToolsKitchen3 />,
+  };
+
+  // Default icon if category not found in map
+  const getCategoryIcon = (categoryName) => {
+    return categoryIconMap[categoryName] || <FaBed />;
+  };
+
+  // Transform API data to component structure
+  const transformBrandsData = (brandsData) => {
+    return brandsData.map((brand) => ({
+      category: brand.name,
+      slug: brand.slug,
+      icon: getCategoryIcon(brand.name),
+      menu: brand.midcategories?.map((midcat) => ({
+        title: midcat.title,
+        icon: midcat.icon?.startsWith('http') 
+          ? midcat.icon 
+          : `${BaseUrl}/${midcat.icon}`,
+        slug: midcat.slug,
+      })) || [],
+    }));
+  };
+
+  // Fetch brands from API
+  useEffect(() => {
+    const fetchBrands = async () => {
+      // First, try to load from cache for instant display
+      const cachedData = getCachedBrands();
+      if (cachedData) {
+        setCategories(transformBrandsData(cachedData));
+        setLoading(false);
+      }
+
+      // Then fetch fresh data from API in background
+      try {
+        const response = await axios.get(`${BaseUrl}/brands/getAll`, {
+          timeout: 10000,
+        });
+        
+        if (response.data.status === "success" && response.data.data) {
+          const transformedCategories = transformBrandsData(response.data.data);
+          
+          // Save to cache
+          saveBrandsToCache(response.data.data);
+          
+          // Update state with fresh data
+          setCategories(transformedCategories);
+        }
+      } catch (error) {
+        console.error("Error fetching brands:", error);
+        // If no cached data and API fails, keep empty array
+        if (!cachedData) {
+          setCategories([]);
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBrands();
+  }, []);
+
+  // Use categories from API, or empty array if loading/failed
+  const displayCategories = categories.length > 0 ? categories : [];
+
+  // Skeleton loader for categories
+  const CategorySkeleton = () => (
+    <div className="flex gap-7 items-center">
+      {[1, 2, 3, 4].map((i) => (
+        <div
+          key={i}
+          className="h-6 w-32 bg-gray-200 animate-pulse rounded"
+        ></div>
+      ))}
+    </div>
+  );
 
   const handleCategoryHover = (category) => {
     setHoveredCategory(category);
@@ -129,89 +179,114 @@ const BottomNav = ({ Menu, OpenMenu }) => {
   };
 
   return (
-    <div className="relative">
+    <div className="relative" onMouseLeave={handleCategoryLeave}>
       {/* Desktop Menu */}
-      <div className="hidden sm:block py-2">
-        <ul className="flex gap-7 items-center sm:max-w-8xl max-w-[95%] mx-auto">
+      <div className="hidden sm:block py-3 bg-gradient-to-r from-white via-gray-50/30 to-white border-b border-gray-100">
+        <ul className="flex gap-6 items-center sm:max-w-8xl max-w-[95%] mx-auto">
           <Link
-            to="#"
-            className="flex items-center gap-1 py-2.5 text-sm font-semibold transition-colors"
+            to="/"
+            className="flex items-center gap-1 px-3 py-2.5 text-sm font-semibold text-[#213554] hover:text-[#EE334B] transition-all duration-300 rounded-lg hover:bg-[#EE334B]/5 relative group"
           >
-            Home
+            <span className="relative z-10">Home</span>
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#EE334B] to-[#213554] group-hover:w-full transition-all duration-300"></span>
           </Link>
-          {categories.map((category, index) => (
-            <Link
-              to={`/category/${category?.category}`}
+          {displayCategories.map((category, index) => (
+            <div
               key={index}
+              className="relative"
               onMouseEnter={() => handleCategoryHover(category)}
-              onMouseLeave={handleCategoryLeave}
-              className="flex relative cursor-pointer group items-center gap-1 py-2.5 text-sm font-semibold transition-colors"
+              onMouseLeave={category.menu?.length > 0 ? undefined : handleCategoryLeave}
             >
-              {category.category}
-              {category.menu?.length > 0 && (
-                <FaAngleDown className="ml-1" size={15} />
-              )}
-            </Link>
+              <Link
+                to={`/category/${category?.slug || category?.category}`}
+                className="flex relative cursor-pointer group items-center gap-1 px-3 py-2.5 text-sm font-semibold text-[#213554] hover:text-[#EE334B] transition-all duration-300 rounded-lg hover:bg-[#EE334B]/5"
+              >
+                <span className="relative z-10">{category.category}</span>
+                {category.menu?.length > 0 && (
+                  <FaAngleDown className="ml-1 group-hover:rotate-180 transition-transform duration-300" size={14} />
+                )}
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#EE334B] to-[#213554] group-hover:w-full transition-all duration-300"></span>
+              </Link>
+            </div>
           ))}
           <Link
-            to="#"
-            className="flex items-center gap-1 py-2.5 text-sm font-semibold transition-colors"
+            to="/about-us"
+            className="flex items-center gap-1 px-3 py-2.5 text-sm font-semibold text-[#213554] hover:text-[#EE334B] transition-all duration-300 rounded-lg hover:bg-[#EE334B]/5 relative group"
           >
-            About Us
+            <span className="relative z-10">About Us</span>
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#EE334B] to-[#213554] group-hover:w-full transition-all duration-300"></span>
           </Link>
           <Link
             to="#"
-            className="flex items-center gap-1 py-2.5 text-sm font-semibold transition-colors"
+            className="flex items-center gap-1 px-3 py-2.5 text-sm font-semibold text-[#213554] hover:text-[#EE334B] transition-all duration-300 rounded-lg hover:bg-[#EE334B]/5 relative group"
           >
-            Contact Us
+            <span className="relative z-10">Contact Us</span>
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#EE334B] to-[#213554] group-hover:w-full transition-all duration-300"></span>
           </Link>
         </ul>
 
         {/* Dropdown Menu */}
         {hoveredCategory && selectedCategory && (
           <div
-            className="absolute top-10 pt-2.5  left-0 w-full z-50"
+            className="absolute top-full left-0 w-full z-50 animate-fadeIn"
             onMouseEnter={() => handleCategoryHover(hoveredCategory)}
             onMouseLeave={handleCategoryLeave}
           >
-            <div className="mx-8">
-              <div className="max-w-8xl mx-auto shadow-lg rounded-br-lg  rounded-bl-lg bg-white justify-between p-3 flex gap-3">
-                {selectedCategory.map((submenu, index) => (
-                  <Link
-                    key={index}
-                    to={`/sub-category/${submenu.title}`}
-                    className="text-gray-700 w-5/12 flex font-bold flex-col gap-0.5 items-center transition-colors"
-                  >
-                    <div className="h-56 w-56 bg-[#F9F9F9] rounded-3xl">
-                      <img
-                        src={submenu?.icon}
-                        alt=""
-                        className="w-full h-full object-contain rounded-3xl"
-                      />
-                    </div>
-                    <p className="pt-2 font-bold">{submenu.title}</p>
-                  </Link>
-                ))}
+            {/* Invisible bridge area to prevent cursor loss - overlaps with menu */}
+            <div className="h-3 w-full absolute top-0 left-0 -mt-3 bg-transparent pointer-events-auto"></div>
+            <div className="mx-8 pt-3">
+              <div className="max-w-8xl mx-auto shadow-2xl rounded-2xl bg-gradient-to-br from-white to-gray-50/50 backdrop-blur-sm border border-gray-200 justify-between p-6 flex gap-6 animate-slideDown">
+                <div className="w-9/12 grid grid-cols-5 gap-4">
+                  {selectedCategory.map((submenu, index) => (
+                    <Link
+                      key={index}
+                      to={`/sub-category/${submenu.slug || submenu.title}`}
+                      className="text-gray-700 flex font-bold flex-col gap-2 items-center transition-all duration-300 group hover:scale-105"
+                    >
+                      <div className="h-56 w-full bg-gradient-to-br from-gray-50 to-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group-hover:border-[#213554]/30 relative">
+                        <img
+                          src={submenu?.icon}
+                          alt={submenu.title}
+                          className="w-full h-full object-cover rounded-2xl group-hover:scale-110 transition-transform duration-500"
+                        />
+                       
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-2xl"></div>
+                       
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-2xl"></div>
+                      </div>
+                      <p className="pt-2 text-sm text-center text-[#213554] group-hover:text-[#EE334B] transition-colors duration-300">{submenu.title}</p>
+                    </Link>
+                  ))}
+                </div>
 
-                <div className="w-6/12 border-l border-gray-200 pl-5">
-                  <ul className="flex flex-col gap-1.5">
+                <div className="w-3/12 border-l border-gray-200 pl-6">
+                  <div className="mb-4">
+                    <h3 className="text-lg font-bold text-[#213554] mb-1">Explore Categories</h3>
+                    <div className="w-12 h-1 bg-gradient-to-r from-[#EE334B] to-[#213554] rounded-full"></div>
+                  </div>
+                  <ul className="flex flex-col ">
                     {selectedCategory?.map((item, index) => (
                       <Link
-                        to={"#"}
+                        to={`/sub-category/${item?.slug || item?.title}`}
                         key={index}
-                        className="font-bold flex items-center justify-between"
+                        className="font-semibold flex items-center justify-between py-2 px-3 rounded-lg text-[#213554] hover:bg-[#EE334B]/10 hover:text-[#EE334B] transition-all duration-300 group"
                       >
-                        {item?.title}
-                        <LiaAngleRightSolid size={15} color="#EE334B" />
+                        <span>{item?.title}</span>
+                        <LiaAngleRightSolid size={16} className="text-[#EE334B] group-hover:translate-x-1 transition-transform duration-300" />
                       </Link>
                     ))}
 
-                    <Link className="mt-5">
-                      <Button
-                        className="bg-[#213554] text-white"
-                        label={"View all Industries"}
-                      />
-                    </Link>
+                    {hoveredCategory && (
+                      <Link 
+                        to={`/category/${hoveredCategory?.slug || hoveredCategory?.category}`}
+                        className="mt-4"
+                      >
+                        <Button
+                          className="bg-gradient-to-r from-[#213554] to-[#213554]/90 hover:from-[#EE334B] hover:to-[#EE334B]/90 text-white w-full"
+                          label={`View all ${hoveredCategory?.category || 'Categories'}`}
+                        />
+                      </Link>
+                    )}
                   </ul>
                 </div>
               </div>
@@ -222,110 +297,109 @@ const BottomNav = ({ Menu, OpenMenu }) => {
 
       {/* Mobile Menu */}
       <div
-        
-        className={`sm:hidden ${Menu ? "block" : "hidden"} bg-[rgba(0,0,0,0.5)]   fixed  inset-0 left-0     z-40  right-0 top-0 w-full`}
+        className={`sm:hidden ${Menu ? "block" : "hidden"} bg-black/60 backdrop-blur-sm fixed inset-0 z-40 animate-fadeIn`}
+        onClick={() => OpenMenu(false)}
       >
-        <div className=" bg-white md:w-96  w-80 h-full  overflow-y-auto">
-         <div className=" p-3 w-fy border-b flex justify-between  items-center border-gray-200">
-          <div>
-          <img src={logo} alt=""   className=" w-36" />
+        <div 
+          className="bg-gradient-to-br from-white to-gray-50 md:w-96 w-80 h-full overflow-y-auto shadow-2xl animate-slideInLeft"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="p-4 border-b border-gray-200 flex justify-between items-center bg-white">
+            <div>
+              <img src={logo} alt="Logo" className="w-36" />
+            </div>
+            <div className="cursor-pointer">
+              <div className="bg-gradient-to-r from-[#EE334B] to-[#213554] w-10 h-10 rounded-full flex justify-center items-center hover:scale-110 transition-transform duration-300 shadow-md hover:shadow-lg">
+                <svg
+                  onClick={() => OpenMenu(false)}
+                  width={20}
+                  aria-hidden="true"
+                  color="white"
+                  role="presentation"
+                  className="text-white"
+                  fill="white"
+                  viewBox="0 0 1000 1000"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M742 167L500 408 258 167C246 154 233 150 217 150 196 150 179 158 167 167 154 179 150 196 150 212 150 229 154 242 171 254L408 500 167 742C138 771 138 800 167 829 196 858 225 858 254 829L496 587 738 829C750 842 767 846 783 846 800 846 817 842 829 829 842 817 846 804 846 783 846 767 842 750 829 737L588 500 833 258C863 229 863 200 833 171 804 137 775 137 742 167Z"></path>
+                </svg>
+              </div>
+            </div>
           </div>
-          <div className=" cursor-pointer">
-          <div className="  bg-[#EE334B] w-8 h-8   rounded-full flex justify-center items-center">
-          <svg
-              onClick={()=>OpenMenu(false)}
-              width={20}
-              aria-hidden="true"
-              color="white"
-              role="presentation"
-              className=" text-white"
-              fill="white"
-              viewBox="0 0 1000 1000"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M742 167L500 408 258 167C246 154 233 150 217 150 196 150 179 158 167 167 154 179 150 196 150 212 150 229 154 242 171 254L408 500 167 742C138 771 138 800 167 829 196 858 225 858 254 829L496 587 738 829C750 842 767 846 783 846 800 846 817 842 829 829 842 817 846 804 846 783 846 767 842 750 829 737L588 500 833 258C863 229 863 200 833 171 804 137 775 137 742 167Z"></path>
-            </svg>
-            
-          </div>
-          </div>
-          
-         </div>
-        <ul className="flex flex-col p-4">
-          <li>
-            <Link
-              to="/"
-              className="font-semibold transition-colors"
-              onClick={OpenMenu}
-            >
-              Home
-            </Link>
-          </li>
-          {categories.map((category, index) => (
-            <li key={index}>
+          <ul className="flex flex-col p-4 gap-1">
+            <li>
               <Link
-                to="#"
-                className="flex items-center gap-1 py-2.5 font-semibold transition-colors"
+                to="/"
+                className="block px-4 py-3 font-semibold text-[#213554] hover:text-[#EE334B] hover:bg-[#EE334B]/10 rounded-lg transition-all duration-300"
                 onClick={OpenMenu}
               >
-                {category.category}
+                Home
               </Link>
-              {category.menu?.length > 0 && (
-                <ul className="pl-4">
-                  {category.menu.map((submenu, subIndex) => (
-                    <li key={subIndex}>
-                      <Link
-                        to={`/sub-category/${submenu.title}`}
-                        className="text-gray-700 flex gap-0.5 items-center transition-colors"
-                        onClick={OpenMenu}
-                      >
-                        {submenu.title}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              )}
             </li>
-          ))}
-          <li>
-            <Link
-              to="/portfolio"
-              className="font-semibold transition-colors"
-              onClick={OpenMenu}
-            >
-              Portfolio
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/blog"
-              className="font-semibold transition-colors"
-              onClick={OpenMenu}
-            >
-              Blog
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/about-us"
-              className="hover:text-orange-500 transition-colors"
-              onClick={OpenMenu}
-            >
-              About us
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/contact-us"
-              className="hover:text-orange-500 transition-colors"
-              onClick={OpenMenu}
-            >
-              Contact us
-            </Link>
-          </li>
-        </ul>
-
+            {displayCategories.map((category, index) => (
+              <li key={index}>
+                <Link
+                  to={`/category/${category?.slug || category?.category}`}
+                  className="block px-4 py-3 font-semibold text-[#213554] hover:text-[#EE334B] hover:bg-[#EE334B]/10 rounded-lg transition-all duration-300"
+                  onClick={OpenMenu}
+                >
+                  {category.category}
+                </Link>
+                {category.menu?.length > 0 && (
+                  <ul className="pl-6 mt-1 space-y-1">
+                    {category.menu.map((submenu, subIndex) => (
+                      <li key={subIndex}>
+                        <Link
+                          to={`/sub-category/${submenu.slug || submenu.title}`}
+                          className="block px-4 py-2 text-gray-700 hover:text-[#EE334B] hover:bg-[#EE334B]/5 rounded-lg transition-all duration-300 text-sm"
+                          onClick={OpenMenu}
+                        >
+                          {submenu.title}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+            <li>
+              <Link
+                to="/portfolio"
+                className="block px-4 py-3 font-semibold text-[#213554] hover:text-[#EE334B] hover:bg-[#EE334B]/10 rounded-lg transition-all duration-300"
+                onClick={OpenMenu}
+              >
+                Portfolio
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/blog"
+                className="block px-4 py-3 font-semibold text-[#213554] hover:text-[#EE334B] hover:bg-[#EE334B]/10 rounded-lg transition-all duration-300"
+                onClick={OpenMenu}
+              >
+                Blog
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/about-us"
+                className="block px-4 py-3 font-semibold text-[#213554] hover:text-[#EE334B] hover:bg-[#EE334B]/10 rounded-lg transition-all duration-300"
+                onClick={OpenMenu}
+              >
+                About us
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/contact-us"
+                className="block px-4 py-3 font-semibold text-[#213554] hover:text-[#EE334B] hover:bg-[#EE334B]/10 rounded-lg transition-all duration-300"
+                onClick={OpenMenu}
+              >
+                Contact us
+              </Link>
+            </li>
+          </ul>
         </div>
-      
       </div>
     </div>
   );

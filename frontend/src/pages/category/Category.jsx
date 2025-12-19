@@ -286,78 +286,77 @@
 // };
 
 // export default Category;
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { FaBed } from 'react-icons/fa'
 import { MdOutdoorGrill } from 'react-icons/md'
 import { TbToolsKitchen3 } from 'react-icons/tb'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import SampleKit from '../../components/SampleKit'
 import InspirationPackaging from '../../components/InspirationPackaging'
 import { IoHomeOutline } from 'react-icons/io5'
 import { LiaAngleRightSolid } from 'react-icons/lia'
+import axios from 'axios'
+import { BaseUrl } from '../../utils/BaseUrl'
+import Banner from '../../components/common/Banner'
 
 const Category = () => {
+  const { slug } = useParams();
+  const [allCategories, setAllCategories] = useState([]);
+  const [loadingCategories, setLoadingCategories] = useState(false);
+  const [categoryData, setCategoryData] = useState(null);
 
-     const categories = [
-        {
-            title: "Cosmetics",
-            icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/cosmetics.png",
-          },
-          {
-            title: "Candle",
-            icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/candle.png",
-          },
-          {
-            title: "Bakery",
-            icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/bakery.png",
-          },
-          {
-            title: "CBD",
-            icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/cbd.png",
-          },
-          {
-            title: "Sustainable Packaging",
-            icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/sustainable%20packaging.png",
-          },
-          {
-            title: "Sustainable Packaging",
-            icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/sustainable%20packaging.png",
-          },
-          {
-            title: "Sustainable Packaging",
-            icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/sustainable%20packaging.png",
-          },
-          {
-            title: "Sustainable Packaging",
-            icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/sustainable%20packaging.png",
-          },
-          {
-            title: "Sustainable Packaging",
-            icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/sustainable%20packaging.png",
-          },
-          {
-            title: "Sustainable Packaging",
-            icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/sustainable%20packaging.png",
-          },
-          {
-            title: "Sustainable Packaging",
-            icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/sustainable%20packaging.png",
-          },
-          {
-            title: "Sustainable Packaging",
-            icon: "https://www.halfpricepackaging.com/_ipx/f_webp&s_500x345/https://www.halfpricepackaging.com/storage/cat_uploads/sustainable%20packaging.png",
-          },
-      ];
+  useEffect(() => {
+    const fetchCategoryData = async () => {
+      if (slug) {
+        try {
+          // Fetch category/brand data based on slug
+          const response = await axios.get(`${BaseUrl}/brands/get?slug=${slug}`);
+          if (response?.data?.status === 'success' && response?.data?.data) {
+            setCategoryData(response.data.data);
+          }
+        } catch (error) {
+          console.error('Error fetching category data:', error);
+        }
+      }
+    };
+
+    fetchCategoryData();
+  }, [slug]);
+
+  useEffect(() => {
+    const fetchAllCategories = async () => {
+      setLoadingCategories(true);
+      try {
+        // Fetch all categories from API
+        const response = await axios.get(`${BaseUrl}/category/getAll?page=1&perPage=100`);
+        
+        if (response?.data?.status === 'success' && response?.data?.data) {
+          setAllCategories(response.data.data);
+        }
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+        // Try with redis endpoint as fallback
+        try {
+          const response = await axios.get(`${BaseUrl}/redis/category/getAll?page=1&perPage=100`);
+          if (response?.data?.status === 'success' && response?.data?.data) {
+            setAllCategories(response.data.data);
+          }
+        } catch (redisError) {
+          console.error('Error fetching categories from redis:', redisError);
+        }
+      } finally {
+        setLoadingCategories(false);
+      }
+    };
+
+    fetchAllCategories();
+  }, []);
+
   return (
     <>
- 
+  <Banner title={categoryData?.name} subTitle={categoryData?.name}  />
     <section className=' sm:max-w-8xl w-[95%] mx-auto'>
-      <div className=' flex gap-2 pt-3 items-center'>
-             <IoHomeOutline /> <LiaAngleRightSolid />
-                  <h6 className=''> 
-                    Box By industry
-                  </h6>
-              </div>
+   
         <div className='  text-center max-w-5xl mx-auto py-7'>
             <h2>Custom packaging solutions for every industry.
             </h2>
@@ -365,23 +364,75 @@ const Category = () => {
 
 </p>
         </div>
-        <div className=' grid grid-cols-5 gap-6 '>
-        {categories.map((submenu, index) => (
-                  <Link
-                    key={index}
-                    to={`/category/${submenu.title}`}
-                    className="text-gray-700 bg-[#F9F9F9]  rounded-3xl flex font-bold flex-col gap-0.5 items-center transition-colors"
-                  >
-                    <div className="  w-56 h-56">
-                      <img
-                        src={submenu?.icon}
-                        alt=""
-                        className="w-full h-full object-contain rounded-3xl"
-                      />
-                    </div>
-                    <p className=" pb-3 font-bold">{submenu.title}</p>
-                  </Link>
-                ))}
+
+        {/* All Categories Section */}
+        <div className='mb-12'>
+          {loadingCategories ? (
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {Array(10).fill(null).map((_, index) => (
+                <div 
+                  key={index} 
+                  className="group text-gray-700 bg-[#F9F9F9] rounded-3xl flex font-bold flex-col gap-0.5 items-center border border-gray-200 animate-pulse"
+                >
+                  <div className="p-4 relative overflow-hidden rounded-3xl w-full">
+                    <div className="relative w-full h-56 rounded-2xl overflow-hidden bg-gray-200"></div>
+                  </div>
+                  <div className="pb-3 w-3/4">
+                    <div className="bg-gray-200 rounded h-4 w-full"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {allCategories.map((category) => (
+                <Link
+                  key={category._id}
+                  to={`/sub-category/${category.slug}`}
+                  className="group text-gray-700 bg-[#F9F9F9] hover:bg-white rounded-3xl flex font-bold flex-col gap-0.5 items-center transition-all duration-300 border border-gray-200 hover:border-[#EE334B]/20 hover:shadow-lg transform hover:-translate-y-1"
+                >
+                  <div className="p-4 relative overflow-hidden rounded-3xl">
+                    {category.image ? (
+                      <div className="relative w-full h-56 rounded-2xl overflow-hidden">
+                        <img
+                          src={`${BaseUrl}/${category.image}`}
+                          alt={category.imageAltText || category.title}
+                          className="w-full h-full  rounded-2xl"
+                        />
+                        {/* Gallery Hover Overlay Gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-2xl"></div>
+                        {/* Gallery Shine Effect - Sweeps across on hover */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-2xl"></div>
+                      </div>
+                    ) : category.icon ? (
+                      <div className="relative w-full h-56 rounded-2xl overflow-hidden">
+                        <img
+                          src={`${BaseUrl}/${category.icon}`}
+                          alt={category.iconAltText || category.title}
+                          className="w-full h-full object-contain rounded-2xl"
+                        />
+                        {/* Gallery Hover Overlay Gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-2xl"></div>
+                        {/* Gallery Shine Effect - Sweeps across on hover */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-2xl"></div>
+                      </div>
+                    ) : (
+                      <div className="w-full h-56 bg-gradient-to-br from-[#213554]/10 to-[#EE334B]/10 flex items-center justify-center rounded-2xl relative overflow-hidden">
+                        <span className="text-4xl font-bold text-[#213554]/30 relative z-10">
+                          {category.title?.charAt(0) || 'C'}
+                        </span>
+                        {/* Gallery Hover Overlay Gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-2xl"></div>
+                        {/* Gallery Shine Effect - Sweeps across on hover */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-2xl"></div>
+                      </div>
+                    )}
+                  </div>
+                  <p className="pb-3 font-bold group-hover:text-[#EE334B] transition-colors duration-300">{category.title}</p>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
     </section>
     <div className=' pt-10'>

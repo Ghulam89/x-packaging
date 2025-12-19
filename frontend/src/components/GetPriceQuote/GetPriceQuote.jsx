@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Input from "../common/Input";
+import Select from "../common/Select";
+import Textarea from "../common/Textarea";
 import Button from "../common/Button";
 import { toast } from "react-toastify";
 import { BaseUrl } from "../../utils/BaseUrl";
@@ -149,100 +151,87 @@ const GetPriceQuote = () => {
               {/* Box Style & Dimensions */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-gray-700">
-                    Box Style <span className="text-red-500">*</span>
-                  </label>
-                  <input
+                  <Input
+                    label="Box Style"
+                    star={"*"}
                     name="boxStyle"
                     value={formData.boxStyle}
                     onChange={handleChange}
                     placeholder="e.g., Mailer Box, Tuck Top"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white"
                     required
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-gray-700">
-                    Length <span className="text-red-500">*</span>
-                  </label>
                   <div className="relative">
-                    <input
+                    <Input
+                      label="Length"
+                      star={"*"}
                       name="length"
                       type="number"
                       value={formData.length}
                       onChange={handleChange}
                       placeholder="0.00"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white pr-12"
                       required
                     />
-                    <span className="absolute right-3 top-3 text-gray-500">{formData.unit}</span>
+                    <span className="absolute right-4 top-[38px] text-gray-500 text-sm">{formData.unit}</span>
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-gray-700">
-                    Width <span className="text-red-500">*</span>
-                  </label>
                   <div className="relative">
-                    <input
+                    <Input
+                      label="Width"
+                      star={"*"}
                       name="width"
                       type="number"
                       value={formData.width}
                       onChange={handleChange}
                       placeholder="0.00"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white pr-12"
                       required
                     />
-                    <span className="absolute right-3 top-3 text-gray-500">{formData.unit}</span>
+                    <span className="absolute right-4 top-[38px] text-gray-500 text-sm">{formData.unit}</span>
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-gray-700">
-                    Depth <span className="text-red-500">*</span>
-                  </label>
                   <div className="relative">
-                    <input
+                    <Input
+                      label="Depth"
+                      star={"*"}
                       name="depth"
                       type="number"
                       value={formData.depth}
                       onChange={handleChange}
                       placeholder="0.00"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white pr-12"
                       required
                     />
-                    <span className="absolute right-3 top-3 text-gray-500">{formData.unit}</span>
+                    <span className="absolute right-4 top-[38px] text-gray-500 text-sm">{formData.unit}</span>
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-gray-700">
-                    Unit
-                  </label>
-                  <select
+                  <Select
+                    label="Unit"
                     name="unit"
                     value={formData.unit}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white appearance-none"
                   >
                     <option>Inches</option>
                     <option>mm</option>
                     <option>cm</option>
-                  </select>
+                  </Select>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-gray-700">
-                    Quantity <span className="text-red-500">*</span>
-                  </label>
-                  <input
+                  <Input
+                    label="Quantity"
+                    star={"*"}
                     name="quantity"
                     type="number"
                     value={formData.quantity}
                     onChange={handleChange}
                     placeholder="e.g., 1000"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white"
                     required
                   />
                 </div>
@@ -251,14 +240,12 @@ const GetPriceQuote = () => {
               {/* Material & Printing Options */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-gray-700">
-                    Material Stock
-                  </label>
-                  <select
+                  <Select
+                    label="Material Stock"
                     name="stock"
                     value={formData.stock}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white appearance-none"
+                    placeholder="Select Material"
                   >
                     <option>Select Material</option>
                     <option>12pt Cardboard</option>
@@ -271,18 +258,16 @@ const GetPriceQuote = () => {
                     <option>Rigid</option>
                     <option>Kraft</option>
                     <option>Linen</option>
-                  </select>
+                  </Select>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-gray-700">
-                    Printing Colors
-                  </label>
-                  <select
+                  <Select
+                    label="Printing Colors"
                     name="color"
                     value={formData.color}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white appearance-none"
+                    placeholder="Select Color Options"
                   >
                     <option>Select Color Options</option>
                     <option>Plain (No Printing)</option>
@@ -294,18 +279,16 @@ const GetPriceQuote = () => {
                     <option>4/2 Color</option>
                     <option>4/3 Color</option>
                     <option>4/4 Color</option>
-                  </select>
+                  </Select>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-gray-700">
-                    Add-Ons
-                  </label>
-                  <select
+                  <Select
+                    label="Add-Ons"
                     name="addons"
                     value={formData.addons}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white appearance-none"
+                    placeholder="Select Add-Ons"
                   >
                     <option>Select Add-Ons</option>
                     <option>Foiling</option>
@@ -315,7 +298,7 @@ const GetPriceQuote = () => {
                     <option>Handles</option>
                     <option>Inserts</option>
                     <option>Windows</option>
-                  </select>
+                  </Select>
                 </div>
               </div>
 
@@ -354,15 +337,12 @@ const GetPriceQuote = () => {
                 </div>
 
                 <div className="space-y-3">
-                  <label className="block text-sm font-semibold text-gray-700">
-                    Additional Details
-                  </label>
-                  <textarea
+                  <Textarea
+                    label="Additional Details"
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
                     rows={5}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white resize-none"
                     placeholder="Tell us about your design preferences, special requirements, or any other details..."
                   />
                 </div>
@@ -370,18 +350,14 @@ const GetPriceQuote = () => {
 
               {/* Next Button */}
               <div className="flex justify-end pt-4">
-                <button
+                <Button
                   type="button"
                   onClick={nextStep}
                   disabled={!validateStep1()}
-                  className={`flex items-center gap-2 px-8 py-3 rounded-xl font-semibold text-white transition-all duration-300 ${!validateStep1()
-                      ? 'bg-gray-300 cursor-not-allowed'
-                      : 'bg-gradient-to-r from-[#213554] to-[#213554] hover:from-red-600 hover:to-red-800 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5'
-                    }`}
-                >
-                  Next Step
-                  <FaArrowRight />
-                </button>
+                  label="Next Step"
+                  rIcons={<FaArrowRight />}
+                  className={!validateStep1() ? 'bg-gray-300 cursor-not-allowed' : ''}
+                />
               </div>
             </div>
           )}
@@ -390,57 +366,47 @@ const GetPriceQuote = () => {
             <div className="space-y-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-gray-700">
-                    Full Name <span className="text-red-500">*</span>
-                  </label>
-                  <input
+                  <Input
+                    label="Full Name"
+                    star={"*"}
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="John Doe"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white"
                     required
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-gray-700">
-                    Email Address <span className="text-red-500">*</span>
-                  </label>
-                  <input
+                  <Input
+                    label="Email Address"
+                    star={"*"}
                     name="email"
                     type="email"
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="john@example.com"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white"
                     required
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-gray-700">
-                    Company Name
-                  </label>
-                  <input
+                  <Input
+                    label="Company Name"
                     name="companyName"
                     value={formData.companyName}
                     onChange={handleChange}
                     placeholder="Your Company"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-gray-700">
-                    Phone Number
-                  </label>
-                  <input
+                  <Input
+                    label="Phone Number"
                     name="phoneNumber"
                     value={formData.phoneNumber}
                     onChange={handleChange}
                     placeholder="(123) 456-7890"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white"
                   />
                 </div>
               </div>
@@ -449,34 +415,29 @@ const GetPriceQuote = () => {
 
               {/* Action Buttons */}
               <div className="flex justify-between pt-6">
-                <button
+                <Button
                   type="button"
                   onClick={prevStep}
-                  className="flex items-center gap-2 px-8 py-3 border border-gray-300 rounded-xl font-semibold text-gray-700 hover:bg-gray-50 transition-all duration-300"
-                >
-                  <FaArrowLeft />
-                  Previous
-                </button>
-                <button
-                  type="submit"
-                  disabled={!validateStep2() || isLoading}
-                  className={`flex items-center gap-2 px-8 py-3 rounded-xl font-semibold text-white transition-all duration-300 ${!validateStep2() || isLoading
-                      ? 'bg-gray-300 cursor-not-allowed'
-                      : 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5'
-                    }`}
-                >
-                  {isLoading ? (
-                    <>
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      Processing...
-                    </>
-                  ) : (
-                    <>
-                      Submit Quote Request
-                      <FaArrowRight />
-                    </>
-                  )}
-                </button>
+                  variant="outline"
+                  label="Previous"
+                  Icons={<FaArrowLeft />}
+                />
+                {isLoading ? (
+                  <Button
+                    type="submit"
+                    disabled={true}
+                    label="Processing..."
+                    className="bg-gray-300 cursor-not-allowed"
+                  />
+                ) : (
+                  <Button
+                    type="submit"
+                    disabled={!validateStep2()}
+                    label="Submit Quote Request"
+                    rIcons={<FaArrowRight />}
+                    className={!validateStep2() ? 'bg-gray-300 cursor-not-allowed' : 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700'}
+                  />
+                )}
               </div>
             </div>
           )}
