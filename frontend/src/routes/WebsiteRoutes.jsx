@@ -139,15 +139,15 @@ export default function useWebsiteRoutes(serverData, CategoryProducts) {
     ) },
     // { path: '/sub-category/:slug', element: <SubCategory key="subcategory" serverData={sharedServer} CategoryProducts={CategoryProducts} /> },
     { path: '/sub-category/:slug', element: (
-      <Suspense fallback={<RouteLoadingFallback />}>
+      // <Suspense fallback={<RouteLoadingFallback />}>
         <SubCategory key="subcategory"/>
-      </Suspense>
+      // </Suspense>
     ) },
     // // { path: '/:slug', element: <MemoProductDetailsWrapper key="product" initialProduct={initialProduct} /> },
     { path: '/:slug', element: (
-      <Suspense fallback={<RouteLoadingFallback />}>
+      // <Suspense fallback={<RouteLoadingFallback />}>
         <ProductDetails key="product"  />
-      </Suspense>
+      // </Suspense>
     ) },
     // { path: '*', element: <NotFound key="catch-all" /> }
   ], [sharedServer, CategoryProducts, initialProduct]);
