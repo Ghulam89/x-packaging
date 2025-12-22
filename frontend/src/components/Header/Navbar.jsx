@@ -66,7 +66,7 @@ const Navbar = () => {
       <div className="sm:max-w-8xl max-w-[95%] mx-auto">
         <div className="flex space-x-5 w-full justify-between h-16 items-center">
           <Link to={'/'}>
-            <img src={logo} alt="" className="sm:w-[200px] w-auto" />
+            <img src={logo} alt="" className="sm:w-[200px] w-auto" loading="eager" fetchpriority="high" />
           </Link>
           <div className="w-lg sm:relative search-container" ref={searchRef}>
             <Input

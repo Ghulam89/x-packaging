@@ -1,22 +1,24 @@
-import React, { useEffect, useState, useMemo, useCallback } from "react";
+import React, { useEffect, useState, useMemo, useCallback, lazy, Suspense } from "react";
 // import { useParams } from "react-router-dom";
 // import FAQ from "../components/FAQ/FAQ";
 // import NotFound from "../pages/404";
 // import { About } from "../pages/about/About";
 // import Blogs from "../pages/blogs/Blogs";
-import SingleBlog from "../pages/blogs/SingleBlog";
 // import Cart from "../pages/cart/Cart";
 // import Category from "../pages/category/Category";
 // import Checkout from "../pages/checkout/Checkout";
 // import ContactUs from "../pages/contactUs/ContactUs";
 // import GetCustomQoutePage from "../pages/getCustomQuote/GetCustomQoutePage";
 import { Home } from "../pages/home/Home";
-import Shop from "../pages/shop";
-import ProductDetails from "../pages/productDetails";
-import SubCategory from "../pages/subCategory/SubCategory";
-import Category from "../pages/category/Category";
-import Blogs from "../pages/blogs/Blogs";
-import About from "../pages/about/About";
+
+// Lazy load routes for better code splitting and initial bundle size
+const SingleBlog = lazy(() => import("../pages/blogs/SingleBlog"));
+const Shop = lazy(() => import("../pages/shop"));
+const ProductDetails = lazy(() => import("../pages/productDetails"));
+const SubCategory = lazy(() => import("../pages/subCategory/SubCategory"));
+const Category = lazy(() => import("../pages/category/Category"));
+const Blogs = lazy(() => import("../pages/blogs/Blogs"));
+const About = lazy(() => import("../pages/about/About"));
 // import Portfolio from "../pages/Portfolio/Portfolio";
 // import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
 // import ProductDetails from "../pages/productDetails";
@@ -85,13 +87,32 @@ export default function useWebsiteRoutes(serverData, CategoryProducts) {
   const sharedServer = serverData?.serverData ?? null;
   const initialProduct = sharedServer ?? null;
 
+  // Loading fallback for route components
+  const RouteLoadingFallback = () => (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#213554]"></div>
+    </div>
+  );
+
   const routes = useMemo(() => [
     { path: '/', element: <Home key="home" /> },
- { path: '/about-us', element: <About key="about" /> },
+    { path: '/about-us', element: (
+      <Suspense fallback={<RouteLoadingFallback />}>
+        <About key="about" />
+      </Suspense>
+    ) },
     // { path: '/contact-us', element: <ContactUs key="contact" /> },
-    { path: '/blogs', element: <Blogs key="blogs" /> },
+    { path: '/blogs', element: (
+      <Suspense fallback={<RouteLoadingFallback />}>
+        <Blogs key="blogs" />
+      </Suspense>
+    ) },
     // { path: '/thank-you-page', element: <SuccessPage key="success" /> },
-    { path: '/shop', element: <Shop key="shop" /> },
+    { path: '/shop', element: (
+      <Suspense fallback={<RouteLoadingFallback />}>
+        <Shop key="shop" />
+      </Suspense>
+    ) },
     // { path: '/cart', element: <Cart key="cart" /> },
     // { path: '/checkout', element: <Checkout key="checkout" /> },
     // { path: '/privacy-policy', element: <PrivacyPolicy key="privacy-policy" /> },
@@ -106,12 +127,28 @@ export default function useWebsiteRoutes(serverData, CategoryProducts) {
     // { path: '/portfolio', element: <Portfolio key="portfolio" /> },
     // { path: '/404', element: <NotFound key="not-found" /> },
     // { path: '/category/:slug', element: <Category key="category" serverData={sharedServer} /> },
-   { path: '/category/:slug', element: <Category key="category" /> },
-   { path: '/blog/:slug', element: <SingleBlog key="blog" serverData={sharedServer} /> },
+    { path: '/category/:slug', element: (
+      <Suspense fallback={<RouteLoadingFallback />}>
+        <Category key="category" />
+      </Suspense>
+    ) },
+    { path: '/blog/:slug', element: (
+      <Suspense fallback={<RouteLoadingFallback />}>
+        <SingleBlog key="blog" serverData={sharedServer} />
+      </Suspense>
+    ) },
     // { path: '/sub-category/:slug', element: <SubCategory key="subcategory" serverData={sharedServer} CategoryProducts={CategoryProducts} /> },
-    { path: '/sub-category/:slug', element: <SubCategory key="subcategory"/> },
+    { path: '/sub-category/:slug', element: (
+      <Suspense fallback={<RouteLoadingFallback />}>
+        <SubCategory key="subcategory"/>
+      </Suspense>
+    ) },
     // // { path: '/:slug', element: <MemoProductDetailsWrapper key="product" initialProduct={initialProduct} /> },
-    { path: '/:slug', element: <ProductDetails key="product"  /> },
+    { path: '/:slug', element: (
+      <Suspense fallback={<RouteLoadingFallback />}>
+        <ProductDetails key="product"  />
+      </Suspense>
+    ) },
     // { path: '*', element: <NotFound key="catch-all" /> }
   ], [sharedServer, CategoryProducts, initialProduct]);
 

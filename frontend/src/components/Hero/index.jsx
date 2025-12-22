@@ -6,6 +6,14 @@ import { Link } from "react-router-dom";
 const Hero = () => {
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [showShine, setShowShine] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  // Preload hero image for faster FCP
+  useEffect(() => {
+    const heroImage = new Image();
+    heroImage.onload = () => setImageLoaded(true);
+    heroImage.src = hero;
+  }, []);
 
   useEffect(() => {
     // Show gallery effect automatically on first load

@@ -20,7 +20,7 @@ const Footer = () => {
     <div  className=''>
      <div  className=' flex sm:flex-row flex-col border-b gap-1.5 border-gray-200 justify-between pb-10 sm:pt-10 pt-0'>
         <div className=' sm:w-4/12 w-12/12'>
-          <img src={logo} alt='' className=' w-[300px]' />
+          <img src={logo} alt='' className=' w-[300px]' loading="eager" fetchpriority="high" />
           <p className=' text-[#213554] pt-1.5'>We offer Packaging Boxes delivered to your door. Secure, professional, and affordable, our custom made packaging boxes are guaranteed to protect and transport your valuable items. Our devoted team is always there to serve you.</p>
         </div>
         <div className=' sm:w-7/12 w-full text-center'>
@@ -170,13 +170,13 @@ const Footer = () => {
          <h5 className=' uppercase font-bold'>WHERE WE'RE TRUSTED</h5>
           <ul className=' flex items-center gap-5'>
             <li>
-            <img  src={img1} alt='' className=' w-24' />
+            <img  src={img1} alt='' className=' w-24' loading="lazy" />
             </li>
             <li>
-            <img  src={img2} alt='' className=' w-32' />
+            <img  src={img2} alt='' className=' w-32' loading="lazy" />
             </li>
             <li>
-            <img  src={img3} alt='' className=' w-32' />
+            <img  src={img3} alt='' className=' w-32' loading="lazy" />
             </li>
           </ul>
         </div>
@@ -185,13 +185,13 @@ const Footer = () => {
             <h5 className=' uppercase font-bold'>Our Logistics Partners</h5>
             <ul className=' flex  items-center gap-2 pt-2'>
                 <li>
-                    <img  src={img4} className=' w-32' alt='' />
+                    <img  src={img4} className=' w-32' alt='' loading="lazy" />
                 </li>
                 <li>
-                    <img  src={img5} className=' w-32' alt='' />
+                    <img  src={img5} className=' w-32' alt='' loading="lazy" />
                 </li>
                 <li>
-                    <img  src={img6} className=' w-32' alt='' />
+                    <img  src={img6} className=' w-32' alt='' loading="lazy" />
                 </li>
             </ul>
             </div>
@@ -210,7 +210,7 @@ const Footer = () => {
 
 <div className=' flex  items-end'>
    <div>
-   <img  src={logo}  className=' w-[200px]' />
+   <img  src={logo}  className=' w-[200px]' loading="lazy" />
    </div>
    <div className=' flex items-center gap-2'>
       <Link to={'#'}>

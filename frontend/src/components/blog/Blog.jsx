@@ -11,28 +11,60 @@ import { useIntersectionObserver } from "../../utils/useIntersectionObserver";
 import { Link } from "react-router-dom";
 import { FaAngleRight } from "react-icons/fa";
 import CardSlider from "../common/CardSlider";
+import { BlogSelectionProvider } from "../common/BlogCard";
 
 // Lazy load the BlogCard component
 const BlogCard = lazy(() => import("../common/BlogCard"));
 
 // Skeleton loader for blog cards
 const BlogCardSkeleton = () => (
-  <div className="bg-white rounded-lg overflow-hidden shadow-md animate-pulse">
-    <div className="h-48 bg-gray-300"></div>
-    <div className="p-4">
-      <div className="h-6 bg-gray-300 rounded mb-2"></div>
-      <div className="h-4 bg-gray-300 rounded w-3/4 mb-4"></div>
-      <div className="h-4 bg-gray-300 rounded w-1/2"></div>
+  <div className="group relative h-full">
+    <div className="rounded-2xl overflow-hidden h-full bg-white shadow-md border border-gray-200 flex flex-col animate-pulse">
+      {/* Blog Image Skeleton */}
+      <div className="w-full h-64 overflow-hidden relative rounded-t-2xl bg-gray-200"></div>
+      
+      {/* Blog Content Skeleton */}
+      <div className="p-6 text-start flex flex-col flex-grow">
+        {/* Date Skeleton */}
+        <div className="flex items-center mb-3">
+          <div className="h-3 w-24 bg-gray-200 rounded"></div>
+        </div>
+        
+        {/* Title Skeleton */}
+        <div className="mb-3">
+          <div className="h-6 bg-gray-200 rounded w-full mb-2"></div>
+          <div className="h-6 bg-gray-200 rounded w-3/4"></div>
+        </div>
+        
+        {/* Description Skeleton */}
+        <div className="mb-4 flex-grow">
+          <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
+          <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
+          <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+        </div>
+        
+        {/* Read More Button Skeleton */}
+        <div className="flex justify-start items-center mt-auto pt-2">
+          <div className="h-4 w-32 bg-gray-200 rounded"></div>
+        </div>
+      </div>
     </div>
   </div>
 );
 
 const Blog = () => {
-
   const [blogs, setBlogs] = useState([]);
   const [loadingBlogs, setLoadingBlogs] = useState(false);
+  const [elementRef, isIntersecting] = useIntersectionObserver({
+    threshold: 0.1,
+    rootMargin: '200px', // Start loading 200px before component is visible
+    triggerOnce: true
+  });
 
   useEffect(() => {
+    // Only fetch blogs when component is about to be visible
+    if (!isIntersecting) return;
+
     const fetchBlogs = async () => {
       setLoadingBlogs(true);
       try {
@@ -49,11 +81,11 @@ const Blog = () => {
     };
 
     fetchBlogs();
-  }, []);
+  }, [isIntersecting]);
 
 
   return (
-     <section className='mt-12'>
+     <section ref={elementRef} className='mt-12'>
      <div className='sm:max-w-8xl w-[95%] mx-auto'>
        <div className='mb-5 flex sm:flex-row flex-col items-center gap-2.5'>
          <h2 className='text-left'>Blogs & News</h2>
@@ -67,20 +99,31 @@ const Blog = () => {
          </Link>
        </div>
        {loadingBlogs ? (
-         <div className="text-center py-8">Loading blogs...</div>
-       ) : blogs.length > 0 ? (
          <div className="py-2">
            <CardSlider
              top={40}
-             items={blogs?.map((item, index) => {
-               return (
-                 <div key={item._id || index} className="w-[390px] flex-shrink-0 px-2">
-                   <BlogCard data={item} />
-                 </div>
-               );
-             })}
+             items={Array(6).fill(null).map((_, index) => (
+               <div key={index} className="w-[365px] flex-shrink-0 px-2">
+                 <BlogCardSkeleton />
+               </div>
+             ))}
            />
          </div>
+       ) : blogs.length > 0 ? (
+         <BlogSelectionProvider>
+           <div className="py-2">
+             <CardSlider
+               top={40}
+               items={blogs?.map((item, index) => {
+                 return (
+                   <div key={item._id || index} className="w-[365px] flex-shrink-0 px-2">
+                     <BlogCard data={item} />
+                   </div>
+                 );
+               })}
+             />
+           </div>
+         </BlogSelectionProvider>
        ) : null}
      </div>
    </section>

@@ -5,12 +5,21 @@ import { FaAngleRight } from 'react-icons/fa';
 import CardSlider from '../common/CardSlider';
 import axios from 'axios';
 import { BaseUrl } from '../../utils/BaseUrl';
+import { useIntersectionObserver } from '../../utils/useIntersectionObserver';
 
 const Category = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [elementRef, isIntersecting] = useIntersectionObserver({
+    threshold: 0.1,
+    rootMargin: '100px', // Start loading 100px before component is visible
+    triggerOnce: true
+  });
 
   useEffect(() => {
+    // Only fetch products when component is about to be visible
+    if (!isIntersecting) return;
+
     const fetchProducts = async () => {
       try {
         setLoading(true);
@@ -29,10 +38,10 @@ const Category = () => {
     };
 
     fetchProducts();
-  }, []);
+  }, [isIntersecting]);
 
   return (
-    <div className=' my-12'>
+    <div ref={elementRef} className=' my-12'>
       <div className=' sm:max-w-8xl w-[95%] mx-auto'>
         <div className=' mb-5 flex  sm:flex-row  flex-col items-center gap-2.5'>
           <h2 className=' text-left'>Top Packaging Styles</h2>

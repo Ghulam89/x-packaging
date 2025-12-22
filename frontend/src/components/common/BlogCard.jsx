@@ -1,6 +1,40 @@
+import React, { useContext, createContext } from "react";
 import { Link } from "react-router-dom";
 import { BaseUrl } from "../../utils/BaseUrl";
 import { FaCalendarAlt, FaArrowRight } from "react-icons/fa";
+
+// Context for blog selection
+const BlogSelectionContext = createContext();
+
+export const BlogSelectionProvider = ({ children }) => {
+  const [selectedBlogs, setSelectedBlogs] = React.useState(new Set());
+  
+  const toggleBlog = (blogId) => {
+    setSelectedBlogs(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(blogId)) {
+        newSet.delete(blogId);
+      } else {
+        newSet.add(blogId);
+      }
+      return newSet;
+    });
+  };
+
+  return (
+    <BlogSelectionContext.Provider value={{ selectedBlogs, toggleBlog }}>
+      {children}
+    </BlogSelectionContext.Provider>
+  );
+};
+
+export const useBlogSelection = () => {
+  const context = useContext(BlogSelectionContext);
+  if (!context) {
+    return { selectedBlogs: new Set(), toggleBlog: () => {} };
+  }
+  return context;
+};
 
 const stripHtml = (html) => {
   if (!html) return "";
@@ -19,15 +53,26 @@ const formatDate = (dateString) => {
   });
 };
 
-const BlogCard = ({ data }) => {
+const BlogCard = ({ data, disableSelection = false }) => {
+  const { selectedBlogs, toggleBlog } = useBlogSelection();
+  const isSelected = selectedBlogs.has(data?._id);
+
+  const handleBlogClick = (e) => {
+    // Only handle selection if not disabled and click is not on the link
+    if (!disableSelection && !e.target.closest('a')) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (data?._id) {
+        toggleBlog(data._id);
+      }
+    }
+  };
   const previewText = data?.shortDescription 
     ? data.shortDescription.slice(0, 120) + "..."
     : stripHtml(data?.content).slice(0, 120) + "...";
 
-  return (
-    <div className="group relative h-full">
-      <Link to={`/blog/${data?.slug}`} className="block h-full">
-        <div className="rounded-2xl overflow-hidden h-full bg-white shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200 hover:border-[#EE334B]/20 flex flex-col transform hover:-translate-y-1">
+  const cardContent = (
+    <div className={`rounded-2xl overflow-hidden h-full bg-white shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200 hover:border-[#EE334B]/20 flex flex-col transform hover:-translate-y-1 ${isSelected && !disableSelection ? 'ring-2 ring-[#EE334B] shadow-lg' : ''}`}>
           {/* Blog Image */}
           <div className="w-full h-64 overflow-hidden relative rounded-t-2xl">
             <img
@@ -76,8 +121,38 @@ const BlogCard = ({ data }) => {
             </div>
           </div>
         </div>
-      </Link>
-    </div>
+  );
+
+  return (
+    <>
+      {disableSelection ? (
+        // For related blogs - no selection, just navigation
+        <div className="group relative h-full">
+          <Link to={`/blog/${data?.slug}`} className="block h-full">
+            {cardContent}
+          </Link>
+        </div>
+      ) : (
+        // For blog pages - with selection functionality
+        <div className="group relative h-full">
+          <div 
+            className={`transition-all duration-300 cursor-pointer h-full ${isSelected ? 'ring-2 ring-[#EE334B] rounded-2xl p-1' : ''}`}
+            onClick={handleBlogClick}
+          >
+            <Link 
+              to={`/blog/${data?.slug}`}
+              className="block h-full"
+              onClick={(e) => {
+                // Allow navigation to work normally
+                e.stopPropagation();
+              }}
+            >
+              {cardContent}
+            </Link>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

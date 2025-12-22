@@ -3,19 +3,20 @@ import { BaseUrl } from '../../utils/BaseUrl'
 import React, { lazy, Suspense, useEffect } from 'react'
 import { prefetchSubCategory, prefetchProducts } from '../../utils/prefetchUtils'
 import axios from 'axios'
-import FAQ from '../../components/FAQ/FAQ'
 import BottomHero from '../../components/Hero/BottomHero'
 import OfferCard from '../../components/common/OfferCard'
 import google from '../../assets/images/footer/google-reviws-logo.webp';
-import SampleKit from '../../components/SampleKit'
-import Capabilities from '../../components/Capabilities'
-import InspirationPackaging from '../../components/InspirationPackaging'
-import Testimonials from '../../components/Testimonials'
-import FeaturesPackaging from '../../components/FeaturesPackaging'
 import Category from '../../components/Category'
-import Blogs from '../blogs/Blogs'
-import GetPriceQuote from '../../components/GetPriceQuote/GetPriceQuote'
-import Blog from '../../components/blog/Blog'
+import FeaturesPackaging from '../../components/FeaturesPackaging'
+
+// Lazy load below-the-fold components for better FCP
+const FAQ = lazy(() => import('../../components/FAQ/FAQ'))
+const SampleKit = lazy(() => import('../../components/SampleKit'))
+const Capabilities = lazy(() => import('../../components/Capabilities'))
+const InspirationPackaging = lazy(() => import('../../components/InspirationPackaging'))
+const Testimonials = lazy(() => import('../../components/Testimonials'))
+const GetPriceQuote = lazy(() => import('../../components/GetPriceQuote/GetPriceQuote'))
+const Blog = lazy(() => import('../../components/blog/Blog'))
 export const Home = React.memo(() => {
   useEffect(() => {
     const heroSubCategories = [
@@ -148,6 +149,11 @@ export const Home = React.memo(() => {
 
 
 
+  // Simple loading fallback component
+  const LoadingFallback = ({ height = 'h-64' }) => (
+    <div className={`${height} w-full bg-gray-100 animate-pulse rounded-lg`} />
+  )
+
   return (
     <>
       {/* <PageMetadata {...metadata} /> */}
@@ -163,7 +169,7 @@ export const Home = React.memo(() => {
         <OfferCard discount={'Save 30%'} title={'on Bulk Orders'} subTitle={'Need more this year?'} />
         <div className="  mt-8  sm:max-w-8xl bg-[#F6F6F6] p-8 flex sm:flex-row flex-col gap-5 justify-between items-center rounded-xl max-w-[95%] mx-auto">
           <div>
-            <img src={google} alt='' />
+            <img src={google} alt='' loading="lazy" />
           </div>
           <div>
             <button className='px-6 py-2.5 rounded-lg flex bg-blue-500 text-white  hover:bg-[#EE334B] hover:text-white hover:border-[#EE334B] text-sm items-center justify-center gap-2 
@@ -171,19 +177,39 @@ export const Home = React.memo(() => {
       hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed'>Review us on Google</button>
           </div>
         </div>
-        <Testimonials />
-        <Blog/>
+        
+        {/* Below the fold - lazy loaded with Suspense */}
+        <Suspense fallback={<LoadingFallback height="h-96" />}>
+          <Testimonials />
+        </Suspense>
+        
+        <Suspense fallback={<LoadingFallback height="h-96" />}>
+          <Blog/>
+        </Suspense>
+        
         <div className=' pt-5'>
-        <GetPriceQuote />
+          <Suspense fallback={<LoadingFallback height="h-64" />}>
+            <GetPriceQuote />
+          </Suspense>
         </div>
         
         {/* <Blogs /> */}
 
-        <InspirationPackaging />
+        <Suspense fallback={<LoadingFallback height="h-96" />}>
+          <InspirationPackaging />
+        </Suspense>
 
-        <Capabilities />
-        <SampleKit />
-        <FAQ />
+        <Suspense fallback={<LoadingFallback height="h-96" />}>
+          <Capabilities />
+        </Suspense>
+        
+        <Suspense fallback={<LoadingFallback height="h-96" />}>
+          <SampleKit />
+        </Suspense>
+        
+        <Suspense fallback={<LoadingFallback height="h-96" />}>
+          <FAQ />
+        </Suspense>
       </main>
     </>
   )
