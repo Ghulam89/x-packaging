@@ -179,7 +179,7 @@ const BottomNav = ({ Menu, OpenMenu }) => {
   };
 
   return (
-    <div className="relative" onMouseLeave={handleCategoryLeave}>
+    <div className="relative shadow-md" onMouseLeave={handleCategoryLeave}>
       {/* Desktop Menu */}
       <div className="hidden sm:block py-3 bg-gradient-to-r from-white via-gray-50/30 to-white border-b border-gray-100">
         <ul className="flex gap-6 items-center sm:max-w-8xl max-w-[95%] mx-auto">

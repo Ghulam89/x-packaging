@@ -15,6 +15,7 @@ import FeaturesPackaging from '../../components/FeaturesPackaging'
 import Category from '../../components/Category'
 import Blogs from '../blogs/Blogs'
 import GetPriceQuote from '../../components/GetPriceQuote/GetPriceQuote'
+import Blog from '../../components/blog/Blog'
 export const Home = React.memo(() => {
   useEffect(() => {
     const heroSubCategories = [
@@ -171,7 +172,11 @@ export const Home = React.memo(() => {
           </div>
         </div>
         <Testimonials />
+        <Blog/>
+        <div className=' pt-5'>
         <GetPriceQuote />
+        </div>
+        
         {/* <Blogs /> */}
 
         <InspirationPackaging />

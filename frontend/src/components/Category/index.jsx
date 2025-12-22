@@ -43,14 +43,32 @@ const Category = () => {
           </Link>
         </div>
         {loading ? (
-          <div className="text-center py-8">Loading products...</div>
+          <div className="py-2">
+            <CardSlider
+              top={40}
+              items={Array(8).fill(null).map((_, index) => (
+                <div key={index} className="w-[365px] flex-shrink-0 px-2">
+                  <div 
+                    className="group text-gray-700 bg-[#F9F9F9] rounded-3xl flex font-bold flex-col gap-0.5 items-center border border-gray-200 animate-pulse"
+                  >
+                    <div className="p-4 relative overflow-hidden rounded-3xl w-full">
+                      <div className="relative w-full h-[300px] rounded-2xl overflow-hidden bg-gray-200"></div>
+                    </div>
+                    <div className="pb-3 w-3/4">
+                      <div className="bg-gray-200 rounded h-4 w-full"></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            />
+          </div>
         ) : (
           <ProductSelectionProvider>
             <CardSlider
               top={40}
               items={products?.map((item, index) => {
                 return (
-                  <div key={item._id || index} className="w-[390px] flex-shrink-0 px-2">
+                  <div key={item._id || index} className="w-[365px] flex-shrink-0 px-2">
                     <ProductCard data={item} disableSelection={true} />
                   </div>
                 );

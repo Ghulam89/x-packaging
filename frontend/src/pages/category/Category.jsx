@@ -287,17 +287,16 @@
 
 // export default Category;
 import React, { useState, useEffect } from 'react'
-import { FaBed } from 'react-icons/fa'
-import { MdOutdoorGrill } from 'react-icons/md'
-import { TbToolsKitchen3 } from 'react-icons/tb'
 import { Link, useParams } from 'react-router-dom'
-import SampleKit from '../../components/SampleKit'
-import InspirationPackaging from '../../components/InspirationPackaging'
-import { IoHomeOutline } from 'react-icons/io5'
-import { LiaAngleRightSolid } from 'react-icons/lia'
+import { FaAngleRight } from 'react-icons/fa'
 import axios from 'axios'
 import { BaseUrl } from '../../utils/BaseUrl'
 import Banner from '../../components/common/Banner'
+import FAQ from '../../components/FAQ/FAQ'
+import FeaturesPackaging from '../../components/FeaturesPackaging'
+import CardSlider from '../../components/common/CardSlider'
+import BlogCard from '../../components/common/BlogCard'
+import Blog from '../../components/blog/Blog'
 
 const Category = () => {
   const { slug } = useParams();
@@ -352,6 +351,7 @@ const Category = () => {
     fetchAllCategories();
   }, []);
 
+ 
   return (
     <>
   <Banner title={categoryData?.name} subTitle={categoryData?.name}  />
@@ -435,9 +435,16 @@ const Category = () => {
           )}
         </div>
     </section>
-    <div className=' pt-10'>
-    <InspirationPackaging/>
-    </div>
+
+   
+
+    {/* Blogs Section */}
+    <Blog/>
+
+    <section className=' '>
+      <FAQ/>
+    </section>
+    
    
     </>
   )

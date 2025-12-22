@@ -129,7 +129,7 @@ const InspirationPackaging = () => {
     }, [isFirstLoad]);
 
     return (
-        <div className="sm:max-w-8xl bg-gradient-to-br from-gray-50 via-white to-gray-50 px-4 my-8 py-8 rounded-2xl max-w-[95%] mx-auto shadow-lg border border-gray-100">
+        <div className="sm:max-w-8xl bg-gradient-to-br from-gray-50 via-white to-gray-50 px-4 my-8 py-8 rounded-2xl max-w-[95%] mx-auto  border border-gray-100">
             <div className="pb-8 text-center">
                 <h2 className="sm:text-[35px] text-[25px] font-bold text-[#213554] mb-3">
                     Inspiration for Creative Packaging

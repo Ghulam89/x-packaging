@@ -6,6 +6,7 @@ import BottomNav from "./BottomNav";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { BaseUrl } from "../../utils/BaseUrl";
+import ProductCard, { ProductSelectionProvider } from "../common/ProductCard";
 
 const Navbar = () => {
   const [menu, setMenu] = useState(false);
@@ -81,29 +82,23 @@ const Navbar = () => {
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#213554]"></div>
                   </div>
                 ) : searchResults.length > 0 ? (
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-4 p-4">
-                    {searchResults.map((product) => (
-                      <Link
-                        key={product._id}
-                        to={`/${product.slug}`}
-                        onClick={handleResultClick}
-                        className="block"
-                      >
-                        <div className="bg-[#F7F7F7] p-3 rounded-xl hover:shadow-md transition-all h-full">
-                          <div className="aspect-square mb-2">
-                            <img
-                              src={`${BaseUrl}/${product?.images?.[0]?.url}`}
-                              alt={product.name}
-                              className="w-full h-full object-contain rounded-xl"
-                            />
-                          </div>
-                          <h6 className="text-center font-semibold text-[#333] line-clamp-2">
-                            {product?.name}
-                          </h6>
+                  <ProductSelectionProvider>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-3 p-4">
+                      {searchResults.map((product) => (
+                        <div 
+                          key={product._id}
+                          onClick={handleResultClick}
+                          className="h-full w-full"
+                        >
+                          <ProductCard 
+                            data={product} 
+                            disableSelection={true}
+                            size="compact"
+                          />
                         </div>
-                      </Link>
-                    ))}
-                  </div>
+                      ))}
+                    </div>
+                  </ProductSelectionProvider>
                 ) : (
                   <div className="p-4 text-center text-gray-500">
                     No products found

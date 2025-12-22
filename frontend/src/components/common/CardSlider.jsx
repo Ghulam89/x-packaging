@@ -31,8 +31,8 @@ const CardSlider = ({ items, top }) => {
     <div className="relative">
       <div
         ref={scrollContainerRef}
-        className="scroll-container sm:pl-0 pl-4 items-center gap-5 flex productOverflow overflow-x-auto overflow-y-visible whitespace-nowrap custom-scrollbar pb-4 py-2"
-        style={{ scrollbarWidth: 'thin' }}
+        className="scroll-container sm:pl-0 pl-4 items-center gap-4 flex productOverflow  overflow-x-auto overflow-y-visible whitespace-nowrap custom-scrollbar pb-4 py-2"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {items}
       </div>

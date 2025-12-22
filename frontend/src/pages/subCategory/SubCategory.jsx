@@ -770,6 +770,8 @@ import Textarea from '../../components/common/Textarea'
 import ProductCard, { ProductSelectionProvider } from '../../components/common/ProductCard'
 import { Link, useParams } from 'react-router-dom'
 import { FaAngleRight, FaBed } from 'react-icons/fa'
+import { IoHomeOutline } from 'react-icons/io5'
+import { LiaAngleRightSolid } from 'react-icons/lia'
 import { MdOutdoorGrill } from 'react-icons/md'
 import { TbToolsKitchen3 } from 'react-icons/tb'
 import Capabilities from '../../components/Capabilities'
@@ -891,16 +893,39 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
 
       <section className='bg-gradient-to-br from-gray-50 to-white pb-8'>
         <div className="sm:max-w-8xl max-w-[95%] mx-auto">
+          
+          
           <div className='flex sm:flex-row flex-col  gap-8 lg:gap-12'>
             <div className='sm:w-6/12 w-full'>
+            
               <div className="from-gray-50 to-white rounded-2xl  p-8 h-full">
-                <div className="mb-4">
-                  <span className="inline-block px-4 py-1.5 text-sm font-semibold text-[#EE334B] bg-[#EE334B]/10 rounded-full">
-                    Custom Packaging Solutions
-                  </span>
-                </div>
+                {/* Breadcrumbs */}
+          <div className=' flex gap-2 pb-5 items-center'>
+            <IoHomeOutline size={20} /> <LiaAngleRightSolid />
+            <h6 className=' flex items-center '>
+              <Link to={'/'} className='text-[#213554]'>Home</Link>
+              {(categoryData?.brandId?.name || serverData?.brandId?.name) && (
+                <>
+                  <LiaAngleRightSolid />
+                  <Link 
+                    to={`/category/${categoryData?.brandId?.slug || serverData?.brandId?.slug}`} 
+                    className='text-[#213554] capitalize'
+                  >
+                    {categoryData?.brandId?.name || serverData?.brandId?.name}
+                  </Link>
+                </>
+              )}
+              {(categoryData?.title || serverData?.title) && (
+                <>
+                  <LiaAngleRightSolid />
+                  <span className='text-[#213554]'>{categoryData?.title || serverData?.title}</span>
+                </>
+              )}
+            </h6>
+          </div>
+               
                 <h2 className="text-3xl sm:text-4xl font-bold text-[#213554] mb-4 leading-tight">
-                  {categoryData?.title || serverData?.title || 'Premium Packaging'}
+                  {categoryData?.subTitle || serverData?.subTitle}
                 </h2>
                 <div
                   className='text-gray-600 leading-relaxed mb-6'
@@ -994,7 +1019,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
       <BottomHero />
       <section className='py-8 bg-white'>
         <div className="sm:max-w-8xl max-w-[95%] mx-auto">
-          <div className='mb-8 flex sm:flex-row flex-col items-center justify-between gap-4'>
+          <div className=' flex sm:flex-row flex-col items-center justify-between gap-4'>
             <div className="flex items-center gap-4">
               <div className="w-1 h-12 bg-gradient-to-b from-[#EE334B] to-[#213554] rounded-full"></div>
               <div>
@@ -1016,7 +1041,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
       </section>
 
 
-      <div className=" sm:max-w-8xl w-[95%] md:px-5 px-3 mx-auto pb-10 pt-10">
+      <div className=" sm:max-w-8xl w-[95%] md:px-5 px-3 mx-auto pb-10">
 
         <div className="flex  sm:flex-row flex-col pt-4 gap-12">
 
@@ -1095,9 +1120,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
       <section className='mb-8'>
         <div className="sm:max-w-8xl bg-gradient-to-br from-gray-50 to-white rounded-2xl p-8 sm:p-12 shadow-lg max-w-[95%] mx-auto border border-gray-100">
           <div className="text-center mb-8">
-            <span className="inline-block px-4 py-1.5 text-sm font-semibold text-[#EE334B] bg-[#EE334B]/10 rounded-full mb-4">
-              Why Choose Us
-            </span>
+            
             <h2 className='text-3xl sm:text-4xl font-bold text-[#213554] mb-4'>
               Learn More About Custom Bakery Boxes
             </h2>
@@ -1116,15 +1139,11 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
 
         </div>
       </section>
-      <section className='py-12 bg-gradient-to-br from-white to-gray-50'>
+      <section className=' bg-gradient-to-br from-white to-gray-50'>
         <div className="sm:max-w-8xl justify-between gap-8 lg:gap-12 items-center max-w-[95%] flex sm:flex-row flex-col mx-auto">
           <div className='sm:w-6/12 w-full'>
-            <div className="bg-white rounded-2xl shadow-lg p-8">
-              <div className="mb-4">
-                <span className="inline-block px-4 py-1.5 text-sm font-semibold text-[#EE334B] bg-[#EE334B]/10 rounded-full">
-                  Premium Features
-                </span>
-              </div>
+            <div className=" p-8">
+              
               <h2 className="text-3xl sm:text-4xl font-bold text-[#213554] mb-4">
                 Key Features of Our Custom Retail Boxes
               </h2>

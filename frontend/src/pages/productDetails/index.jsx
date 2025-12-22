@@ -1031,7 +1031,7 @@ const ProductDetails = ({
                         <div className="flex items-center gap-4 mb-6">
                             <div className="w-1 h-12 bg-gradient-to-b from-[#EE334B] to-[#213554] rounded-full"></div>
                             <h2 className='text-2xl sm:text-3xl font-bold text-[#213554]'>
-                                Learn More About {product?.name || 'Our Products'}
+                                Learn More About {product?.name}
                             </h2>
                         </div>
                         <div className='pt-2'>
@@ -1092,9 +1092,9 @@ const ProductDetails = ({
                     {relatedProduct?.relatedProducts && relatedProduct.relatedProducts.length > 0 && (
                         <div className="relative  border-gray-100">
                             <CardSlider
-                                top={20}
+                                top={50}
                                 items={relatedProduct.relatedProducts.map((item, index) => (
-                                    <div key={item?._id || index} className=" w-72 flex-shrink-0 px-2">
+                                    <div key={item?._id || index} className=" w-[390px] flex-shrink-0 px-2">
                                         <ProductCard data={item} disableSelection={true} />
                                     </div>
                                 ))}

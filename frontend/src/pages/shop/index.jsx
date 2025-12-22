@@ -441,17 +441,79 @@
 
 
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MdClose, MdOutdoorGrill } from 'react-icons/md';
 import Input from '../../components/common/Input';
 import { FaBed } from 'react-icons/fa';
 import { TbToolsKitchen3 } from 'react-icons/tb';
 import Banner from '../../components/common/Banner';
-const Shop = () => {
+import ProductCard, { ProductSelectionProvider } from '../../components/common/ProductCard';
+import axios from 'axios';
+import { BaseUrl } from '../../utils/BaseUrl';
+import Button from '../../components/common/Button';
 
+const Shop = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [perPage] = useState(12);
+
   const toggleMenu = () => {
     setMenuOpen(!isMenuOpen);
+  };
+
+  const fetchProducts = async (page = 1, loadMore = false) => {
+    if (page === 1) {
+      setLoading(true);
+    } else {
+      setLoadingMore(true);
+    }
+
+    try {
+      const response = await axios.get(`${BaseUrl}/products/getAll?page=${page}&perPage=${perPage}`);
+      
+      if (response?.data?.status === 'success' && response?.data?.data) {
+        if (loadMore) {
+          setProducts(prev => [...prev, ...response.data.data]);
+        } else {
+          setProducts(response.data.data);
+        }
+        setCurrentPage(response?.data?.pagination?.page || page);
+        setTotalPages(response?.data?.pagination?.totalPages || 1);
+      }
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    } finally {
+      setLoading(false);
+      setLoadingMore(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts(1);
+  }, []);
+
+  const handleLoadMore = () => {
+    if (currentPage < totalPages) {
+      fetchProducts(currentPage + 1, true);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentPage > 1) {
+      fetchProducts(currentPage - 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      fetchProducts(currentPage + 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   const categories = [
@@ -603,32 +665,64 @@ const Shop = () => {
 
 
           <div className="w-full sm:w-9/12 mx-auto">
-            <div className="grid  gap-6 grid-cols-2 md:grid-cols-4  lg:grid-cols-4">
-              {/* <ProductCard/>
-            <ProductCard/>
-            <ProductCard/>
-            <ProductCard/>
-            <ProductCard/>
-            <ProductCard/>
-            <ProductCard/> */}
-
-            </div>
-
+            {loading && products.length === 0 ? (
+              <div className="text-center py-12">
+                <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#EE334B]"></div>
+                <p className="mt-4 text-gray-600">Loading products...</p>
+              </div>
+            ) : products.length === 0 ? (
+              <div className="text-center py-12">
+                <p className="text-gray-600 text-lg">No products found</p>
+              </div>
+            ) : (
+              <ProductSelectionProvider>
+                <div className="grid gap-6 grid-cols-2 md:grid-cols-4 lg:grid-cols-4">
+                  {products.map((item, index) => (
+                    <ProductCard
+                      key={item._id || index}
+                      data={item}
+                      disableSelection={false}
+                    />
+                  ))}
+                </div>
+                
+                {currentPage < totalPages && (
+                  <div className="flex justify-center mt-8">
+                    <Button
+                      label={loadingMore ? "Loading..." : "Load More"}
+                      className="bg-gradient-to-r from-[#213554] to-[#213554]/90 hover:from-[#EE334B] hover:to-[#EE334B]/90 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                      onClick={handleLoadMore}
+                      disabled={loadingMore || loading}
+                    />
+                  </div>
+                )}
+              </ProductSelectionProvider>
+            )}
           </div>
         </div>
 
         {/* Pagination Section */}
-        <div className="flex justify-end gap-2 items-center p-4">
-          <button className="px-4 py-2 text-black  bg-gray-200 rounded disabled:opacity-50">
-            Previous
-          </button>
-          <div className="flex items-center gap-4">
-            <p className="font-medium">Page 1 of 12</p>
+        {totalPages > 1 && (
+          <div className="flex justify-end gap-2 items-center p-4">
+            <button 
+              onClick={handlePrevious}
+              disabled={currentPage === 1 || loading}
+              className="px-4 py-2 text-black bg-gray-200 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-300 transition-colors"
+            >
+              Previous
+            </button>
+            <div className="flex items-center gap-4">
+              <p className="font-medium">Page {currentPage} of {totalPages}</p>
+            </div>
+            <button 
+              onClick={handleNext}
+              disabled={currentPage === totalPages || loading}
+              className="px-4 py-2 text-black bg-gray-200 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-300 transition-colors"
+            >
+              Next
+            </button>
           </div>
-          <button className="px-4 py-2 text-black bg-gray-200 rounded disabled:opacity-50">
-            Next
-          </button>
-        </div>
+        )}
       </div>
 
 
