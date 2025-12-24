@@ -4,7 +4,7 @@ import React, { useEffect, useState, useMemo, useCallback, lazy, Suspense } from
 // import NotFound from "../pages/404";
 // import { About } from "../pages/about/About";
 // import Blogs from "../pages/blogs/Blogs";
-// import Cart from "../pages/cart/Cart";
+import Cart from "../pages/cart/Cart";
 // import Category from "../pages/category/Category";
 // import Checkout from "../pages/checkout/Checkout";
 // import ContactUs from "../pages/contactUs/ContactUs";
@@ -19,11 +19,12 @@ const SubCategory = lazy(() => import("../pages/subCategory/SubCategory"));
 const Category = lazy(() => import("../pages/category/Category"));
 const Blogs = lazy(() => import("../pages/blogs/Blogs"));
 const About = lazy(() => import("../pages/about/About"));
+const MyAccount = lazy(() => import("../pages/myAccount/MyAccount"));
 // import Portfolio from "../pages/Portfolio/Portfolio";
 // import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
 // import ProductDetails from "../pages/productDetails";
 // import ReturnRefunds from "../pages/ReturnRefunds/ReturnRefunds";
-// import Reviews from "../pages/reviews";
+import Reviews from "../pages/reviews";
 // import ShippingPolicy from "../pages/shippingPolicy/ShippingPolicy";
 // import Shop from "../pages/shop";
 // import SubCategory from "../pages/subCategory/SubCategory";
@@ -113,13 +114,18 @@ export default function useWebsiteRoutes(serverData, CategoryProducts) {
         <Shop key="shop" />
       </Suspense>
     ) },
-    // { path: '/cart', element: <Cart key="cart" /> },
+    { path: '/cart', element: <Cart key="cart" /> },
     // { path: '/checkout', element: <Checkout key="checkout" /> },
     // { path: '/privacy-policy', element: <PrivacyPolicy key="privacy-policy" /> },
     // { path: '/terms-and-conditions', element: <TermsAndConditions key="terms-and-conditions" /> },
     // { path: '/shipping-policy', element: <ShippingPolicy key="shipping-policy" /> },
     // { path: '/returns-refunds', element: <ReturnRefunds key="returns-refunds" /> },
-    // { path: '/reviews', element: <Reviews key="reviews" /> },
+    { path: '/reviews', element: <Reviews key="reviews" /> },
+    { path: '/my-account', element: (
+      // <Suspense fallback={<RouteLoadingFallback />}>
+        <MyAccount key="my-account" />
+      // </Suspense>
+    ) },
     // { path: '/dielines', element: <Dielines key="dielines" /> },
     // { path: '/get-custom-quote', element: <GetCustomQoutePage key="get-custom-quote" /> },
     // { path: '/target-price', element: <TargetPrice key="target-price" /> },
@@ -128,9 +134,9 @@ export default function useWebsiteRoutes(serverData, CategoryProducts) {
     // { path: '/404', element: <NotFound key="not-found" /> },
     // { path: '/category/:slug', element: <Category key="category" serverData={sharedServer} /> },
     { path: '/category/:slug', element: (
-      <Suspense fallback={<RouteLoadingFallback />}>
+      // <Suspense fallback={<RouteLoadingFallback />}>
         <Category key="category" />
-      </Suspense>
+      // </Suspense>
     ) },
     { path: '/blog/:slug', element: (
       <Suspense fallback={<RouteLoadingFallback />}>

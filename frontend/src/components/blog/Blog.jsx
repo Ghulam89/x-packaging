@@ -85,7 +85,7 @@ const Blog = () => {
 
 
   return (
-     <section ref={elementRef} className='mt-12'>
+     <section ref={elementRef} className=''>
      <div className='sm:max-w-8xl w-[95%] mx-auto'>
        <div className='mb-5 flex sm:flex-row flex-col items-center gap-2.5'>
          <h2 className='text-left'>Blogs & News</h2>

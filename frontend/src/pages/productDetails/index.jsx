@@ -23,6 +23,7 @@ import Container from '../../components/common/Container'
 import CardSlider from '../../components/common/CardSlider'
 import ProductCard from '../../components/common/ProductCard'
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
+import { RiShoppingCartLine } from 'react-icons/ri'
 
 // Skeleton shimmer animation style
 const shimmerStyle = {
@@ -78,6 +79,7 @@ const ProductDetails = ({
     const [isViewerOpen, setIsViewerOpen] = useState(false);
     const [loadedImages, setLoadedImages] = useState(new Set());
     const [thumbnailLoadedImages, setThumbnailLoadedImages] = useState(new Set());
+    const [cartQuantity, setCartQuantity] = useState(1);
 
     const initialFormState = {
         name: "",
@@ -761,10 +763,11 @@ const ProductDetails = ({
                     </div>
 
                     <div className="pt-3.5 lg:w-6/12 w-full">
-                    <div className=' flex gap-2 items-center  mb-2'>
+                    <div className=' flex gap-2 items-center  mb-4'>
                     <div className="w-1 h-12 bg-gradient-to-b from-[#EE334B] to-[#213554] rounded-full"></div>
-                    <h3 className=' pb-2'>{product?.name || "Tuck Top Mailer Boxes"}</h3>
+                    <h3 className=' pb-2 text-xl sm:text-2xl font-bold text-[#213554]'>{product?.name || "Tuck Top Mailer Boxes"}</h3>
                     </div>
+
                         <form onSubmit={handleSubmit}>
                             <div className=' grid grid-cols-2 pb-2 gap-2'>
                                 <div className=" w-full">
@@ -1019,14 +1022,159 @@ const ProductDetails = ({
                                     />
                                 </div>
                             </div>
+                            
                         </form>
+
+                        
                     </div>
                 </div>
             </section>
             <BottomHero />
-            {/* Learn More About Section - Moved up and Modernized */}
-            {product?.description && (
-                <section className='sm:max-w-8xl max-w-[95%] mx-auto py-8'>
+            <section className='sm:max-w-8xl max-w-[95%] mt-10 mx-auto'>
+                <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center">
+                    {/* Small Product Image Preview - Left Side */}
+                    {images && images.length > 0 && (
+                        <div className="w-full sm:w-64 md:w-64 flex-shrink-0">
+                            <div className="rounded-lg overflow-hidden border-2 border-[#213554]/20 shadow-md hover:shadow-lg transition-all duration-300">
+                                <img
+                                    src={images[curr]}
+                                    alt={product?.images?.[curr]?.altText || product?.name || "Product Image"}
+                                    className="w-full h-auto object-cover"
+                                />
+                            </div>
+                        </div>
+                    )}
+                    
+                    {/* Right Side Content */}
+                    <div className="flex-1 w-full">
+                            {/* Quantity Selector and Add to Cart Button - Below Form */}
+                            <div className="mt-6 flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+                                {/* Quantity Selector */}
+                                <div className="flex items-center gap-2">
+                                    <label className="text-sm font-semibold text-[#213554] hidden sm:block">Quantity:</label>
+                                    <div className="flex items-center border-2 border-[#213554] rounded-lg overflow-hidden bg-white">
+                                        <button
+                                            type="button"
+                                            onClick={() => setCartQuantity(prev => prev > 1 ? prev - 1 : 1)}
+                                            className="px-3 py-2 text-[#213554] hover:bg-[#213554] hover:text-white transition-colors duration-200 font-semibold"
+                                        >
+                                            −
+                                        </button>
+                                        <input
+                                            type="number"
+                                            min="1"
+                                            value={cartQuantity}
+                                            onChange={(e) => {
+                                                const value = parseInt(e.target.value) || 1;
+                                                setCartQuantity(value >= 1 ? value : 1);
+                                            }}
+                                            className="w-16 sm:w-20 px-3 py-2 text-center text-[#EE334B] font-bold text-lg border-0 focus:outline-none focus:ring-0"
+                                            style={{ color: '#EE334B' }}
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => setCartQuantity(prev => prev + 1)}
+                                            className="px-3 py-2 text-[#213554] hover:bg-[#213554] hover:text-white transition-colors duration-200 font-semibold"
+                                        >
+                                            +
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                {/* Add to Cart Button */}
+                                <button
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        if (product) {
+                                            dispatch(addToCart({
+                                                _id: product._id,
+                                                name: product.name,
+                                                price: product.actualPrice || 0,
+                                                quantity: cartQuantity,
+                                                image: product.images?.[0]?.url || '',
+                                                slug: product.slug
+                                            }));
+                                            toast.success(`${cartQuantity} ${cartQuantity === 1 ? 'item' : 'items'} added to cart!`);
+                                            setCartQuantity(1);
+                                        }
+                                    }}
+                                    className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-[#EE334B] hover:bg-[#EE334B]/90 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 active:scale-95"
+                                    style={{ color: '#ffffff' }}
+                                >
+                                    {/* Cart Icon */}
+                                    <RiShoppingCartLine size={20} className="text-white" style={{ color: '#ffffff' }} />
+                                    
+                                    {/* Button Text */}
+                                    <span className="text-base sm:text-lg text-white font-semibold" style={{ color: '#ffffff' }}>
+                                        Add to Cart
+                                    </span>
+                                </button>
+                            </div>
+
+{/* Buy Now Button and Product Information - Below Form */}
+<div className="mt-6">
+                            {/* Buy Now Button - Red Bar */}
+                            <button
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    if (product) {
+                                        dispatch(addToCart({
+                                            _id: product._id,
+                                            name: product.name,
+                                            price: product.actualPrice || 0,
+                                            quantity: 1,
+                                            image: product.images?.[0]?.url || '',
+                                            slug: product.slug
+                                        }));
+                                        toast.success('Product added to cart!');
+                                    }
+                                }}
+                                className="w-full mb-4 bg-[#EE334B] hover:bg-[#EE334B]/90 text-white font-bold py-4 px-6 rounded-lg flex items-center justify-center gap-3 transition-all duration-300 shadow-lg hover:shadow-xl"
+                                style={{ color: '#ffffff' }}
+                            >
+                                <RiShoppingCartLine size={24} className="text-white" style={{ color: '#ffffff' }} />
+                                <span className="text-lg" style={{ color: '#ffffff' }}>Buy Now</span>
+                            </button>
+
+                            {/* Product Information Display - Compact */}
+                            <div className="bg-gray-50 rounded-lg p-3">
+                                <div className="grid grid-cols-3 gap-2">
+                                    {/* Product Name */}
+                                    <div className="flex flex-col">
+                                        <div className="bg-[#213554] text-white font-semibold py-2.5 px-2 rounded-lg text-center text-xs mb-1">
+                                            Product Name
+                                        </div>
+                                        <div className="text-black font-medium py-1 px-2 text-center text-xs sm:text-sm">
+                                            {product?.name || "Custom Window Bakery Boxes"}
+                                        </div>
+                                    </div>
+                                    {/* Size */}
+                                    <div className="flex flex-col">
+                                        <div className="bg-[#213554] text-white font-semibold py-2.5 px-2 rounded-lg text-center text-xs mb-1">
+                                            Size
+                                        </div>
+                                        <div className="text-black font-medium py-1 px-2 text-center text-xs sm:text-sm">
+                                            {product?.size || "8 x 6 x 4 inch"}
+                                        </div>
+                                    </div>
+                                    {/* Price */}
+                                    <div className="flex flex-col">
+                                        <div className="bg-[#213554] text-white font-semibold py-2.5 px-2 rounded-lg text-center text-xs mb-1">
+                                            Price
+                                        </div>
+                                        <div className="text-black font-medium py-1 px-2 text-center text-xs sm:text-sm">
+                                            ${product?.actualPrice || "2.50"}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+              {/* Learn More About Section - Moved up and Modernized */}
+              {product?.description && (
+                <section className='sm:max-w-8xl max-w-[95%] mx-auto pt-8'>
                     <div className="bg-gradient-to-br from-gray-50 via-white to-gray-50 rounded-2xl p-6 sm:p-8 shadow-lg border border-gray-100">
                         <div className="flex items-center gap-4 mb-6">
                             <div className="w-1 h-12 bg-gradient-to-b from-[#EE334B] to-[#213554] rounded-full"></div>
@@ -1046,6 +1194,9 @@ const ProductDetails = ({
                     </div>
                 </section>
             )}
+            
+           
+          
 
 <section className=' sm:max-w-8xl max-w-[95%] mx-auto'>
                 <div className="mt-10">
@@ -1090,11 +1241,11 @@ const ProductDetails = ({
                     </div>
                     
                     {relatedProduct?.relatedProducts && relatedProduct.relatedProducts.length > 0 && (
-                        <div className="relative  border-gray-100">
+                        <div className="relative border-gray-100">
                             <CardSlider
                                 top={50}
                                 items={relatedProduct.relatedProducts.map((item, index) => (
-                                    <div key={item?._id || index} className=" w-[390px] flex-shrink-0 px-2">
+                                    <div key={item?._id || index} className="w-[280px] sm:w-[320px] md:w-[350px] lg:w-[390px] flex-shrink-0 px-2 h-full">
                                         <ProductCard data={item} disableSelection={true} />
                                     </div>
                                 ))}

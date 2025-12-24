@@ -140,7 +140,7 @@ const Footer = () => {
                 <Link to={'#'} className=' font-semibold'>Blog</Link>
             </li>
             <li>
-                <Link to={'#'} className=' font-semibold'>Client Success Stories</Link>
+                <Link to={'/reviews'} className=' font-semibold'>Client Success Stories</Link>
             </li>
             <li>
                 <Link to={'#'} className=' font-semibold'>Materials</Link>
@@ -155,7 +155,7 @@ const Footer = () => {
                 <Link to={'#'} className=' font-semibold'>866-255-2112</Link>
             </li>
             <li>
-                <Link to={'#'} className=' font-semibold'>orders@halfpricepackaging.com</Link>
+                <Link to={'#'} className=' font-semibold'>orders@xcustompackaging.com</Link>
             </li>
             <li>
                 <Link to={'#'} className=' font-semibold'>Contact Us</Link>

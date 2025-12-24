@@ -26,3 +26,36 @@
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
+
+  /* Mobile responsive improvements */
+  @media (max-width: 640px) {
+    .scroll-container {
+      scroll-padding-left: 1rem;
+      scroll-padding-right: 1rem;
+      height: auto;
+      min-height: 320px;
+    }
+    
+    .scroll-container > * {
+      scroll-snap-align: start;
+      height: 100%;
+      display: flex;
+      align-items: stretch;
+    }
+    
+    .scroll-container > * > * {
+      height: 100%;
+    }
+  }
+  
+  @media (min-width: 641px) and (max-width: 768px) {
+    .scroll-container {
+      min-height: 380px;
+    }
+  }
+  
+  @media (min-width: 769px) {
+    .scroll-container {
+      min-height: 420px;
+    }
+  }

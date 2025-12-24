@@ -9,6 +9,7 @@ import {
 import { MdEmail } from "react-icons/md";
 import { FiPhone } from "react-icons/fi";
 import { AiOutlineUser } from "react-icons/ai";
+import { Link } from "react-router-dom";
 import usa from "../../assets/images/flag/us.svg";
 import uk from "../../assets/images/flag/uk.svg";
 import canada from "../../assets/images/flag/canada.svg";
@@ -43,10 +44,10 @@ const TopNav = () => {
               <FiPhone size={15} />
               <span>747-247-0456</span>
             </div>
-            <div className="flex items-center space-x-2">
+            <Link to="/my-account" className="flex items-center space-x-2 hover:text-[#EE334B] transition-colors cursor-pointer">
               <AiOutlineUser size={18} />
               <span>My Account</span>
-            </div>
+            </Link>
             <div className="flex space-x-3 text-gray-600">
               <FaFacebookF />
               <FaTwitter size={15} />
