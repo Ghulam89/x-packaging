@@ -1096,6 +1096,8 @@ const ProductDetails = ({
                                             }));
                                             toast.success(`${cartQuantity} ${cartQuantity === 1 ? 'item' : 'items'} added to cart!`);
                                             setCartQuantity(1);
+                                            // Navigate to cart page
+                                            navigate('/cart');
                                         }
                                     }}
                                     className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-[#EE334B] hover:bg-[#EE334B]/90 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 active:scale-95"
@@ -1127,6 +1129,8 @@ const ProductDetails = ({
                                             slug: product.slug
                                         }));
                                         toast.success('Product added to cart!');
+                                        // Navigate to cart page
+                                        navigate('/cart');
                                     }
                                 }}
                                 className="w-full mb-4 bg-[#EE334B] hover:bg-[#EE334B]/90 text-white font-bold py-4 px-6 rounded-lg flex items-center justify-center gap-3 transition-all duration-300 shadow-lg hover:shadow-xl"

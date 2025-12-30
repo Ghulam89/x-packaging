@@ -1,4 +1,5 @@
 import { MdClose } from "react-icons/md";
+import { RiFileUploadLine, RiCheckboxCircleLine } from "react-icons/ri";
 import Input from "./Input";
 import Button from "./Button";
 import { useEffect, useState } from "react";
@@ -10,7 +11,7 @@ import video from '../../assets/videos/getqoute.mp4';
 const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
     const [step, setStep] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
-    const [pageUrl, setPageUrl] = useState("");0
+    const [pageUrl, setPageUrl] = useState("");
 
     useEffect(() => {
         if (typeof window !== "undefined") {
@@ -116,12 +117,12 @@ const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
         <Modal
             isOpen={isModalOpen}
             onClose={closeModal}
-            className={"rounded-xl max-w-6xl w-[90%]"}
+            className={"rounded-2xl max-w-6xl w-[90%]"}
         >
-            <div className=" p-3 bg-[#fbfaf7] overflow-y-auto">
-                <div className="flex flex-col md:flex-row gap-5 h-full">
+            <div className="p-4 sm:p-6 bg-gradient-to-br from-[#F9F9F9] to-white overflow-y-auto max-h-[90vh]">
+                <div className="flex flex-col md:flex-row gap-6 h-full">
 
-                    <div className="hidden lg:block md:w-5/12 lg:w-4/12 h-96">
+                    <div className="hidden lg:block md:w-5/12 lg:w-4/12 h-96 rounded-xl overflow-hidden shadow-lg">
                         <video
                             autoPlay
                             muted
@@ -138,20 +139,51 @@ const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
 
                     {/* Form Section */}
                     <div className="w-full md:w-12/12 lg:w-8/12 flex flex-col">
-                        <div className="cursor-pointer flex justify-end">
-                            <MdClose
+                        <div className="flex justify-between items-center mb-4">
+                            <h2 className="text-2xl font-bold text-[#213554] flex items-center gap-2">
+                                <RiCheckboxCircleLine className="w-6 h-6 text-[#EE334B]" />
+                                Request A Quote
+                            </h2>
+                            <button
                                 onClick={() => setIsModalOpen(false)}
-                                size={25}
-                                className="text-gray-600 hover:text-gray-800"
-                            />
+                                className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                                aria-label="Close modal"
+                            >
+                                <MdClose
+                                    size={24}
+                                    className="text-gray-600 hover:text-[#EE334B] transition-colors"
+                                />
+                            </button>
                         </div>
 
                         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto pr-2">
+                            {/* Step Indicator */}
+                            <div className="flex items-center gap-2 mb-6">
+                                <div className={`flex items-center gap-2 ${step >= 1 ? 'text-[#EE334B]' : 'text-gray-400'}`}>
+                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold ${step >= 1 ? 'bg-[#EE334B] text-white' : 'bg-gray-200 text-gray-500'}`}>
+                                        1
+                                    </div>
+                                    <span className="text-sm font-medium">Product Details</span>
+                                </div>
+                                <div className="flex-1 h-0.5 bg-gray-200">
+                                    <div className={`h-full transition-all duration-300 ${step >= 2 ? 'bg-[#EE334B] w-full' : 'bg-gray-200 w-0'}`}></div>
+                                </div>
+                                <div className={`flex items-center gap-2 ${step >= 2 ? 'text-[#EE334B]' : 'text-gray-400'}`}>
+                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold ${step >= 2 ? 'bg-[#EE334B] text-white' : 'bg-gray-200 text-gray-500'}`}>
+                                        2
+                                    </div>
+                                    <span className="text-sm font-medium">Contact Info</span>
+                                </div>
+                            </div>
+
                             {step === 2 && (
                                 <div className="w-full">
-                                    <h6 className="text-base md:text-lg font-semibold mb-4 text-gray-800">Personal Information</h6>
+                                    <h6 className="text-xl font-bold mb-6 text-[#213554] flex items-center gap-2">
+                                        <RiCheckboxCircleLine className="w-5 h-5 text-[#EE334B]" />
+                                        Personal Information
+                                    </h6>
 
-                                    <div className="grid w-full grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div className="grid w-full grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                                         <div className="w-full">
                                             <Input
                                                 label="Name"
@@ -160,7 +192,7 @@ const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
                                                 value={formData.name}
                                                 onChange={handleChange}
                                                 placeholder="Your Name"
-                                                className="w-full border border-black bg-white text-sm p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                                className="w-full border-2 border-gray-200 bg-white text-sm p-3 rounded-xl focus:ring-2 focus:ring-[#EE334B] focus:border-[#EE334B] transition-all"
                                                 required
                                             />
                                         </div>
@@ -174,7 +206,7 @@ const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
                                                 value={formData.email}
                                                 onChange={handleChange}
                                                 placeholder="Your Email"
-                                                className="w-full border border-black bg-white text-sm p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                                className="w-full border-2 border-gray-200 bg-white text-sm p-3 rounded-xl focus:ring-2 focus:ring-[#EE334B] focus:border-[#EE334B] transition-all"
                                                 required
                                             />
                                         </div>
@@ -186,7 +218,7 @@ const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
                                                 value={formData.companyName}
                                                 onChange={handleChange}
                                                 placeholder="Company Name"
-                                                className="w-full border border-black bg-white text-sm p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                                className="w-full border-2 border-gray-200 bg-white text-sm p-3 rounded-xl focus:ring-2 focus:ring-[#EE334B] focus:border-[#EE334B] transition-all"
                                             />
                                         </div>
 
@@ -197,30 +229,35 @@ const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
                                                 value={formData.phoneNumber}
                                                 onChange={handleChange}
                                                 placeholder="Phone Number"
-                                                className="w-full border border-black bg-white text-sm p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                                className="w-full border-2 border-gray-200 bg-white text-sm p-3 rounded-xl focus:ring-2 focus:ring-[#EE334B] focus:border-[#EE334B] transition-all"
                                             />
                                         </div>
-                                        <div>
-                                            <div className=" mb-4">
-                                                <p className=" text-lg text-gray-600">
-                                                    <input checked type="checkbox" /> Have you filled all the information correctly?
-                                                </p>
+                                        <div className="sm:col-span-2">
+                                            <div className="flex items-start p-4 bg-gray-50 rounded-xl border border-gray-200">
+                                                <input 
+                                                    type="checkbox" 
+                                                    id="confirmInfo"
+                                                    className="mt-1 mr-3 w-5 h-5 text-[#EE334B] border-gray-300 rounded focus:ring-2 focus:ring-[#EE334B] cursor-pointer"
+                                                />
+                                                <label htmlFor="confirmInfo" className="text-sm text-gray-700 cursor-pointer">
+                                                    Have you filled all the information correctly?
+                                                </label>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="w-full flex flex-col sm:flex-row justify-end gap-4 mt-6">
+                                    <div className="w-full flex flex-col sm:flex-row justify-end gap-4 mt-8">
                                         <Button
                                             type="button"
                                             onClick={prevStep}
                                             label="Previous"
-                                            className="bg-gray-500 w-full sm:w-32 text-white py-3 px-4 rounded-lg hover:bg-gray-600 transition-colors text-sm font-medium"
+                                            className="bg-gray-500 w-full sm:w-auto px-6 text-white py-3 rounded-xl hover:bg-gray-600 transition-all text-sm font-medium shadow-md hover:shadow-lg"
                                         />
                                         <Button
                                             type="submit"
-                                            label={isLoading ? "Sending..." : "Send"}
+                                            label={isLoading ? "Sending..." : "Submit Quote"}
                                             disabled={!validateStep2() || isLoading}
-                                            className={`bg-[#4440E6] w-full sm:w-32 text-white py-3 px-4 rounded-lg hover:bg-[#3938b8] transition-colors text-sm font-medium ${!validateStep2() || isLoading ? 'opacity-50 cursor-not-allowed' : ''
+                                            className={`bg-gradient-to-r from-[#7249A4] to-[#EE334B] hover:from-[#7249A4]/90 hover:to-[#EE334B]/90 w-full sm:w-auto px-6 text-white py-3 rounded-xl transition-all text-sm font-medium shadow-lg hover:shadow-xl transform hover:scale-[1.02] ${!validateStep2() || isLoading ? 'opacity-50 cursor-not-allowed' : ''
                                                 }`}
                                         />
                                     </div>
@@ -229,9 +266,12 @@ const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
 
                             {step === 1 && (
                                 <div className="">
-                                    <h6 className="text-base md:text-lg font-semibold mb-4 text-gray-800">Product Specification</h6>
+                                    <h6 className="text-xl font-bold mb-6 text-[#213554] flex items-center gap-2">
+                                        <RiCheckboxCircleLine className="w-5 h-5 text-[#EE334B]" />
+                                        Product Specification
+                                    </h6>
 
-                                    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                         <div className="w-full">
                                             <Input
                                                 label="Box Style"
@@ -240,7 +280,7 @@ const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
                                                 value={formData.boxStyle}
                                                 onChange={handleChange}
                                                 placeholder="Box Style"
-                                                className="w-full border border-black bg-white text-sm p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                                className="w-full border-2 border-gray-200 bg-white text-sm p-3 rounded-xl focus:ring-2 focus:ring-[#EE334B] focus:border-[#EE334B] transition-all"
                                                 required
                                             />
                                         </div>
@@ -253,7 +293,7 @@ const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
                                                 value={formData.length}
                                                 onChange={handleChange}
                                                 placeholder="Length"
-                                                className="w-full border border-black bg-white text-sm p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                                className="w-full border-2 border-gray-200 bg-white text-sm p-3 rounded-xl focus:ring-2 focus:ring-[#EE334B] focus:border-[#EE334B] transition-all"
                                                 required
                                             />
                                         </div>
@@ -265,8 +305,8 @@ const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
                                                 name="width"
                                                 value={formData.width}
                                                 onChange={handleChange}
-                                                placeholder="width"
-                                                className="w-full border border-black bg-white text-sm p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                                placeholder="Width"
+                                                className="w-full border-2 border-gray-200 bg-white text-sm p-3 rounded-xl focus:ring-2 focus:ring-[#EE334B] focus:border-[#EE334B] transition-all"
                                                 required
                                             />
                                         </div>
@@ -279,7 +319,7 @@ const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
                                                 value={formData.depth}
                                                 onChange={handleChange}
                                                 placeholder="Depth"
-                                                className="w-full border border-black bg-white text-sm p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                                className="w-full border-2 border-gray-200 bg-white text-sm p-3 rounded-xl focus:ring-2 focus:ring-[#EE334B] focus:border-[#EE334B] transition-all"
                                                 required
                                             />
                                         </div>
@@ -287,15 +327,15 @@ const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
                                         <div className="w-full">
                                             <label
                                                 htmlFor="Unit"
-                                                className="block pb-1.5 text-gray-700 text-sm font-medium"
+                                                className="block pb-2 text-[#213554] text-sm font-semibold"
                                             >
-                                                Unit <span className="text-red-600">*</span>
+                                                Unit <span className="text-[#EE334B]">*</span>
                                             </label>
                                             <select
                                                 name="unit"
                                                 value={formData.unit}
                                                 onChange={handleChange}
-                                                className="w-full border border-black bg-white text-sm p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                                className="w-full border-2 border-gray-200 bg-white text-sm p-3 rounded-xl focus:ring-2 focus:ring-[#EE334B] focus:border-[#EE334B] transition-all cursor-pointer"
                                                 required
                                             >
                                                 <option>Inches</option>
@@ -307,15 +347,15 @@ const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
                                         <div className="w-full">
                                             <label
                                                 htmlFor="Stock"
-                                                className="block pb-1.5 text-gray-700 text-sm font-medium"
+                                                className="block pb-2 text-[#213554] text-sm font-semibold"
                                             >
-                                                Stock <span className="text-red-600">*</span>
+                                                Stock <span className="text-[#EE334B]">*</span>
                                             </label>
                                             <select
                                                 name="stock"
                                                 value={formData.stock}
                                                 onChange={handleChange}
-                                                className="w-full border border-black bg-white text-sm p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                                className="w-full border-2 border-gray-200 bg-white text-sm p-3 rounded-xl focus:ring-2 focus:ring-[#EE334B] focus:border-[#EE334B] transition-all cursor-pointer"
                                                 required
                                             >
                                                 <option>Stock</option>
@@ -337,15 +377,15 @@ const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
                                         <div className="w-full">
                                             <label
                                                 htmlFor="Colors"
-                                                className="block pb-1.5 text-gray-700 text-sm font-medium"
+                                                className="block pb-2 text-[#213554] text-sm font-semibold"
                                             >
-                                                Colors <span className="text-red-600">*</span>
+                                                Colors <span className="text-[#EE334B]">*</span>
                                             </label>
                                             <select
                                                 name="colors"
                                                 value={formData.colors}
                                                 onChange={handleChange}
-                                                className="w-full border border-black bg-white text-sm p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                                className="w-full border-2 border-gray-200 bg-white text-sm p-3 rounded-xl focus:ring-2 focus:ring-[#EE334B] focus:border-[#EE334B] transition-all cursor-pointer"
                                                 required
                                             >
                                                 <option value={'Colors'}>Colors</option>
@@ -364,15 +404,15 @@ const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
                                         <div className="w-full">
                                             <label
                                                 htmlFor="Printing Sides"
-                                                className="block pb-1.5 text-gray-700 text-sm font-medium"
+                                                className="block pb-2 text-[#213554] text-sm font-semibold"
                                             >
-                                                Printing Sides <span className="text-red-600">*</span>
+                                                Printing Sides <span className="text-[#EE334B]">*</span>
                                             </label>
                                             <select
                                                 name="printingSides"
                                                 value={formData.printingSides}
                                                 onChange={handleChange}
-                                                className="w-full border border-black bg-white text-sm p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                                className="w-full border-2 border-gray-200 bg-white text-sm p-3 rounded-xl focus:ring-2 focus:ring-[#EE334B] focus:border-[#EE334B] transition-all cursor-pointer"
                                                 required
                                             >
                                                 <option value={'Inside'}>Inside</option>
@@ -389,7 +429,7 @@ const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
                                                 value={formData.quantity}
                                                 onChange={handleChange}
                                                 placeholder="Quantity"
-                                                className="w-full border border-black bg-white text-sm p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                                className="w-full border-2 border-gray-200 bg-white text-sm p-3 rounded-xl focus:ring-2 focus:ring-[#EE334B] focus:border-[#EE334B] transition-all"
                                                 required
                                             />
                                         </div>
@@ -397,7 +437,7 @@ const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
                                         <div className="w-full">
                                             <label
                                                 htmlFor="Add-Ons"
-                                                className="block pb-1.5 text-gray-700 text-sm font-medium"
+                                                className="block pb-2 text-[#213554] text-sm font-semibold"
                                             >
                                                 Add-Ons
                                             </label>
@@ -405,7 +445,7 @@ const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
                                                 name="addOns"
                                                 value={formData.addOns}
                                                 onChange={handleChange}
-                                                className="w-full border border-black bg-white text-sm p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                                className="w-full border-2 border-gray-200 bg-white text-sm p-3 rounded-xl focus:ring-2 focus:ring-[#EE334B] focus:border-[#EE334B] transition-all cursor-pointer"
                                             >
                                                 <option value="">Select an option</option>
                                                 <option value={'Foiling'}>Foiling</option>
@@ -418,29 +458,30 @@ const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
                                             </select>
                                         </div>
 
-                                        <div className="sm:col-span-2">
+                                        <div className="md:col-span-2 lg:col-span-3">
                                             <label
                                                 htmlFor="design_upload"
-                                                className="block pb-1.5 text-gray-700 text-sm font-medium"
+                                                className="flex items-center gap-2 pb-2 text-[#213554] text-sm font-semibold"
                                             >
+                                                <RiFileUploadLine className="w-5 h-5 text-[#EE334B]" />
                                                 Upload Your Design, Max Size 5MB
-                                                <p className="text-xs text-gray-500 mt-1">
-                                                    Allowed File Types: png, pdf, jpg, jpeg, webp
-                                                </p>
                                             </label>
+                                            <p className="text-xs text-gray-500 mb-2">
+                                                Allowed File Types: png, pdf, jpg, jpeg, webp
+                                            </p>
                                             <Input
                                                 type="file"
                                                 name="image"
                                                 onChange={handleChange}
-                                                className="border w-full bg-white rounded-lg border-black file:mr-4 file:py-1.5 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-[#4440E6] file:text-white hover:file:bg-[#3a36c7]"
+                                                className="border-2 border-gray-200 w-full bg-white rounded-xl file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-gradient-to-r file:from-[#7249A4] file:to-[#EE334B] file:text-white hover:file:from-[#7249A4]/90 hover:file:to-[#EE334B]/90 transition-all cursor-pointer"
                                                 accept=".png,.pdf,.jpg,.jpeg,.webp"
                                             />
                                         </div>
 
-                                        <div className="sm:col-span-2 lg:col-span-3">
+                                        <div className="md:col-span-2 lg:col-span-3">
                                             <label
                                                 htmlFor="description"
-                                                className="block pb-1.5 text-gray-700 text-sm font-medium"
+                                                className="block pb-2 text-[#213554] text-sm font-semibold"
                                             >
                                                 Description
                                             </label>
@@ -449,20 +490,20 @@ const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
                                                 name="description"
                                                 value={formData.description}
                                                 onChange={handleChange}
-                                                rows={2}
-                                                className="w-full border border-black bg-white text-sm p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                                placeholder="Tell us the size / dimensions, material, finising, add-ons, and design preferences."
+                                                rows={4}
+                                                className="w-full border-2 border-gray-200 bg-white text-sm p-4 rounded-xl focus:ring-2 focus:ring-[#EE334B] focus:border-[#EE334B] transition-all resize-none"
+                                                placeholder="Tell us the size / dimensions, material, finishing, add-ons, and design preferences."
                                             ></textarea>
                                         </div>
                                     </div>
 
-                                    <div className="w-full flex justify-end mt-5">
+                                    <div className="w-full flex justify-end mt-8">
                                         <Button
                                             type="button"
                                             onClick={nextStep}
-                                            label="Next"
+                                            label="Next Step →"
                                             disabled={!validateStep1()}
-                                            className={`bg-[#4440E6] w-full sm:w-32 text-white py-3 px-4 rounded-lg hover:bg-[#3938b8] transition-colors text-sm font-medium ${!validateStep1() ? 'opacity-50 cursor-not-allowed' : ''
+                                            className={`bg-gradient-to-r from-[#7249A4] to-[#EE334B] hover:from-[#7249A4]/90 hover:to-[#EE334B]/90 w-full sm:w-auto px-8 text-white py-3 rounded-xl transition-all text-sm font-medium shadow-lg hover:shadow-xl transform hover:scale-[1.02] ${!validateStep1() ? 'opacity-50 cursor-not-allowed' : ''
                                                 }`}
                                         />
                                     </div>

@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { BaseUrl } from "../../utils/BaseUrl";
 import ProductCard, { ProductSelectionProvider } from "../common/ProductCard";
+import GetQuoteModal from "../common/GetQuoteModal";
 
 const Navbar = () => {
   const [menu, setMenu] = useState(false);
@@ -14,6 +15,7 @@ const Navbar = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [showResults, setShowResults] = useState(false);
   const [isSearchLoading, setIsSearchLoading] = useState(false);
+  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
   const searchRef = useRef(null);
 
   const OpenMenu = () => {
@@ -118,6 +120,7 @@ const Navbar = () => {
                 <Button
                   className="bg-[#213554] text-white"
                   label={"Request A Quote"}
+                  onClick={() => setIsQuoteModalOpen(true)}
                 />
               </div>
             </div>
@@ -133,6 +136,13 @@ const Navbar = () => {
        
       </div>
       <BottomNav Menu={menu} OpenMenu={OpenMenu} />
+      
+      {/* Request Quote Modal */}
+      <GetQuoteModal 
+        isModalOpen={isQuoteModalOpen} 
+        setIsModalOpen={setIsQuoteModalOpen}
+        closeModal={() => setIsQuoteModalOpen(false)}
+      />
     </div>
   );
 };

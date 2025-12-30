@@ -632,39 +632,9 @@ const Shop = () => {
 
         <div className="flex  sm:flex-row flex-col pt-4 gap-12">
 
-          <div
+          
 
-          >
-
-
-            <div className="h-full">
-
-              {categories?.map((item, index) => {
-                return (
-                  <>
-                    <h4 className=" border-b  border-gray-200 pb-2.5">{item?.category}</h4>
-                    <ul className=' my-3.5'>
-                      {item?.menu?.map((item, index) => {
-                        return (
-                          <li className=' flex gap-1.5 items-center'>
-                            <Input type={'checkbox'} className={' w-4 h-4'} />
-                            <h6>{item?.title}</h6>
-                          </li>
-                        )
-                      })}
-
-
-                    </ul>
-                  </>
-                )
-              })}
-
-
-            </div>
-          </div>
-
-
-          <div className="w-full sm:w-9/12 mx-auto">
+          <div className="w-full mx-auto">
             {loading && products.length === 0 ? (
               <div className="text-center py-12">
                 <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#EE334B]"></div>

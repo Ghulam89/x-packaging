@@ -137,10 +137,10 @@ const Footer = () => {
         <h6  className=' uppercase text-lg text-[#EE334B]'>Inspiration</h6>
         <ul className=' pt-1.5'>
             <li>
-                <Link to={'#'} className=' font-semibold'>Blog</Link>
+                <Link to={'/blogs'} className=' font-semibold'>Blog</Link>
             </li>
             <li>
-                <Link to={'/reviews'} className=' font-semibold'>Client Success Stories</Link>
+                <Link to={'/reviews'} className=' font-semibold'>Reviews</Link>
             </li>
             <li>
                 <Link to={'#'} className=' font-semibold'>Materials</Link>

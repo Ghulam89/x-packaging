@@ -6,7 +6,7 @@ import React, { useEffect, useState, useMemo, useCallback, lazy, Suspense } from
 // import Blogs from "../pages/blogs/Blogs";
 import Cart from "../pages/cart/Cart";
 // import Category from "../pages/category/Category";
-// import Checkout from "../pages/checkout/Checkout";
+import Checkout from "../pages/checkout/Checkout";
 // import ContactUs from "../pages/contactUs/ContactUs";
 // import GetCustomQoutePage from "../pages/getCustomQuote/GetCustomQoutePage";
 import { Home } from "../pages/home/Home";
@@ -115,7 +115,7 @@ export default function useWebsiteRoutes(serverData, CategoryProducts) {
       </Suspense>
     ) },
     { path: '/cart', element: <Cart key="cart" /> },
-    // { path: '/checkout', element: <Checkout key="checkout" /> },
+    { path: '/checkout', element: <Checkout key="checkout" /> },
     // { path: '/privacy-policy', element: <PrivacyPolicy key="privacy-policy" /> },
     // { path: '/terms-and-conditions', element: <TermsAndConditions key="terms-and-conditions" /> },
     // { path: '/shipping-policy', element: <ShippingPolicy key="shipping-policy" /> },

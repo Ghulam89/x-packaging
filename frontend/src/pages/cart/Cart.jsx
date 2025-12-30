@@ -1,15 +1,17 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteProduct, updateQuantity } from '../../store/productSlice';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { BaseUrl } from '../../utils/BaseUrl';
 import PageMetadata from '../../components/common/PageMetadata';
+import Button from '../../components/common/Button';
 import { RiShoppingCartLine, RiDeleteBin6Line, RiAddLine, RiSubtractLine } from 'react-icons/ri';
 import { HiOutlineShoppingBag } from 'react-icons/hi';
 
 const Cart = () => {
   const { productData: cartItems } = useSelector((state) => state.product);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const subtotal = cartItems?.reduce((sum, item) => {
     const price = parseFloat(item.price) || 0;
@@ -77,7 +79,7 @@ const Cart = () => {
     <>
       <PageMetadata {...metadata} />
       <div className="min-h-screen bg-gradient-to-b from-[#F9F9F9] to-white">
-        <div className="sm:max-w-7xl max-w-[95%] mx-auto py-8 sm:py-12 px-4">
+        <div className="sm:max-w-8xl max-w-[95%] mx-auto py-8 sm:py-12 px-4">
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-3xl sm:text-4xl font-bold text-[#213554] mb-2 flex items-center gap-3">
@@ -102,7 +104,7 @@ const Cart = () => {
                         <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-xl overflow-hidden bg-gradient-to-br from-[#213554]/5 to-[#EE334B]/5 border border-gray-100">
                           {item?.image ? (
                             <img
-                              src={item?.image}
+                              src={`${BaseUrl}/${item?.image}`}
                               alt={item?.title || item?.name || 'Product'}
                               className="w-full h-full object-cover"
                             />
@@ -201,12 +203,12 @@ const Cart = () => {
                 </div>
 
                 {/* Checkout Button */}
-                <Link 
-                  to={'/checkout'} 
-                  className="block w-full bg-gradient-to-r from-[#7249A4] to-[#EE334B] hover:from-[#7249A4]/90 hover:to-[#EE334B]/90 text-white py-4 rounded-xl text-center font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98]"
-                >
-                  Proceed to Checkout
-                </Link>
+                <Button
+                  label="Proceed to Checkout"
+                  onClick={() => navigate('/checkout')}
+                  className="w-full bg-gradient-to-r from-[#7249A4] to-[#EE334B] hover:from-[#7249A4]/90 hover:to-[#EE334B]/90 py-4 rounded-xl shadow-lg hover:shadow-xl"
+                  size="lg"
+                />
 
                 <Link 
                   to={'/shop'} 
