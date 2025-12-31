@@ -297,6 +297,7 @@ import FeaturesPackaging from '../../components/FeaturesPackaging'
 import CardSlider from '../../components/common/CardSlider'
 import BlogCard from '../../components/common/BlogCard'
 import Blog from '../../components/blog/Blog'
+import PageMetadata from '../../components/common/PageMetadata'
 
 const Category = () => {
   const { slug } = useParams();
@@ -351,9 +352,42 @@ const Category = () => {
     fetchAllCategories();
   }, []);
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": BaseUrl
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": categoryData?.name || categoryData?.title,
+        "item": `${BaseUrl}/category/${slug}`
+      }
+    ]
+  };
+
  
   return (
     <>
+      {/* {categoryData && (
+        <PageMetadata
+          title={categoryData?.metaTitle || categoryData?.name || categoryData?.title}
+          description={categoryData?.metaDescription || categoryData?.description}
+          keywords={categoryData?.keywords}
+          ogUrl={`${BaseUrl}/category/${slug}`}
+          ogImage={categoryData?.bannerImage ? `${BaseUrl}/${categoryData?.bannerImage}` : categoryData?.image ? `${BaseUrl}/${categoryData?.image}` : ''}
+          ogImageWidth="1200"
+          ogImageHeight="630"
+          canonicalUrl={`${BaseUrl}/category/${slug}`}
+          breadcrumbSchema={breadcrumbSchema}
+          robots={categoryData?.robots}
+        />
+      )} */}
   <Banner title={categoryData?.name} subTitle={categoryData?.name}  />
     <section className=' sm:max-w-8xl w-[95%] mx-auto'>
    

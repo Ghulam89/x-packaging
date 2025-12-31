@@ -149,7 +149,7 @@ const GetPriceQuote = () => {
           {step === 1 && (
             <div className="space-y-4">
               {/* Box Style & Dimensions */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
                 <div className="space-y-2">
                   <Input
                     label="Box Style"
@@ -223,7 +223,12 @@ const GetPriceQuote = () => {
                   </Select>
                 </div>
 
-                <div className="space-y-2">
+               
+              </div>
+
+              {/* Material & Printing Options */}
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+              <div className="space-y-2">
                   <Input
                     label="Quantity"
                     star={"*"}
@@ -235,10 +240,6 @@ const GetPriceQuote = () => {
                     required
                   />
                 </div>
-              </div>
-
-              {/* Material & Printing Options */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div className="space-y-2">
                   <Select
                     label="Material Stock"
@@ -263,7 +264,7 @@ const GetPriceQuote = () => {
 
                 <div className="space-y-2">
                   <Select
-                    label="Printing Colors"
+                    label="Colors"
                     name="color"
                     value={formData.color}
                     onChange={handleChange}
@@ -279,6 +280,20 @@ const GetPriceQuote = () => {
                     <option>4/2 Color</option>
                     <option>4/3 Color</option>
                     <option>4/4 Color</option>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Select
+                    label="Printing Sides"
+                    name="printingSides"
+                    value={formData.printingSides}
+                    onChange={handleChange}
+                    placeholder="Select Color Options"
+                  >
+                    <option>Inside</option>
+                    <option>Outside</option>
+                    <option>Both (Inside & Outside)</option>
                   </Select>
                 </div>
 
@@ -303,7 +318,7 @@ const GetPriceQuote = () => {
               </div>
 
               {/* Design Upload & Description */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 lg:grid-cols-2 mt-2 gap-8">
                 <div className="space-y-3">
                   <label className="block text-sm font-semibold text-gray-700">
                     <div className="flex items-center gap-2">

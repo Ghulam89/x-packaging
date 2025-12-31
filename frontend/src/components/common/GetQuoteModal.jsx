@@ -1,6 +1,7 @@
 import { MdClose } from "react-icons/md";
 import { RiFileUploadLine, RiCheckboxCircleLine } from "react-icons/ri";
 import Input from "./Input";
+import Textarea from "./Textarea";
 import Button from "./Button";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -65,10 +66,44 @@ const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: files ? files[0] : value
-        }));
+        
+        if (files && files[0]) {
+            const file = files[0];
+            // Check file size (5MB = 5 * 1024 * 1024 bytes)
+            if (file.size > 5 * 1024 * 1024) {
+                toast.error("File size exceeds 5MB limit. Please choose a smaller file.");
+                return;
+            }
+            setFormData(prev => ({
+                ...prev,
+                [name]: file
+            }));
+        } else {
+            setFormData(prev => ({
+                ...prev,
+                [name]: value
+            }));
+        }
+    };
+
+    const handleFileDrop = (e) => {
+        e.preventDefault();
+        const file = e.dataTransfer.files[0];
+        if (file) {
+            // Check file size (5MB = 5 * 1024 * 1024 bytes)
+            if (file.size > 5 * 1024 * 1024) {
+                toast.error("File size exceeds 5MB limit. Please choose a smaller file.");
+                return;
+            }
+            setFormData(prev => ({
+                ...prev,
+                image: file
+            }));
+        }
+    };
+
+    const handleDragOver = (e) => {
+        e.preventDefault();
     };
 
     const handleSubmit = async (e) => {
@@ -122,7 +157,7 @@ const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
             <div className="p-4 sm:p-6 bg-gradient-to-br from-[#F9F9F9] to-white overflow-y-auto max-h-[90vh]">
                 <div className="flex flex-col md:flex-row gap-6 h-full">
 
-                    <div className="hidden lg:block md:w-5/12 lg:w-4/12 h-96 rounded-xl overflow-hidden shadow-lg">
+                    <div className="hidden lg:block md:w-5/12 lg:w-4/12  h-[70vh] rounded-xl overflow-hidden shadow-lg">
                         <video
                             autoPlay
                             muted
@@ -156,9 +191,9 @@ const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
                             </button>
                         </div>
 
-                        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto pr-2">
+                        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto  pr-2">
                             {/* Step Indicator */}
-                            <div className="flex items-center gap-2 mb-6">
+                            {/* <div className="flex items-center gap-2 mb-6">
                                 <div className={`flex items-center gap-2 ${step >= 1 ? 'text-[#EE334B]' : 'text-gray-400'}`}>
                                     <div className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold ${step >= 1 ? 'bg-[#EE334B] text-white' : 'bg-gray-200 text-gray-500'}`}>
                                         1
@@ -174,7 +209,7 @@ const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
                                     </div>
                                     <span className="text-sm font-medium">Contact Info</span>
                                 </div>
-                            </div>
+                            </div> */}
 
                             {step === 2 && (
                                 <div className="w-full">
@@ -271,7 +306,7 @@ const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
                                         Product Specification
                                     </h6>
 
-                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                    <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                                         <div className="w-full">
                                             <Input
                                                 label="Box Style"
@@ -458,45 +493,62 @@ const GetQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
                                             </select>
                                         </div>
 
-                                        <div className="md:col-span-2 lg:col-span-3">
-                                            <label
-                                                htmlFor="design_upload"
-                                                className="flex items-center gap-2 pb-2 text-[#213554] text-sm font-semibold"
-                                            >
-                                                <RiFileUploadLine className="w-5 h-5 text-[#EE334B]" />
-                                                Upload Your Design, Max Size 5MB
-                                            </label>
-                                            <p className="text-xs text-gray-500 mb-2">
-                                                Allowed File Types: png, pdf, jpg, jpeg, webp
-                                            </p>
-                                            <Input
-                                                type="file"
-                                                name="image"
-                                                onChange={handleChange}
-                                                className="border-2 border-gray-200 w-full bg-white rounded-xl file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-gradient-to-r file:from-[#7249A4] file:to-[#EE334B] file:text-white hover:file:from-[#7249A4]/90 hover:file:to-[#EE334B]/90 transition-all cursor-pointer"
-                                                accept=".png,.pdf,.jpg,.jpeg,.webp"
-                                            />
-                                        </div>
-
-                                        <div className="md:col-span-2 lg:col-span-3">
-                                            <label
-                                                htmlFor="description"
-                                                className="block pb-2 text-[#213554] text-sm font-semibold"
-                                            >
-                                                Description
-                                            </label>
-                                            <textarea
-                                                id="description"
-                                                name="description"
-                                                value={formData.description}
-                                                onChange={handleChange}
-                                                rows={4}
-                                                className="w-full border-2 border-gray-200 bg-white text-sm p-4 rounded-xl focus:ring-2 focus:ring-[#EE334B] focus:border-[#EE334B] transition-all resize-none"
-                                                placeholder="Tell us the size / dimensions, material, finishing, add-ons, and design preferences."
-                                            ></textarea>
-                                        </div>
                                     </div>
 
+                                    <div className=" grid grid-cols-1 mt-5 md:grid-cols-2 gap-4">
+                                            <div className="flex flex-col">
+                                                <label
+                                                    htmlFor="design_upload"
+                                                    className="block pb-1.5 text-[#213554] text-sm font-semibold mb-1"
+                                                >
+                                                    Upload Your Design
+                                                    <span className="text-[#EE334B] ml-1">*</span>
+                                                </label>
+                                                <div 
+                                                    className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-[#213554] transition-all duration-300 bg-gradient-to-br from-gray-50 to-white group cursor-pointer flex flex-col justify-center" 
+                                                    style={{ minHeight: '120px', height: '100%' }}
+                                                    onDrop={handleFileDrop}
+                                                    onDragOver={handleDragOver}
+                                                >
+                                                    <input
+                                                        type="file"
+                                                        name="image"
+                                                        id="design_upload"
+                                                        onChange={handleChange}
+                                                        className="hidden"
+                                                        accept=".png,.pdf,.jpg,.jpeg,.webp"
+                                                    />
+                                                    <label htmlFor="design_upload" className="cursor-pointer flex flex-col items-center">
+                                                        <div className="w-12 h-12 bg-gradient-to-br from-[#213554]/10 to-[#EE334B]/10 rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform duration-300">
+                                                            <svg className="w-6 h-6 text-[#213554]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                                            </svg>
+                                                        </div>
+                                                        <p className="text-sm text-[#213554] font-semibold mb-0.5 group-hover:text-[#EE334B] transition-colors duration-300">
+                                                            {formData.image ? formData.image.name : 'Click to upload or drag and drop'}
+                                                        </p>
+                                                        <p className="text-xs text-gray-500">
+                                                            Max Size: 5MB | Allowed: PNG, PDF, JPG, JPEG, WEBP
+                                                        </p>
+                                                        {formData.image && (
+                                                            <div className="mt-2 px-3 py-1.5 bg-[#213554]/10 text-[#213554] rounded-lg text-xs font-medium">
+                                                                ✓ {formData.image.name}
+                                                            </div>
+                                                        )}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <Textarea
+                                                    label="Description"
+                                                    name="description"
+                                                    value={formData.description}
+                                                    onChange={handleChange}
+                                                    rows={7}
+                                                    placeholder="Tell us the size / dimensions, material, finishing, add-ons, and design preferences."
+                                                />
+                                            </div>
+                                        </div>
                                     <div className="w-full flex justify-end mt-8">
                                         <Button
                                             type="button"

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useCallback, lazy, Suspense } from "react";
+import React, { useEffect, useState, useMemo, useCallback, lazy } from "react";
 // import { useParams } from "react-router-dom";
 // import FAQ from "../components/FAQ/FAQ";
 // import NotFound from "../pages/404";
@@ -88,32 +88,13 @@ export default function useWebsiteRoutes(serverData, CategoryProducts) {
   const sharedServer = serverData?.serverData ?? null;
   const initialProduct = sharedServer ?? null;
 
-  // Loading fallback for route components
-  const RouteLoadingFallback = () => (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#213554]"></div>
-    </div>
-  );
-
   const routes = useMemo(() => [
     { path: '/', element: <Home key="home" /> },
-    { path: '/about-us', element: (
-      <Suspense fallback={<RouteLoadingFallback />}>
-        <About key="about" />
-      </Suspense>
-    ) },
+    { path: '/about-us', element: <About key="about" /> },
     // { path: '/contact-us', element: <ContactUs key="contact" /> },
-    { path: '/blogs', element: (
-      <Suspense fallback={<RouteLoadingFallback />}>
-        <Blogs key="blogs" />
-      </Suspense>
-    ) },
+    { path: '/blogs', element: <Blogs key="blogs" /> },
     // { path: '/thank-you-page', element: <SuccessPage key="success" /> },
-    { path: '/shop', element: (
-      <Suspense fallback={<RouteLoadingFallback />}>
-        <Shop key="shop" />
-      </Suspense>
-    ) },
+    { path: '/shop', element: <Shop key="shop" /> },
     { path: '/cart', element: <Cart key="cart" /> },
     { path: '/checkout', element: <Checkout key="checkout" /> },
     // { path: '/privacy-policy', element: <PrivacyPolicy key="privacy-policy" /> },
@@ -121,11 +102,7 @@ export default function useWebsiteRoutes(serverData, CategoryProducts) {
     // { path: '/shipping-policy', element: <ShippingPolicy key="shipping-policy" /> },
     // { path: '/returns-refunds', element: <ReturnRefunds key="returns-refunds" /> },
     { path: '/reviews', element: <Reviews key="reviews" /> },
-    { path: '/my-account', element: (
-      // <Suspense fallback={<RouteLoadingFallback />}>
-        <MyAccount key="my-account" />
-      // </Suspense>
-    ) },
+    { path: '/my-account', element: <MyAccount key="my-account" /> },
     // { path: '/dielines', element: <Dielines key="dielines" /> },
     // { path: '/get-custom-quote', element: <GetCustomQoutePage key="get-custom-quote" /> },
     // { path: '/target-price', element: <TargetPrice key="target-price" /> },
@@ -133,28 +110,12 @@ export default function useWebsiteRoutes(serverData, CategoryProducts) {
     // { path: '/portfolio', element: <Portfolio key="portfolio" /> },
     // { path: '/404', element: <NotFound key="not-found" /> },
     // { path: '/category/:slug', element: <Category key="category" serverData={sharedServer} /> },
-    { path: '/category/:slug', element: (
-      // <Suspense fallback={<RouteLoadingFallback />}>
-        <Category key="category" />
-      // </Suspense>
-    ) },
-    { path: '/blog/:slug', element: (
-      <Suspense fallback={<RouteLoadingFallback />}>
-        <SingleBlog key="blog" serverData={sharedServer} />
-      </Suspense>
-    ) },
+    { path: '/category/:slug', element: <Category key="category" /> },
+    { path: '/blog/:slug', element: <SingleBlog key="blog" serverData={sharedServer} /> },
     // { path: '/sub-category/:slug', element: <SubCategory key="subcategory" serverData={sharedServer} CategoryProducts={CategoryProducts} /> },
-    { path: '/sub-category/:slug', element: (
-      // <Suspense fallback={<RouteLoadingFallback />}>
-        <SubCategory key="subcategory"/>
-      // </Suspense>
-    ) },
+    { path: '/sub-category/:slug', element: <SubCategory key="subcategory"/> },
     // // { path: '/:slug', element: <MemoProductDetailsWrapper key="product" initialProduct={initialProduct} /> },
-    { path: '/:slug', element: (
-      // <Suspense fallback={<RouteLoadingFallback />}>
-        <ProductDetails key="product"  />
-      // </Suspense>
-    ) },
+    { path: '/:slug', element: <ProductDetails key="product" /> },
     // { path: '*', element: <NotFound key="catch-all" /> }
   ], [sharedServer, CategoryProducts, initialProduct]);
 
