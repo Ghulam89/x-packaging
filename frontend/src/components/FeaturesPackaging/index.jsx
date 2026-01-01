@@ -14,8 +14,8 @@ const FeaturesPackaging = () => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        // Fetch products using getAll API without category filter (same as Top Packaging Styles - page 1)
-        const response = await axios.get(`${BaseUrl}/products/getAll?page=1&perPage=8`);
+        // Fetch featured products using getAll API with isFeatured filter
+        const response = await axios.get(`${BaseUrl}/products/getAll?page=1&perPage=8&isFeatured=true`);
         
         if (response?.data?.status === 'success' && response?.data?.data) {
           setProducts(response.data.data);
