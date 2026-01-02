@@ -123,7 +123,7 @@ export const createProducts = catchAsyncError(async (req, res, next) => {
       bannerImageAltText,
       brandId,
       categoryId,
-      isFeatured: isFeatured === 'true' || isFeatured === true ? 'true' : 'false',
+      isFeatured: (isFeatured === 'true' || isFeatured === true || String(isFeatured).toLowerCase().trim() === 'true') ? 'true' : 'false',
     };
 
     const newProduct = await Products.create(productData);
@@ -394,11 +394,20 @@ export const updateProducts = catchAsyncError(async (req, res, next) => {
       bannerImage: undefined,
       existingImages: undefined,
       description: req.body.description,
+      isFeatured: undefined, // Handle separately to ensure string enum
     };
 
-    // Handle isFeatured enum field only if provided
-    if (req.body.isFeatured !== undefined && req.body.isFeatured !== null && req.body.isFeatured !== '') {
-      updateData.isFeatured = (req.body.isFeatured === 'true' || req.body.isFeatured === true || req.body.isFeatured === '1') ? 'true' : 'false';
+    // Handle isFeatured enum field - always update if provided
+    // Convert any value to string enum ("true" or "false")
+    // Check if isFeatured is present in the request (even if it's "false")
+    if (req.body.isFeatured !== undefined && req.body.isFeatured !== null) {
+      const isFeaturedParam = String(req.body.isFeatured).toLowerCase().trim();
+      if (isFeaturedParam === 'true' || isFeaturedParam === '1') {
+        updateData.isFeatured = 'true';
+      } else {
+        // Default to 'false' for any other value (including "false", empty string, etc.)
+        updateData.isFeatured = 'false';
+      }
     }
 
     // Handle images - both existing and new

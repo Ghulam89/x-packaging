@@ -15,7 +15,7 @@ const FeaturesPackaging = () => {
       try {
         setLoading(true);
         // Fetch featured products using getAll API with isFeatured filter
-        const response = await axios.get(`${BaseUrl}/products/getAll?page=1&perPage=8&isFeatured=true`);
+        const response = await axios.get(`${BaseUrl}/products/getAll?page=1&perPage=8&isFeatured=false`);
         
         if (response?.data?.status === 'success' && response?.data?.data) {
           setProducts(response.data.data);

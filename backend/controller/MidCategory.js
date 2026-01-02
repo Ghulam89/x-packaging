@@ -24,13 +24,7 @@ export const createCategory = catchAsyncError(async (req, res, next) => {
     brandId,
     bannerTitleFirst,
     bannerContentFirst,
-    bannerTitleSecond,
-    bannerContentSecond,
-    bannerTitleThird,
-    bannerContentThird,
-    bannerTitleFourth,
-    bannerContentFourth,
-    imageAltText,iconAltText,bannerImageFirstAltText,bannerImageSecondAltText,bannerImageThirdAltText,bannerImageFourthAltText
+    imageAltText,iconAltText,bannerImageFirstAltText
   } = req.body;
 
   const findName = await MidCategory.findOne({ title });
@@ -39,10 +33,7 @@ export const createCategory = catchAsyncError(async (req, res, next) => {
     const requiredFiles = [
       'image', 
       'icon', 
-      'bannerImageFirst', 
-      'bannerImageSecond', 
-      'bannerImageThird', 
-      'bannerImageFourth'
+      'bannerImageFirst'
     ];
     
     requiredFiles.forEach(field => {
@@ -98,23 +89,11 @@ export const createCategory = catchAsyncError(async (req, res, next) => {
       imageAltText,
       iconAltText,
       bannerImageFirstAltText,
-      bannerImageSecondAltText,
-      bannerImageThirdAltText,
-      bannerImageFourthAltText,
       icon: `images/${req.files.icon[0].filename}`.replace(/\\/g, '/'),
       image: `images/${req.files.image[0].filename}`.replace(/\\/g, '/'),
       bannerTitleFirst,
       bannerContentFirst,
       bannerImageFirst: `images/${req.files.bannerImageFirst[0].filename}`.replace(/\\/g, '/'),
-      bannerTitleSecond,
-      bannerContentSecond,
-      bannerImageSecond: `images/${req.files.bannerImageSecond[0].filename}`.replace(/\\/g, '/'),
-      bannerTitleThird,
-      bannerContentThird,
-      bannerImageThird: `images/${req.files.bannerImageThird[0].filename}`.replace(/\\/g, '/'),
-      bannerTitleFourth,
-      bannerContentFourth,
-      bannerImageFourth: `images/${req.files.bannerImageFourth[0].filename}`.replace(/\\/g, '/'),
     };
 
     const newCategory = await MidCategory.create(categoryData);
@@ -221,19 +200,10 @@ export const updateCategory = catchAsyncError(async (req, res, next) => {
     brandId: data.brandId,
     videoDescription: data.videoDescription,
     bannerTitleFirst: data.bannerTitleFirst,
-    bannerTitleSecond: data.bannerTitleSecond,
-    bannerTitleThird: data.bannerTitleThird,
-    bannerTitleFourth: data.bannerTitleFourth,
     bannerContentFirst: data.bannerContentFirst,
-    bannerContentSecond: data.bannerContentSecond,
-    bannerContentThird: data.bannerContentThird,
-    bannerContentFourth: data.bannerContentFourth,
      imageAltText:data.imageAltText,
       iconAltText:data.iconAltText,
       bannerImageFirstAltText:data.bannerImageFirstAltText,
-      bannerImageSecondAltText:data.bannerImageSecondAltText,
-      bannerImageThirdAltText:data.bannerImageThirdAltText,
-      bannerImageFourthAltText:data.bannerImageFourthAltText,
   };
 
   const newFiles = [];
@@ -268,10 +238,7 @@ export const updateCategory = catchAsyncError(async (req, res, next) => {
     }
 
     const bannerFields = [
-      'bannerImageFirst',
-      'bannerImageSecond',
-      'bannerImageThird',
-      'bannerImageFourth'
+      'bannerImageFirst'
     ];
 
     for (const field of bannerFields) {

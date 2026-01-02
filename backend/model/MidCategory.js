@@ -74,54 +74,6 @@ const midcategorySchema = new Schema({
      type: String,
     require: true,
   },
-  bannerTitleSecond: {
-    type: String,
-    require: true,
-  },
-  bannerContentSecond: {
-    type: String,
-    require: true,
-  },
-  bannerImageSecond: {
-    type: String,
-    require: true,
-  },
-   bannerImageSecondAltText:{
-     type: String,
-    require: true,
-  },
-  bannerTitleThird: {
-    type: String,
-    require: true,
-  },
-  bannerContentThird: {
-    type: String,
-    require: true,
-  },
-  bannerImageThird: {
-    type: String,
-    require: true,
-  },
-   bannerImageThirdAltText:{
-     type: String,
-    require: true,
-  },
-  bannerTitleFourth: {
-    type: String,
-    require: true,
-  },
-  bannerContentFourth: {
-    type: String,
-    require: true,
-  },
-  bannerImageFourth: {
-    type: String,
-    require: true,
-  },
-  bannerImageFourthAltText:{
-     type: String,
-    require: true,
-  },
   createdAt: {
     type: Date,
     default: Date.now,

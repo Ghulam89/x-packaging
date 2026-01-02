@@ -761,7 +761,7 @@
 // export default SubCategory
 
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import SampleKit from '../../components/SampleKit'
 import Button from '../../components/common/Button'
 import Input from '../../components/common/Input'
@@ -781,6 +781,12 @@ import google from '../../assets/images/footer/google-reviws-logo.webp';
 import axios from 'axios';
 import { BaseUrl } from '../../utils/BaseUrl';
 import { prefetchProduct, prefetchProductsBatch, prefetchSubCategory, getCachedSubCategory } from '../../utils/prefetchUtils';
+import PageMetadata from '../../components/common/PageMetadata';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/effect-coverflow';
+import { Navigation, Autoplay, Mousewheel, Keyboard, EffectCoverflow } from 'swiper/modules';
 
 const SubCategory = ({ serverData, CategoryProducts }) => {
   const { slug } = useParams();
@@ -887,9 +893,78 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
     }
   };
 
+  // Breadcrumb schema for SEO
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": BaseUrl
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": categoryData?.brandId?.name || serverData?.brandId?.name,
+        "item": `${BaseUrl}/category/${categoryData?.brandId?.slug || serverData?.brandId?.slug}`
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": categoryData?.title || serverData?.title,
+        "item": `${BaseUrl}/sub-category/${slug}`
+      }
+    ]
+  };
+
+  // Create item list schema
+  const productItems = (allProducts || CategoryProducts)?.map((item, index) => ({
+    "@type": "ListItem",
+    "position": index + 3,
+    "name": item?.name,
+    "item": `${BaseUrl}/${item?.slug}`,
+    "image": item?.images?.[0]?.url ? `${BaseUrl}/${item.images[0].url}` : undefined
+  })) || [];
+  
+  const itemListSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": BaseUrl
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": categoryData?.title || serverData?.title,
+        "item": `${BaseUrl}/sub-category/${slug}`
+      },
+      ...productItems
+    ]
+  };
 
   return (
     <>
+      {(categoryData || serverData) ? (
+        <PageMetadata
+          title={categoryData?.metaTitle || serverData?.metaTitle}
+          description={categoryData?.metaDescription || serverData?.metaDescription || ""}
+          keywords={categoryData?.keywords || serverData?.keywords || ""}
+          ogUrl={`${BaseUrl}/sub-category/${slug}`}
+          ogImage={`${BaseUrl}/${categoryData?.image || serverData?.image}`}
+          ogImageWidth="1200"
+          ogImageHeight="630"
+          canonicalUrl={`${BaseUrl}/sub-category/${slug}`}
+          breadcrumbSchema={breadcrumbSchema}
+          // robots={categoryData?.robots || serverData?.robots}
+          itemListSchema={itemListSchema}
+        />
+      ) : null}
 
       <section className='bg-gradient-to-br from-gray-50 to-white pb-8'>
         <div className="sm:max-w-8xl max-w-[95%] mx-auto">
@@ -935,7 +1010,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
                   <div className="mt-6 rounded-xl overflow-hidden shadow-md">
                     <img
                       src={`${BaseUrl}/${categoryData?.image || serverData?.image}`}
-                      alt={categoryData?.imageAltText || categoryData?.title}
+                      alt={categoryData?.imageAltText || serverData?.imageAltText || categoryData?.title || serverData?.title}
                       className="w-full h-auto object-cover"
                     />
                   </div>
@@ -1017,6 +1092,9 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
         </div>
       </section>
       <BottomHero />
+      
+      
+
       <section className='py-8 bg-white'>
         <div className="sm:max-w-8xl max-w-[95%] mx-auto">
           <div className=' flex sm:flex-row flex-col items-center justify-between gap-4'>
@@ -1117,6 +1195,9 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
           </div>
         </div>
       </div>
+
+
+
       <section className='mb-8'>
         <div className="sm:max-w-8xl bg-gradient-to-br from-gray-50 to-white rounded-2xl p-8 sm:p-12 shadow-lg max-w-[95%] mx-auto border border-gray-100">
           <div className="text-center mb-8">
@@ -1131,7 +1212,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
 
           <div
             className='prose prose-sm sm:prose-base max-w-none text-gray-700 leading-relaxed'
-            dangerouslySetInnerHTML={{ __html: categoryData?.description }}
+            dangerouslySetInnerHTML={{ __html: categoryData?.description || serverData?.description }}
             style={{
               lineHeight: '1.75'
             }}
@@ -1139,74 +1220,137 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
 
         </div>
       </section>
+
+
+      {/* Products Gallery Carousel with Center Big Image */}
+      {allProducts && allProducts.length > 0 && (
+        <section className='py-8 bg-white'>
+          <div className="sm:max-w-full max-w-[95%] mx-auto">
+            <div className='text-center mb-6'>
+              <h2 className='text-3xl sm:text-4xl font-bold text-[#213554] mb-2'>
+                {categoryData?.title || serverData?.title || 'Custom'} Gallery
+              </h2>
+            </div>
+            
+            <div className='max-w-8xl mx-auto py-8'>
+              <style>{`
+                .gallery-center-swiper .swiper-slide {
+                  transition: all 0.4s ease;
+                  opacity: 0.5;
+                  transform: scale(0.8);
+                }
+                .gallery-center-swiper .swiper-slide-active {
+                  opacity: 1;
+                  transform: scale(1.1);
+                  z-index: 10;
+                }
+                .gallery-center-swiper .swiper-slide-prev,
+                .gallery-center-swiper .swiper-slide-next {
+                  opacity: 0.7;
+                  transform: scale(0.9);
+                }
+                .gallery-center-swiper .swiper-button-next,
+                .gallery-center-swiper .swiper-button-prev {
+                  display: none !important;
+                }
+                .gallery-center-swiper .swiper-slide img {
+                  transition: all 0.4s ease;
+                }
+                .gallery-center-swiper .swiper-slide-active img {
+                  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+                }
+                @media (max-width: 640px) {
+                  .gallery-center-swiper .swiper-slide {
+                    transform: scale(0.9);
+                  }
+                  .gallery-center-swiper .swiper-slide-active {
+                    transform: scale(1.05);
+                  }
+                }
+              `}</style>
+              <Swiper
+                modules={[Navigation, Autoplay, Mousewheel, Keyboard, EffectCoverflow]}
+                effect="coverflow"
+                grabCursor={true}
+                centeredSlides={true}
+                slidesPerView="auto"
+                coverflowEffect={{
+                  rotate: 0,
+                  stretch: 0,
+                  depth: 100,
+                  modifier: 2,
+                  slideShadows: true,
+                }}
+                navigation={false}
+                mousewheel={true}
+                keyboard={true}
+                autoplay={{
+                  delay: 3000,
+                  disableOnInteraction: false,
+                }}
+                loop={allProducts.length > 5}
+                spaceBetween={30}
+                className="gallery-center-swiper"
+              >
+                {allProducts.map((product, index) => (
+                  <SwiperSlide 
+                    key={product._id}
+                    style={{ width: 'auto', maxWidth: '500px' }}
+                  >
+                    <Link 
+                      to={`/${product?.slug}`}
+                      className="block group relative mx-auto overflow-hidden rounded-[15px]"
+                      onMouseEnter={() => {
+                        if (product?.slug) {
+                          prefetchProduct(product.slug);
+                        }
+                      }}
+                    >
+                      <div className="relative overflow-hidden rounded-[15px] shadow-lg transition-all duration-300">
+                        <img
+                          src={`${BaseUrl}/${product?.images?.[0]?.url}`}
+                          alt={product?.images?.[0]?.altText || product?.name}
+                          className="swiper-lazy rounded-[15px] w-full h-[450px] object-cover transition-transform duration-500 group-hover:scale-110"
+                          loading={index < 3 ? "eager" : "lazy"}
+                        />
+                        {/* Hover Overlay Gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-[15px]"></div>
+                        {/* Shine Effect - Sweeps across on hover */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-[15px]"></div>
+                      </div>
+                    </Link>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
+          </div>
+        </section>
+      )}
       <section className=' bg-gradient-to-br from-white to-gray-50'>
         <div className="sm:max-w-8xl justify-between gap-8 lg:gap-12 items-center max-w-[95%] flex sm:flex-row flex-col mx-auto">
-          <div className='sm:w-6/12 w-full'>
+        <div className='sm:w-5/12 w-full'>
+            <div className="rounded-2xl overflow-hidden shadow-xl">
+            <img
+               src={`${BaseUrl}/${categoryData?.bannerImageFirst || serverData?.bannerImageFirst}`}
+                alt={categoryData?.bannerImageFirstAltText || serverData?.bannerImageFirstAltText}
+                className={"  w-full h-auto rounded-xl shadow-md"}
+                 loading="lazy"
+         />
+            </div>
+          </div>
+          <div className='sm:w-7/12 w-full'>
             <div className=" p-8">
               
-              <h2 className="text-3xl sm:text-4xl font-bold text-[#213554] mb-4">
-                Key Features of Our Custom Retail Boxes
-              </h2>
-              <p className='text-gray-600 leading-relaxed mb-6'>
-                Our custom retail boxes are the perfect choice if you want to boost your product's presentation in the market. You get some amazing features, including:
-              </p>
+            <h2 className="sm:text-[38px] text-[25px]  leading-[42px] pb-2  font-sans   font-[600] text-[#333333]">
+                {categoryData?.bannerTitleFirst || serverData?.bannerTitleFirst}
+               </h2>
+              <div className=' overflow-y-auto h-56'>
+                 <p dangerouslySetInnerHTML={{ __html: categoryData?.bannerContentFirst || serverData?.bannerContentFirst }} className="text-sm leading-6  mb-6">
 
-              <ul className='space-y-3 mt-4 mb-6'>
-                <li className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-[#EE334B]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <div className="w-2 h-2 rounded-full bg-[#EE334B]"></div>
+
+                  </p>
+
                   </div>
-                  <div>
-                    <strong className="text-[#213554]">Sturdy Construction:</strong>
-                    <span className="text-gray-700"> durable material options that promise protection along with a premium look.</span>
-                  </div>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-[#EE334B]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <div className="w-2 h-2 rounded-full bg-[#EE334B]"></div>
-                  </div>
-                  <div>
-                    <strong className="text-[#213554]">Attractive Presentation:</strong>
-                    <span className="text-gray-700"> offer a sleek and catchy presentation to get your products noticed.</span>
-                  </div>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-[#EE334B]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <div className="w-2 h-2 rounded-full bg-[#EE334B]"></div>
-                  </div>
-                  <div>
-                    <strong className="text-[#213554]">Consistent Branding:</strong>
-                    <span className="text-gray-700"> a printable surface that allows you to add your logo and branding elements</span>
-                  </div>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-[#EE334B]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <div className="w-2 h-2 rounded-full bg-[#EE334B]"></div>
-                  </div>
-                  <div>
-                    <strong className="text-[#213554]">Versatile Packaging:</strong>
-                    <span className="text-gray-700"> customize the shape and size to perfectly fit your product.</span>
-                  </div>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-[#EE334B]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <div className="w-2 h-2 rounded-full bg-[#EE334B]"></div>
-                  </div>
-                  <div>
-                    <strong className="text-[#213554]">Eco-Friendly:</strong>
-                    <span className="text-gray-700"> sustainable materials and inks to improve your brand identity</span>
-                  </div>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-[#EE334B]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <div className="w-2 h-2 rounded-full bg-[#EE334B]"></div>
-                  </div>
-                  <div>
-                    <strong className="text-[#213554]">Amazing Unboxing:</strong>
-                    <span className="text-gray-700"> impressive locking styles to improve the unboxing experience</span>
-                  </div>
-                </li>
-              </ul>
 
               <div className='mt-6'>
                 <Button
@@ -1217,15 +1361,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
             </div>
           </div>
 
-          <div className='sm:w-5/12 w-full'>
-            <div className="rounded-2xl overflow-hidden shadow-xl">
-              <img
-                src='https://www.halfpricepackaging.com/_ipx/f_webp&fit_cover&s_556x363/https://www.halfpricepackaging.com/storage/cat_uploads/cosmetic-shipping-packaging.webp'
-                className='w-full h-auto object-cover hover:scale-105 transition-transform duration-500'
-                alt='Custom Packaging'
-              />
-            </div>
-          </div>
+          
         </div>
       </section>
 
