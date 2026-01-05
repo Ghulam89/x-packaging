@@ -18,6 +18,10 @@ const subcategorySchema = new Schema({
     type: Array,
     require: true,
   },
+  bannerBgColor: {
+    type: String,
+    default: "#F5F5DC",
+  },
 
   createdAt: {
     type: Date,

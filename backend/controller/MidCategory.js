@@ -24,7 +24,8 @@ export const createCategory = catchAsyncError(async (req, res, next) => {
     brandId,
     bannerTitleFirst,
     bannerContentFirst,
-    imageAltText,iconAltText,bannerImageFirstAltText
+    imageAltText,iconAltText,bannerImageFirstAltText,
+    bannerBgColor
   } = req.body;
 
   const findName = await MidCategory.findOne({ title });
@@ -89,6 +90,7 @@ export const createCategory = catchAsyncError(async (req, res, next) => {
       imageAltText,
       iconAltText,
       bannerImageFirstAltText,
+      bannerBgColor: bannerBgColor || "#F5F5DC",
       icon: `images/${req.files.icon[0].filename}`.replace(/\\/g, '/'),
       image: `images/${req.files.image[0].filename}`.replace(/\\/g, '/'),
       bannerTitleFirst,
@@ -204,6 +206,7 @@ export const updateCategory = catchAsyncError(async (req, res, next) => {
      imageAltText:data.imageAltText,
       iconAltText:data.iconAltText,
       bannerImageFirstAltText:data.bannerImageFirstAltText,
+      bannerBgColor: data.bannerBgColor || "#F5F5DC",
   };
 
   const newFiles = [];

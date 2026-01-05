@@ -74,6 +74,10 @@ const midcategorySchema = new Schema({
      type: String,
     require: true,
   },
+  bannerBgColor: {
+    type: String,
+    default: "#F5F5DC",
+  },
   createdAt: {
     type: Date,
     default: Date.now,

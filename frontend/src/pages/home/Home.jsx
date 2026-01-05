@@ -9,6 +9,7 @@ import google from '../../assets/images/footer/google-reviws-logo.webp';
 import Category from '../../components/Category'
 import FeaturesPackaging from '../../components/FeaturesPackaging'
 import PageMetadata from '../../components/common/PageMetadata'
+import SpecialPackaging from '../../components/SpecialPackaging/SpecialPackaging'
 
 // Lazy load below-the-fold components for better FCP
 const FAQ = lazy(() => import('../../components/FAQ/FAQ'))
@@ -205,7 +206,7 @@ export const Home = React.memo(() => {
         </Suspense>
         
         <Suspense fallback={<LoadingFallback height="h-96" />}>
-          <SampleKit />
+          <SpecialPackaging />
         </Suspense>
         
         <Suspense fallback={<LoadingFallback height="h-96" />}>

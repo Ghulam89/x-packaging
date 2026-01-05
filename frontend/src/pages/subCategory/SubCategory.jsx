@@ -787,6 +787,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/effect-coverflow';
 import { Navigation, Autoplay, Mousewheel, Keyboard, EffectCoverflow } from 'swiper/modules';
+import InstantQuoteModal from '../../components/common/InstantQuoteModal';
 
 const SubCategory = ({ serverData, CategoryProducts }) => {
   const { slug } = useParams();
@@ -798,6 +799,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
   const [loading, setLoading] = useState(false)
   const [loadingMore, setLoadingMore] = useState(false);
   const [loadingProducts, setLoadingProducts] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleMenu = () => {
     setMenuOpen(!isMenuOpen);
@@ -966,7 +968,67 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
         />
       ) : null}
 
-      <section className='bg-gradient-to-br from-gray-50 to-white pb-8'>
+      {/* Top Banner Section */}
+      <section className='py-8 sm:py-12' style={{ backgroundColor: categoryData?.bannerBgColor || serverData?.bannerBgColor || '#F5F5DC' }}>
+        <div className="sm:max-w-8xl max-w-[95%] mx-auto">
+          <div className='flex sm:flex-row flex-col gap-8 lg:gap-12 items-center'>
+            {/* Left Side - Text Content */}
+            <div className='sm:w-1/2 w-full'>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
+                {categoryData?.subTitle || serverData?.subTitle || 'Bespoke Packaging Solutions for Car Parts, Tools, and Accessories'}
+              </h1>
+              <p className="text-base sm:text-lg text-gray-700 mb-6 leading-relaxed">
+                {categoryData?.description ? 
+                  (categoryData?.description?.replace(/<[^>]*>/g, '').substring(0, 150) + '...') : 
+                  'IBEX Packaging adds style and resistance simultaneously in custom automotive packaging boxes.'
+                }
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Button
+                  onClick={() => setIsModalOpen(true)}
+                  label="Get a Quote"
+                  className="bg-[#2D5016] hover:bg-[#3A6B1F] text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                />
+                <Link to="/dielines">
+                  <Button
+                    label="Boxes By Style"
+                    className="bg-[#2D5016] hover:bg-[#3A6B1F] text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                  />
+                </Link>
+              </div>
+            </div>
+
+            {/* Right Side - Product Display */}
+            <div className='sm:w-1/2 w-full'>
+              {categoryData?.image || serverData?.image ? (
+                <div className="relative">
+                  <img
+                    src={`${BaseUrl}/${categoryData?.image || serverData?.image}`}
+                    alt={categoryData?.imageAltText || serverData?.imageAltText || categoryData?.title || serverData?.title}
+                    className="w-full h-auto rounded-xl object-cover"
+                    loading="eager"
+                  />
+                </div>
+              ) : allProducts && allProducts.length > 0 ? (
+                <div className="grid grid-cols-2 gap-4">
+                  {allProducts.slice(0, 4).map((product, index) => (
+                    <div key={product._id || index} className="relative overflow-hidden rounded-lg shadow-lg">
+                      <img
+                        src={`${BaseUrl}/${product?.images?.[0]?.url}`}
+                        alt={product?.images?.[0]?.altText || product?.name}
+                        className="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+                        loading={index < 2 ? "eager" : "lazy"}
+                      />
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* <section className='bg-gradient-to-br from-gray-50 to-white pb-8'>
         <div className="sm:max-w-8xl max-w-[95%] mx-auto">
           
           
@@ -974,7 +1036,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
             <div className='sm:w-6/12 w-full'>
             
               <div className="from-gray-50 to-white rounded-2xl  p-8 h-full">
-                {/* Breadcrumbs */}
+              
           <div className=' flex gap-2 pb-5 items-center'>
             <IoHomeOutline size={20} /> <LiaAngleRightSolid />
             <h6 className=' flex items-center '>
@@ -1019,7 +1081,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
             </div>
 
             <div className='sm:w-5/12 w-full'>
-              <div className=" rounded-2xl from-gray-50 to-white  p-8 sticky top-4">
+              <div className="instant-quote-form rounded-2xl from-gray-50 to-white  p-8 sticky top-4">
                 <div className="flex items-center gap-2 mb-6">
                   <div className="w-1 h-8 bg-gradient-to-b from-[#EE334B] to-[#213554] rounded-full"></div>
                   <h2 className="text-2xl font-bold text-[#213554]">Get an Instant Quote</h2>
@@ -1090,7 +1152,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
       <BottomHero />
       
       
@@ -1382,6 +1444,11 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
       <Testimonials />
       <Capabilities />
 
+      <InstantQuoteModal 
+        setIsModalOpen={setIsModalOpen} 
+        isModalOpen={isModalOpen}
+        closeModal={() => setIsModalOpen(false)}
+      />
 
     </>
   )

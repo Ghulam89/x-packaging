@@ -67,7 +67,7 @@ const SpecialPackaging = () => {
 
   return (
     
-    <div className="sm:max-w-6xl bg-[#F7F7F7] p-3 max-w-[95%] mx-auto">
+    <div className="sm:max-w-8xl p-3 max-w-[95%] mx-auto">
       <div className="text-center pb-3">
           <h2 className="sm:text-[35px] text-[25px]   leading-9     font-sans   font-[600] text-[#333333] ">
         Enhance Your Product Presentation with Our Special Packaging Features

@@ -58,7 +58,7 @@ const Tabs = ({ tabs, defaultTab, className }) => {
               key={tab.title}
               className={`relative px-6 py-3.5 cursor-pointer transition-all duration-300 ease-in-out rounded-xl text-sm font-semibold overflow-hidden group flex-1 ${
                 isActive
-                  ? "bg-gradient-to-r from-[#213554] to-[#213554]/90 shadow-lg scale-105"
+                  ? "bg-gradient-to-r from-[#213554] to-[#213554]/90 shadow-lg"
                   : `hover:bg-white/80 hover:text-[#213554] text-gray-600 hover:shadow-md hover:scale-105 ${className}`
               }`}
               onClick={() => handleTabChange(tab.title)}
