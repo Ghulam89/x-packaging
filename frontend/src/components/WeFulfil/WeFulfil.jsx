@@ -4,12 +4,12 @@ import { IndustryStandard } from '../../assets';
 
 function WeFulfil() {
   return (
-    <div className='max-w-[1200px] mt-5 mx-auto text-center rounded-[8px] p-4 md:p-5'>
+    <div className='sm:max-w-8xl w-[95%] mt-5 mx-auto text-center rounded-[8px]'>
       <div className='grid lg:grid-cols-2 grid-cols-1 gap-6 md:gap-10'>
         <div className='flex items-center justify-center'>
           <img 
             src={IndustryStandard} 
-            className=' w-full h-auto max-w-[600px] object-cover' 
+            className=' w-full h-auto  rounded-xl object-cover' 
             alt='Industry Standard Packaging' 
             loading='lazy'
           />

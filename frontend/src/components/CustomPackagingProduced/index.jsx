@@ -120,7 +120,7 @@ const CustomPackagingProduced = () => {
   }));
 
   return (
-    <div className="sm:max-w-6xl bg-[#F7F7F7] p-3 py-9 rounded-xl max-w-[95%] mx-auto">
+    <div className="sm:max-w-8xl bg-[#F7F7F7] p-3 py-9 mt-10 rounded-xl max-w-[95%] mx-auto">
       <div className="text-center pb-3">
           <h2 className="sm:text-[35px] text-[25px]     font-sans   font-[600] text-[#333333] ">
           Simple Steps to get the Custom Packaging Produced

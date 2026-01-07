@@ -7,6 +7,7 @@ import TopNav from './components/Header/TopNav';
 import { Suspense, useEffect, useState } from 'react';
 import Navbar from './components/Header/Navbar';
 import WhatsAppFloat from './components/SocialMedia/WhatsAppModal';
+import AnnouncementBanner from './components/AnnouncementBanner';
 function App({ serverData, CategoryProducts }) {
   const location = useLocation();
   const [currentUrl, setCurrentUrl] = useState('');
@@ -27,6 +28,7 @@ function App({ serverData, CategoryProducts }) {
             bottomClass="bottom-5"
             leftClass="left-8"
           />
+          <AnnouncementBanner />
           <TopNav />
           <Navbar />
           

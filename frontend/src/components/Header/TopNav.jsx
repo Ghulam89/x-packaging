@@ -1,61 +1,64 @@
 import {
-  FaFacebookF,
-  FaTwitter,
   FaYoutube,
   FaInstagram,
   FaLinkedinIn,
-  FaWhatsapp,
+  FaPinterest,
+  FaFacebookF,
 } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 import { FiPhone } from "react-icons/fi";
 import { AiOutlineUser } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import usa from "../../assets/images/flag/us.svg";
 import uk from "../../assets/images/flag/uk.svg";
-import canada from "../../assets/images/flag/canada.svg";
 const TopNav = () => {
   return (
-    <div className="">
+    <div className="bg-white border-t-2 border-green-200">
       <div className="sm:max-w-8xl max-w-[95%] mx-auto">
-        <div className="flex sm:justify-between justify-center flex-wrap items-center px-6 sm:py-2 py-1.5 border-b border-gray-200 text-sm text-gray-700">
-          {/* Left Side: Country Flags */}
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center  space-x-1.5">
-              <img src={usa} alt="USA" className="w-8 h-8" />
-              <span>USA</span>
-            </div>
-            <div className="flex items-center space-x-1">
-              <img src={uk} alt="UK" className="w-8 h-8" />
-              <span>UK</span>
-            </div>
-            <div className="flex items-center space-x-1">
-              <img src={canada} alt="Canada" className="w-8 h-8" />
-              <span>Canada</span>
-            </div>
+        <div className="flex sm:justify-between justify-center flex-wrap items-center  sm:py-2 py-1.5 border-b border-gray-200 text-sm text-gray-700 gap-4">
+          {/* Left Side: Social Media Icons with About US */}
+          <div className="flex items-center space-x-2">
+            <a href="#" className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-[#EE334B] group transition-colors">
+              <FaFacebookF size={14} className="text-gray-600 group-hover:text-white transition-colors" />
+            </a>
+            <a href="#" className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-[#EE334B] group transition-colors">
+              <FaXTwitter size={14} className="text-gray-600 group-hover:text-white transition-colors" />
+            </a>
+            <a href="#" className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-[#EE334B] group transition-colors">
+              <FaInstagram size={14} className="text-gray-600 group-hover:text-white transition-colors" />
+            </a>
+            <a href="#" className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-[#EE334B] group transition-colors">
+              <FaPinterest size={14} className="text-gray-600 group-hover:text-white transition-colors" />
+            </a>
+            <a href="#" className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-[#EE334B] group transition-colors">
+              <FaYoutube size={14} className="text-gray-600 group-hover:text-white transition-colors" />
+            </a>
+            <a href="#" className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-[#EE334B] group transition-colors">
+              <FaLinkedinIn size={14} className="text-gray-600 group-hover:text-white transition-colors" />
+            </a>
+            {/* Red Separator */}
+            <div className="h-8 w-0.5 bg-[#213554] mx-2"></div>
+            {/* About US */}
+            <Link to="/about" className="text-[#213554] font-semibold text-lg sm:text-2xl" style={{ fontFamily: 'cursive', fontStyle: 'italic' }}>
+              About US
+            </Link>
           </div>
 
-          {/* Right Side: Account & Social Media */}
-          <div className="flex flex-wrap  justify-center items-center space-x-4 space-y-1">
+          {/* Right Side: Contact Info */}
+          <div className="flex flex-wrap justify-center items-center space-x-4 space-y-1">
             <div className="flex items-center space-x-2">
               <MdEmail size={15} />
-              <span>sales@xpackaging.com</span>
+              <span>sales@umbrellapackaging.com</span>
             </div>
-            <div className="flex items-center space-x-2">
+            {/* <div className="flex items-center space-x-2">
               <FiPhone size={15} />
               <span>747-247-0456</span>
-            </div>
+            </div> */}
             <Link to="/my-account" className="flex items-center space-x-2 hover:text-[#EE334B] transition-colors cursor-pointer">
               <AiOutlineUser size={18} />
               <span>My Account</span>
             </Link>
-            <div className="flex space-x-3 text-gray-600">
-              <FaFacebookF />
-              <FaTwitter size={15} />
-              <FaYoutube size={15} />
-              <FaInstagram size={15} />
-              <FaLinkedinIn size={15} />
-              <FaWhatsapp size={15} />
-            </div>
           </div>
         </div>
       </div>

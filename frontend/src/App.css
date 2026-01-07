@@ -2,7 +2,7 @@
 @import "tailwindcss";
 
 *{
-  font-family: 'Quicksand', sans-serif !important;
+  font-family: 'Inter', sans-serif !important;
 }
 span{
   @apply text-[#333333] sm:text-[14px] text-[13px] 

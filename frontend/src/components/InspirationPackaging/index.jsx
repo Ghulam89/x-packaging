@@ -132,17 +132,12 @@ const InspirationPackaging = () => {
         <div className="sm:max-w-8xl bg-gradient-to-br from-gray-50 via-white to-gray-50 px-4 my-8 py-8 rounded-2xl max-w-[95%] mx-auto  border border-gray-100">
             <div className="pb-8 text-center">
                 <h2 className="sm:text-[35px] text-[25px] font-bold text-[#213554] mb-3">
-                    Inspiration for Creative Packaging
+                    Easy to Design & Professional Results
                 </h2>
-                <p className="text-gray-600 text-sm sm:text-base mb-4 max-w-2xl mx-auto">
-                    Explore our gallery of stunning packaging designs that inspire creativity and innovation
+                <p className="text-gray-600 text-sm sm:text-base mb-4  max-w-6xl mx-auto">
+                   Start creating your custom boxes effortlessly with our extensive library, featuring fully customizable layouts for promotional, mailer, and dispaly boxes, plus industry-specific styles for cosmetics, hotels, apparel, and more. Need expert guidance? Our professional designers are to ready to assist-so you can design with Confidence and package your produts in a box that stands out.
                 </p>
-                <Link to={'/contact-us'}>
-                    <Button
-                        label={'Contact Our Design Department'}
-                        className="text-white mx-auto mt-2 bg-[#213554] transition-colors"
-                    />
-                </Link>
+               
             </div>
             
             {/* Gallery Grid */}

@@ -1,17 +1,37 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/autoplay';
-import { Pagination, Autoplay } from 'swiper/modules';
+import React, { useMemo } from 'react';
+import abstractBg from '../../assets/images/abstract-bg.webp';
 import { Icon10, Icon11, Icon12, Icon7, Icon8, Icon9 } from '../../assets';
 
 const CustomPackagingApart = () => {
 
-    const [isMounted, setIsMounted] = useState(false);
+  const printingData = useMemo(() => [
+    {
+      id: 1,
+      icon: Icon7,
+      number: '10+',
+      title: 'Finishes'
+    },
+    {
+      id: 2,
+      icon: Icon8,
+      number: '12+',
+      title: 'Embellishments'
+    },
+    {
+      id: 3,
+      icon: Icon9,
+      number: '6+',
+      title: 'Printing Techniques'
+    },
+    {
+      id: 4,
+      icon: Icon10,
+      number: '6+',
+      title: 'Premium Materials'
+    }
+  ], []);
 
-
-  const data = useMemo(() => [
+  const oldData = useMemo(() => [
     {
       id: 1,
       icon: Icon7,
@@ -49,48 +69,30 @@ const CustomPackagingApart = () => {
       description: 'Enjoy the added perk of free shipping on your orders, making it even more cost-effective for you.'
     }
   ], []);
-
-  const swiperConfig = useMemo(() => ({
-    slidesPerView: 1,
-    spaceBetween: 10,
-    speed: 2000,
-    autoplay: {
-      delay: 0,
-      disableOnInteraction: false,
-    },
-    loop: true,
-    breakpoints: {
-      640: {
-        slidesPerView: 2,
-        spaceBetween: 20,
-      },
-      768: {
-        slidesPerView: 3,
-        spaceBetween: 40,
-      },
-      1024: {
-        slidesPerView: 4,
-        spaceBetween: 50,
-      },
-    },
-    modules: [Pagination, Autoplay],
-  }), []);
  
   return (
-    <div className="sm:max-w-6xl my-6 max-w-[95%] mx-auto">
+    <div className="sm:max-w-8xl my-6 max-w-[95%] mx-auto">
       <div className="text-center pb-3">
         <h2 className="sm:text-[35px] text-[25px] pb-3 font-sans font-[600] text-[#333333]">
-          Your Packaging Partner: What Sets Umbrella Custom Packaging Apart
+          Vivid Custom Printing – Precision, Personalization & Brand Elevation
         </h2>
         
-        <div className='rounded-lg p-3 h-64 flex justify-center items-center bg-[#eff4fe]'>
-          <Swiper {...swiperConfig} className="mySwiper"
-            updateOnWindowResize={false}
-           
-            resizeObserver={false}>
-            {data.map((item) => (
-              <SwiperSlide key={item.id}>
-                <div className="text-center px-2">
+        <p className="sm:text-[18px] text-[16px] text-[#666666] max-w-4xl mx-auto mb-8 px-4">
+          Your packaging is more than just a container—it's a canvas for your brand. Our custom-printed boxes are designed to bring your vision to life with rich colors, precision detailing, and premium finishes, ensuring that every package reflects your brand identity with unmatched clarity and impact.
+        </p>
+        
+       
+
+        <div className="mt-8">
+          
+          
+          <div 
+            className='rounded-lg p-6 sm:p-8 relative bg-cover bg-center bg-no-repeat'
+            style={{ backgroundImage: `url(${abstractBg})` }}
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+              {oldData.map((item) => (
+                <div key={item.id} className="text-center px-2">
                   <img 
                     src={item.icon} 
                     alt={item.title}
@@ -99,16 +101,16 @@ const CustomPackagingApart = () => {
                     className='mx-auto'
                     loading="lazy"
                   />
-                  <strong className="font-[600] text-[#111111] block mt-2">
+                  <strong className="font-[600] text-[#111111] block mt-2 text-[18px]">
                     {item.title}
                   </strong>
-                  <p className="m-0 text-[16px] mt-1">
+                  <p className="m-0 text-[16px] mt-1 text-[#666666]">
                     {item.description}
                   </p>
                 </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>

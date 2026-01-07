@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import hero from "../../assets/images/banner-slider-image.webp";
+import videoSrc from "../../assets/videos/main-banner-video.mp4";
 import Button from "../../components/common/Button";
 import { Link } from "react-router-dom";
 
@@ -37,43 +38,46 @@ const Hero = () => {
   }, [isFirstLoad]);
 
   return (
-    <div
-      className="w-full sm:h-[490px] h-[60vh] relative overflow-hidden"
-      style={{
-        backgroundImage: `url(${hero})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
-      {/* Gradient Overlay - Gallery style - shows automatically on first load only */}
-      <div 
-        className={`absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent transition-opacity duration-500 ${
-          isFirstLoad ? 'opacity-100' : 'opacity-0'
-        }`}
-      ></div>
-      
-      {/* Shine Effect - Gallery style - animates automatically on first load only */}
-      <div 
-        className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 ease-in-out ${
-          showShine ? 'translate-x-full' : '-translate-x-full'
-        }`}
-      ></div>
-
-      <div className="sm:max-w-8xl h-full flex items-center max-w-[95%] mx-auto relative z-10">
-        <div className=" max-w-xl">
-          <div>
-            <h1 className=" text-white">
-              Custom Packaging That Defines Your Brand!
-            </h1>
-            <div className=" py-6">
-              <p className=" text-white font-semibold">
-                Celebrate the New Year with Up To 30% Off!
-              </p>
-              <p className=" text-white">Let's Showcase Your Brand Better</p>
+    <div className="w-full sm:h-[490px] h-[60vh] bg-[#213554] relative overflow-hidden">
+      <div className=" w-full h-full flex flex-col sm:flex-row items-center  mx-auto relative z-10">
+        {/* Left Side - Text Content */}
+        <div className="flex-1 flex items-center sm:pr-8 py-8 sm:py-0">
+          <div className="max-w-2xl mx-auto">
+            <div>
+              <h1 className="text-white">
+                Custom Boxes at Unbeatable Prices with Faster Lead Time
+              </h1>
+              <div className="py-6">
+               
+                <p className="text-white">From free design support to low minimums, fast production and express delivery within 7 days, we make custom boxes easy and affordable</p>
+              </div>
+              <Link to={'/shop'}>
+                <Button className="bg-[#EE334B] font-semibold" label="Browse Our Catalogue" />
+              </Link>
             </div>
-            <Link to={'/shop'}>
-              <Button className="bg-white font-semibold" label="Browse Our Catalogue" />
-            </Link>
+          </div>
+        </div>
+
+        {/* Right Side - Video */}
+        <div className="flex-1 w-full sm:w-auto h-full flex items-center justify-center">
+          <div className="relative w-full h-full max-h-full">
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-cover"
+            >
+              <source src={videoSrc} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            
+            {/* Shine Effect - Gallery style - animates automatically on first load only */}
+            {/* <div 
+              className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 ease-in-out pointer-events-none ${
+                showShine ? 'translate-x-full' : '-translate-x-full'
+              }`}
+            ></div> */}
           </div>
         </div>
       </div>

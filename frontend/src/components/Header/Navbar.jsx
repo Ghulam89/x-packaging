@@ -8,7 +8,9 @@ import axios from "axios";
 import { BaseUrl } from "../../utils/BaseUrl";
 import ProductCard, { ProductSelectionProvider } from "../common/ProductCard";
 import GetQuoteModal from "../common/GetQuoteModal";
-
+import { FiPhone } from "react-icons/fi";
+import portfolio from "../../assets/images/brand/portfolio.png";
+import custom from "../../assets/images/brand/custom-pricing.png";
 const Navbar = () => {
   const [menu, setMenu] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -66,11 +68,11 @@ const Navbar = () => {
   return (
     <div className="">
       <div className="sm:max-w-8xl max-w-[95%] mx-auto">
-        <div className="flex space-x-5 w-full justify-between h-16 items-center">
-          <Link to={'/'}>
-            <img src={logo} alt="" className="sm:w-[200px] w-auto" loading="eager" fetchpriority="high" />
+        <div className="flex  w-full justify-between h-20 items-center">
+          <Link to={'/'} className="">
+            <img src={logo} alt="" className="sm:w-[250px] w-auto" loading="eager" fetchpriority="high" />
           </Link>
-          <div className="w-lg sm:relative search-container" ref={searchRef}>
+          <div className="w-lg sm:relative  search-container" ref={searchRef}>
             <Input
               placeholder={"Search For Products"}
               className={"rounded-full p-2 w-full border bg-white border-gray-300 shadow-xs"}
@@ -110,19 +112,34 @@ const Navbar = () => {
             )}
           </div>
           <div className="sm:block hidden">
-            <div className="flex items-center gap-2.5">
-              <div className="lg:block hidden">
-               <p className=" m-0 text-sm font-normal">Speak with a Packaging Expert</p>
-               <h4 className="  m-0 font-semibold text-center text-[#213554]">(866) 225-2112</h4>    
-            </div> 
-            
-              <div>
-                <Button
-                  className="bg-[#213554] text-white"
-                  label={"Request A Quote"}
-                  onClick={() => setIsQuoteModalOpen(true)}
-                />
-              </div>
+            <div className="flex items-center justify-end gap-2">
+              {/* Our Portfolio Button */}
+              <Link to="/portfolio" className="flex items-start gap-1 bg-white  rounded-lg px-4 py-3   transition-all cursor-pointer">
+                <img src={portfolio} width={40} height={40} alt="" />
+                <div className="flex flex-col">
+                  <span className="font-bold text-[#213554] text-sm leading-tight">Our Portfolio</span>
+                  <span className="text-xs text-gray-500 mt-0.5">Check For Ideas</span>
+                </div>
+              </Link>
+              
+              {/* Custom Pricing Button */}
+              <button
+                onClick={() => setIsQuoteModalOpen(true)}
+                className="flex items-start gap-1 bg-white  rounded-lg px-4 py-3   transition-all cursor-pointer"
+              >
+                <img src={custom} width={40} height={40} alt="" />
+                <div className="flex flex-col">
+                  <span className="font-bold text-[#213554] text-sm leading-tight">Custom</span>
+                  <span className="text-xs text-gray-500 mt-0.5">Pricing</span>
+                </div>
+              </button>
+              
+              {/* Phone Button */}
+              <Button
+                className="bg-[#EE334B] text-white hover:bg-[#EE334B]/90 rounded-lg px-4 py-2"
+                label="888-276-1239"
+                Icons={<FiPhone size={18} />}
+              />
             </div>
           </div>
 

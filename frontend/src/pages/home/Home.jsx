@@ -6,10 +6,16 @@ import axios from 'axios'
 import BottomHero from '../../components/Hero/BottomHero'
 import OfferCard from '../../components/common/OfferCard'
 import google from '../../assets/images/footer/google-reviws-logo.webp';
+import kraftPackagingBanner from '../../assets/images/goScreen.webp';
 import Category from '../../components/Category'
+import CategoryBoxes from '../../components/CategoryBoxes'
 import FeaturesPackaging from '../../components/FeaturesPackaging'
 import PageMetadata from '../../components/common/PageMetadata'
 import SpecialPackaging from '../../components/SpecialPackaging/SpecialPackaging'
+import WeFulfil from '../../components/WeFulfil/WeFulfil'
+import CustomPackagingProduced from '../../components/CustomPackagingProduced'
+import PackagingBanner from '../../components/common/PackagingBanner'
+import CustomPackagingApart from '../../components/CustomPackagingApart/CustomPackagingApart'
 
 // Lazy load below-the-fold components for better FCP
 const FAQ = lazy(() => import('../../components/FAQ/FAQ'))
@@ -164,11 +170,37 @@ export const Home = React.memo(() => {
         {/* Above the fold - load immediately */}
         <Hero />
         <BottomHero />
+        <CategoryBoxes />
+        <OfferCard discount={'Get 30%'} title={'Off Your First Order!'} />
         <Category />
         {/* <ShopByCategories /> */}
-        <OfferCard discount={'Get 30%'} title={'Off Your First Order!'} />
-        <FeaturesPackaging />
-        <OfferCard discount={'Save 30%'} title={'on Bulk Orders'} subTitle={'Need more this year?'} />
+        <Suspense fallback={<LoadingFallback height="h-96" />}>
+          <SpecialPackaging />
+        </Suspense>
+        <div className=' pt-5'>
+          <Suspense fallback={<LoadingFallback height="h-64" />}>
+            <GetPriceQuote />
+          </Suspense>
+        </div>
+        <WeFulfil />
+        <CustomPackagingProduced/>
+        <PackagingBanner title={'Order Kraft Packaging For Sustainable Future.'} bgImage={kraftPackagingBanner}   subTitle={'Go Green with Umbrella Custom Packaging Go For Kraft Packaging'} url={'/shop'} />
+        {/* <FeaturesPackaging /> */}
+        {/* <OfferCard discount={'Save 30%'} title={'on Bulk Orders'} subTitle={'Need more this year?'} /> */}
+        
+        
+      
+        
+        
+        {/* <Blogs /> */}
+
+        <Suspense fallback={<LoadingFallback height="h-96" />}>
+          <InspirationPackaging />
+        </Suspense>
+<CustomPackagingApart/>
+        {/* <Suspense fallback={<LoadingFallback height="h-96" />}>
+          <Capabilities />
+        </Suspense> */}
         <div className="  mt-8  sm:max-w-8xl bg-[#F6F6F6] p-8 flex sm:flex-row flex-col gap-5 justify-between items-center rounded-xl max-w-[95%] mx-auto">
           <div>
             <img src={google} alt='' loading="lazy" />
@@ -184,34 +216,14 @@ export const Home = React.memo(() => {
         <Suspense fallback={<LoadingFallback height="h-96" />}>
           <Testimonials />
         </Suspense>
-        
+       
+        <Suspense fallback={<LoadingFallback height="h-96" />}>
+          <FAQ />
+        </Suspense>
         <Suspense fallback={<LoadingFallback height="h-96" />}>
           <Blog/>
         </Suspense>
         
-        <div className=' pt-5'>
-          <Suspense fallback={<LoadingFallback height="h-64" />}>
-            <GetPriceQuote />
-          </Suspense>
-        </div>
-        
-        {/* <Blogs /> */}
-
-        <Suspense fallback={<LoadingFallback height="h-96" />}>
-          <InspirationPackaging />
-        </Suspense>
-
-        <Suspense fallback={<LoadingFallback height="h-96" />}>
-          <Capabilities />
-        </Suspense>
-        
-        <Suspense fallback={<LoadingFallback height="h-96" />}>
-          <SpecialPackaging />
-        </Suspense>
-        
-        <Suspense fallback={<LoadingFallback height="h-96" />}>
-          <FAQ />
-        </Suspense>
       </main>
     </>
   )

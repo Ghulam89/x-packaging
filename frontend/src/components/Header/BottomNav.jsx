@@ -8,6 +8,9 @@ import logo from '../../assets/images/brand/logo.png';
 import Button from "../common/Button";
 import axios from "axios";
 import { BaseUrl } from "../../utils/BaseUrl";
+import usa from '../../assets/images/flag/us.svg';
+import uk from '../../assets/images/flag/uk.svg';
+import { canada } from "../../assets";
 
 // Add animations to document head
 if (typeof document !== 'undefined' && !document.getElementById('bottomnav-animations')) {
@@ -181,8 +184,9 @@ const BottomNav = ({ Menu, OpenMenu }) => {
   return (
     <div className="relative shadow-md" onMouseLeave={handleCategoryLeave}>
       {/* Desktop Menu */}
-      <div className="hidden sm:block py-3 bg-gradient-to-r from-white via-gray-50/30 to-white border-b border-gray-100">
-        <ul className="flex gap-6 items-center sm:max-w-8xl max-w-[95%] mx-auto">
+      <div className="hidden sm:block pb-1 pt-3 bg-gradient-to-r from-white via-gray-50/30 to-white border-b border-gray-100">
+        <div className="flex justify-between items-center sm:max-w-8xl max-w-[95%] mx-auto">
+        <ul className="flex gap-6 items-center">
           <Link
             to="/"
             className="flex items-center gap-1 px-3 py-2.5 text-sm font-semibold text-[#213554] hover:text-[#EE334B] transition-all duration-300 rounded-lg hover:bg-[#EE334B]/5 relative group"
@@ -190,25 +194,29 @@ const BottomNav = ({ Menu, OpenMenu }) => {
             <span className="relative z-10">Home</span>
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#EE334B] to-[#213554] group-hover:w-full transition-all duration-300"></span>
           </Link>
-          {displayCategories.map((category, index) => (
-            <div
-              key={index}
-              className="relative"
-              onMouseEnter={() => handleCategoryHover(category)}
-              onMouseLeave={category.menu?.length > 0 ? undefined : handleCategoryLeave}
-            >
-              <Link
-                to={`/category/${category?.slug || category?.category}`}
-                className="flex relative cursor-pointer group items-center gap-1 px-3 py-2.5 text-sm font-semibold text-[#213554] hover:text-[#EE334B] transition-all duration-300 rounded-lg hover:bg-[#EE334B]/5"
+          {displayCategories.map((category, index) => {
+            // Check if category name matches "box by industry"
+            const isBoxByIndustry = category.category?.toLowerCase().includes('box by industry') || category.category?.toLowerCase().includes('box by industry');
+            return (
+              <div
+                key={index}
+                className="relative"
+                onMouseEnter={() => handleCategoryHover(category)}
+                onMouseLeave={category.menu?.length > 0 ? undefined : handleCategoryLeave}
               >
-                <span className="relative z-10">{category.category}</span>
-                {category.menu?.length > 0 && (
-                  <FaAngleDown className="ml-1 group-hover:rotate-180 transition-transform duration-300" size={14} />
-                )}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#EE334B] to-[#213554] group-hover:w-full transition-all duration-300"></span>
-              </Link>
-            </div>
-          ))}
+                <Link
+                  to={`/category/${category?.slug || category?.category}`}
+                  className="flex relative cursor-pointer group items-center gap-1 px-3 py-2.5 text-sm font-semibold text-[#213554] hover:text-[#EE334B] transition-all duration-300 rounded-lg hover:bg-[#EE334B]/5"
+                >
+                  <span className="relative z-10">{isBoxByIndustry ? 'box by industry' : category.category}</span>
+                  {category.menu?.length > 0 && (
+                    <FaAngleDown className="ml-1 group-hover:rotate-180 transition-transform duration-300" size={14} />
+                  )}
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#EE334B] to-[#213554] group-hover:w-full transition-all duration-300"></span>
+                </Link>
+              </div>
+            );
+          })}
           <Link
             to="/about-us"
             className="flex items-center gap-1 px-3 py-2.5 text-sm font-semibold text-[#213554] hover:text-[#EE334B] transition-all duration-300 rounded-lg hover:bg-[#EE334B]/5 relative group"
@@ -217,13 +225,26 @@ const BottomNav = ({ Menu, OpenMenu }) => {
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#EE334B] to-[#213554] group-hover:w-full transition-all duration-300"></span>
           </Link>
           <Link
-            to="#"
+            to="/contact-us"
             className="flex items-center gap-1 px-3 py-2.5 text-sm font-semibold text-[#213554] hover:text-[#EE334B] transition-all duration-300 rounded-lg hover:bg-[#EE334B]/5 relative group"
           >
             <span className="relative z-10">Contact Us</span>
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#EE334B] to-[#213554] group-hover:w-full transition-all duration-300"></span>
           </Link>
         </ul>
+        
+        {/* Global Operations - Right Side */}
+        <div className="flex items-center space-x-2 text-sm">
+          <span className="text-gray-700 font-medium">Global Operations:</span>
+          <div className="flex items-center space-x-1.5">
+            <img src={usa} alt="USA" className="w-9 h-9 object-center" />
+           
+            <img src={uk} alt="UK" className="w-9 h-9 object-center" />
+            <img src={canada} alt="canada" className="w-9 h-14 object-center" />
+           
+          </div>
+        </div>
+        </div>
 
         {/* Dropdown Menu */}
         {hoveredCategory && selectedCategory && (
