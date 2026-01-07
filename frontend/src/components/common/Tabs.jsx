@@ -50,7 +50,7 @@ const Tabs = ({ tabs, defaultTab, className }) => {
 
   return (
     <div>
-      <div className="flex gap-2 bg-gradient-to-r from-gray-50 to-gray-100 p-1.5 rounded-2xl overflow-x-auto whitespace-nowrap shadow-lg border border-gray-200 justify-between">
+      <div className="flex gap-2 bg-gradient-to-r from-gray-50 to-gray-100 p-1.5 rounded-2xl overflow-x-auto whitespace-nowrap  border border-gray-200 justify-between">
         {tabs.map((tab, index) => {
           const isActive = activeTab === tab.title;
           return (
