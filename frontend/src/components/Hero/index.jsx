@@ -45,11 +45,11 @@ const Hero = () => {
           <div className="max-w-2xl mx-auto">
             <div>
               <h1 className="text-white">
-                Custom Boxes at Unbeatable Prices with Faster Lead Time
+              The X Factor Always Delivers!
               </h1>
               <div className="py-6">
                
-                <p className="text-white">From free design support to low minimums, fast production and express delivery within 7 days, we make custom boxes easy and affordable</p>
+                <p className="text-white">Premium Custom Boxes — Priced to Impress, Delivered in Record Time.</p>
               </div>
               <Link to={'/shop'}>
                 <Button className="bg-[#EE334B] font-semibold" label="Browse Our Catalogue" />

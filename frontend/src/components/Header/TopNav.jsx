@@ -14,8 +14,8 @@ import usa from "../../assets/images/flag/us.svg";
 import uk from "../../assets/images/flag/uk.svg";
 const TopNav = () => {
   return (
-    <div className="bg-white border-t-2 border-green-200">
-      <div className="sm:max-w-8xl max-w-[95%] mx-auto">
+    <div className="bg-white border-t-2 border-[#EE354D]">
+      <div className="sm:max-w-8xl max-w-[95%] py-1 mx-auto">
         <div className="flex sm:justify-between justify-center flex-wrap items-center  sm:py-2 py-1.5 border-b border-gray-200 text-sm text-gray-700 gap-4">
           {/* Left Side: Social Media Icons with About US */}
           <div className="flex items-center space-x-2">

@@ -9,6 +9,7 @@ import { BaseUrl } from "../../utils/BaseUrl";
 import ProductCard, { ProductSelectionProvider } from "../common/ProductCard";
 import GetQuoteModal from "../common/GetQuoteModal";
 import { FiPhone } from "react-icons/fi";
+import { FaSearch } from "react-icons/fa";
 import portfolio from "../../assets/images/brand/portfolio.png";
 import custom from "../../assets/images/brand/custom-pricing.png";
 const Navbar = () => {
@@ -67,90 +68,160 @@ const Navbar = () => {
 
   return (
     <div className="">
-      <div className="sm:max-w-8xl max-w-[95%] mx-auto">
-        <div className="flex  w-full justify-between h-20 items-center">
-          <Link to={'/'} className="">
-            <img src={logo} alt="" className="sm:w-[250px] w-auto" loading="eager" fetchpriority="high" />
-          </Link>
-          <div className="w-lg sm:relative  search-container" ref={searchRef}>
-            <Input
-              placeholder={"Search For Products"}
-              className={"rounded-full p-2 w-full border bg-white border-gray-300 shadow-xs"}
-              value={searchQuery}
-              onChange={handleSearch}
-            />
-            {showResults && (
-              <div className="absolute z-50 mt-1 left-0 w-full max-w-2xl bg-white border border-gray-300 rounded-lg shadow-lg max-h-96 overflow-y-auto">
-                {isSearchLoading ? (
-                  <div className="flex justify-center items-center py-4">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#213554]"></div>
-                  </div>
-                ) : searchResults.length > 0 ? (
-                  <ProductSelectionProvider>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-3 p-4">
-                      {searchResults.map((product) => (
-                        <div 
-                          key={product._id}
-                          onClick={handleResultClick}
-                          className="h-full w-full"
-                        >
-                          <ProductCard 
-                            data={product} 
-                            disableSelection={true}
-                            size="compact"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </ProductSelectionProvider>
-                ) : (
-                  <div className="p-4 text-center text-gray-500">
-                    No products found
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-          <div className="sm:block hidden">
-            <div className="flex items-center justify-end gap-2">
-              {/* Our Portfolio Button */}
-              <Link to="/portfolio" className="flex items-start gap-1 bg-white  rounded-lg px-4 py-3   transition-all cursor-pointer">
-                <img src={portfolio} width={40} height={40} alt="" />
-                <div className="flex flex-col">
-                  <span className="font-bold text-[#213554] text-sm leading-tight">Our Portfolio</span>
-                  <span className="text-xs text-gray-500 mt-0.5">Check For Ideas</span>
-                </div>
-              </Link>
-              
-              {/* Custom Pricing Button */}
-              <button
-                onClick={() => setIsQuoteModalOpen(true)}
-                className="flex items-start gap-1 bg-white  rounded-lg px-4 py-3   transition-all cursor-pointer"
-              >
-                <img src={custom} width={40} height={40} alt="" />
-                <div className="flex flex-col">
-                  <span className="font-bold text-[#213554] text-sm leading-tight">Custom</span>
-                  <span className="text-xs text-gray-500 mt-0.5">Pricing</span>
-                </div>
-              </button>
-              
-              {/* Phone Button */}
-              <Button
-                className="bg-[#EE334B] text-white hover:bg-[#EE334B]/90 rounded-lg px-4 py-2"
-                label="888-276-1239"
-                Icons={<FiPhone size={18} />}
+      <div className="sm:max-w-8xl max-w-[95%] mx-auto px-2 sm:px-4 lg:px-6">
+        <div className="flex w-full justify-between h-16 sm:h-20 items-center gap-2 sm:gap-4">
+          {/* Logo and Search Bar Container */}
+          <div className="flex items-center w-full sm:w-5/12 lg:w-6/12 gap-2 sm:gap-3 flex-shrink-0">
+            <Link to={'/'} className="flex-shrink-0">
+              <img 
+                src={logo} 
+                alt="" 
+                className="w-24 sm:w-40 md:w-[200px] lg:w-[250px] h-auto" 
+                loading="eager" 
+                fetchpriority="high" 
               />
+            </Link>
+            {/* Search Bar - Hidden on very small screens, visible from sm */}
+            <div className="hidden sm:flex flex-1 max-w-lg relative search-container" ref={searchRef}>
+              <Input
+                placeholder={"What are you looking for today?"}
+                className={"rounded-full p-2 sm:p-3 w-full border bg-white border-gray-300 shadow-xs pr-8 sm:pr-10 text-xs sm:text-sm"}
+                value={searchQuery}
+                onChange={handleSearch}
+                Icon={<FaSearch className="text-[#EE334B]" size={16} />}
+              />
+              {showResults && (
+                <div className="absolute z-50 mt-12 left-0 w-full sm:max-w-lg md:max-w-2xl bg-white border border-gray-300 rounded-lg shadow-lg max-h-80 sm:max-h-96 overflow-y-auto">
+                  {isSearchLoading ? (
+                    <div className="flex justify-center items-center py-4">
+                      <div className="animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-b-2 border-[#213554]"></div>
+                    </div>
+                  ) : searchResults.length > 0 ? (
+                    <ProductSelectionProvider>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-2 sm:gap-3 p-2 sm:p-4">
+                        {searchResults.map((product) => (
+                          <div 
+                            key={product._id}
+                            onClick={handleResultClick}
+                            className="h-full w-full"
+                          >
+                            <ProductCard 
+                              data={product} 
+                              disableSelection={true}
+                              size="compact"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </ProductSelectionProvider>
+                  ) : (
+                    <div className="p-3 sm:p-4 text-center text-xs sm:text-sm text-gray-500">
+                      No products found
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
 
-          <div className="block sm:hidden cursor-pointer   px-1.5 py-1.5 rounded-sm">
-          
-            <button  onClick={OpenMenu} class="text-right cursor-pointer" aria-label="Mobile Menu Toggle Button"><span class="block h-[3px] w-[32px] bg-[#555555] mb-[4px] ml-auto"></span><span class="block h-[3px] w-[24px] bg-[#555555] mb-[4px] ml-auto"></span><span class="block h-[3px] w-[16px] bg-[#555555] ml-auto"></span></button>
+          {/* Right Side Buttons - Hidden on mobile */}
+          <div className="hidden md:flex items-center justify-end gap-1 lg:gap-2">
+            {/* Our Portfolio Button */}
+            <Link 
+              to="/portfolio" 
+              className="flex items-start gap-1 bg-white rounded-lg px-2 lg:px-4 py-2 lg:py-3 transition-all cursor-pointer hover:shadow-md"
+            >
+              <img src={portfolio} width={32} height={32} className="lg:w-10 lg:h-10 flex-shrink-0" alt="" />
+              <div className="flex flex-col">
+                <span className="font-bold text-[#213554] text-xs lg:text-sm leading-tight">Our Portfolio</span>
+                <span className="text-[10px] lg:text-xs text-gray-500 mt-0.5">Check For Ideas</span>
+              </div>
+            </Link>
             
+            {/* Custom Pricing Button */}
+            <button
+              onClick={() => setIsQuoteModalOpen(true)}
+              className="flex items-start gap-1 bg-white rounded-lg px-2 lg:px-4 py-2 lg:py-3 transition-all cursor-pointer hover:shadow-md"
+            >
+              <img src={custom} width={32} height={32} className="lg:w-10 lg:h-10 flex-shrink-0" alt="" />
+              <div className="flex flex-col">
+                <span className="font-bold text-[#213554] text-xs lg:text-sm leading-tight">Custom</span>
+                <span className="text-[10px] lg:text-xs text-gray-500 mt-0.5">Pricing</span>
+              </div>
+            </button>
+            
+            {/* Phone Button */}
+            <Button
+              className="bg-[#EE334B] text-white hover:bg-[#EE334B]/90 rounded-lg px-3 lg:px-4 py-1.5 lg:py-2 text-xs lg:text-sm"
+              label="888-276-1239"
+              Icons={<FiPhone size={16} className="lg:w-[18px] lg:h-[18px]" />}
+            />
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="flex sm:hidden items-center gap-2">
+            {/* Mobile Search Icon - Show search on mobile */}
+            <div className="relative" ref={searchRef}>
+              <button
+                onClick={() => setShowResults(!showResults)}
+                className="p-2 text-[#EE334B]"
+                aria-label="Search"
+              >
+                <FaSearch size={20} />
+              </button>
+              {showResults && (
+                <div className="absolute z-50 mt-2 right-0 w-screen max-w-[calc(100vw-2rem)] bg-white border border-gray-300 rounded-lg shadow-lg max-h-96 overflow-y-auto">
+                  <div className="p-2">
+                    <Input
+                      placeholder={"What are you looking for today?"}
+                      className={"rounded-full p-2 w-full border bg-white border-gray-300 shadow-xs pr-10 text-sm mb-2"}
+                      value={searchQuery}
+                      onChange={handleSearch}
+                      Icon={<FaSearch className="text-[#EE334B]" size={16} />}
+                    />
+                  </div>
+                  {isSearchLoading ? (
+                    <div className="flex justify-center items-center py-4">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#213554]"></div>
+                    </div>
+                  ) : searchResults.length > 0 ? (
+                    <ProductSelectionProvider>
+                      <div className="grid grid-cols-1 gap-2 p-2">
+                        {searchResults.map((product) => (
+                          <div 
+                            key={product._id}
+                            onClick={handleResultClick}
+                            className="h-full w-full"
+                          >
+                            <ProductCard 
+                              data={product} 
+                              disableSelection={true}
+                              size="compact"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </ProductSelectionProvider>
+                  ) : searchQuery.length >= 2 && (
+                    <div className="p-4 text-center text-sm text-gray-500">
+                      No products found
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+            
+            <button 
+              onClick={OpenMenu} 
+              className="text-right cursor-pointer px-1.5 py-1.5 rounded-sm" 
+              aria-label="Mobile Menu Toggle Button"
+            >
+              <span className="block h-[3px] w-[32px] bg-[#555555] mb-[4px] ml-auto"></span>
+              <span className="block h-[3px] w-[24px] bg-[#555555] mb-[4px] ml-auto"></span>
+              <span className="block h-[3px] w-[16px] bg-[#555555] ml-auto"></span>
+            </button>
           </div>
         </div>
-
-       
       </div>
       <BottomNav Menu={menu} OpenMenu={OpenMenu} />
       
