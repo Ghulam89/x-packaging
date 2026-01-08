@@ -19,6 +19,7 @@ const Navbar = () => {
   const [showResults, setShowResults] = useState(false);
   const [isSearchLoading, setIsSearchLoading] = useState(false);
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const searchRef = useRef(null);
 
   const OpenMenu = () => {
@@ -66,17 +67,39 @@ const Navbar = () => {
     };
   }, []);
 
+  // Handle scroll to detect when navbar becomes static
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setIsScrolled(scrollPosition > 10);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <div className="">
-      <div className="sm:max-w-8xl max-w-[95%] mx-auto px-2 sm:px-4 lg:px-6">
+    <div className={`sticky top-0 z-30 transition-all duration-300 ${
+      isScrolled 
+        ? 'bg-white/90 backdrop-blur-lg backdrop-saturate-150 shadow-md border-b border-gray-200/60' 
+        : 'bg-gradient-to-r from-white via-gray-50/30'
+    }`}
+    style={isScrolled ? {
+      backdropFilter: 'blur(12px) saturate(180%)',
+      WebkitBackdropFilter: 'blur(12px) saturate(180%)',
+    } : {}}
+    >
+      <div className="sm:max-w-8xl max-w-[95%] mx-auto px-2 sm:px-4 lg:px-6 ">
         <div className="flex w-full justify-between h-16 sm:h-20 items-center gap-2 sm:gap-4">
           {/* Logo and Search Bar Container */}
-          <div className="flex items-center w-full sm:w-5/12 lg:w-6/12 gap-2 sm:gap-3 flex-shrink-0">
+          <div className="flex items-center  sm:w-5/12 lg:w-6/12 gap-2 sm:gap-3 flex-shrink-0">
             <Link to={'/'} className="flex-shrink-0">
               <img 
                 src={logo} 
                 alt="" 
-                className="w-24 sm:w-40 md:w-[200px] lg:w-[250px] h-auto" 
+                className="w-[120px] sm:w-56 md:w-[200px] lg:w-[250px] h-auto" 
                 loading="eager" 
                 fetchpriority="high" 
               />

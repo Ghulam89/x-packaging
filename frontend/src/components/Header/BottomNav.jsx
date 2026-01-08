@@ -184,7 +184,7 @@ const BottomNav = ({ Menu, OpenMenu }) => {
   return (
     <div className="relative shadow-md" onMouseLeave={handleCategoryLeave}>
       {/* Desktop Menu */}
-      <div className="hidden sm:block pb-1 pt-1 bg-gradient-to-r from-white via-gray-50/30 to-white border-b border-gray-100">
+      <div className="hidden sm:block pb-1  bg-gradient-to-r from-white via-gray-50/30 to-white border-b border-gray-100">
         <div className="flex justify-between items-center sm:max-w-8xl max-w-[95%] mx-auto">
         <ul className="flex gap-6 items-center">
           <Link
@@ -318,7 +318,7 @@ const BottomNav = ({ Menu, OpenMenu }) => {
 
       {/* Mobile Menu */}
       <div
-        className={`sm:hidden ${Menu ? "block" : "hidden"} bg-black/60 backdrop-blur-sm fixed inset-0 z-40 animate-fadeIn`}
+        className={`sm:hidden ${Menu ? "block" : "hidden"} bg-black/60 backdrop-blur-sm fixed inset-0 z-50 animate-fadeIn`}
         onClick={() => OpenMenu(false)}
       >
         <div 

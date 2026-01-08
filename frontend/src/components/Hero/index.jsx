@@ -38,11 +38,11 @@ const Hero = () => {
   }, [isFirstLoad]);
 
   return (
-    <div className="w-full sm:h-[490px] h-[60vh] bg-[#213554] relative overflow-hidden">
+    <div className="w-full sm:h-[500px] h-[60vh] bg-[#213554] relative overflow-hidden">
       <div className=" w-full h-full flex flex-col sm:flex-row items-center  mx-auto relative z-10">
         {/* Left Side - Text Content */}
         <div className="flex-1 flex items-center sm:pr-8 py-8 sm:py-0">
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-2xl px-3 mx-auto">
             <div>
               <h1 className="text-white">
               The X Factor Always Delivers!
@@ -52,7 +52,7 @@ const Hero = () => {
                 <p className="text-white">Premium Custom Boxes — Priced to Impress, Delivered in Record Time.</p>
               </div>
               <Link to={'/shop'}>
-                <Button className="bg-[#EE334B] font-semibold" label="Browse Our Catalogue" />
+                <Button variant="red" className="font-semibold" label="Browse Our Catalogue" />
               </Link>
             </div>
           </div>

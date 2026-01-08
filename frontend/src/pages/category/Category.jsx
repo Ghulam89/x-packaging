@@ -287,7 +287,7 @@
 
 // export default Category;
 import React, { useState, useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 import { FaAngleRight } from 'react-icons/fa'
 import axios from 'axios'
 import { BaseUrl } from '../../utils/BaseUrl'
@@ -301,26 +301,46 @@ import PageMetadata from '../../components/common/PageMetadata'
 
 const Category = () => {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const [allCategories, setAllCategories] = useState([]);
   const [loadingCategories, setLoadingCategories] = useState(false);
   const [categoryData, setCategoryData] = useState(null);
+  const [categoryProduct, setCategoryProduct] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const FetchCategory = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${BaseUrl}/brands/get?slug=${slug}`);
+      if (!response?.data?.data) {
+        navigate('/404')
+        return
+      }
+      setCategoryData(response?.data?.data);
+
+      const response2 = await axios.get(
+        `${BaseUrl}/products/categoryProducts/${response?.data?.data._id}/products-by-category`
+      );
+      setCategoryProduct(response2?.data?.data?.categories || []);
+    } catch (err) {
+      console.error("Error fetching category:", err);
+      // navigate('/404')
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchCategoryData = async () => {
-      if (slug) {
-        try {
-          // Fetch category/brand data based on slug
-          const response = await axios.get(`${BaseUrl}/brands/get?slug=${slug}`);
-          if (response?.data?.status === 'success' && response?.data?.data) {
-            setCategoryData(response.data.data);
-          }
-        } catch (error) {
-          console.error('Error fetching category data:', error);
-        }
-      }
-    };
+    if (slug) {
+      FetchCategory();
+    }
+  }, [slug]); // Remove categoryData from dependencies to avoid infinite loop
 
-    fetchCategoryData();
+  useEffect(() => {
+    return () => {
+      setCategoryData(null);
+      setCategoryProduct([]);
+    };
   }, [slug]);
 
   useEffect(() => {
@@ -335,15 +355,7 @@ const Category = () => {
         }
       } catch (error) {
         console.error('Error fetching categories:', error);
-        // Try with redis endpoint as fallback
-        try {
-          const response = await axios.get(`${BaseUrl}/redis/category/getAll?page=1&perPage=100`);
-          if (response?.data?.status === 'success' && response?.data?.data) {
-            setAllCategories(response.data.data);
-          }
-        } catch (redisError) {
-          console.error('Error fetching categories from redis:', redisError);
-        }
+        
       } finally {
         setLoadingCategories(false);
       }

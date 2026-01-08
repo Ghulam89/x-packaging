@@ -70,7 +70,7 @@ const CategoryBoxes = () => {
           </div>
 
           {/* Categories Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
             {categories.map((category) => (
               <div
                 key={category._id}
@@ -82,7 +82,7 @@ const CategoryBoxes = () => {
                     <img
                       src={category.image ? `${BaseUrl}/${category.image}` : `${BaseUrl}/images/placeholder.jpg`}
                       alt={category.imageAltText || category.title}
-                      className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-full sm:h-64 h-44 object-cover group-hover:scale-105 transition-transform duration-300"
                       loading="lazy"
                     />
                   </Link>
