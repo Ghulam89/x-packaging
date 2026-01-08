@@ -66,13 +66,17 @@ const ProductCard = ({data, disableSelection = false, size = 'default'}) => {
 
   // Size-based styling
   const isCompact = size === 'compact';
-  const imageHeight = isCompact ? 'h-[120px] sm:h-[140px]' : 'h-[300px]';
-  const padding = isCompact ? 'p-2' : 'p-4';
-  const borderRadius = isCompact ? 'rounded-xl' : 'rounded-3xl';
-  const imageBorderRadius = isCompact ? 'rounded-lg' : 'rounded-2xl';
-  const textSize = isCompact ? 'text-sm pb-2' : 'pb-3';
-  const placeholderHeight = isCompact ? 'h-24 sm:h-28' : 'h-56';
-  const placeholderTextSize = isCompact ? 'text-2xl' : 'text-4xl';
+  const imageHeight = isCompact 
+    ? 'h-[120px] sm:h-[140px]' 
+    : 'aspect-[4/3] sm:aspect-[3/2]';
+  const padding = isCompact ? 'p-2' : 'p-2 sm:p-3 md:p-4';
+  const borderRadius = isCompact ? 'rounded-xl' : 'rounded-2xl sm:rounded-3xl';
+  const imageBorderRadius = isCompact ? 'rounded-lg' : 'rounded-xl sm:rounded-2xl';
+  const textSize = isCompact ? 'text-sm pb-2' : 'text-xs sm:text-sm pb-2 sm:pb-3';
+  const placeholderHeight = isCompact 
+    ? 'h-24 sm:h-28' 
+    : 'aspect-[4/3] sm:aspect-[3/2]';
+  const placeholderTextSize = isCompact ? 'text-2xl' : 'text-3xl sm:text-4xl';
   
   const cardContent = (
     <div className={`text-gray-700 bg-[#F9F9F9] hover:bg-white ${borderRadius} flex font-bold flex-col gap-0.5 items-center transition-all duration-300 border border-gray-200 hover:border-[#EE334B]/20 hover:shadow-lg transform hover:-translate-y-1 h-full group ${isSelected && !disableSelection ? 'ring-2 ring-[#EE334B] shadow-lg' : ''}`}>
