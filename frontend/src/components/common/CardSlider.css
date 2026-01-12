@@ -31,9 +31,10 @@
   @media (max-width: 640px) {
     .scroll-container {
       scroll-padding-left: 1rem;
-      scroll-padding-right: 1rem;
+      scroll-padding-right: 0.5rem;
       height: auto;
-      min-height: 320px;
+      min-height: 280px;
+      gap: 0.75rem;
     }
     
     .scroll-container > * {
@@ -41,10 +42,12 @@
       height: 100%;
       display: flex;
       align-items: stretch;
+      flex-shrink: 0;
     }
     
     .scroll-container > * > * {
       height: 100%;
+      width: 100%;
     }
   }
   

@@ -41,7 +41,7 @@ const Category = () => {
   }, [isIntersecting]);
 
   return (
-    <div ref={elementRef} className=' my-12'>
+    <div ref={elementRef} className=' mt-12'>
       <div className=' sm:max-w-8xl w-[95%] mx-auto'>
         <div className=' mb-5 flex  sm:flex-row  flex-col items-center gap-2.5'>
           <h2 className=' text-left'>Top Packaging Styles</h2>
@@ -56,12 +56,12 @@ const Category = () => {
             <CardSlider
               top={40}
               items={Array(8).fill(null).map((_, index) => (
-                <div key={index} className="w-[365px] flex-shrink-0 px-2">
+                <div key={index} className="w-[85vw] sm:w-[365px] flex-shrink-0 px-2 sm:px-2">
                   <div 
                     className="group text-gray-700 bg-[#F9F9F9] rounded-3xl flex font-bold flex-col gap-0.5 items-center border border-gray-200 animate-pulse"
                   >
                     <div className="p-4 relative overflow-hidden rounded-3xl w-full">
-                      <div className="relative w-full h-[300px] rounded-2xl overflow-hidden bg-gray-200"></div>
+                      <div className="relative w-full h-[200px] sm:h-[300px] rounded-2xl overflow-hidden bg-gray-200"></div>
                     </div>
                     <div className="pb-3 w-3/4">
                       <div className="bg-gray-200 rounded h-4 w-full"></div>
@@ -77,7 +77,7 @@ const Category = () => {
               top={40}
               items={products?.map((item, index) => {
                 return (
-                  <div key={item._id || index} className="w-[365px] flex-shrink-0 px-2">
+                  <div key={item._id || index} className="w-[85vw] sm:w-[365px] flex-shrink-0 px-2 sm:px-2">
                     <ProductCard data={item} disableSelection={true} />
                   </div>
                 );

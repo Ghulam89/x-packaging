@@ -79,10 +79,10 @@ const ProductCard = ({data, disableSelection = false, size = 'default'}) => {
   const placeholderTextSize = isCompact ? 'text-2xl' : 'text-3xl sm:text-4xl';
   
   const cardContent = (
-    <div className={`text-gray-700 bg-[#F9F9F9] hover:bg-white ${borderRadius} flex font-bold flex-col gap-0.5 items-center transition-all duration-300 border border-gray-200 hover:border-[#EE334B]/20 hover:shadow-lg transform hover:-translate-y-1 h-full group ${isSelected && !disableSelection ? 'ring-2 ring-[#EE334B] shadow-lg' : ''}`}>
+    <div className={`text-gray-700 bg-[#F9F9F9] hover:bg-white ${borderRadius} flex font-bold flex-col gap-0.5 items-center transition-all duration-300 border border-gray-200 hover:border-[#EE334B]/20 hover:shadow-lg transform hover:-translate-y-1 h-full w-full group ${isSelected && !disableSelection ? 'ring-2 ring-[#EE334B] shadow-lg' : ''}`}>
       <div className={`${padding} relative overflow-hidden ${borderRadius} w-full`}>
         {data?.images?.[0]?.url ? (
-          <div className={`relative w-full ${imageHeight} ${imageBorderRadius} overflow-hidden`}>
+          <div className={`relative w-full h-[180px] sm:h-[220px] md:h-[300px] ${imageBorderRadius} overflow-hidden`}>
             <img 
               src={`${BaseUrl}/${data?.images?.[0]?.url}`} 
               alt={data?.name || 'Product'} 
@@ -119,14 +119,14 @@ const ProductCard = ({data, disableSelection = false, size = 'default'}) => {
           to={`/${data?.slug}`}
           onMouseEnter={handleMouseEnter}
           onMouseDown={handleMouseDown}
-          className="block h-full"
+          className="block h-full w-full"
         >
           {cardContent}
         </Link>
       ) : (
         // For category pages - with selection functionality
         <div 
-          className={`transition-all duration-300 cursor-pointer h-full ${isSelected ? 'ring-2 ring-[#EE334B] rounded-3xl p-1' : ''}`}
+          className={`transition-all duration-300 cursor-pointer h-full w-full ${isSelected ? 'ring-2 ring-[#EE334B] rounded-3xl p-0.5 sm:p-1' : ''}`}
           onClick={handleProductClick}
         >
           <Link 
@@ -134,7 +134,7 @@ const ProductCard = ({data, disableSelection = false, size = 'default'}) => {
             to={`/${data?.slug}`}
             onMouseEnter={handleMouseEnter}
             onMouseDown={handleMouseDown}
-            className="block h-full"
+            className="block h-full w-full"
             onClick={(e) => {
               // Allow navigation to work normally
               e.stopPropagation();
