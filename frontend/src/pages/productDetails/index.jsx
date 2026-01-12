@@ -570,13 +570,13 @@ const ProductDetails = ({
                 "@type": "ListItem",
                 "position": 2,
                 "name": product?.brandId?.name || "Category",
-                "item": `${BaseUrl}/category/${product?.brandId?.slug || ''}`
+                "item": `${BaseUrl}/${product?.brandId?.slug || ''}`
             },
             {
                 "@type": "ListItem",
                 "position": 3,
                 "name": product?.name || "Product",
-                "item": `${BaseUrl}/sub-category/${slug || ''}`
+                "item": `${BaseUrl}/category/${slug || ''}`
             },
             {
                 "@type": "ListItem",
@@ -654,7 +654,7 @@ const ProductDetails = ({
                                 {product?.categoryId?.title && (
                                     <>
                                         <LiaAngleRightSolid />
-                                        <Link to={`/sub-category/${product.categoryId.slug}`} className='text-[#213554] capitalize'>
+                                        <Link to={`/category/${product.categoryId.slug}`} className='text-[#213554] capitalize'>
                                             {product.categoryId.title}
                                         </Link>
                                     </>
