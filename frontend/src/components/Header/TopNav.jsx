@@ -40,7 +40,7 @@ const TopNav = () => {
             {/* Red Separator */}
             <div className="h-8 w-0.5 bg-[#213554] mx-2"></div>
             {/* About US */}
-            <Link to="/about" className="text-[#213554] font-semibold text-lg sm:text-2xl" style={{ fontFamily: 'cursive', fontStyle: 'italic' }}>
+            <Link to="/about-us" className="text-[#213554] font-semibold text-lg sm:text-2xl" style={{ fontFamily: 'cursive', fontStyle: 'italic' }}>
               About US
             </Link>
           </div>

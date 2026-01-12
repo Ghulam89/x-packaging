@@ -345,13 +345,22 @@ const Category = () => {
 
   useEffect(() => {
     const fetchAllCategories = async () => {
+      // Only fetch if categoryData (brand) is available
+      if (!categoryData?._id) {
+        return;
+      }
+
       setLoadingCategories(true);
       try {
-        // Fetch all categories from API
-        const response = await axios.get(`${BaseUrl}/category/getAll?page=1&perPage=100`);
+        // Fetch categories filtered by brandId
+        const response = await axios.get(`${BaseUrl}/category/getAll?page=1&perPage=100&brandId=${categoryData._id}`);
         
         if (response?.data?.status === 'success' && response?.data?.data) {
-          setAllCategories(response.data.data);
+          // Filter categories by brandId on client side if API doesn't support it
+          const filteredCategories = Array.isArray(response.data.data) 
+            ? response.data.data.filter(category => category.brandId?._id === categoryData._id || category.brandId === categoryData._id)
+            : [];
+          setAllCategories(filteredCategories);
         }
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -362,7 +371,7 @@ const Category = () => {
     };
 
     fetchAllCategories();
-  }, []);
+  }, [categoryData?._id]);
 
   const breadcrumbSchema = {
     "@context": "https://schema.org",
@@ -434,7 +443,7 @@ const Category = () => {
               {allCategories.map((category) => (
                 <Link
                   key={category._id}
-                  to={`/sub-category/${category.slug}`}
+                  to={`/category/${category.slug}`}
                   className="group text-gray-700 bg-[#F9F9F9] hover:bg-white rounded-3xl flex font-bold flex-col gap-0.5 items-center transition-all duration-300 border border-gray-200 hover:border-[#EE334B]/20 hover:shadow-lg transform hover:-translate-y-1"
                 >
                   <div className="p-4 relative overflow-hidden rounded-3xl">
@@ -484,12 +493,14 @@ const Category = () => {
 
    
 
-    {/* Blogs Section */}
-    <Blog/>
+   
 
     <section className=' '>
       <FAQ/>
     </section>
+
+     {/* Blogs Section */}
+     <Blog/>
     
    
     </>

@@ -158,7 +158,7 @@ const Footer = () => {
                 <Link to={'#'} className=' font-semibold'>orders@xcustompackaging.com</Link>
             </li>
             <li>
-                <Link to={'#'} className=' font-semibold'>Contact Us</Link>
+                <Link to={'/contact-us'} className=' font-semibold'>Contact Us</Link>
             </li>
            
         </ul>

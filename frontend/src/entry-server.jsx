@@ -21,13 +21,13 @@ export async function render(url) {
   let CategoryProducts = null;
 
   try {
-    if (baseUrl.startsWith("/category/")) {
+    if (baseUrl.startsWith("/")) {
       // Handle category route
       const slug = baseUrl.split("/")[2];
       const { data } = await axios.get(`${BaseUrl}/brands/get?slug=${slug}`);
       serverData = data?.data;
 
-    } else if (baseUrl.startsWith("/sub-category/")) {
+    } else if (baseUrl.startsWith("/category/")) {
       // Handle sub-category route
       const slug = baseUrl.split("/")[2];
       const { data } = await axios.get(`${BaseUrl}/redis/category/get?slug=${slug}`);
@@ -40,7 +40,7 @@ export async function render(url) {
         CategoryProducts = productData?.data;
       }
 
-    } else if (baseUrl.split("/").length === 2 && baseUrl !== "/") {
+    } else if (baseUrl.split("/product").length === 2 && baseUrl !== "/") {
       // Handle product route
       const slug = baseUrl.split("/")[1];
       const { data } = await axios.get(`${BaseUrl}/products/get?slug=${slug}`);

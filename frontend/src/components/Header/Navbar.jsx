@@ -83,7 +83,7 @@ const Navbar = () => {
   return (
     <div className={`sticky top-0 z-30 transition-all duration-300 ${
       isScrolled 
-        ? 'bg-white/90 backdrop-blur-lg backdrop-saturate-150 shadow-md border-b border-gray-200/60' 
+        ? 'bg-white/90 backdrop-blur-lg backdrop-saturate-150 shadow-md ' 
         : 'bg-gradient-to-r from-white via-gray-50/30'
     }`}
     style={isScrolled ? {

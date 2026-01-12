@@ -116,7 +116,7 @@ const ProductCard = ({data, disableSelection = false, size = 'default'}) => {
         // For related products - no selection, just navigation
         <Link 
           state={{ productSlug: data._id}} 
-          to={`/${data?.slug}`}
+          to={`/product/${data?.slug}`}
           onMouseEnter={handleMouseEnter}
           onMouseDown={handleMouseDown}
           className="block h-full w-full"
@@ -131,7 +131,7 @@ const ProductCard = ({data, disableSelection = false, size = 'default'}) => {
         >
           <Link 
             state={{ productSlug: data._id}} 
-            to={`/${data?.slug}`}
+            to={`/product/${data?.slug}`}
             onMouseEnter={handleMouseEnter}
             onMouseDown={handleMouseDown}
             className="block h-full w-full"

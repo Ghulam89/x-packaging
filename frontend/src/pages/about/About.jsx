@@ -176,10 +176,154 @@
 
 import React from 'react'
 import AboutBanner from '../../components/common/AboutBanner'
+import { Link } from 'react-router-dom';
+import { IoHomeOutline, IoCallOutline, IoMailOutline, IoLocationOutline } from 'react-icons/io5';
+import { LiaAngleRightSolid } from 'react-icons/lia';
 
+// Components
+import Button from '../../components/common/Button';
+import Capabilities from '../../components/Capabilities';
+import SampleKit from '../../components/SampleKit';
+
+// Assets
+// import hero from "../../assets/images/banner-slider-image.webp";
+// import companyLogo from '../../assets/images/about-us/companies.png';
 const About = () => {
   return (
-    <div><AboutBanner/></div>
+    <div> <div className="font-['Quicksand'] selection:bg-[#ee334b] selection:text-white bg-[#fdfeff] text-[#213554]">
+      
+    {/* --- Section 1: Hero Banner --- */}
+    {/* <div
+      className="w-full min-h-[50vh] relative flex items-center overflow-hidden"
+      style={{
+        backgroundImage: `linear-gradient(to right, rgba(33, 53, 84, 0.9), rgba(33, 53, 84, 0.4)), url(${hero})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    > */}
+      <div className="max-w-8xl h-full flex items-center w-full mx-auto px-6 relative z-10">
+        <div className="max-w-2xl">
+          <nav className="flex gap-3 items-center text-white/70 mb-8 bg-white/10 w-fit px-4 py-2 rounded-full backdrop-blur-md border border-white/10">
+            <Link to={'/'} className="hover:text-[#ee334b] transition-colors">
+              <IoHomeOutline size={18} />
+            </Link> 
+            <LiaAngleRightSolid />
+            <p className="text-xs uppercase font-bold tracking-[0.2em]">About Us</p>
+          </nav>
+          <h1 className="text-white text-5xl md:text-7xl font-bold leading-tight">
+            About <span className="text-[#ee334b]">Us</span>
+          </h1>
+          <div className="py-6">
+            <p className="text-white font-semibold text-xl">We give your products the attention they deserve.</p>
+            <p className="text-white/80 text-lg mt-2">Let's Showcase Your Brand Better</p>
+          </div>
+          <Link to={'/shop'}>
+            <Button className="bg-white text-[#213554] font-bold py-3 px-8 rounded-xl hover:bg-gray-100 transition-all" label="Browse Our Catalogue" />
+          </Link>
+        </div>
+      </div>
+    </div>
+
+    {/* --- Section 2: Editorial Story Section --- */}
+    <section className="max-w-8xl mx-auto px-6 py-24 lg:py-32">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+        <div className="lg:col-span-5 relative group order-2 lg:order-1">
+          <div className="absolute -inset-4 bg-slate-100 rounded-[50px] -rotate-2 group-hover:rotate-0 transition-transform duration-500"></div>
+          <div className="relative bg-white p-12 rounded-[40px] shadow-2xl border border-slate-100">
+            {/* <img src={companyLogo} alt="Logo" className="w-full grayscale hover:grayscale-0 transition-all duration-700" /> */}
+          </div>
+        </div>
+        <div className="lg:col-span-7 space-y-8 order-1 lg:order-2">
+          <h2 className="text-[#213554] font-black text-4xl lg:text-6xl leading-[1.1] tracking-tighter">
+            Packaging That Turns <br /> <span className="text-[#ee334b]">Browsers into Buyers</span>
+          </h2>
+          <div className="text-slate-600 space-y-6 text-lg leading-relaxed">
+            <p className="font-bold text-[#213554] text-xl">At X Custom Packaging, we believe packaging is more than a box—it’s your brand’s first physical touchpoint.</p>
+            <p>Since 2017, we’ve scaled from a specialized startup to a global powerhouse trusted by <strong>5,000+ brands</strong>.</p>
+            <div className="relative py-10 px-8 bg-slate-50 rounded-3xl border-l-4 border-[#ee334b]">
+              <p className="italic text-[#213554] text-xl relative z-10 font-medium">"We didn’t grow by just selling boxes. We grew by solving complex structural problems and treating every brand like it’s our own."</p>
+              <p className="font-black text-[#ee334b] mt-4 uppercase tracking-widest text-xs">— M.Junaid Badil, CEO</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* --- Section 3: Professional Capabilities --- */} 
+    <div className="bg-slate-50 py-24 border-y border-slate-100">
+      <Capabilities />
+    </div>
+
+    {/* --- Section 4: Global Stats & Presence (Modernized) --- */}
+    <section className="bg-white py-24 px-6 relative overflow-hidden">
+      {/* Subtle decorative background elements */}
+      <div className="absolute top-0 left-0 w-64 h-64 bg-[#ee334b] opacity-[0.03] rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+      
+      <div className="max-w-8xl mx-auto relative z-10">
+        <div className="grid lg:grid-cols-12 gap-12 items-center mb-20">
+          {/* Stats Cards */}
+          <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="bg-[#213554] p-8 rounded-[2rem] text-white shadow-xl transform hover:-translate-y-2 transition-transform duration-300">
+              <h3 className="text-6xl font-black text-[#ee334b] mb-2 tracking-tighter">5+</h3>
+              <p className="text-slate-300 text-sm font-bold uppercase tracking-widest leading-tight">
+                Global <br /> Headquarters
+              </p>
+            </div>
+            <div className="bg-slate-50 p-8 rounded-[2rem] border border-slate-100 shadow-sm transform hover:-translate-y-2 transition-transform duration-300">
+              <h3 className="text-6xl font-black text-[#213554] mb-2 tracking-tighter">1k+</h3>
+              <p className="text-slate-500 text-sm font-bold uppercase tracking-widest leading-tight">
+                Satisfied <br /> Brand Partners
+              </p>
+            </div>
+          </div>
+
+          {/* Section Header */}
+          <div className="lg:col-span-7 space-y-4">
+            <h2 className="text-[#ee334b] font-black text-xs uppercase tracking-[0.4em]">Our Global Footprint</h2>
+            <h3 className="text-[#213554] text-4xl lg:text-5xl font-black leading-tight tracking-tight">
+              Operating at the speed of <br /> 
+              <span className="text-slate-400">International Commerce.</span>
+            </h3>
+            <p className="text-slate-500 text-lg max-w-xl">
+              Strategic hubs positioned across three continents to ensure 
+              localized service with a global distribution reach.
+            </p>
+          </div>
+        </div>
+
+        {/* Location Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {[
+            { 
+              country: "USA", 
+              address: "9854 National Blvd #1042, Los Angeles, CA 90034",
+              flag: "🇺🇸" 
+            },
+            { 
+              country: "UK", 
+              address: "275 New North Road, Islington, Suite 1946, London",
+              flag: "🇬🇧" 
+            },
+            { 
+              country: "Canada", 
+              address: "7398 Yonge St #6d, Thornhill, ON L4J 8J2",
+              flag: "🇨🇦" 
+            }
+          ].map((loc, idx) => (
+            <div key={idx} className="group p-8 rounded-3xl border border-slate-100 hover:border-[#ee334b]/20 hover:bg-slate-50/50 transition-all duration-300 relative">
+              <div className="text-4xl mb-4 grayscale group-hover:grayscale-0 transition-all">{loc.flag}</div>
+              <h4 className="text-2xl font-black mb-3 group-hover:text-[#ee334b] transition-colors">{loc.country}</h4>
+              <p className="text-slate-500 text-sm leading-relaxed mb-6">{loc.address}</p>
+              <div className="w-10 h-1 bg-slate-200 group-hover:w-full group-hover:bg-[#ee334b] transition-all duration-500"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+  
+  </div>
   )
 }
 

@@ -78,7 +78,7 @@ const CategoryBoxes = () => {
               >
                 {/* Category Image */}
                 <div className="relative w-full rounded-2xl overflow-hidden mb-4 bg-gray-50 group-hover:shadow-lg transition-shadow duration-300">
-                  <Link to={`/sub-category/${category.slug}`}>
+                  <Link to={`/category/${category.slug}`}>
                     <img
                       src={category.image ? `${BaseUrl}/${category.image}` : `${BaseUrl}/images/placeholder.jpg`}
                       alt={category.imageAltText || category.title}

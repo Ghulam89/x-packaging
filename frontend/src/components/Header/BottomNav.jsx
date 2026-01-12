@@ -205,7 +205,7 @@ const BottomNav = ({ Menu, OpenMenu }) => {
                 onMouseLeave={category.menu?.length > 0 ? undefined : handleCategoryLeave}
               >
                 <Link
-                  to={`/category/${category?.slug || category?.category}`}
+                  to={`/${category?.slug || category?.category}`}
                   className="flex relative cursor-pointer group items-center gap-1 px-3 py-2.5 text-sm font-semibold text-[#213554] hover:text-[#EE334B] transition-all duration-300 rounded-lg hover:bg-[#EE334B]/5"
                 >
                   <span className="relative z-10">{isBoxByIndustry ? 'box by industry' : category.category}</span>
@@ -261,7 +261,7 @@ const BottomNav = ({ Menu, OpenMenu }) => {
                   {selectedCategory.map((submenu, index) => (
                     <Link
                       key={index}
-                      to={`/sub-category/${submenu.slug || submenu.title}`}
+                      to={`/category/${submenu.slug || submenu.title}`}
                       className="text-gray-700 flex font-bold flex-col gap-2 items-center transition-all duration-300 group hover:scale-105"
                     >
                       <div className="h-56 w-full bg-gradient-to-br from-gray-50 to-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group-hover:border-[#213554]/30 relative">
@@ -288,7 +288,7 @@ const BottomNav = ({ Menu, OpenMenu }) => {
                   <ul className="flex flex-col ">
                     {selectedCategory?.map((item, index) => (
                       <Link
-                        to={`/sub-category/${item?.slug || item?.title}`}
+                        to={`/category/${item?.slug || item?.title}`}
                         key={index}
                         className="font-semibold flex items-center justify-between py-2 px-3 rounded-lg text-[#213554] hover:bg-[#EE334B]/10 hover:text-[#EE334B] transition-all duration-300 group"
                       >
@@ -299,7 +299,7 @@ const BottomNav = ({ Menu, OpenMenu }) => {
 
                     {hoveredCategory && (
                       <Link 
-                        to={`/category/${hoveredCategory?.slug || hoveredCategory?.category}`}
+                        to={`/${hoveredCategory?.slug || hoveredCategory?.category}`}
                         className="mt-4"
                       >
                         <Button
@@ -371,7 +371,7 @@ const BottomNav = ({ Menu, OpenMenu }) => {
                     {category.menu.map((submenu, subIndex) => (
                       <li key={subIndex}>
                         <Link
-                          to={`/sub-category/${submenu.slug || submenu.title}`}
+                          to={`/category/${submenu.slug || submenu.title}`}
                           className="block px-4 py-2 text-gray-700 hover:text-[#EE334B] hover:bg-[#EE334B]/5 rounded-lg transition-all duration-300 text-sm"
                           onClick={OpenMenu}
                         >

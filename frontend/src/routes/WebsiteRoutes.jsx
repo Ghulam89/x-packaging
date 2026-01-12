@@ -25,6 +25,7 @@ const MyAccount = lazy(() => import("../pages/myAccount/MyAccount"));
 // import ProductDetails from "../pages/productDetails";
 // import ReturnRefunds from "../pages/ReturnRefunds/ReturnRefunds";
 import Reviews from "../pages/reviews";
+import ContactUs from "../pages/contactUs/ContactUs";
 // import ShippingPolicy from "../pages/shippingPolicy/ShippingPolicy";
 // import Shop from "../pages/shop";
 // import SubCategory from "../pages/subCategory/SubCategory";
@@ -91,7 +92,7 @@ export default function useWebsiteRoutes(serverData, CategoryProducts) {
   const routes = useMemo(() => [
     { path: '/', element: <Home key="home" /> },
     { path: '/about-us', element: <About key="about" /> },
-    // { path: '/contact-us', element: <ContactUs key="contact" /> },
+    { path: '/contact-us', element: <ContactUs key="contact" /> },
     { path: '/blogs', element: <Blogs key="blogs" /> },
     // { path: '/thank-you-page', element: <SuccessPage key="success" /> },
     { path: '/shop', element: <Shop key="shop" /> },
@@ -110,12 +111,12 @@ export default function useWebsiteRoutes(serverData, CategoryProducts) {
     // { path: '/portfolio', element: <Portfolio key="portfolio" /> },
     // { path: '/404', element: <NotFound key="not-found" /> },
     // { path: '/category/:slug', element: <Category key="category" serverData={sharedServer} /> },
-    { path: '/category/:slug', element: <Category key="category" /> },
+    { path: '/:slug', element: <Category key="category" /> },
     { path: '/blog/:slug', element: <SingleBlog key="blog" serverData={sharedServer} /> },
     // { path: '/sub-category/:slug', element: <SubCategory key="subcategory" serverData={sharedServer} CategoryProducts={CategoryProducts} /> },
-    { path: '/sub-category/:slug', element: <SubCategory key="subcategory"/> },
+    { path: '/category/:slug', element: <SubCategory key="subcategory"/> },
     // // { path: '/:slug', element: <MemoProductDetailsWrapper key="product" initialProduct={initialProduct} /> },
-    { path: '/:slug', element: <ProductDetails key="product" /> },
+    { path: '/product/:slug', element: <ProductDetails key="product" /> },
     // { path: '*', element: <NotFound key="catch-all" /> }
   ], [sharedServer, CategoryProducts, initialProduct]);
 
