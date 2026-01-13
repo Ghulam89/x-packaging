@@ -148,11 +148,11 @@ const Navbar = () => {
           </div>
 
           {/* Right Side Buttons - Hidden on mobile */}
-          <div className="hidden md:flex items-center justify-end gap-0.5 lg:gap-1">
+          <div className="hidden md:flex items-center justify-end gap-1 lg:gap-1.5">
             {/* Our Portfolio Button */}
             <Link 
               to="/portfolio" 
-              className="group flex items-start gap-1 bg-white rounded-lg px-2 lg:px-4 py-1 lg:py-2 transition-all cursor-pointer hover:shadow-md border border-transparent hover:border-[#EE334B]"
+              className="group flex items-start gap-1 bg-white rounded-lg px-1 lg:px-3 py-1 lg:py-2 transition-all cursor-pointer hover:shadow-md border border-transparent hover:border-[#EE334B]"
             >
           <div className="w-12 h-12">
           <svg
@@ -264,7 +264,7 @@ const Navbar = () => {
             {/* Custom Pricing Button */}
             <button
               onClick={() => setIsQuoteModalOpen(true)}
-              className="group flex items-start gap-1 bg-white rounded-lg px-2 lg:px-4 py-1 lg:py-2 transition-all cursor-pointer hover:shadow-md border border-transparent hover:border-[#EE334B]"
+              className="group flex items-start gap-1 bg-white rounded-lg px-1 lg:px-3 py-1 lg:py-2 transition-all cursor-pointer hover:shadow-md border border-transparent hover:border-[#EE334B]"
             >
                <div className="w-12 h-12">
                <svg
