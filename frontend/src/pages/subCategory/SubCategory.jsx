@@ -969,7 +969,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
       ) : null}
 
       {/* Top Banner Section */}
-      <section className='py-8 sm:py-12' style={{ backgroundColor: categoryData?.bannerBgColor || serverData?.bannerBgColor || '#F5F5DC' }}>
+      <section className='py-8 sm:py-12' style={{ backgroundColor: categoryData?.bannerBgColor || serverData?.bannerBgColor}}>
         <div className="sm:max-w-8xl max-w-[95%] mx-auto">
           <div className='flex sm:flex-row flex-col gap-8 lg:gap-12 items-center'>
             {/* Left Side - Text Content */}

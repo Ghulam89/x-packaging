@@ -20,7 +20,7 @@ const subcategorySchema = new Schema({
   },
   bannerBgColor: {
     type: String,
-    default: "#F5F5DC",
+    default: "",
   },
 
   createdAt: {

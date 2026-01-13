@@ -56,7 +56,6 @@ export const createBrand = catchAsyncError(async (req, res, next) => {
       image: imagePath,
       bannerImage: bannerPath,
       name: req.body.name,
-      bgColor: req.body.bgColor,
       content: req.body.content,
       bannerAltText: req.body.bannerAltText,
       imageAltText: req.body.imageAltText,
@@ -125,7 +124,7 @@ export const getBrandById = async (req, res, next) => {
 
 export const updateBrand = catchAsyncError(async (req, res, next) => {
   const brandId = req.params.id;
-  const { name, bgColor, content, bannerAltText, imageAltText, slug, metaTitle, metaDescription, keywords, robots } = req.body;
+  const { name, content, bannerAltText, imageAltText, slug, metaTitle, metaDescription, keywords, robots } = req.body;
 
   console.log(req.body);
 
@@ -151,7 +150,6 @@ export const updateBrand = catchAsyncError(async (req, res, next) => {
 
   const updateData = {
     name: name || existingBrand.name,
-    bgColor: bgColor,
     content: content,
     bannerAltText: bannerAltText,
     imageAltText: imageAltText,

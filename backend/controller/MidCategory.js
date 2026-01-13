@@ -206,7 +206,7 @@ export const updateCategory = catchAsyncError(async (req, res, next) => {
      imageAltText:data.imageAltText,
       iconAltText:data.iconAltText,
       bannerImageFirstAltText:data.bannerImageFirstAltText,
-      bannerBgColor: data.bannerBgColor || "#F5F5DC",
+      bannerBgColor: data.bannerBgColor,
   };
 
   const newFiles = [];

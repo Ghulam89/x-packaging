@@ -186,21 +186,21 @@ import Capabilities from '../../components/Capabilities';
 import SampleKit from '../../components/SampleKit';
 
 // Assets
-// import hero from "../../assets/images/banner-slider-image.webp";
-// import companyLogo from '../../assets/images/about-us/companies.png';
+import hero from "../../assets/images/banner-slider-image.webp";
+import companyLogo from '../../assets/images/companies.png';
 const About = () => {
   return (
     <div> <div className="font-['Quicksand'] selection:bg-[#ee334b] selection:text-white bg-[#fdfeff] text-[#213554]">
       
     {/* --- Section 1: Hero Banner --- */}
-    {/* <div
+    <div
       className="w-full min-h-[50vh] relative flex items-center overflow-hidden"
       style={{
         backgroundImage: `linear-gradient(to right, rgba(33, 53, 84, 0.9), rgba(33, 53, 84, 0.4)), url(${hero})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
-    > */}
+    >
       <div className="max-w-8xl h-full flex items-center w-full mx-auto px-6 relative z-10">
         <div className="max-w-2xl">
           <nav className="flex gap-3 items-center text-white/70 mb-8 bg-white/10 w-fit px-4 py-2 rounded-full backdrop-blur-md border border-white/10">
@@ -230,7 +230,7 @@ const About = () => {
         <div className="lg:col-span-5 relative group order-2 lg:order-1">
           <div className="absolute -inset-4 bg-slate-100 rounded-[50px] -rotate-2 group-hover:rotate-0 transition-transform duration-500"></div>
           <div className="relative bg-white p-12 rounded-[40px] shadow-2xl border border-slate-100">
-            {/* <img src={companyLogo} alt="Logo" className="w-full grayscale hover:grayscale-0 transition-all duration-700" /> */}
+            <img src={companyLogo} alt="Logo" className="w-full grayscale hover:grayscale-0 transition-all duration-700" />
           </div>
         </div>
         <div className="lg:col-span-7 space-y-8 order-1 lg:order-2">

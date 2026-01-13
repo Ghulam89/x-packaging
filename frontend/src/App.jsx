@@ -29,7 +29,7 @@ function App({ serverData, CategoryProducts }) {
             leftClass="left-8"
           />
           <AnnouncementBanner />
-          <TopNav />
+          {/* <TopNav /> */}
           <Navbar />
           
            {element}

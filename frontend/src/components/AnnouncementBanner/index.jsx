@@ -55,7 +55,7 @@ const AnnouncementBanner = () => {
             }
           }
           .announcement-scroll {
-            animation: scroll-announcement ${animationDuration}s linear infinite;
+            animation: scroll-announcement 10s linear infinite;
             will-change: transform;
           }
           .announcement-scroll:hover {
@@ -72,8 +72,8 @@ const AnnouncementBanner = () => {
         }}
       ></div>
       
-      <div className="bg-[#f7f7f7] relative overflow-hidden w-full z-30">
-        <div className="relative w-full py-1 sm:py-2">
+      <div className="bg-[#213554] relative overflow-hidden w-full z-30">
+        <div className="relative w-full py-1 sm:py-1">
           {/* Sliding Announcement Container */}
           <div className="flex announcement-scroll whitespace-nowrap">
             {duplicatedAnnouncements.map((announcement, index) => (
@@ -91,7 +91,7 @@ const AnnouncementBanner = () => {
                 )}
 
                 {/* Title - Dark Blue (Logo Secondary Color) with underline */}
-                <span className="text-xs  sm:text-sm md:text-base font-bold whitespace-nowrap underline" style={{ color: '#213554' }}>
+                <span className="text-xs  sm:text-sm md:text-base font-bold whitespace-nowrap underline" style={{ color: '#ffffff' }}>
                   {announcement.title}
                 </span>
 

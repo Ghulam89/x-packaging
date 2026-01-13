@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaAngleDown, FaAngleRight, FaBed } from "react-icons/fa";
+import { FaAngleDown, FaAngleRight, FaBed, FaFacebookF, FaInstagram, FaLinkedinIn, FaPinterest, FaYoutube } from "react-icons/fa";
 import { MdOutdoorGrill } from "react-icons/md";
 import { TbToolsKitchen3 } from "react-icons/tb";
 import { Link } from "react-router-dom";
@@ -8,9 +8,13 @@ import logo from '../../assets/images/brand/logo.png';
 import Button from "../common/Button";
 import axios from "axios";
 import { BaseUrl } from "../../utils/BaseUrl";
-import usa from '../../assets/images/flag/us.svg';
+import usa from '../../assets/images/flag/usa.svg';
 import uk from '../../assets/images/flag/uk.svg';
+import australia from '../../assets/images/flag/australia.svg';
+import uae from '../../assets/images/flag/uae.svg';
+import chaina from '../../assets/images/flag/chaina.svg';
 import { canada } from "../../assets";
+import { FaXTwitter } from "react-icons/fa6";
 
 // Add animations to document head
 if (typeof document !== 'undefined' && !document.getElementById('bottomnav-animations')) {
@@ -225,25 +229,56 @@ const BottomNav = ({ Menu, OpenMenu }) => {
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#EE334B] to-[#213554] group-hover:w-full transition-all duration-300"></span>
           </Link>
           <Link
-            to="/blogs"
+            to="/about-us"
             className="flex items-center gap-1 px-3 py-2.5 text-sm font-semibold text-[#213554] hover:text-[#EE334B] transition-all duration-300 rounded-lg hover:bg-[#EE334B]/5 relative group"
           >
-            <span className="relative z-10">Blog</span>
+            <span className="relative z-10">About Us</span>
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#EE334B] to-[#213554] group-hover:w-full transition-all duration-300"></span>
           </Link>
         </ul>
-        
+         <div className=" flex gap-2 items-center">
+          {/* Left Side: Social Media Icons with About US */}
+         <div className="flex items-center space-x-2">
+            <a href="#" className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-[#EE334B] group transition-colors">
+              <FaFacebookF size={14} className="text-gray-600 group-hover:text-white transition-colors" />
+            </a>
+            <a href="#" className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-[#EE334B] group transition-colors">
+              <FaXTwitter size={14} className="text-gray-600 group-hover:text-white transition-colors" />
+            </a>
+            <a href="#" className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-[#EE334B] group transition-colors">
+              <FaInstagram size={14} className="text-gray-600 group-hover:text-white transition-colors" />
+            </a>
+            <a href="#" className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-[#EE334B] group transition-colors">
+              <FaPinterest size={14} className="text-gray-600 group-hover:text-white transition-colors" />
+            </a>
+            <a href="#" className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-[#EE334B] group transition-colors">
+              <FaYoutube size={14} className="text-gray-600 group-hover:text-white transition-colors" />
+            </a>
+            <a href="#" className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-[#EE334B] group transition-colors">
+              <FaLinkedinIn size={14} className="text-gray-600 group-hover:text-white transition-colors" />
+            </a>
+            {/* Red Separator */}
+            <div className="h-8 w-0.5 mx-2"></div>
+            {/* About US */}
+            {/* <Link to="/about-us" className="text-[#213554] font-semibold text-lg sm:text-2xl" style={{ fontFamily: 'cursive', fontStyle: 'italic' }}>
+              About US
+            </Link> */}
+          </div>
         {/* Global Operations - Right Side */}
         <div className="flex items-center space-x-2 text-sm">
           <span className="text-gray-700 font-medium">Local Globally:</span>
-          <div className="flex items-center space-x-1.5">
-            <img src={usa} alt="USA" className="w-9 h-9 object-center" />
+          <div className="flex items-center space-x-0.5">
+            <img src={usa} alt="USA" className="w-7 h-7 object-center" />
            
-            <img src={uk} alt="UK" className="w-9 h-9 object-center" />
-            <img src={canada} alt="canada" className="w-9 h-14 object-center" />
+            <img src={uk} alt="UK" className="w-7 h-7 object-center" />
+            <img src={canada} alt="canada" className="w-7 h-7 object-center" />
+            <img src={australia} alt="canada" className="w-7 h-7 object-center" />
+            <img src={uae} alt="canada" className="w-7 h-7 object-center" />
+            <img src={chaina} alt="canada" className="w-7 h-7 object-center" />
            
           </div>
         </div>
+         </div>
         </div>
 
         {/* Dropdown Menu */}
@@ -256,7 +291,7 @@ const BottomNav = ({ Menu, OpenMenu }) => {
             {/* Invisible bridge area to prevent cursor loss - overlaps with menu */}
             <div className="h-3 w-full absolute top-0 left-0 -mt-3 bg-transparent pointer-events-auto"></div>
             <div className="mx-8 pt-3">
-              <div className="max-w-8xl mx-auto shadow-2xl rounded-2xl bg-gradient-to-br from-white to-gray-50/50 backdrop-blur-sm border border-gray-200 justify-between p-6 flex gap-6 animate-slideDown">
+              <div className="max-w-8xl mx-auto shadow-2xl rounded-2xl bg-white/90 backdrop-blur-lg backdrop-saturate-150 border border-gray-200 justify-between p-6 flex gap-6 animate-slideDown">
                 <div className="w-9/12 grid grid-cols-5 gap-4">
                   {selectedCategory.map((submenu, index) => (
                     <Link

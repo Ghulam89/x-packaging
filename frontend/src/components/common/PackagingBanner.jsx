@@ -9,10 +9,10 @@ function PackagingBanner({
 }) {
   return (
     
-    <div className=' sm:max-w-8xl max-w-[95%] my-2 mt-5 mx-auto rounded-[8px] flex justify-center items-center sm:h-[350px] h-[250px] p-5 bg-[#00000084] bg-cover bg-no-repeat bg-blend-multiply' style={{backgroundImage:`url(${bgImage})`}}>
+    <div className=' sm:max-w-8xl max-w-[95%] my-2 mt-5 mx-auto rounded-[8px] flex justify-center items-center sm:h-[450px] h-[350px] p-5 bg-[#00000084] bg-cover bg-no-repeat bg-blend-multiply' style={{backgroundImage:`url(${bgImage})`}}>
      <div className=' md:max-w-4xl max-w-[100%] mx-auto'>
       <div className='flex flex-col justify-center items-center'>
-     <strong className='text-center sm:text-[14px] text-[13px] text-[#E97900] font-semibold' >{title}</strong>
+     <strong className='text-center sm:text-[14px] text-[13px] md:text-[16px] text-[#E97900] font-semibold' >{title}</strong>
       <label className='md:text-[38px] text-[20px] font-semibold leading-9 pt-2 text-center text-[#fff]' >{subTitle}</label>
       <Link to={url} className="mt-4">
             <Button

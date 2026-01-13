@@ -9,7 +9,7 @@ span{
 }
 
 a{
-@apply     sm:text-sm text-[13px] hover:text-[#EE334B]
+@apply     sm:text-sm text-[13px] hover:text-[#EE334B]  font-medium
 }
 
 h1{
@@ -35,4 +35,9 @@ h6{
 
 p{
   @apply   text-[14px] md:text-[16px] leading-[20px] md:leading-[24px] 
+}
+
+/* SVG hover effect for navbar buttons */
+.group:hover svg .st0 {
+  fill: #EE334B !important;
 }

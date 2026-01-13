@@ -5,7 +5,7 @@ import templateBox3 from "./images/boxes/box3.webp";
 import Hero1 from './images/web-banner.webp';
 import usa from './images/flag/us.svg';
 import uk from './images/flag/uk.svg';
-import canada from './images/flag/canada.svg';
+import canada from './images/flag/canda.svg';
 import logo from './images/umbrella-logo.svg';
 import special1  from "./images/special/special-product1.webp";
 import special2  from "./images/special/special-product2.webp";

@@ -30,10 +30,6 @@ const brandSchema = new Schema({
     type: String,
     require: true,
   },
-  bgColor: {
-    type: String,
-    require: true,
-  },
    metaTitle: { type: String },
   metaDescription: { type: String },
   keywords: { type: String },
