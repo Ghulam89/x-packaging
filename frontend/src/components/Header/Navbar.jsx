@@ -91,7 +91,7 @@ const Navbar = () => {
       WebkitBackdropFilter: 'blur(12px) saturate(180%)',
     } : {}}
     >
-      <div className="sm:max-w-8xl max-w-[95%] mx-auto px-2 sm:px-4 lg:px-6 ">
+      <div className="sm:max-w-8xl max-w-[95%] mx-auto px-2 sm:px-0">
         <div className="flex w-full justify-between h-16 sm:h-20 items-center gap-2 sm:gap-4">
           {/* Logo and Search Bar Container */}
           <div className="flex items-center  sm:w-5/12 lg:w-6/12 gap-2 sm:gap-3 flex-shrink-0">
@@ -152,7 +152,7 @@ const Navbar = () => {
             {/* Our Portfolio Button */}
             <Link 
               to="/portfolio" 
-              className="group flex items-start gap-1 bg-white rounded-lg px-1 lg:px-3 py-1 lg:py-2 transition-all cursor-pointer hover:shadow-md border border-transparent hover:border-[#EE334B]"
+              className="group flex items-start gap-1 bg-white rounded-lg px-1 lg:px-3 py-1 lg:py-2 transition-all cursor-pointer "
             >
           <div className="w-12 h-12">
           <svg
@@ -264,7 +264,7 @@ const Navbar = () => {
             {/* Custom Pricing Button */}
             <button
               onClick={() => setIsQuoteModalOpen(true)}
-              className="group flex items-start gap-1 bg-white rounded-lg px-1 lg:px-3 py-1 lg:py-2 transition-all cursor-pointer hover:shadow-md border border-transparent hover:border-[#EE334B]"
+              className="group flex items-start gap-1 bg-white rounded-lg px-1 lg:px-3 py-1 lg:py-2 transition-all cursor-pointer"
             >
                <div className="w-12 h-12">
                <svg
@@ -375,7 +375,7 @@ const Navbar = () => {
             
             {/* Phone Button */}
             <Button
-              className="bg-[#EE334B] text-white hover:bg-[#EE334B]/90 rounded-lg px-3 lg:px-4 py-1.5 lg:py-2 text-xs lg:text-sm"
+              className="bg-[#EE334B] text-white hover:bg-[#EE334B]/90  rounded-lg px-3 lg:px-4 py-1.5 lg:py-2 text-xs lg:text-sm"
               label="888-276-1239"
               Icons={<FiPhone size={16} className="lg:w-[18px] lg:h-[18px]" />}
             />
