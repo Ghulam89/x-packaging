@@ -88,6 +88,7 @@ const GetPriceQuote = () => {
     <div className="w-full max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
         {/* Left Side - Form */}
+        <div className=" w-10/12 mx-auto">
         <div className="bg-[#F5F5F5] rounded-tr-[30px] sm:rounded-tr-[50px] overflow-hidden">
           {/* Red Header Banner */}
           <div className="bg-[#EE334B] text-white rounded-tr-full py-3 sm:py-4 px-4 sm:px-6 text-center">
@@ -243,7 +244,7 @@ const GetPriceQuote = () => {
                 <FaUser className="text-[#EE334B] text-lg sm:text-xl flex-shrink-0" />
                 <label className="text-xs sm:text-sm font-semibold text-gray-700">Personal Information</label>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 ">
                 <Input
                   name="name"
                   value={formData.name}
@@ -340,6 +341,7 @@ const GetPriceQuote = () => {
               )}
             </div>
           </form>
+        </div>
         </div>
 
         {/* Right Side - Content */}
