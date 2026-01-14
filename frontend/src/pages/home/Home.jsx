@@ -16,6 +16,7 @@ import WeFulfil from '../../components/WeFulfil/WeFulfil'
 import CustomPackagingProduced from '../../components/CustomPackagingProduced'
 import PackagingBanner from '../../components/common/PackagingBanner'
 import CustomPackagingApart from '../../components/CustomPackagingApart/CustomPackagingApart'
+import PersonalTestimonial from '../../components/PersonalTestimnonial/PersonalTestimonial'
 
 // Lazy load below-the-fold components for better FCP
 const FAQ = lazy(() => import('../../components/FAQ/FAQ'))
@@ -219,6 +220,9 @@ export const Home = React.memo(() => {
        
         <Suspense fallback={<LoadingFallback height="h-96" />}>
           <FAQ />
+        </Suspense>
+        <Suspense fallback={<LoadingFallback height="h-96" />}>
+        <PersonalTestimonial/>
         </Suspense>
         <Suspense fallback={<LoadingFallback height="h-96" />}>
           <Blog/>

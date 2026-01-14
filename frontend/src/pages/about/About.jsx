@@ -188,9 +188,10 @@ import SampleKit from '../../components/SampleKit';
 // Assets
 import hero from "../../assets/images/banner-slider-image.webp";
 import companyLogo from '../../assets/images/companies.png';
+
 const About = () => {
   return (
-    <div> <div className="font-['Quicksand'] selection:bg-[#ee334b] selection:text-white bg-[#fdfeff] text-[#213554]">
+    <div className="font-['Quicksand'] selection:bg-[#ee334b] selection:text-white bg-[#fdfeff] text-[#213554]">
       
     {/* --- Section 1: Hero Banner --- */}
     <div
@@ -327,4 +328,4 @@ const About = () => {
   )
 }
 
-export default About
+export default About;
