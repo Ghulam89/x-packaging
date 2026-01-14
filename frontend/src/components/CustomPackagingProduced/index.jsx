@@ -2,6 +2,7 @@ import React from "react";
 import Tabs from "../common/Tabs";
 import SpecialCard from "../common/SpecialCard";
 import ProducedCard from "../common/ProducedCard";
+import background from '../../assets/images/abstract-bg.png';
 const CustomPackagingProduced = () => {
   const customBox = [
     {
@@ -120,17 +121,27 @@ const CustomPackagingProduced = () => {
   }));
 
   return (
-    <div className="sm:max-w-8xl bg-[#F7F7F7] p-3 py-9 mt-10 rounded-xl max-w-[95%] mx-auto">
-      <div className="text-center pb-3">
-          <h2 className="sm:text-[35px] text-[25px]     font-sans   font-[600] text-[#333333] ">
-          Simple Steps to get the Custom Packaging Produced
-        </h2>
-        <p className=" pt-3 text-gray-600">
-          Following are few steps which provide the complete Guide.
-        </p>
-      </div>
-      <div className="">
-        <Tabs defaultTab={"Price Quote"} className={' bg-white'} tabs={data} />
+    <div 
+      className="sm:max-w-8xl  p-3 py-9 mt-10 rounded-xl max-w-[95%] mx-auto relative overflow-hidden"
+      style={{
+        backgroundImage: `url(${background})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      <div className="relative z-10">
+        <div className="text-center pb-3">
+          <h2 className="sm:text-[35px] text-[25px] font-sans font-[600] text-[#333333]">
+            Simple Steps to get the Custom Packaging Produced
+          </h2>
+          <p className="pt-3 text-gray-600">
+            Following are few steps which provide the complete Guide.
+          </p>
+        </div>
+        <div className="">
+          <Tabs defaultTab={"Price Quote"} className={'bg-white'} tabs={data} />
+        </div>
       </div>
     </div>
   );

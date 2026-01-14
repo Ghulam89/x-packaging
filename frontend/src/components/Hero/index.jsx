@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import hero from "../../assets/images/banner-slider-image.webp";
-import videoSrc from "../../assets/videos/main-banner-video.mp4";
+import videoSrc from "../../assets/videos/hero.mov";
 import Button from "../../components/common/Button";
 import { Link } from "react-router-dom";
 
@@ -38,46 +38,46 @@ const Hero = () => {
   }, [isFirstLoad]);
 
   return (
-    <div className="w-full sm:h-[500px] h-[60vh] bg-[#213554] relative overflow-hidden">
-      <div className=" w-full h-full flex flex-col sm:flex-row items-center  mx-auto relative z-10">
-        {/* Left Side - Text Content */}
-        <div className="flex-1 flex items-center sm:pr-8 py-8 sm:py-0">
-          <div className="max-w-2xl px-3 mx-auto">
+    <div className="w-full h-[80vh] relative overflow-hidden">
+      {/* Video Background */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+      >
+        <source src={videoSrc} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      
+      {/* Fallback Background Image */}
+      {/* {!imageLoaded && (
+        <div 
+          className="absolute inset-0 w-full h-full bg-cover bg-center"
+          style={{ backgroundImage: `url(${hero})` }}
+        />
+      )} */}
+
+      {/* Linear Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/40 to-black/30 z-10"></div>
+
+      {/* Text Content Overlay */}
+      <div className="relative w-full h-full flex items-center justify-start z-20">
+        <div className="w-full sm:w-3/5 px-6 sm:px-8 md:px-12 lg:px-16 text-left">
+          {/* Background behind content - Half screen */}
+          <div className="bg-black/30 backdrop-blur-sm rounded-lg p-6 sm:p-8 md:p-10">
             <div>
-              <h1 className="text-white">
+              <h1 className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 uppercase tracking-wide">
               The X Factor Always Delivers!
               </h1>
-              <div className="py-6">
-               
-                <p className="text-white">Premium Custom Boxes — Priced to Impress, Delivered in Record Time.</p>
-              </div>
+              <p className="text-white text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 uppercase tracking-wide">
+              Premium Custom Boxes — Priced to Impress, Delivered in Record Time.
+              </p>
               <Link to={'/shop'}>
                 <Button variant="red" className="font-semibold" label="Browse Our Catalogue" />
               </Link>
             </div>
-          </div>
-        </div>
-
-        {/* Right Side - Video */}
-        <div className="flex-1 w-full sm:w-auto h-full flex items-center justify-center">
-          <div className="relative w-full h-full max-h-full">
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-full h-full object-cover"
-            >
-              <source src={videoSrc} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-            
-            {/* Shine Effect - Gallery style - animates automatically on first load only */}
-            {/* <div 
-              className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 ease-in-out pointer-events-none ${
-                showShine ? 'translate-x-full' : '-translate-x-full'
-              }`}
-            ></div> */}
           </div>
         </div>
       </div>

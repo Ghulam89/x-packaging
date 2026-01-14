@@ -3,6 +3,11 @@ import Button from "../common/Button";
 import { Link } from "react-router-dom";
 import { gallery1, gallery2, gallery3, gallery4, gallery5, gallery6, gallery7, gallery8, gallery9 } from "../../assets";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/effect-coverflow';
+import { Navigation, Autoplay, Mousewheel, Keyboard, EffectCoverflow } from 'swiper/modules';
 
 // Add animations to document head
 if (typeof document !== 'undefined' && !document.getElementById('gallery-modal-animations')) {
@@ -31,8 +36,6 @@ const InspirationPackaging = () => {
     const [selectedImage, setSelectedImage] = useState(null);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isViewerOpen, setIsViewerOpen] = useState(false);
-    const [hoveredImageIndex, setHoveredImageIndex] = useState(0); // Track hovered image
-    const [isFirstLoad, setIsFirstLoad] = useState(true); // Track first load
     const imageDescriptions = [
         "Eco-friendly cosmetic packaging with botanical design",
         "Luxury wine bottle with embossed label",
@@ -118,19 +121,9 @@ const InspirationPackaging = () => {
         });
     }, []);
 
-    // Show hover effect on first image on initial load
-    useEffect(() => {
-        if (isFirstLoad) {
-            const timer = setTimeout(() => {
-                setIsFirstLoad(false);
-            }, 2000); // Show hover effect for 2 seconds on first load
-            return () => clearTimeout(timer);
-        }
-    }, [isFirstLoad]);
-
     return (
-        <div className="sm:max-w-8xl bg-gradient-to-br from-gray-50 via-white to-gray-50 px-4 my-8 py-8 rounded-2xl max-w-[95%] mx-auto  border border-gray-100">
-            <div className="pb-8 text-center">
+        <div className="  mx-auto  ">
+            <div className="py-8 text-center">
                 <h2 className="sm:text-[35px] text-[25px] font-bold text-[#213554] mb-3">
                     Easy to Design & Professional Results
                 </h2>
@@ -140,39 +133,92 @@ const InspirationPackaging = () => {
                
             </div>
             
-            {/* Gallery Grid */}
-            <div className="columns-2 sm:columns-3 md:columns-4 gap-2">
-                {images.map((img, index) => {
-                    const isHovered = hoveredImageIndex === index || (isFirstLoad && index === 0);
-                    return (
-                        <div 
-                            key={index} 
-                            className="mt-2 cursor-pointer break-inside-avoid group"
-                            onClick={() => openImageViewer(index)}
-                            onMouseEnter={() => setHoveredImageIndex(index)}
-                            onMouseLeave={() => setHoveredImageIndex(-1)}
-                        >
-                            <div className="relative overflow-hidden rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
-                                <img
-                                    src={img.src}
-                                    alt={img.alt}
-                                    className={`w-full rounded-xl transition-transform duration-500 ${
-                                        isHovered ? 'scale-110' : 'scale-100'
-                                    }`}
-                                    loading={index === 0 ? "eager" : "lazy"}
-                                />
-                                {/* Hover Overlay Gradient */}
-                                <div className={`absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent transition-opacity duration-300 ${
-                                    isHovered ? 'opacity-100' : 'opacity-0'
-                                }`}></div>
-                                {/* Shine Effect */}
-                                <div className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 ease-in-out ${
-                                    isHovered ? 'translate-x-full' : '-translate-x-full'
-                                }`}></div>
-                            </div>
-                        </div>
-                    );
-                })}
+            {/* Gallery Swiper Coverflow */}
+            <div className='w-full mx-auto py-8'>
+              <style>{`
+                .gallery-center-swiper .swiper-slide {
+                  transition: all 0.4s ease;
+                  opacity: 0.5;
+                  transform: scale(0.8);
+                }
+                .gallery-center-swiper .swiper-slide-active {
+                  opacity: 1;
+                  transform: scale(1.1);
+                  z-index: 10;
+                }
+                .gallery-center-swiper .swiper-slide-prev,
+                .gallery-center-swiper .swiper-slide-next {
+                  opacity: 0.7;
+                  transform: scale(0.9);
+                }
+                .gallery-center-swiper .swiper-button-next,
+                .gallery-center-swiper .swiper-button-prev {
+                  display: none !important;
+                }
+                .gallery-center-swiper .swiper-slide img {
+                  transition: all 0.4s ease;
+                }
+                .gallery-center-swiper .swiper-slide-active img {
+                  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+                }
+                @media (max-width: 640px) {
+                  .gallery-center-swiper .swiper-slide {
+                    transform: scale(0.9);
+                  }
+                  .gallery-center-swiper .swiper-slide-active {
+                    transform: scale(1.05);
+                  }
+                }
+              `}</style>
+              <Swiper
+                modules={[Navigation, Autoplay, Mousewheel, Keyboard, EffectCoverflow]}
+                effect="coverflow"
+                grabCursor={true}
+                centeredSlides={true}
+                slidesPerView="auto"
+                coverflowEffect={{
+                  rotate: 0,
+                  stretch: 0,
+                  depth: 100,
+                  modifier: 2,
+                  slideShadows: true,
+                }}
+                navigation={false}
+                mousewheel={true}
+                keyboard={true}
+                autoplay={{
+                  delay: 3000,
+                  disableOnInteraction: false,
+                }}
+                loop={images.length > 5}
+                spaceBetween={30}
+                className="gallery-center-swiper"
+              >
+                {images.map((img, index) => (
+                  <SwiperSlide 
+                    key={index}
+                    style={{ width: 'auto', maxWidth: '500px' }}
+                  >
+                    <div 
+                      className="block group relative mx-auto overflow-hidden rounded-[15px] cursor-pointer"
+                      onClick={() => openImageViewer(index)}
+                    >
+                      <div className="relative overflow-hidden rounded-[15px] shadow-lg transition-all duration-300">
+                        <img
+                          src={img.src}
+                          alt={img.alt}
+                          className="swiper-lazy rounded-[15px] w-full h-[450px] object-cover transition-transform duration-500 group-hover:scale-110"
+                          loading={index < 3 ? "eager" : "lazy"}
+                        />
+                        {/* Hover Overlay Gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-[15px]"></div>
+                        {/* Shine Effect - Sweeps across on hover */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-[15px]"></div>
+                      </div>
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
             </div>
 
             {/* Image Viewer Modal */}

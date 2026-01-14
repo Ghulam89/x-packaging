@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import abstractBg from '../../assets/images/abstract-bg.webp';
+import abstractBg from '../../assets/images/abstract-bg.png';
 import { Icon10, Icon11, Icon12, Icon7, Icon8, Icon9 } from '../../assets';
 
 const CustomPackagingApart = () => {
@@ -87,7 +87,7 @@ const CustomPackagingApart = () => {
           
           
           <div 
-            className='rounded-lg p-6 sm:p-8 relative bg-cover bg-center bg-no-repeat'
+            className=' p-6 sm:p-8 relative bg-cover bg-center bg-no-repeat'
             style={{ backgroundImage: `url(${abstractBg})` }}
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">

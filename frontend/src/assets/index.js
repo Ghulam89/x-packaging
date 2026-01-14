@@ -54,7 +54,7 @@ import Icon9 from './images/icon/Free-design.png';
 import Icon10 from './images/icon/Quick-turnaround.png';
 import Icon11 from './images/icon/cheapest-price.png';
 import Icon12 from './images/icon/Free-delivery.png';
-import faq from './images/faq.png';
+import faq from './images/faq.webp';
 import IndustryStandard from './images/Industry-standard.webp'
 import review from "./images/review.png";
 import success from '../animations/success.json';

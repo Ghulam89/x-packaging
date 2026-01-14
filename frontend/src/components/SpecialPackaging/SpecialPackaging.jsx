@@ -4,7 +4,7 @@ const SpecialPackaging = () => {
   const customBox = [
     {
       id: 1,
-      title: "Holographic Foiling",
+      title: "Custom Foiling",
       image: special16,
     },
     {
@@ -19,7 +19,7 @@ const SpecialPackaging = () => {
     },
     {
       id: 4,
-      title: "Custom Silver",
+      title: "Custom Ribbons",
       image: special7,
     },
     {
@@ -32,10 +32,20 @@ const SpecialPackaging = () => {
       title: "Debossing",
       image: special4,
     },
+    {
+      id: 7,
+      title: "Metallic Printing",
+      image: special4,
+    },
+    {
+      id: 8,
+      title: "Food Grade Print",
+      image: special4,
+    },
   ];
 
   return (
-    <div className="sm:max-w-7xl p-3 max-w-[95%] mx-auto pb-12">
+    <div className="sm:max-w-8xl p-3 max-w-[95%] mx-auto pb-12 pt-6">
       <div className="text-center mb-10">
         <h2 className="sm:text-[35px] text-[25px] leading-9 font-sans font-[600] text-[#333333]">
           Enhance Your Product Presentation with Our Special Packaging Features
@@ -43,11 +53,11 @@ const SpecialPackaging = () => {
       </div>
       
       {/* Grid Layout - 3 columns on desktop, 2 on tablet, 1 on mobile */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
         {customBox.map((box) => (
           <div
             key={box.id}
-            className="group relative overflow-hidden rounded-2xl bg-gray-50 hover:shadow-lg transition-shadow duration-300"
+            className="group relative overflow-hidden rounded-xl bg-gray-50  transition-shadow duration-300"
           >
             {/* Image */}
             <div className="relative w-full overflow-hidden">
