@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import Button from "../common/Button";
 import { Link } from "react-router-dom";
 import { gallery1, gallery2, gallery3, gallery4, gallery5, gallery6, gallery7, gallery8, gallery9 } from "../../assets";
@@ -36,6 +36,7 @@ const InspirationPackaging = () => {
     const [selectedImage, setSelectedImage] = useState(null);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isViewerOpen, setIsViewerOpen] = useState(false);
+    const swiperRef = useRef(null);
     const imageDescriptions = [
         "Eco-friendly cosmetic packaging with botanical design",
         "Luxury wine bottle with embossed label",
@@ -121,8 +122,30 @@ const InspirationPackaging = () => {
         });
     }, []);
 
+    // Initialize Swiper properly after mount to show right side images
+    useEffect(() => {
+        if (swiperRef.current) {
+            const swiper = swiperRef.current;
+            // Wait for DOM and images to be ready
+            const timer = setTimeout(() => {
+                swiper.update();
+                swiper.updateSlides();
+                swiper.updateSlidesClasses();
+                // Center to middle slide so both sides are visible
+                const middleIndex = Math.floor(images.length / 2);
+                swiper.slideTo(middleIndex, 0);
+                // Start autoplay after initialization
+                if (swiper.autoplay) {
+                    swiper.autoplay.start();
+                }
+            }, 400);
+
+            return () => clearTimeout(timer);
+        }
+    }, [images.length]);
+
     return (
-        <div className="  mx-auto  ">
+        <div className="mx-auto overflow-x-hidden">
             <div className="py-8 text-center">
                 <h2 className="sm:text-[35px] text-[25px] font-bold text-[#213554] mb-3">
                     Easy to Design & Professional Results
@@ -134,12 +157,30 @@ const InspirationPackaging = () => {
             </div>
             
             {/* Gallery Swiper Coverflow */}
-            <div className='w-full mx-auto py-8'>
+            <div className='w-full mx-auto py-8 overflow-hidden'>
               <style>{`
+                .gallery-center-swiper {
+                  overflow: hidden !important;
+                  padding: 20px 0;
+                  width: 100%;
+                  max-width: 100%;
+                }
+                .gallery-center-swiper .swiper {
+                  overflow: visible !important;
+                  width: 100%;
+                  max-width: 100%;
+                }
+                .gallery-center-swiper .swiper-wrapper {
+                  display: flex;
+                  align-items: center;
+                }
                 .gallery-center-swiper .swiper-slide {
                   transition: all 0.4s ease;
-                  opacity: 0.5;
+                  opacity: 0.85;
                   transform: scale(0.8);
+                  width: 450px !important;
+                  min-width: 300px;
+                  max-width: 500px;
                 }
                 .gallery-center-swiper .swiper-slide-active {
                   opacity: 1;
@@ -148,7 +189,7 @@ const InspirationPackaging = () => {
                 }
                 .gallery-center-swiper .swiper-slide-prev,
                 .gallery-center-swiper .swiper-slide-next {
-                  opacity: 0.7;
+                  opacity: 0.95;
                   transform: scale(0.9);
                 }
                 .gallery-center-swiper .swiper-button-next,
@@ -164,6 +205,9 @@ const InspirationPackaging = () => {
                 @media (max-width: 640px) {
                   .gallery-center-swiper .swiper-slide {
                     transform: scale(0.9);
+                    width: 300px !important;
+                    min-width: 250px;
+                    max-width: 350px;
                   }
                   .gallery-center-swiper .swiper-slide-active {
                     transform: scale(1.05);
@@ -189,15 +233,30 @@ const InspirationPackaging = () => {
                 autoplay={{
                   delay: 3000,
                   disableOnInteraction: false,
+                  pauseOnMouseEnter: false,
                 }}
                 loop={images.length > 5}
                 spaceBetween={30}
-                className="gallery-center-swiper"
+                className="gallery-center-swiper mx-auto"
+                initialSlide={Math.floor(images.length / 2)}
+                onSwiper={(swiper) => {
+                  swiperRef.current = swiper;
+                  // Update Swiper after initialization
+                  setTimeout(() => {
+                    swiper.update();
+                    swiper.updateSlides();
+                    swiper.updateSlidesClasses();
+                    // Ensure autoplay starts
+                    if (swiper.autoplay) {
+                      swiper.autoplay.start();
+                    }
+                  }, 200);
+                }}
               >
                 {images.map((img, index) => (
                   <SwiperSlide 
                     key={index}
-                    style={{ width: 'auto', maxWidth: '500px' }}
+                    style={{ width: '400px', maxWidth: '500px', minWidth: '300px' }}
                   >
                     <div 
                       className="block group relative mx-auto overflow-hidden rounded-[15px] cursor-pointer"
@@ -209,6 +268,16 @@ const InspirationPackaging = () => {
                           alt={img.alt}
                           className="swiper-lazy rounded-[15px] w-full h-[450px] object-cover transition-transform duration-500 group-hover:scale-110"
                           loading={index < 3 ? "eager" : "lazy"}
+                          onLoad={() => {
+                            // Update Swiper when image loads to ensure all slides are visible
+                            if (swiperRef.current) {
+                              setTimeout(() => {
+                                swiperRef.current.update();
+                                swiperRef.current.updateSlides();
+                                swiperRef.current.updateSlidesClasses();
+                              }, 50);
+                            }
+                          }}
                         />
                         {/* Hover Overlay Gradient */}
                         <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-[15px]"></div>

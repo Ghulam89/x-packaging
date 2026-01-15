@@ -153,7 +153,7 @@ const Navbar = () => {
             {/* Our Portfolio Button */}
             <Link 
               to="/portfolio" 
-              className="group flex items-center gap-1 bg-white rounded-lg  py-1 lg:py-2 transition-all cursor-pointer "
+              className="group flex items-center gap-1  rounded-lg  py-1 lg:py-2 transition-all cursor-pointer "
             >
           <div className="w-12 h-12">
           <svg
@@ -265,7 +265,7 @@ const Navbar = () => {
             {/* Custom Pricing Button */}
             <button
               onClick={() => setIsQuoteModalOpen(true)}
-              className="group flex items-start gap-1 bg-white rounded-lg px-1 lg:px-3 py-1 lg:py-2 transition-all cursor-pointer"
+              className="group flex items-center gap-1  rounded-lg px-1 lg:px-3 py-1 lg:py-2 transition-all cursor-pointer"
             >
                <div className="w-12 h-12">
                <svg

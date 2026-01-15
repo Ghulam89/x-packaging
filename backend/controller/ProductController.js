@@ -54,8 +54,7 @@ export const createProducts = catchAsyncError(async (req, res, next) => {
     bannerContent,
     brandId,
     categoryId,
-    bannerImageAltText,
-    isFeatured
+    bannerImageAltText
   } = req.body;
 
   if (!req.files || !req.files['images'] || !req.files['bannerImage']) {
@@ -123,7 +122,6 @@ export const createProducts = catchAsyncError(async (req, res, next) => {
       bannerImageAltText,
       brandId,
       categoryId,
-      isFeatured: (isFeatured === 'true' || isFeatured === true || String(isFeatured).toLowerCase().trim() === 'true') ? 'true' : 'false',
     };
 
     const newProduct = await Products.create(productData);
@@ -394,21 +392,7 @@ export const updateProducts = catchAsyncError(async (req, res, next) => {
       bannerImage: undefined,
       existingImages: undefined,
       description: req.body.description,
-      isFeatured: undefined, // Handle separately to ensure string enum
     };
-
-    // Handle isFeatured enum field - always update if provided
-    // Convert any value to string enum ("true" or "false")
-    // Check if isFeatured is present in the request (even if it's "false")
-    if (req.body.isFeatured !== undefined && req.body.isFeatured !== null) {
-      const isFeaturedParam = String(req.body.isFeatured).toLowerCase().trim();
-      if (isFeaturedParam === 'true' || isFeaturedParam === '1') {
-        updateData.isFeatured = 'true';
-      } else {
-        // Default to 'false' for any other value (including "false", empty string, etc.)
-        updateData.isFeatured = 'false';
-      }
-    }
 
     // Handle images - both existing and new
     let updatedImages = [];
@@ -557,18 +541,6 @@ export const getAllProducts = catchAsyncError(async (req, res, next) => {
 
     if (req.query.status) {
       filter.status = req.query.status;
-    }
-
-    // Handle isFeatured filtering
-    // If isFeatured=false, return products where isFeatured is "false"
-    // If isFeatured=true, return products where isFeatured is "true"
-    // If not provided, return all products
-    if (req.query.isFeatured !== undefined) {
-      if (req.query.isFeatured === 'false' || req.query.isFeatured === false) {
-        filter.isFeatured = 'false';
-      } else if (req.query.isFeatured === 'true' || req.query.isFeatured === true) {
-        filter.isFeatured = 'true';
-      }
     }
 
     const products = await Products.find(filter)

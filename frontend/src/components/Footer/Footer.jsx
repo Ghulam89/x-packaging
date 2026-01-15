@@ -22,7 +22,26 @@ const Footer = () => {
         <div className=' sm:w-4/12 w-12/12'>
           <img src={logo} alt='' className=' w-[300px]' loading="eager" fetchpriority="high" />
           <p className=' text-[#213554] pt-1.5'>We offer Packaging Boxes delivered to your door. Secure, professional, and affordable, our custom made packaging boxes are guaranteed to protect and transport your valuable items. Our devoted team is always there to serve you.</p>
+          <div className=' flex pt-3 items-center gap-2'>
+      <Link to={'#'}>
+      <FaFacebookSquare className=' text-gray-400' size={20} />
+      </Link>
+      <Link to={'#'}>
+      <FaXTwitter   className=' text-gray-400' size={20} />
+      </Link>
+      <Link to={'#'}>
+      <RiInstagramLine  className=' text-gray-400' size={20} />
+      </Link>
+      <Link to={'#'}>
+      <FaLinkedin  className=' text-gray-400' size={20} />
+      </Link>
+      <Link to={'#'}>
+      <IoLogoYoutube  className=' text-gray-400' size={25} />
+      </Link>
+    
+   </div>
         </div>
+        
         <div className=' sm:w-7/12 w-full text-center'>
            <h2 className=''>Need Quick Assistance? Get In Touch</h2>
            <Link className=' flex  pt-2 items-center justify-center'>
@@ -205,32 +224,10 @@ const Footer = () => {
     </div>
 
     {/* bottom footer */}
-    <div  className=' py-2 border-gray-200 border-t'>
+    <div  className=' py-1.5 border-gray-200 border-t'>
     <div className=' flex sm:flex-row flex-col gap-2 justify-between items-center'>
 
-<div className=' flex  items-end'>
-   <div>
-   <img  src={logo}  className=' w-[200px]' loading="lazy" />
-   </div>
-   <div className=' flex items-center gap-2'>
-      <Link to={'#'}>
-      <FaFacebookSquare className=' text-gray-400' size={20} />
-      </Link>
-      <Link to={'#'}>
-      <FaXTwitter   className=' text-gray-400' size={20} />
-      </Link>
-      <Link to={'#'}>
-      <RiInstagramLine  className=' text-gray-400' size={20} />
-      </Link>
-      <Link to={'#'}>
-      <FaLinkedin  className=' text-gray-400' size={20} />
-      </Link>
-      <Link to={'#'}>
-      <IoLogoYoutube  className=' text-gray-400' size={25} />
-      </Link>
-    
-   </div>
-</div>
+
 <div>
     <ul className=' flex flex-wrap  sm:justify-start justify-between  items-center  gap-3'>
         <li className=' text-sm'>

@@ -130,123 +130,7 @@ const GetPriceQuote = () => {
 
   return (
     <div className="w-full bg-[#f7f7f7] max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
-      {/* Easy to Design & Professional Results Gallery Section */}
-      <section className='py-8 bg-white mb-8'>
-        <div className="sm:max-w-full max-w-[95%] mx-auto">
-          <div className='text-center mb-6'>
-            <h2 className='text-3xl sm:text-4xl font-bold text-[#213554] mb-2'>
-              Easy to Design & Professional Results
-            </h2>
-            <p className="text-gray-600 text-sm sm:text-base mb-4 max-w-6xl mx-auto">
-              Start creating your custom boxes effortlessly with our extensive library, featuring fully customizable layouts for promotional, mailer, and display boxes, plus industry-specific styles for cosmetics, hotels, apparel, and more. Need expert guidance? Our professional designers are ready to assist—so you can design with confidence and package your products in a box that stands out.
-            </p>
-          </div>
-          
-          <div className='max-w-8xl mx-auto py-8'>
-            <style>{`
-              .gallery-center-swiper .swiper-slide {
-                transition: all 0.4s ease;
-                opacity: 0.5;
-                transform: scale(0.8);
-              }
-              .gallery-center-swiper .swiper-slide-active {
-                opacity: 1;
-                transform: scale(1.1);
-                z-index: 10;
-              }
-              .gallery-center-swiper .swiper-slide-prev,
-              .gallery-center-swiper .swiper-slide-next {
-                opacity: 0.7;
-                transform: scale(0.9);
-              }
-              .gallery-center-swiper .swiper-button-next,
-              .gallery-center-swiper .swiper-button-prev {
-                display: none !important;
-              }
-              .gallery-center-swiper .swiper-slide img {
-                transition: all 0.4s ease;
-              }
-              .gallery-center-swiper .swiper-slide-active img {
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-              }
-              @media (max-width: 640px) {
-                .gallery-center-swiper .swiper-slide {
-                  transform: scale(0.9);
-                }
-                .gallery-center-swiper .swiper-slide-active {
-                  transform: scale(1.05);
-                }
-              }
-            `}</style>
-            {imagesLoaded && (
-              <Swiper
-                modules={[Navigation, Autoplay, Mousewheel, Keyboard, EffectCoverflow]}
-                effect="coverflow"
-                grabCursor={true}
-                centeredSlides={true}
-                slidesPerView="auto"
-                coverflowEffect={{
-                  rotate: 0,
-                  stretch: 0,
-                  depth: 100,
-                  modifier: 2,
-                  slideShadows: true,
-                }}
-                navigation={false}
-                mousewheel={true}
-                keyboard={true}
-                autoplay={{
-                  delay: 3000,
-                  disableOnInteraction: false,
-                }}
-                loop={galleryImages.length > 5}
-                spaceBetween={30}
-                className="gallery-center-swiper"
-                onSwiper={(swiper) => {
-                  // Force update to ensure images render
-                  setTimeout(() => {
-                    swiper.update();
-                  }, 100);
-                }}
-              >
-                {galleryImages.map((img, index) => (
-                  <SwiperSlide 
-                    key={index}
-                    style={{ width: 'auto', maxWidth: '500px' }}
-                  >
-                    <div className="block group relative mx-auto overflow-hidden rounded-[15px]">
-                      <div className="relative overflow-hidden rounded-[15px] shadow-lg transition-all duration-300">
-                        <img
-                          src={img.src}
-                          alt={img.alt}
-                          className="swiper-lazy rounded-[15px] w-full h-[450px] object-cover transition-transform duration-500 group-hover:scale-110"
-                          loading={index < 3 ? "eager" : "lazy"}
-                          onLoad={() => {
-                            // Ensure image is visible after load
-                            const swiper = document.querySelector('.gallery-center-swiper')?.swiper;
-                            if (swiper) {
-                              swiper.update();
-                            }
-                          }}
-                        />
-                        {/* Hover Overlay Gradient */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-[15px]"></div>
-                        {/* Shine Effect - Sweeps across on hover */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-[15px]"></div>
-                      </div>
-                    </div>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            )}
-            {!imagesLoaded && (
-              <div className="flex justify-center items-center h-[450px]">
-                <div className="animate-pulse text-gray-400">Loading gallery...</div>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
+      
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
         {/* Left Side - Form */}
@@ -269,7 +153,7 @@ const GetPriceQuote = () => {
                 value={formData.productName}
                 onChange={handleChange}
                 placeholder="Product Name"
-                className="bg-gray-100 border-gray-300"
+                className="bg-gray-100 rounded-lg border-gray-300"
               />
             </div>
 
@@ -287,7 +171,7 @@ const GetPriceQuote = () => {
                   onChange={handleChange}
                   placeholder="Length"
                   required
-                  className="bg-gray-100 border-gray-300"
+                  className="bg-gray-100 rounded-lg border-gray-300"
                 />
                 <Input
                   name="width"
@@ -296,7 +180,7 @@ const GetPriceQuote = () => {
                   onChange={handleChange}
                   placeholder="Width"
                   required
-                  className="bg-gray-100 border-gray-300"
+                  className="bg-gray-100 rounded-lg border-gray-300"
                 />
                 <Input
                   name="depth"
@@ -305,7 +189,7 @@ const GetPriceQuote = () => {
                   onChange={handleChange}
                   placeholder="Depth"
                   required
-                  className="bg-gray-100 border-gray-300"
+                  className="bg-gray-100 rounded-lg border-gray-300"
                 />
                 <Select
                   name="unit"
@@ -369,7 +253,7 @@ const GetPriceQuote = () => {
                   onChange={handleChange}
                   placeholder="Quantity"
                   required
-                  className="bg-gray-100 border-gray-300"
+                  className="bg-gray-100 rounded-lg border-gray-300"
                 />
               </div>
             </div>
@@ -413,7 +297,7 @@ const GetPriceQuote = () => {
                   onChange={handleChange}
                   placeholder="Full Name*"
                   required
-                  className="bg-gray-100 border-gray-300"
+                  className="bg-gray-100 rounded-lg border-gray-300"
                 />
                 <Input
                   name="email"
@@ -422,7 +306,7 @@ const GetPriceQuote = () => {
                   onChange={handleChange}
                   placeholder="Email ID*"
                   required
-                  className="bg-gray-100 border-gray-300"
+                  className="bg-gray-100 rounded-lg border-gray-300"
                 />
                 <Input
                   name="phoneNumber"
@@ -430,7 +314,7 @@ const GetPriceQuote = () => {
                   onChange={handleChange}
                   placeholder="Contact Number*"
                   required
-                  className="bg-gray-100 border-gray-300"
+                  className="bg-gray-100 rounded-lg border-gray-300"
                 />
               </div>
             </div>

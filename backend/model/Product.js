@@ -69,11 +69,6 @@ const productSchema = new Schema({
     type: String,
     enum: ["pending", "approved"],
     default: "pending",
-  },
-  isFeatured: {
-    type: String,
-    enum: ["true", "false"],
-    default: "false",
   }
 });
 
@@ -83,6 +78,5 @@ productSchema.index({ categoryId: 1, createdAt: -1 });
 productSchema.index({ brandId: 1, createdAt: -1 });
 productSchema.index({ status: 1, createdAt: -1 });
 productSchema.index({ name: 1 });
-productSchema.index({ isFeatured: 1, createdAt: -1 });
 
 export const Products = mongoose.model("Products", productSchema);

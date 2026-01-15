@@ -174,7 +174,7 @@ export const Home = React.memo(() => {
         <CategoryBoxes />
         <OfferCard discount={'Get 30%'} title={'Off Your First Order!'} />
         <Category />
-        {/* <ShopByCategories /> */}
+      
         <Suspense fallback={<LoadingFallback height="h-96" />}>
           <SpecialPackaging />
         </Suspense>

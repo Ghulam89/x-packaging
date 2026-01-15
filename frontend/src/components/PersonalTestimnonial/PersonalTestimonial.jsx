@@ -50,7 +50,7 @@ const TestimonialCard = ({ testimonial }) => {
 
 const PersonalTestimonial = () => {
     return (
-        <section className="bg-slate-50 py-10 overflow-hidden relative">
+        <section className="bg-[#f7f7f7] py-10 overflow-hidden relative">
             <style>
                 {`
           @keyframes scrollLeft {

@@ -121,14 +121,10 @@ const CustomPackagingProduced = () => {
   }));
 
   return (
-    <div 
-      className="sm:max-w-8xl  p-3 py-9 mt-10 rounded-xl max-w-[95%] mx-auto relative overflow-hidden"
-      style={{
-        backgroundImage: `url(${background})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
-      }}
+    <div className=" bg-[#F7F7F7]">
+<div 
+      className="sm:max-w-8xl  p-3 py-9 mt-10 rounded-xl max-w-[95%] mx-auto relative "
+      
     >
       <div className="relative z-10">
         <div className="text-center pb-3">
@@ -144,6 +140,8 @@ const CustomPackagingProduced = () => {
         </div>
       </div>
     </div>
+    </div>
+    
   );
 };
 
