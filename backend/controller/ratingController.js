@@ -154,6 +154,7 @@ export const getGoogleReviews = async (req, res) => {
 
     const response = await fetch(url);
     const data = await response.json();
+console.log(data.result);
 
     if (data.status !== "OK") {
       return res.status(400).json({ message: data.error_message});

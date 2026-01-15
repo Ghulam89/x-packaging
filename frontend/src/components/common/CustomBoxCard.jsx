@@ -8,7 +8,7 @@ const CustomBoxCard = ({ title, subTitle, description, image, buttonUrl }) => {
   const  [IsModalOpen,setIsModalOpen] = useState(false)
   return (
     <div className="bg-[#F7F7F7] rounded-md p-2">
-      <div className="flex  sm:flex-row  flex-col items-center">
+      <div className="flex  w-full sm:flex-row justify-between  flex-col items-center">
         <div className="sm:w-6/12 w-full">
           <div className="sm:p-5 p-3">
                       <h2 className="sm:text-[35px] text-[25px]     font-sans   font-[600] text-[#333333] ">
@@ -26,7 +26,7 @@ const CustomBoxCard = ({ title, subTitle, description, image, buttonUrl }) => {
         <div className="sm:w-6/12 w-full">
           <img
             src={image}
-            className="rounded-lg"
+            className="rounded-lg w-full"
             alt={title}
           />
         </div>

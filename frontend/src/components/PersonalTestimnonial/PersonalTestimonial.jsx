@@ -77,7 +77,9 @@ const PersonalTestimonial = () => {
             </style>
 
             <div className="max-w-8xl mx-auto" >
-                <div className='flex flex-col  justify-between items-center pb-10'>
+              
+              <div  className='  relative bg-cover bg-center bg-no-repeat' style={{ backgroundImage: `url(${abstractBg})` }}>
+              <div className='flex flex-col  justify-between items-center pb-10'>
                     <h2
                         className="text-3xl md:text-5xl font-black text-center mb-10 tracking-tight"
                         style={{ color: '#213554' }}
@@ -87,7 +89,6 @@ const PersonalTestimonial = () => {
                     <Button label={"Write a Review"} />
 
                 </div>
-              <div  className='  relative bg-cover bg-center bg-no-repeat' style={{ backgroundImage: `url(${abstractBg})` }}>
               <div className="flex flex-col gap-8  pause-on-hover testimonial-mask">
                     {/* Row 1: Sliding Left */}
                     <div className="flex overflow-hidden">
