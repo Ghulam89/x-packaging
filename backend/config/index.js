@@ -6,5 +6,7 @@ export const {
     TOKEN_KEY,
     EMAIL,
     BASEURL,
+    PLACE_ID,
+    GOOGLE_API_KEY,
     PASS
 } = process.env;

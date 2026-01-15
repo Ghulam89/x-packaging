@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Accordion from '../common/Accordion';
 import { BaseUrl } from '../../utils/BaseUrl';
-import faqImage from '../../assets/images/faq.png';
+import faqImage from '../../assets/images/faq.webp';
 
 const FAQ = () => {
   const [accordions, setAccordions] = useState([]);
@@ -87,7 +87,7 @@ const FAQ = () => {
           </div>
           <div className="flex sm:flex-row  flex-col justify-between sm:gap-8 gap-6 items-center">
             {/* Left Side - Image */}
-            <div className="sm:w-6/12 w-full flex justify-center items-center relative">
+            <div className="sm:w-5/12 mx-auto w-full flex justify-center items-center relative">
               <div className="relative w-full  pt-3">
                 <img 
                   src={faqImage} 

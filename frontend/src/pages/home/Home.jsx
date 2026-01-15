@@ -1,6 +1,6 @@
 import Hero from '../../components/Hero'
 import { BaseUrl } from '../../utils/BaseUrl'
-import React, { lazy, Suspense, useEffect } from 'react'
+import React, { lazy, Suspense, useEffect, useState } from 'react'
 import { prefetchSubCategory, prefetchProducts } from '../../utils/prefetchUtils'
 import axios from 'axios'
 import BottomHero from '../../components/Hero/BottomHero'
@@ -17,6 +17,8 @@ import CustomPackagingProduced from '../../components/CustomPackagingProduced'
 import PackagingBanner from '../../components/common/PackagingBanner'
 import CustomPackagingApart from '../../components/CustomPackagingApart/CustomPackagingApart'
 import PersonalTestimonial from '../../components/PersonalTestimnonial/PersonalTestimonial'
+import CustomBoxMaterial from '../../components/CustomBoxMaterial/CustomBoxMaterial'
+import Tabs from '../../components/common/Tabs'
 
 // Lazy load below-the-fold components for better FCP
 const FAQ = lazy(() => import('../../components/FAQ/FAQ'))
@@ -156,13 +158,31 @@ export const Home = React.memo(() => {
 
     };
 
+    const [activeTab, setActiveTab] = useState("material");
 
 
   // Simple loading fallback component
   const LoadingFallback = ({ height = 'h-64' }) => (
     <div className={`${height} w-full bg-gray-100 animate-pulse rounded-lg`} />
   )
-
+  const packagingTabs = [
+    {
+      title: "Custom Box Material",
+      content: (
+        <Suspense fallback={<LoadingFallback height="h-96" />}>
+          <CustomBoxMaterial />
+        </Suspense>
+      )
+    },
+    {
+      title: "Special Packaging",
+      content: (
+        <Suspense fallback={<LoadingFallback height="h-96" />}>
+          <SpecialPackaging />
+        </Suspense>
+      )
+    }
+  ];
   return (
     <>
       <PageMetadata {...metadata} />
@@ -174,10 +194,57 @@ export const Home = React.memo(() => {
         <CategoryBoxes />
         <OfferCard discount={'Get 30%'} title={'Off Your First Order!'} />
         <Category />
-        {/* <ShopByCategories /> */}
-        <Suspense fallback={<LoadingFallback height="h-96" />}>
-          <SpecialPackaging />
-        </Suspense>
+      
+        <div className="md:max-w-[95%] max-w-8xl mx-auto mt-12 flex flex-col md:flex-row items-center gap-6">
+  {/* Tab Buttons */}
+  <div className="flex md:flex-col mt-4 flex-row md:w-24 w-full justify-center md:justify-start gap-4 md:gap-6">
+    {[
+      { key: "material", label: "Custom Box Material" },
+      { key: "special", label: "Special Packaging" }
+    ].map((tab) => (
+      <button
+        key={tab.key}
+        onClick={() => setActiveTab(tab.key)}
+        className={`relative flex items-center  justify-center 
+          w-full md:w-16 md:h-64 h-14 px-4 md:px-0 rounded-xl
+          bg-gradient-to-r md:bg-gradient-to-b from-[#EE334B] to-[#EE334B]/90
+          text-white font-semibold text-center 
+          shadow-md hover:shadow-lg transition-all duration-300
+          ${
+            activeTab === tab.key
+              ? "ring-3 ring-[#213554] text-white"
+              : "opacity-80 hover:opacity-100"
+          }
+          `}
+        style={{
+          writingMode: "vertical-rl",
+          textOrientation: "mixed",
+          transform: "rotate(0deg)",
+          fontFamily: "Arial, sans-serif",
+        }}
+      >
+        {tab.label}
+      </button>
+    ))}
+  </div>
+
+  {/* Tab Content */}
+  <div className="flex-1 mt-6 md:mt-0">
+    {activeTab === "material" && (
+      <Suspense fallback={<LoadingFallback height="h-96" />}>
+        <CustomBoxMaterial />
+      </Suspense>
+    )}
+
+    {activeTab === "special" && (
+      <Suspense fallback={<LoadingFallback height="h-96" />}>
+        <SpecialPackaging />
+      </Suspense>
+    )}
+  </div>
+</div>
+
+
         <div className=' pt-5'>
           <Suspense fallback={<LoadingFallback height="h-64" />}>
             <GetPriceQuote />

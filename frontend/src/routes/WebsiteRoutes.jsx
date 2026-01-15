@@ -26,6 +26,7 @@ const MyAccount = lazy(() => import("../pages/myAccount/MyAccount"));
 // import ReturnRefunds from "../pages/ReturnRefunds/ReturnRefunds";
 import Reviews from "../pages/reviews";
 import ContactUs from "../pages/contactUs/ContactUs";
+import TermsAndConditions from "../pages/TermsAndConditions/TermsAndConditions";
 // import ShippingPolicy from "../pages/shippingPolicy/ShippingPolicy";
 // import Shop from "../pages/shop";
 // import SubCategory from "../pages/subCategory/SubCategory";
@@ -99,7 +100,7 @@ export default function useWebsiteRoutes(serverData, CategoryProducts) {
     { path: '/cart', element: <Cart key="cart" /> },
     { path: '/checkout', element: <Checkout key="checkout" /> },
     // { path: '/privacy-policy', element: <PrivacyPolicy key="privacy-policy" /> },
-    // { path: '/terms-and-conditions', element: <TermsAndConditions key="terms-and-conditions" /> },
+    { path: '/terms-and-conditions', element: <TermsAndConditions key="terms-and-conditions" /> },
     // { path: '/shipping-policy', element: <ShippingPolicy key="shipping-policy" /> },
     // { path: '/returns-refunds', element: <ReturnRefunds key="returns-refunds" /> },
     { path: '/reviews', element: <Reviews key="reviews" /> },

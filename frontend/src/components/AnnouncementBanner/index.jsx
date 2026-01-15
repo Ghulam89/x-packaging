@@ -55,7 +55,7 @@ const AnnouncementBanner = () => {
             }
           }
           .announcement-scroll {
-            animation: scroll-announcement 10s linear infinite;
+            animation: scroll-announcement 15s linear infinite;
             will-change: transform;
           }
           .announcement-scroll:hover {

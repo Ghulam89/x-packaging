@@ -12,6 +12,7 @@ import { FiPhone } from "react-icons/fi";
 import { FaSearch } from "react-icons/fa";
 import portfolio from "../../assets/images/brand/portfolio.png";
 import custom from "../../assets/images/brand/custom-pricing.png";
+import { HiOutlineSearch } from "react-icons/hi";
 const Navbar = () => {
   const [menu, setMenu] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -111,7 +112,7 @@ const Navbar = () => {
                 className={"rounded-full p-2 sm:p-3 w-full border bg-white border-gray-300 shadow-xs pr-8 sm:pr-10 text-xs sm:text-sm"}
                 value={searchQuery}
                 onChange={handleSearch}
-                Icon={<FaSearch className="text-[#EE334B]" size={16} />}
+                Icon={<HiOutlineSearch className="text-[#EE334B]" size={23} />}
               />
               {showResults && (
                 <div className="absolute z-50 mt-12 left-0 w-full sm:max-w-lg md:max-w-2xl bg-white border border-gray-300 rounded-lg shadow-lg max-h-80 sm:max-h-96 overflow-y-auto">
@@ -152,7 +153,7 @@ const Navbar = () => {
             {/* Our Portfolio Button */}
             <Link 
               to="/portfolio" 
-              className="group flex items-start gap-1 bg-white rounded-lg px-1 lg:px-3 py-1 lg:py-2 transition-all cursor-pointer "
+              className="group flex items-center gap-1  rounded-lg  py-1 lg:py-2 transition-all cursor-pointer "
             >
           <div className="w-12 h-12">
           <svg
@@ -264,7 +265,7 @@ const Navbar = () => {
             {/* Custom Pricing Button */}
             <button
               onClick={() => setIsQuoteModalOpen(true)}
-              className="group flex items-start gap-1 bg-white rounded-lg px-1 lg:px-3 py-1 lg:py-2 transition-all cursor-pointer"
+              className="group flex items-center gap-1  rounded-lg px-1 lg:px-3 py-1 lg:py-2 transition-all cursor-pointer"
             >
                <div className="w-12 h-12">
                <svg

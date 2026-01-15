@@ -7,6 +7,7 @@ import {
   deleteRating,
   getRatingByProductId,
   getRatingByUserId,
+  getGoogleReviews,
   getOverallRating,
 } from "../controller/ratingController.js";
 const ratingRoute = express.Router();
@@ -19,5 +20,6 @@ ratingRoute.route("/delete/:id").delete(deleteRating);
 ratingRoute.route("/getByProduct/:id").get(getRatingByProductId);
 ratingRoute.route("/getByUser/:id").get(getRatingByUserId);
 ratingRoute.route("/getOverall/:id").get(getOverallRating);
+ratingRoute.route("/getAllGoogleReviews").get(getGoogleReviews);
 
 export default ratingRoute;

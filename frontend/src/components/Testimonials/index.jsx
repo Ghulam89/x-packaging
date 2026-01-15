@@ -14,8 +14,23 @@ const Testimonials = () => {
         const result = await response.json();
         const reviewsData = result?.reviews || result?.data?.reviews || result;
         
+<<<<<<< HEAD
         if (Array.isArray(reviewsData)) {
           setTestimonials(reviewsData);
+=======
+        if (result.status === "success" && result.data) {
+          // Map API data to component structure
+          const mappedTestimonials = result.data.reviews.map((item) => ({
+            id: item._id,
+            name: item.name,
+            location: formatDate(item.date),
+            rating: item.rating,
+            review: item.review,
+            email: item.email,
+            date: item.date,
+          }));
+          setTestimonials(mappedTestimonials);
+>>>>>>> 621b377705e13a47afc6c85b7094d78e6345bb60
         }
       } catch (error) {
         console.error("Error fetching testimonials:", error);

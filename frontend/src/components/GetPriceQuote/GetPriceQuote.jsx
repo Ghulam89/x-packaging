@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Input from "../common/Input";
 import Select from "../common/Select";
 import Textarea from "../common/Textarea";
@@ -8,10 +8,54 @@ import { BaseUrl } from "../../utils/BaseUrl";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FaInfoCircle, FaBox, FaUser, FaRuler, FaLayerGroup, FaImage, FaCheck, FaCheckCircle } from "react-icons/fa";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/effect-coverflow';
+import { Navigation, Autoplay, Mousewheel, Keyboard, EffectCoverflow } from 'swiper/modules';
+import { gallery1, gallery2, gallery3, gallery4, gallery5, gallery6, gallery7, gallery8, gallery9 } from "../../assets";
+
+// Gallery images - moved outside component to avoid dependency issues
+const galleryImages = [
+  { src: gallery1, alt: "Eco-friendly cosmetic packaging with botanical design" },
+  { src: gallery2, alt: "Luxury wine bottle with embossed label" },
+  { src: gallery5, alt: "Minimalist food packaging with clean typography" },
+  { src: gallery9, alt: "Sustainable product box with recycled materials" },
+  { src: gallery6, alt: "Colorful retail packaging with geometric patterns" },
+  { src: gallery7, alt: "Elegent gift box with ribbon closure" },
+  { src: gallery8, alt: "Modern tech product packaging with sleek design" },
+  { src: gallery3, alt: "Vintage-inspired packaging with nostalgic elements" },
+  { src: gallery4, alt: "Creative product container with unique shape" }
+];
 
 const GetPriceQuote = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+
+  // Preload images to ensure they show on first load
+  useEffect(() => {
+    const loadImages = async () => {
+      const imagePromises = galleryImages.map((img) => {
+        return new Promise((resolve, reject) => {
+          const image = new Image();
+          image.onload = resolve;
+          image.onerror = reject;
+          image.src = img.src;
+        });
+      });
+
+      try {
+        await Promise.all(imagePromises);
+        setImagesLoaded(true);
+      } catch (error) {
+        console.error('Error loading images:', error);
+        setImagesLoaded(true); // Still show gallery even if some images fail
+      }
+    };
+
+    loadImages();
+  }, []);
 
   const initialFormState = {
     productName: "",
@@ -85,20 +129,22 @@ const GetPriceQuote = () => {
   };
 
   return (
-    <div className="w-full max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+    <div className="w-full bg-[#f7f7f7] max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+      
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
         {/* Left Side - Form */}
-        <div className=" w-10/12 mx-auto">
-        <div className="bg-[#F5F5F5] rounded-tr-[30px] sm:rounded-tr-[50px] overflow-hidden">
+        <div className=" w-12/12 mx-auto">
+        <div className="bg-[#ffffff] rounded-tr-[30px] sm:rounded-tr-[50px] overflow-hidden">
           {/* Red Header Banner */}
           <div className="bg-[#EE334B] text-white rounded-tr-full py-3 sm:py-4 px-4 sm:px-6 text-center">
             <h3 className="text-base sm:text-lg lg:text-xl font-bold uppercase">GET CUSTOM QUOTE</h3>
           </div>
 
-          <form onSubmit={handleSubmit} className="p-4 sm:p-5 lg:p-6 space-y-4 sm:space-y-5 lg:space-y-6">
+          <form onSubmit={handleSubmit} className="p-4 sm:p-5 lg:p-6 space-y-3 sm:space-y-4 lg:space-y-5">
             {/* Product Information */}
             <div className="space-y-2 sm:space-y-3">
-              <div className="flex items-center gap-2 mb-2">
+              <div className="flex items-center gap-2">
                 <FaBox className="text-[#EE334B] text-lg sm:text-xl flex-shrink-0" />
                 <label className="text-xs sm:text-sm font-semibold text-gray-700">Product Information</label>
               </div>
@@ -107,12 +153,12 @@ const GetPriceQuote = () => {
                 value={formData.productName}
                 onChange={handleChange}
                 placeholder="Product Name"
-                className="bg-gray-100 border-gray-300"
+                className="bg-gray-100 rounded-lg border-gray-300"
               />
             </div>
 
             {/* Select Sizes */}
-            <div className="space-y-2 sm:space-y-3">
+            <div className="space-y-1 sm:space-y-2">
               <div className="flex items-center gap-2 mb-2">
                 <FaRuler className="text-[#EE334B] text-lg sm:text-xl flex-shrink-0" />
                 <label className="text-xs sm:text-sm font-semibold text-gray-700">Select Sizes</label>
@@ -125,7 +171,7 @@ const GetPriceQuote = () => {
                   onChange={handleChange}
                   placeholder="Length"
                   required
-                  className="bg-gray-100 border-gray-300"
+                  className="bg-gray-100 rounded-lg border-gray-300"
                 />
                 <Input
                   name="width"
@@ -134,7 +180,7 @@ const GetPriceQuote = () => {
                   onChange={handleChange}
                   placeholder="Width"
                   required
-                  className="bg-gray-100 border-gray-300"
+                  className="bg-gray-100 rounded-lg border-gray-300"
                 />
                 <Input
                   name="depth"
@@ -143,7 +189,7 @@ const GetPriceQuote = () => {
                   onChange={handleChange}
                   placeholder="Depth"
                   required
-                  className="bg-gray-100 border-gray-300"
+                  className="bg-gray-100 rounded-lg border-gray-300"
                 />
                 <Select
                   name="unit"
@@ -207,23 +253,23 @@ const GetPriceQuote = () => {
                   onChange={handleChange}
                   placeholder="Quantity"
                   required
-                  className="bg-gray-100 border-gray-300"
+                  className="bg-gray-100 rounded-lg border-gray-300"
                 />
               </div>
             </div>
 
             {/* Upload Artwork */}
             <div className="space-y-2 sm:space-y-3">
-              <div className="flex items-center gap-2 mb-2">
+              <div className="flex items-start gap-2 mb-2">
                 <FaImage className="text-[#EE334B] text-lg sm:text-xl flex-shrink-0" />
                 <label className="text-xs sm:text-sm font-semibold text-gray-700">Upload Artwork</label>
               </div>
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-3 sm:p-4 text-center bg-white">
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-2 text-left bg-white">
                 <input
                   type="file"
                   name="image"
                   onChange={handleChange}
-                  className="hidden"
+                  className="hidden text-left"
                   id="file-upload"
                   accept=".png,.pdf,.jpg,.jpeg,.webp"
                 />
@@ -251,7 +297,7 @@ const GetPriceQuote = () => {
                   onChange={handleChange}
                   placeholder="Full Name*"
                   required
-                  className="bg-gray-100 border-gray-300"
+                  className="bg-gray-100 rounded-lg border-gray-300"
                 />
                 <Input
                   name="email"
@@ -260,7 +306,7 @@ const GetPriceQuote = () => {
                   onChange={handleChange}
                   placeholder="Email ID*"
                   required
-                  className="bg-gray-100 border-gray-300"
+                  className="bg-gray-100 rounded-lg border-gray-300"
                 />
                 <Input
                   name="phoneNumber"
@@ -268,7 +314,7 @@ const GetPriceQuote = () => {
                   onChange={handleChange}
                   placeholder="Contact Number*"
                   required
-                  className="bg-gray-100 border-gray-300"
+                  className="bg-gray-100 rounded-lg border-gray-300"
                 />
               </div>
             </div>
@@ -290,7 +336,7 @@ const GetPriceQuote = () => {
             </div>
 
             {/* Submit Button with reCAPTCHA */}
-            <div className="pt-3 sm:pt-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4">
+            <div className=" flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4">
               {/* reCAPTCHA */}
               <div className="bg-gray-100 border border-gray-300 rounded-lg p-2 sm:p-3 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 w-full sm:w-auto">
                 <div className="flex items-center gap-2">
@@ -345,9 +391,9 @@ const GetPriceQuote = () => {
         </div>
 
         {/* Right Side - Content */}
-        <div className="bg-white p-4 sm:p-6 lg:p-8 flex flex-col justify-center relative overflow-hidden">
+        <div className="bg-[#f7f7f7] p-4 sm:p-6 lg:p-8 flex flex-col justify-center relative overflow-hidden">
           {/* Watermark Background - Right Side */}
-          <div className="hidden md:flex absolute -top-32 sm:-top-48 bottom-0 -right-8 sm:-right-16 items-center justify-end pr-4 sm:pr-8 pointer-events-none">
+          <div className="hidden md:flex absolute -top-32 sm:-top-32 bottom-0 -right-8 sm:-right-16 items-center justify-end pr-4 sm:pr-8 pointer-events-none">
             <h6
               className="text-[40px] sm:text-[60px] lg:text-[100px] font-bold text-gray-300 opacity-20 select-none" 
               style={{ 
