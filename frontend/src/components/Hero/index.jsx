@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import hero from "../../assets/images/banner-slider-image.webp";
-import videoSrc from "../../assets/videos/hero.mov";
+import videoSrc from "../../assets/videos/hero.mp4";
 import Button from "../../components/common/Button";
 import { Link } from "react-router-dom";
 
@@ -60,13 +60,14 @@ const Hero = () => {
       )} */}
 
       {/* Linear Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/40 to-black/30 z-10"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/75 to-black/40 z-10"></div>
 
       {/* Text Content Overlay */}
       <div className="relative w-full h-full flex items-center justify-start z-20">
         <div className="w-full sm:w-3/5 px-6 sm:px-8 md:px-12 lg:px-16 text-left">
           {/* Background behind content - Half screen */}
-          <div className="bg-black/30 backdrop-blur-sm rounded-lg p-6 sm:p-8 md:p-10">
+          {/* bg-black/30 backdrop-blur-sm */}
+          <div className=" rounded-lg p-6 sm:p-8 md:p-10">
             <div>
               <h1 className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 uppercase tracking-wide">
               The X Factor Always Delivers!

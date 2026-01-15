@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import Button from "../common/Button";
-
+ 
 const Testimonials = () => {
   const [testimonials, setTestimonials] = useState([]);
   const [loading, setLoading] = useState(true);
-
+ 
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
@@ -13,24 +13,9 @@ const Testimonials = () => {
         const response = await fetch("https://xcustompackaging.com/rating/getAllGoogleReviews");
         const result = await response.json();
         const reviewsData = result?.reviews || result?.data?.reviews || result;
-        
-<<<<<<< HEAD
+       
         if (Array.isArray(reviewsData)) {
           setTestimonials(reviewsData);
-=======
-        if (result.status === "success" && result.data) {
-          // Map API data to component structure
-          const mappedTestimonials = result.data.reviews.map((item) => ({
-            id: item._id,
-            name: item.name,
-            location: formatDate(item.date),
-            rating: item.rating,
-            review: item.review,
-            email: item.email,
-            date: item.date,
-          }));
-          setTestimonials(mappedTestimonials);
->>>>>>> 621b377705e13a47afc6c85b7094d78e6345bb60
         }
       } catch (error) {
         console.error("Error fetching testimonials:", error);
@@ -40,11 +25,11 @@ const Testimonials = () => {
     };
     fetchTestimonials();
   }, []);
-
+ 
   if (loading || testimonials.length === 0) {
     return <div className="py-20 text-center font-['Quicksand'] text-[#213554]">Loading Reviews...</div>;
   }
-
+ 
   return (
     <div className="py-16 bg-[#fdfeff] font-['Quicksand']">
       <section className="overflow-hidden relative">
@@ -68,26 +53,26 @@ const Testimonials = () => {
             }
           `}
         </style>
-
+ 
         <div className="max-w-8xl mx-auto text-center px-6">
-
+ 
           <div className="testimonial-mask pause-on-hover">
             <div className="animate-marquee gap-6">
               {/* We duplicate the array to create the infinite loop effect */}
               {[...testimonials, ...testimonials].map((testimonial, index) => {
                 const names = testimonial.author_name?.trim().split(' ') || [];
                 const initials = `${names[0]?.charAt(0) || ''}${names[names.length - 1]?.charAt(0) || ''}`.toUpperCase();
-
+ 
                 return (
-                  <div 
-                    key={index} 
+                  <div
+                    key={index}
                     className="p-8 bg-white border border-slate-100 w-[350px] md:w-[400px] rounded-[2rem] shadow-sm shrink-0 flex flex-col text-left whitespace-normal hover:shadow-md transition-shadow"
                   >
                     <div className="flex items-center gap-4 mb-6">
-                      <div 
+                      <div
                         className="w-12 h-12 rounded-full bg-[#ee334b] text-white flex items-center justify-center font-bold text-sm shrink-0 shadow-sm"
-                        style={{ 
-                          backgroundImage: testimonial.profile_photo_url ? `url(${testimonial.profile_photo_url})` : 'none', 
+                        style={{
+                          backgroundImage: testimonial.profile_photo_url ? `url(${testimonial.profile_photo_url})` : 'none',
                           backgroundSize: 'cover',
                           backgroundPosition: 'center'
                         }}
@@ -105,11 +90,11 @@ const Testimonials = () => {
                         </div>
                       </div>
                     </div>
-
+ 
                     <p className="text-slate-600 text-base leading-relaxed line-clamp-4 italic mb-6">
                       "{testimonial.text || "Highly recommended service and quality!"}"
                     </p>
-
+ 
                     <div className="mt-auto pt-4 border-t border-slate-50">
                       <p className="text-[#ee334b] text-xs font-bold uppercase tracking-widest">
                         Verified Google Review
@@ -120,7 +105,7 @@ const Testimonials = () => {
               })}
             </div>
           </div>
-
+ 
           <div className="mt-16">
             <Button label={"View More Reviews on Google"}/>
             </div>
@@ -129,5 +114,5 @@ const Testimonials = () => {
     </div>
   );
 };
-
+ 
 export default Testimonials;
