@@ -234,7 +234,7 @@ const Footer = () => {
         © Half Price Packaging 2025
         </li>
         <li>
-          <Link to={''} className=' font-semibold'>
+          <Link to={'/terms-and-conditions'} className=' font-semibold'>
           Terms & Conditions
           </Link>
         </li>

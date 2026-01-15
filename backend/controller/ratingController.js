@@ -139,3 +139,34 @@ export const getOverallRating = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
+
+
+export const getGoogleReviews = async (req, res) => {
+  try {
+    const placeId = process.env.PLACE_ID;
+    const apiKey = process.env.GOOGLE_API_KEY;
+
+    if (!placeId || !apiKey) {
+      return res.status(400).json({ message: "Missing PLACE_ID or GOOGLE_API_KEY" });
+    }
+
+    const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=reviews,rating,user_ratings_total&key=${apiKey}`;
+
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (data.status !== "OK") {
+      return res.status(400).json({ message: data.error_message});
+    }
+
+    res.json({
+      rating: data.result.rating,
+      totalReviews: data.result.user_ratings_total,
+      reviews: data.result.reviews,
+    });
+  } catch (error) {
+    console.error("Google Reviews Error:", error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+

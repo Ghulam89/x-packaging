@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '../common/Button';
-
+import abstractBg from '../../assets/images/stars.webp';
 // Generating 30 sample testimonials
 const testimonialsData = Array.from({ length: 30 }, (_, i) => ({
     id: i + 1,
@@ -50,7 +50,9 @@ const TestimonialCard = ({ testimonial }) => {
 
 const PersonalTestimonial = () => {
     return (
-        <section className="bg-[#f7f7f7] py-10 overflow-hidden relative">
+        <section className="bg-[#f7f7f7] py-10 overflow-hidden  relative bg-cover bg-center bg-no-repeat">
+
+
             <style>
                 {`
           @keyframes scrollLeft {
@@ -74,7 +76,7 @@ const PersonalTestimonial = () => {
         `}
             </style>
 
-            <div className="max-w-8xl mx-auto px-4">
+            <div className="max-w-8xl mx-auto" >
                 <div className='flex flex-col  justify-between items-center pb-10'>
                     <h2
                         className="text-3xl md:text-5xl font-black text-center mb-10 tracking-tight"
@@ -85,8 +87,8 @@ const PersonalTestimonial = () => {
                     <Button label={"Write a Review"} />
 
                 </div>
-
-                <div className="flex flex-col gap-8 pause-on-hover testimonial-mask">
+              <div  className='  relative bg-cover bg-center bg-no-repeat' style={{ backgroundImage: `url(${abstractBg})` }}>
+              <div className="flex flex-col gap-8  pause-on-hover testimonial-mask">
                     {/* Row 1: Sliding Left */}
                     <div className="flex overflow-hidden">
                         <div className="flex gap-6 animate-scroll-left">
@@ -110,6 +112,8 @@ const PersonalTestimonial = () => {
                     <Button label={"Read More"} variant='red' />
 
                 </div>
+              </div>
+                
             </div>
         </section>
     );

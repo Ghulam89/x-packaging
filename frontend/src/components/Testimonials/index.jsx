@@ -48,12 +48,12 @@ const Testimonials = () => {
     const fetchTestimonials = async () => {
       try {
         setLoading(true);
-        const response = await fetch("https://xcustompackaging.com/rating/getAll");
+        const response = await fetch("https://xcustompackaging.com/rating/getAllGoogleReviews");
         const result = await response.json();
         
         if (result.status === "success" && result.data) {
           // Map API data to component structure
-          const mappedTestimonials = result.data.map((item) => ({
+          const mappedTestimonials = result.data.reviews.map((item) => ({
             id: item._id,
             name: item.name,
             location: formatDate(item.date),
