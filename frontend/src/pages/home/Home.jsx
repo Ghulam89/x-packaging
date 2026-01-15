@@ -202,7 +202,9 @@ export const Home = React.memo(() => {
         {/* <Suspense fallback={<LoadingFallback height="h-96" />}>
           <Capabilities />
         </Suspense> */}
-        <div className="  mt-8  sm:max-w-8xl bg-[#F6F6F6] p-8 flex sm:flex-row flex-col gap-5 justify-between items-center rounded-xl max-w-[95%] mx-auto">
+        <div className='flex flex-col gap-8 my-12 bg-[#F6F6F6]'>
+          <div>
+             <div className="  mt-8  sm:max-w-8xl bg-[#fff] p-8 flex sm:flex-row flex-col gap-5 justify-between items-center rounded-xl max-w-[95%] mx-auto">
           <div>
             <img src={google} alt='' loading="lazy" />
           </div>
@@ -213,10 +215,17 @@ export const Home = React.memo(() => {
           </div>
         </div>
         
-        {/* Below the fold - lazy loaded with Suspense */}
+          </div>
+          <div>
+             {/* Below the fold - lazy loaded with Suspense */}
         <Suspense fallback={<LoadingFallback height="h-96" />}>
           <Testimonials />
         </Suspense>
+          </div>
+
+        </div>
+       
+       
        
         <Suspense fallback={<LoadingFallback height="h-96" />}>
           <FAQ />

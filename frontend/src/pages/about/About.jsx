@@ -1,179 +1,4 @@
 
-
-// import React, { useState } from 'react'
-// import { IoPlayCircleOutline } from "react-icons/io5";
-// import CustomPackagingApart from '../../components/CustomPackagingApart/CustomPackagingApart';
-// import { BaseUrl } from '../../utils/BaseUrl';
-// import PageMetadata from '../../components/common/PageMetadata';
-// import { aboutVideo, banner, Icon1, Icon2, Icon3, Icon4, Icon5, Icon6, map } from '../../assets';
-
-// export const About = () => {
-
-//   const [isVideoOpen, setIsVideoOpen] = useState(false);
-
-//   const openVideoPlayer = () => {
-//     setIsVideoOpen(true);
-//     document.body.style.overflow = 'hidden';
-//   };
-
-//   const closeVideoPlayer = () => {
-//     setIsVideoOpen(false);
-//     document.body.style.overflow = 'auto';
-//   };
-//   const metadata = {
-//     title: "About us - Umbrella Custom Packaging",
-//     description: "About us Umbrella Custom Packaging offers customized printing and packaging solutions for all your business needs. We have technologically advanced digital and offset presses. It ensures that every packaging box we print has supreme quality. Our accomplished designers provide amazing artwork choices for all kinds of boxes. We don’t charge our valued customers for [&hellip;]",
-//     keywords: "custom packaging, wholesale boxes, packaging solutions, affordable packaging, custom boxes, packaging design, eco-friendly packaging",
-//     author: "Umbrella Custom Packaging",
-//     ogUrl: `${BaseUrl}/about-us`,
-//     canonicalUrl: `${BaseUrl}/about-us`,
-//     ogTitle: "About us - Umbrella Custom Packaging",
-//     ogDescription: "About us Umbrella Custom Packaging offers customized printing and packaging solutions for all your business needs. We have technologically advanced digital and offset presses. It ensures that every packaging box we print has supreme quality. Our accomplished designers provide amazing artwork choices for all kinds of boxes. We don’t charge our valued customers for [&hellip;]",
-//     modifiedTime: "2025-06-13T15:18:43+00:00",
-//     twitterTitle: "About us - Umbrella Custom Packaging",
-//     twitterDescription: "About us Umbrella Custom Packaging offers customized printing and packaging solutions for all your business needs. We have technologically advanced digital and offset presses. It ensures that every packaging box we print has supreme quality. Our accomplished designers provide amazing artwork choices for all kinds of boxes. We don’t charge our valued customers for [&hellip;]",
-//     robots: "index, follow"
-//   };
-//   return (
-//     <>
-//       <PageMetadata {...metadata} />
-//       <main>
-//         <div className='max-w-[1200px] mt-5 mx-auto text-center  rounded-[8px] p-5'>
-//           <div className='grid md:grid-cols-2 grid-cols-1 gap-10'>
-//             <div className='flex items-center justify-center h-[300px] bg-cover bg-no-repeat rounded-[8px] relative' style={{ backgroundImage: `url(${banner})` }}>
-//               <button
-//                 onClick={openVideoPlayer}
-//                 className='p-2 rounded-full bg-[#5a56e9] hover:bg-[#4a46d9] transition-colors'
-//               >
-//                 <IoPlayCircleOutline size={50} color='#fff' />
-//               </button>
-//             </div>
-
-//             <div className='flex flex-col items-start justify-center space-y-2'>
-//               <hr className='text-gray-400 md:w-120 w-80 border-0.5' />
-//               <h2 className='md:text-[36px] text-[25px]  font-[600]  opacity-70 font-sans text-start'>Umbrella Custom Packaging</h2>
-//               <p className='text-[#333333] md:text-[16px] leading-6 text-[14px] text-left'>
-//                 Umbrella Custom Packaging offers customized printing and packaging solutions for all your business needs.
-//                 We have technologically advanced digital and offset presses. It ensures that every packaging box we print
-//                 has supreme quality. Our accomplished designers provide amazing artwork choices for all kinds of boxes.
-//                 We don't charge our valued customers for design preparation
-//               </p>
-//             </div>
-//           </div>
-//           <div className=" bg-[#B8B6FA99]  grid sm:grid-cols-6  grid-cols-2 my-3.5 mt-3 p-4 rounded-md w-full">
-//             <div className=" flex gap-1 items-center">
-//               <img src={Icon1} width={30} alt="" />
-//               <h5>Free Quote</h5>
-//             </div>
-//             <div className=" flex gap-1 items-center">
-//               <img src={Icon2} width={30} alt="" />
-//               <h5>Free Design support</h5>
-//             </div>
-//             <div className=" flex gap-1 items-center">
-//               <img src={Icon3} width={30} alt="" />
-//               <h5>Free Lamination</h5>
-//             </div>
-//             <div className=" flex gap-1 items-center">
-//               <img src={Icon4} width={30} alt="" />
-//               <h5>Free Shipping</h5>
-//             </div>
-//             <div className=" flex gap-1 items-center">
-//               <img src={Icon5} width={30} alt="" />
-//               <h5>FSC Certified</h5>
-//             </div>
-//             <div className=" flex gap-1 items-center">
-//               <img src={Icon6} width={30} alt="" />
-//               <h5>Quickest Turnaround</h5>
-//             </div>
-//           </div>
-//           <div className='mt-5'>
-//             <p className='text-left text-[16px] tracking-wide leading-6 '>The production team is very efficient which helps us in completing every task in minimum time span. Timely printing and shipment are the core values of our company. Umbrella Custom Packaging takes pride in delivering the best solution at reasonable price. Cardboard boxes, Kraft boxes, corrugated boxes, window boxes, die cut boxes and wedding boxes come under our range of expertise. From these box types, we accept the responsibility to manufacture spectacular packaging for electronics, food items, toys, cosmetics, etc. You name it and we have it. Umbrella Custom Packaging is a specialist in producing catchy customizations. Die cut, embossing, perforations, laminations, UV, glossy, matte and several other options are available for the designing of your customized packaging boxes. We use environment and consumer friendly stocks for manufacturing the boxes without compromising on excellence. Our competent work force enables us presenting impeccable printed designs and styles.<br /><br />
-
-//               Umbrella Custom Packaging has been catering the packaging needs of thousands of businesses across the globe. We have achieved a magnanimous success in short period of time due to our premium printing services, fastest turnaround, free shipping and unique customized designing. Umbrella Custom Packaging is helping many macro and mini businesses in their packaging needs. For specific events, we offer exciting favor and gift boxes with special discounts. Customer satisfaction is our top priority. To facilitate the customers by cutting down their expenses, we not only print at our in-house press in USA but also utilize the offshore printing facilities in Asia and Africa. We look forward to hear from your business in the near future. Our customer care services are available around the clock. For custom quote or inquiry, feel free to contact our representatives from Monday-Friday.</p>
-//           </div>
-
-//           <CustomPackagingApart />
-//           <div className='bg-[#F4ECFB] rounded-[8px] mt-8 p-3'>
-//             <div className='grid md:grid-cols-2 grid-cols-1 space-y-2 '>
-//               <div className='' >
-//                 <img src={map} alt="" className='w-full' />
-
-
-//               </div>
-//               <div className=' flex flex-col sm:w-md w-full ml-auto justify-center items-center  gap-3'>
-//                 <div className='flex sm:flex-row flex-col text-white gap-5 '>
-//                   <div className='bg-[#5a56e9]  min-h-36 rounded-[8px] flex flex-col items-start p-2.5 space-y-5'>
-//                     <h2 className='text-[32px] font-semibold text-white'>5+</h2>
-//                     <h3 className='text-[14px] text-left text-white'>Head Quarter on Global Family</h3>
-//                   </div>
-//                   <div className='bg-[#5a56e9]  min-h-36  rounded-[8px] flex flex-col items-start p-2.5 space-y-5'>
-//                     <h2 className='text-[32px] font-semibold text-white'>1000+</h2>
-//                     <h3 className='text-[14px] text-left text-white'>Satisfied Customers All Over the Globe </h3>
-//                   </div>
-//                   <div></div>
-
-//                 </div>
-//               </div>
-
-
-//             </div>
-
-//             <div className='grid md:grid-cols-3 grid-cols-1 '>
-//               <div className='  flex flex-col justify-center items-start p-2.5 space-y-5 md:border-r-1 border-0'>
-//                 <h1 className='text-[32px] font-bold'>USA</h1>
-//                 <p className='text-[14px] text-start'>9854 National Blvd #1042, Los Angeles, CA 90034, United States</p>
-//               </div>
-//               <div className='  flex flex-col items-start p-2.5 space-y-5 md:border-r-1 border-0'>
-//                 <h1 className='text-[32px] font-bold'>Uk</h1>
-//                 <p className='text-[14px] text-start'>275 New North Road Islington Suite 1946 London, N1 7AA United Kingdom</p>
-//               </div>
-//               <div className='  flex flex-col items-start p-2.5 space-y-5'>
-//                 <h1 className='text-[32px] font-bold' >Canada</h1>
-//                 <p className='text-[14px] text-start'>7398 Yonge St #6d, Thornhill, ON L4J 8J2, Canada </p>
-//               </div>
-
-//             </div>
-//           </div>
-
-//           {isVideoOpen && (
-//             <div className="fixed inset-0 bg-[rgba(0,0,0,0.9)] z-50 flex items-center justify-center p-4 ">
-//               <div className="relative w-full max-w-6xl flex flex-col h-[90vh]">
-
-//                 <div className="flex justify-end mb-2">
-//                   <button
-//                     onClick={closeVideoPlayer}
-//                     className=" rounded-full  cursor-pointer w-10 h-10 flex items-center justify-center"
-//                     aria-label="Close video"
-//                   >
-//                     <h5 className="text-2xl text-white leading-none">&times;</h5>
-//                   </button>
-//                 </div>
-
-//                 {/* Video Container */}
-//                 <div className="flex-1 relative rounded-xl overflow-hidden bg-black">
-//                   <video
-//                     controls
-//                     autoPlay
-//                     className="w-full h-full object-contain"
-//                     playsInline
-//                   >
-//                     <source src={aboutVideo} type="video/mp4" />
-//                     Your browser does not support the video tag.
-//                   </video>
-//                 </div>
-
-//               </div>
-//             </div>
-//           )}
-
-//         </div>
-//       </main>
-//     </>
-
-//   )
-// }
-
-
 import React from 'react'
 import AboutBanner from '../../components/common/AboutBanner'
 import { Link } from 'react-router-dom';
@@ -188,42 +13,82 @@ import SampleKit from '../../components/SampleKit';
 // Assets
 import hero from "../../assets/images/banner-slider-image.webp";
 import companyLogo from '../../assets/images/companies.png';
-
 const About = () => {
   return (
-    <div className="font-['Quicksand'] selection:bg-[#ee334b] selection:text-white bg-[#fdfeff] text-[#213554]">
+   <div className="font-['Quicksand'] selection:bg-[#ee334b] selection:text-white bg-[#fdfeff] text-[#213554]">
       
     {/* --- Section 1: Hero Banner --- */}
     <div
-      className="w-full min-h-[50vh] relative flex items-center overflow-hidden"
+      className="w-full min-h-[30vh] relative flex items-center overflow-hidden"
       style={{
-        backgroundImage: `linear-gradient(to right, rgba(33, 53, 84, 0.9), rgba(33, 53, 84, 0.4)), url(${hero})`,
+        backgroundColor: "#213554",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      <div className="max-w-8xl h-full flex items-center w-full mx-auto px-6 relative z-10">
-        <div className="max-w-2xl">
-          <nav className="flex gap-3 items-center text-white/70 mb-8 bg-white/10 w-fit px-4 py-2 rounded-full backdrop-blur-md border border-white/10">
-            <Link to={'/'} className="hover:text-[#ee334b] transition-colors">
-              <IoHomeOutline size={18} />
-            </Link> 
-            <LiaAngleRightSolid />
-            <p className="text-xs uppercase font-bold tracking-[0.2em]">About Us</p>
-          </nav>
-          <h1 className="text-white text-5xl md:text-7xl font-bold leading-tight">
-            About <span className="text-[#ee334b]">Us</span>
-          </h1>
-          <div className="py-6">
-            <p className="text-white font-semibold text-xl">We give your products the attention they deserve.</p>
-            <p className="text-white/80 text-lg mt-2">Let's Showcase Your Brand Better</p>
-          </div>
-          <Link to={'/shop'}>
-            <Button className="bg-white text-[#213554] font-bold py-3 px-8 rounded-xl hover:bg-gray-100 transition-all" label="Browse Our Catalogue" />
-          </Link>
-        </div>
+      <div className="max-w-8xl  flex items-center justify-center w-full mx-auto px-6 relative z-10 h-16">
+      
+        
+          <h1 className="text-white text-5xl md:text-7xl font-bold leading-tight text-center">
+            About Us</h1>
+        
+      
       </div>
     </div>
+    <section className="max-w-8xl mx-auto  py-16 md:py-24 flex flex-col md:flex-row items-center gap-12 ">
+      
+      {/* --- Image Section (Left) --- */}
+      <div className="relative w-full md:w-1/2 flex items-center justify-center">
+        {/* Main/Bottom Large Image */}
+        <div className="relative w-3/4 aspect-[3/4] rounded-[2rem] overflow-hidden shadow-2xl z-0 transform -translate-x-6">
+          <img 
+            src="https://images.unsplash.com/photo-1540959733332-e94e1bf32f38?auto=format&fit=crop&q=80&w=800" 
+            alt="Traveler exploring" 
+            className="w-full h-full object-cover"
+          />
+        </div>
+
+        {/* Top Floating Video/Image with Play Button */}
+        <div className="absolute top-0 right-4 w-3/5 aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl z-10 border-4 border-white">
+          <div className="relative w-full h-full group cursor-pointer">
+            <img 
+              src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=80&w=800" 
+              alt="Temple landscape" 
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            />
+            {/* Play Button Overlay */}
+            <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors">
+              <div className="w-14 h-14 flex items-center justify-center bg-white/90 rounded-full shadow-lg">
+                <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[18px] border-l-black border-b-[10px] border-b-transparent ml-1"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Decorative elements could be added here (like the prayer flags in your image) */}
+      </div>
+
+      {/* --- Text Section (Right) --- */}
+      <div className="w-full md:w-1/2 flex flex-col items-start text-left space-y-6">
+        <h2 className="text-9xl md:text-10xl text-gray-900 leading-tight">
+          Crafting <span className="italic  text-7xl font-medium">travel</span> <br />
+          experiences
+        </h2>
+        
+        <p className="text-gray-600 leading-relaxed text-lg max-w-lg">
+          We are passionate about crafting extraordinary travel experiences that leave a lasting impact. 
+          With years of expertise, we have honed the art of live curating unique journeys that blend adventure, 
+          culture, and sustainability. Our mission is to connect travelers with the world's wonders while 
+          preserving its beauty for generations to come.
+        </p>
+
+        <button className="flex items-center gap-3 bg-black text-white px-8 py-3.5 rounded-full font-medium hover:bg-gray-800 transition-all group">
+          Explore Now
+          <span className="text-xl group-hover:translate-x-1 transition-transform">→</span>
+        </button>
+      </div>
+      
+    </section>
 
     {/* --- Section 2: Editorial Story Section --- */}
     <section className="max-w-8xl mx-auto px-6 py-24 lg:py-32">
@@ -328,4 +193,4 @@ const About = () => {
   )
 }
 
-export default About;
+export default About
