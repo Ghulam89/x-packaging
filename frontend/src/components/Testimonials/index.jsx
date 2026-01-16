@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import Button from "../common/Button";
- 
+
 const Testimonials = () => {
   const [testimonials, setTestimonials] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,7 +13,7 @@ const Testimonials = () => {
         const response = await fetch("https://xcustompackaging.com/rating/getAllGoogleReviews");
         const result = await response.json();
         const reviewsData = result?.reviews || result?.data?.reviews || result;
-       
+        
         if (Array.isArray(reviewsData)) {
           setTestimonials(reviewsData);
         }
@@ -27,11 +27,11 @@ const Testimonials = () => {
   }, []);
  
   if (loading || testimonials.length === 0) {
-    return <div className="py-20 text-center font-['Quicksand'] text-[#213554]">Loading Reviews...</div>;
+    return <div className="py-20 text-center  text-[#213554]">Loading Reviews...</div>;
   }
  
   return (
-    <div className="py-16 bg-[#fdfeff] font-['Quicksand']">
+    <div className="py-16  ">
       <section className="overflow-hidden relative">
         <style>
           {`
@@ -55,8 +55,7 @@ const Testimonials = () => {
         </style>
  
         <div className="max-w-8xl mx-auto text-center px-6">
- 
-          <div className="testimonial-mask pause-on-hover">
+          <div className="testimonial-mask pause-on-hover p-3">
             <div className="animate-marquee gap-6">
               {/* We duplicate the array to create the infinite loop effect */}
               {[...testimonials, ...testimonials].map((testimonial, index) => {
@@ -107,7 +106,7 @@ const Testimonials = () => {
           </div>
  
           <div className="mt-16">
-            <Button label={"View More Reviews on Google"}/>
+           <a href="https://www.google.com/search?sca_esv=1af006d14f18ca7f&rlz=1C1RXMK_en-GBPK1190PK1190&sxsrf=ANbL-n41RZb-0JiUnyL3pswQbyVTBtV2Kw:1768577776703&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOf1vgl_3Y0ETzIquowROB-BxkPZJM6EWcTFzWmcnsl-FZmExVeO-CVINtkvBL5KVhJ0BASn6vpMB-EjQ2gUvw7Wr3d4dHk1adWvBj2D6YmZXCO9pIw%3D%3D&q=Umbrella+Custom+Packaging+USA+Reviews&sa=X&ved=2ahUKEwjOkY3RsZCSAxXaVUEAHZasDSsQ0bkNegQIWBAH&biw=1680&bih=923&dpr=1&aic=0" target="_blank" rel="noopener noreferrer"> <Button label={"View More Reviews on Google"} /></a>
             </div>
         </div>
       </section>

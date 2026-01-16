@@ -67,22 +67,22 @@ const ProductCard = ({data, disableSelection = false, size = 'default'}) => {
   // Size-based styling
   const isCompact = size === 'compact';
   const imageHeight = isCompact 
-    ? 'h-[120px] sm:h-[140px]' 
+    ? 'h-[100px] sm:h-[120px] md:h-[140px]' 
     : 'aspect-[4/3] sm:aspect-[3/2]';
-  const padding = isCompact ? 'p-2' : 'p-2 sm:p-3 md:p-4';
-  const borderRadius = isCompact ? 'rounded-xl' : 'rounded-2xl sm:rounded-3xl';
-  const imageBorderRadius = isCompact ? 'rounded-lg' : 'rounded-xl sm:rounded-2xl';
-  const textSize = isCompact ? 'text-sm pb-2' : 'text-xs sm:text-sm pb-2 sm:pb-3';
+  const padding = isCompact ? 'p-1.5 sm:p-2' : 'p-2 sm:p-3 md:p-4';
+  const borderRadius = isCompact ? 'rounded-lg sm:rounded-xl' : 'rounded-2xl sm:rounded-3xl';
+  const imageBorderRadius = isCompact ? 'rounded-md sm:rounded-lg' : 'rounded-xl sm:rounded-2xl';
+  const textSize = isCompact ? 'text-xs sm:text-sm pb-1 sm:pb-2' : 'text-xs sm:text-sm pb-2 sm:pb-3';
   const placeholderHeight = isCompact 
-    ? 'h-24 sm:h-28' 
+    ? 'h-[100px] sm:h-[120px] md:h-[140px]' 
     : 'aspect-[4/3] sm:aspect-[3/2]';
-  const placeholderTextSize = isCompact ? 'text-2xl' : 'text-3xl sm:text-4xl';
+  const placeholderTextSize = isCompact ? 'text-xl sm:text-2xl' : 'text-3xl sm:text-4xl';
   
   const cardContent = (
-    <div className={`text-gray-700 bg-[#F9F9F9] hover:bg-white ${borderRadius} flex font-bold flex-col gap-0.5 items-center transition-all duration-300 border border-gray-200 hover:border-[#EE334B]/20 hover:shadow-lg transform hover:-translate-y-1 h-full w-full group ${isSelected && !disableSelection ? 'ring-2 ring-[#EE334B] shadow-lg' : ''}`}>
+    <div className={`text-gray-700 bg-[#F9F9F9] hover:bg-white ${borderRadius} flex font-bold flex-col gap-0.5 items-center transition-all duration-300 border border-gray-200 hover:border-[#EE334B]/20 hover:shadow-lg transform hover:-translate-y-1 h-auto w-full group ${isSelected && !disableSelection ? 'ring-2 ring-[#EE334B] shadow-lg' : ''}`}>
       <div className={`${padding} relative overflow-hidden ${borderRadius} w-full`}>
         {data?.images?.[0]?.url ? (
-          <div className={`relative w-full h-[180px] sm:h-[220px] md:h-[300px] ${imageBorderRadius} overflow-hidden`}>
+          <div className={`relative w-full ${isCompact ? imageHeight : 'h-[180px] sm:h-[220px] md:h-[300px]'} ${imageBorderRadius} overflow-hidden`}>
             <img 
               src={`${BaseUrl}/${data?.images?.[0]?.url}`} 
               alt={data?.name || 'Product'} 
@@ -95,7 +95,7 @@ const ProductCard = ({data, disableSelection = false, size = 'default'}) => {
             <div className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none ${imageBorderRadius}`}></div>
           </div>
         ) : (
-          <div className={`w-full ${placeholderHeight} bg-gradient-to-br from-[#213554]/10 to-[#EE334B]/10 flex items-center justify-center ${imageBorderRadius} relative overflow-hidden`}>
+          <div className={`w-full ${isCompact ? placeholderHeight : 'aspect-[4/3] sm:aspect-[3/2]'} bg-gradient-to-br from-[#213554]/10 to-[#EE334B]/10 flex items-center justify-center ${imageBorderRadius} relative overflow-hidden`}>
             <span className={`${placeholderTextSize} font-bold text-[#213554]/30 relative z-10`}>
               {data?.name?.charAt(0) || 'P'}
             </span>

@@ -93,14 +93,14 @@ const Navbar = () => {
     } : {}}
     >
       <div className="sm:max-w-8xl max-w-[95%] mx-auto px-2 sm:px-0">
-        <div className="flex w-full justify-between h-16 sm:h-20 items-center gap-2 sm:gap-4">
+        <div className="flex w-full justify-between h-auto sm:h-20 items-center gap-2 sm:gap-4 py-2 sm:py-0">
           {/* Logo and Search Bar Container */}
-          <div className="flex items-center  sm:w-5/12 lg:w-6/12 gap-2 sm:gap-3 flex-shrink-0">
+          <div className="flex items-center sm:w-5/12 lg:w-6/12 gap-2 sm:gap-3 flex-shrink-0">
             <Link to={'/'} className="flex-shrink-0">
               <img 
                 src={logo} 
                 alt="" 
-                className="w-[120px] sm:w-56 md:w-[200px] lg:w-[250px] h-auto" 
+                className="w-[100px] sm:w-56 md:w-[200px] lg:w-[250px] h-auto" 
                 loading="eager" 
                 fetchpriority="high" 
               />
@@ -384,38 +384,29 @@ const Navbar = () => {
 
           {/* Mobile Menu Button */}
           <div className="flex sm:hidden items-center gap-2">
-            {/* Mobile Search Icon - Show search on mobile */}
-            <div className="relative" ref={searchRef}>
-              <button
-                onClick={() => setShowResults(!showResults)}
-                className="p-2 text-[#EE334B]"
-                aria-label="Search"
-              >
-                <FaSearch size={20} />
-              </button>
-              {showResults && (
-                <div className="absolute z-50 mt-2 right-0 w-screen max-w-[calc(100vw-2rem)] bg-white border border-gray-300 rounded-lg shadow-lg max-h-96 overflow-y-auto">
-                  <div className="p-2">
-                    <Input
-                      placeholder={"What are you looking for today?"}
-                      className={"rounded-full p-2 w-full border bg-white border-gray-300 shadow-xs pr-10 text-sm mb-2"}
-                      value={searchQuery}
-                      onChange={handleSearch}
-                      Icon={<FaSearch className="text-[#EE334B]" size={16} />}
-                    />
-                  </div>
+            {/* Mobile Search Bar - Directly visible on mobile */}
+            <div className="flex-1 relative" ref={searchRef}>
+              <Input
+                placeholder={"Search..."}
+                className={"rounded-full p-2 w-full border bg-white border-gray-300 shadow-xs pr-10 text-sm"}
+                value={searchQuery}
+                onChange={handleSearch}
+                Icon={<FaSearch className="text-[#EE334B]" size={16} />}
+              />
+              {showResults && searchQuery.length >= 2 && (
+                <div className="fixed z-50 top-20 left-1/2 -translate-x-1/2 w-[calc(100vw-0.5rem)] max-w-xl bg-white border border-gray-300 rounded-lg shadow-lg max-h-96 overflow-y-auto pt-2">
                   {isSearchLoading ? (
                     <div className="flex justify-center items-center py-4">
                       <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#213554]"></div>
                     </div>
                   ) : searchResults.length > 0 ? (
                     <ProductSelectionProvider>
-                      <div className="grid grid-cols-1 gap-2 p-2">
-                        {searchResults.map((product) => (
+                      <div className="grid grid-cols-2 gap-2 p-2">
+                        {searchResults.slice(0, 6).map((product) => (
                           <div 
                             key={product._id}
                             onClick={handleResultClick}
-                            className="h-full w-full"
+                            className="h-auto w-full"
                           >
                             <ProductCard 
                               data={product} 
@@ -426,7 +417,7 @@ const Navbar = () => {
                         ))}
                       </div>
                     </ProductSelectionProvider>
-                  ) : searchQuery.length >= 2 && (
+                  ) : (
                     <div className="p-4 text-center text-sm text-gray-500">
                       No products found
                     </div>
@@ -437,7 +428,7 @@ const Navbar = () => {
             
             <button 
               onClick={OpenMenu} 
-              className="text-right cursor-pointer px-1.5 py-1.5 rounded-sm" 
+              className="text-right cursor-pointer px-1.5 py-1.5 rounded-sm flex-shrink-0" 
               aria-label="Mobile Menu Toggle Button"
             >
               <span className="block h-[3px] w-[32px] bg-[#555555] mb-[4px] ml-auto"></span>

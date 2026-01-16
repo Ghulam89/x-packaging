@@ -109,8 +109,8 @@ const Tabs = ({ tabs, defaultTab, className }) => {
   };
 
   return (
-    <div>
-      <div className="relative">
+    <div className="w-full">
+      <div className="relative w-full">
         {/* Mobile Left Arrow */}
         {showLeftArrow && (
           <button
@@ -135,7 +135,7 @@ const Tabs = ({ tabs, defaultTab, className }) => {
 
         <div 
           ref={scrollContainerRef}
-          className="flex gap-2 bg-gradient-to-r from-gray-50 to-gray-100 p-1.5 rounded-2xl overflow-x-auto overflow-y-hidden whitespace-nowrap border border-gray-200 md:justify-between scrollbar-hide"
+          className="flex gap-2 bg-gradient-to-r from-gray-50 to-gray-100 p-1.5 rounded-2xl overflow-x-auto overflow-y-hidden whitespace-nowrap border border-gray-200 md:justify-between scrollbar-hide w-full min-w-0"
           style={{ 
             scrollbarWidth: 'none', 
             msOverflowStyle: 'none',
@@ -170,7 +170,7 @@ const Tabs = ({ tabs, defaultTab, className }) => {
           })}
         </div>
       </div>
-      <div className="mt-8 relative ">
+      <div className="mt-8 relative w-full min-w-0">
         {tabs.map((tab) => {
           const isActive = activeTab === tab.title;
           if (!isActive) return null;
@@ -178,11 +178,11 @@ const Tabs = ({ tabs, defaultTab, className }) => {
           return (
             <div
               key={tab.title}
-              className={`${
+              className={`w-full min-w-0 ${
                 direction === 'right' ? 'animate-slideInRight' : 'animate-slideInLeft'
               }`}
             >
-              <div className="animate-fadeInUp">
+              <div className="animate-fadeInUp w-full min-w-0">
                 {tab.content}
               </div>
             </div>

@@ -205,7 +205,7 @@ const InspirationPackaging = () => {
                 @media (max-width: 640px) {
                   .gallery-center-swiper .swiper-slide {
                     transform: scale(0.9);
-                    width: 300px !important;
+                    width: 340px !important;
                     min-width: 250px;
                     max-width: 350px;
                   }

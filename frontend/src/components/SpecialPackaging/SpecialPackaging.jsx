@@ -102,7 +102,6 @@ const SpecialPackaging = () => {
         special1,
         special2,
         special3,
-        special2,
       ]
     },
     {
@@ -112,7 +111,6 @@ const SpecialPackaging = () => {
         special4,
         special5,
         special6,
-        special4
       ]
     },
     {
@@ -122,7 +120,6 @@ const SpecialPackaging = () => {
           special7,
         special8,
         special9,
-        special7,
         ]
       },
       {
@@ -132,7 +129,6 @@ const SpecialPackaging = () => {
            special10,
         special11,
         special12,
-        special10,
         ]
       },
       {
@@ -142,7 +138,6 @@ const SpecialPackaging = () => {
            special13,
         special14,
         special15,
-        special13,
         ]
       },
       {
@@ -152,7 +147,6 @@ const SpecialPackaging = () => {
           special16,
         special17,
         special18,
-        special16,
         ]
       },
   ];
@@ -163,19 +157,17 @@ const SpecialPackaging = () => {
   }));
 
   return (
-    
-    <div className="sm:max-w-8xl p-3 max-w-[95%] mx-auto pb-12 pt-6">
+    <div className="w-full  pb-7">
       <div className="text-center py-3">
-          <h2 className="sm:text-[35px] text-[25px]   leading-9     font-sans   font-[600] text-[#333333] ">
-        Enhance Your Product Presentation with Our Special Packaging Features
-
+        <h2 className="sm:text-[35px] text-[25px] leading-9 font-sans font-[600] text-[#333333] break-words">
+          Enhance Your Product Presentation with Our Special Packaging Features
         </h2>
-        <p className="pt-3 text-gray-600 pb-3">
-            Following are few steps which provide the complete Guide.
-          </p>
-      </div >
-      <div className=" pt-2">
-        <Tabs defaultTab={"Embossing"} className={' bg-white'} tabs={data} />
+        <p className="pt-3 text-gray-600 pb-3 break-words">
+          Following are few steps which provide the complete Guide.
+        </p>
+      </div>
+      <div className="pt-2 w-full overflow-hidden">
+        <Tabs defaultTab={"Embossing"} className={'bg-white'} tabs={data} />
       </div>
     </div>
   );

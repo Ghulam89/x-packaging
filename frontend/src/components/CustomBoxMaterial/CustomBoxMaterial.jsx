@@ -117,12 +117,12 @@ const CustomBoxMaterial = () => {
   }));
 
   return (
-    <div className="sm:max-w-8xl max-w-[95%] mx-auto">
+    <div className="w-full mx-auto ">
       <div className="text-center">
-        <h2 className="sm:text-[35px] text-[25px] font-sans font-[600] text-[#333333]">
+        <h2 className="sm:text-[35px] text-[25px] font-sans font-[600] text-[#333333] break-words">
           Custom Box Material Guide: Finding the Perfect Fit
         </h2>
-        <p className="pt-3 pb-6 text-sm">
+        <p className="pt-3 pb-6 text-sm break-words">
           Let's explore the Types of Materials for Your Unique Packaging.
         </p>
       </div>
@@ -138,6 +138,7 @@ const CustomBoxMaterial = () => {
         <Tabs 
           defaultTab={"Rigid Boxes"} 
           // className={'border-[#F7F7F7] border'} 
+          className={'bg-white'}
           tabs={data} 
         />
       {/* </div> */}

@@ -121,25 +121,24 @@ const CustomPackagingProduced = () => {
   }));
 
   return (
-    <div className=" bg-[#F7F7F7]">
-<div 
-      className="sm:max-w-8xl  p-3 py-9 mt-10 rounded-xl max-w-[95%] mx-auto relative "
-      
-    >
-      <div className="relative z-10">
-        <div className="text-center pb-3">
-          <h2 className="sm:text-[35px] text-[25px] font-sans font-[600] text-[#333333]">
-            Simple Steps to get the Custom Packaging Produced
-          </h2>
-          <p className="pt-3 text-gray-600">
-            Following are few steps which provide the complete Guide.
-          </p>
-        </div>
-        <div className="">
-          <Tabs defaultTab={"Price Quote"} className={'bg-white'} tabs={data} />
+    <div className="bg-[#F7F7F7]">
+      <div 
+        className="w-full max-w-[95%] sm:max-w-8xl p-3 sm:p-4 py-9 mt-10 rounded-xl mx-auto relative"
+      >
+        <div className="relative z-10">
+          <div className="text-center pb-3 px-2">
+            <h2 className="sm:text-[35px] text-[25px] font-sans font-[600] text-[#333333] break-words">
+              Simple Steps to get the Custom Packaging Produced
+            </h2>
+            <p className="pt-3 text-gray-600 break-words">
+              Following are few steps which provide the complete Guide.
+            </p>
+          </div>
+          <div className="w-full overflow-hidden">
+            <Tabs defaultTab={"Price Quote"} className={'bg-white'} tabs={data} />
+          </div>
         </div>
       </div>
-    </div>
     </div>
     
   );
