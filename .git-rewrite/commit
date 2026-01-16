@@ -1,6 +1,6 @@
-tree e2402073abe4348aec7ef9b5fae94088a167ffbc
-parent 5ad6ea7edc8b085370ecd1d524c687edee4f703a
-author Ghulam89 <gm6681328@gmail.com> 1768505070 -0800
-committer Ghulam89 <gm6681328@gmail.com> 1768505070 -0800
+tree bf81217d976b488626cf272d2b0e35d8b9e41eea
+parent 2b18a2168bf2f6793ac246ff9cc88a1510a0dd92
+author Ghulam89 <gm6681328@gmail.com> 1768580739 -0800
+committer Ghulam89 <gm6681328@gmail.com> 1768580739 -0800
 
-update
+Add hero.mp4 to gitignore
