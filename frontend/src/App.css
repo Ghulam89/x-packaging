@@ -41,3 +41,76 @@ p{
 .group:hover svg .st0 {
   fill: #EE334B !important;
 }
+
+/* iOS Safari specific fixes */
+@supports (-webkit-touch-callout: none) {
+  /* iOS Safari detection */
+  
+  /* Fix for transform issues on iOS Safari - only apply to elements that need it */
+  img, picture, video {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  
+  /* Fix for scale transforms on iOS Safari - enable hardware acceleration */
+  .group:hover img,
+  [class*="group-hover:scale"],
+  img[class*="scale"] {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    will-change: transform;
+  }
+  
+  /* Fix for sticky/fixed positioning on iOS Safari */
+  [class*="sticky"],
+  [class*="fixed"] {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+  
+  /* Fix for backdrop-filter on iOS Safari */
+  [class*="backdrop-blur"] {
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+  
+  /* Fix for overflow scrolling on iOS Safari - smooth scrolling */
+  [class*="overflow-x"],
+  [class*="overflow-y"],
+  [class*="overflow-auto"] {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Prevent text selection issues on iOS Safari */
+  button, a {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+  
+  /* Fix for viewport height on iOS Safari */
+  .h-screen,
+  [style*="height: 100vh"] {
+    height: -webkit-fill-available;
+  }
+  
+  /* Fix for object-fit on iOS Safari */
+  img[class*="object-cover"],
+  img[class*="object-contain"] {
+    -webkit-object-fit: cover;
+    object-fit: cover;
+  }
+  
+  /* Fix for rounded corners rendering on iOS Safari */
+  img[class*="rounded"] {
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+  }
+  
+  /* Fix for transition performance on iOS Safari */
+  [class*="transition-transform"],
+  [class*="transition-all"] {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+}

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { FaAngleRight } from 'react-icons/fa';
 import CardSlider from '../common/CardSlider';
 import ProductCard, { ProductSelectionProvider } from '../common/ProductCard';
-import axios from 'axios';
+import axiosInstance from '../../utils/axiosConfig';
 import { BaseUrl } from '../../utils/BaseUrl';
 
 const FeaturesPackaging = () => {
@@ -14,14 +14,33 @@ const FeaturesPackaging = () => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        // Fetch products using getAll API
-        const response = await axios.get(`${BaseUrl}/products/getAll?page=1&perPage=8`);
+        // Fetch products using getAll API with iOS Safari compatible configuration
+        const response = await axiosInstance.get(`${BaseUrl}/products/getAll?page=1&perPage=8`, {
+          timeout: 15000, // 15 second timeout for iOS Safari
+        });
         
         if (response?.data?.status === 'success' && response?.data?.data) {
           setProducts(response.data.data);
+        } else {
+          console.warn('Unexpected API response format:', response?.data);
+          setProducts([]);
         }
       } catch (error) {
         console.error('Error fetching products:', error);
+        // Retry once for iOS Safari network issues
+        if (error.code === 'ECONNABORTED' || !error.response) {
+          try {
+            const retryResponse = await axiosInstance.get(`${BaseUrl}/products/getAll?page=1&perPage=8`, {
+              timeout: 20000, // Longer timeout on retry
+            });
+            if (retryResponse?.data?.status === 'success' && retryResponse?.data?.data) {
+              setProducts(retryResponse.data.data);
+              return;
+            }
+          } catch (retryError) {
+            console.error('Retry failed:', retryError);
+          }
+        }
         setProducts([]);
       } finally {
         setLoading(false);

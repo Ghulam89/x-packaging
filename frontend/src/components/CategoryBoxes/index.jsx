@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '../../utils/axiosConfig';
 import { BaseUrl } from '../../utils/BaseUrl';
 import { Link } from 'react-router-dom';
 import Button from '../common/Button';
@@ -15,14 +15,34 @@ const CategoryBoxes = () => {
     const fetchCategories = async () => {
       try {
         setLoading(true);
-        // Fetch top categories from API
-        const response = await axios.get(`${BaseUrl}/category/getAll?page=1&perPage=5`);
+        // Fetch top categories from API with iOS Safari compatible configuration
+        const response = await axiosInstance.get(`${BaseUrl}/category/getAll?page=1&perPage=5`, {
+          timeout: 15000, // 15 second timeout for iOS Safari
+        });
         
         if (response?.data?.status === 'success' && response?.data?.data) {
           setCategories(response.data.data);
+        } else {
+          // Handle unexpected response format
+          console.warn('Unexpected API response format:', response?.data);
+          setCategories([]);
         }
       } catch (error) {
         console.error('Error fetching categories:', error);
+        // Retry once for iOS Safari network issues
+        if (error.code === 'ECONNABORTED' || !error.response) {
+          try {
+            const retryResponse = await axiosInstance.get(`${BaseUrl}/category/getAll?page=1&perPage=5`, {
+              timeout: 20000, // Longer timeout on retry
+            });
+            if (retryResponse?.data?.status === 'success' && retryResponse?.data?.data) {
+              setCategories(retryResponse.data.data);
+              return;
+            }
+          } catch (retryError) {
+            console.error('Retry failed:', retryError);
+          }
+        }
         setCategories([]);
       } finally {
         setLoading(false);

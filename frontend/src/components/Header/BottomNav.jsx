@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { LiaAngleRightSolid } from "react-icons/lia";
 import logo from '../../assets/images/brand/logo.png';
 import Button from "../common/Button";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosConfig";
 import { BaseUrl } from "../../utils/BaseUrl";
 import usa from '../../assets/images/flag/usa.svg';
 import uk from '../../assets/images/flag/uk.svg';
@@ -133,8 +133,8 @@ const BottomNav = ({ Menu, OpenMenu }) => {
 
       // Then fetch fresh data from API in background
       try {
-        const response = await axios.get(`${BaseUrl}/brands/getAll`, {
-          timeout: 10000,
+        const response = await axiosInstance.get(`${BaseUrl}/brands/getAll`, {
+          timeout: 15000, // Increased timeout for iOS Safari
         });
         
         if (response.data.status === "success" && response.data.data) {
