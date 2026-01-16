@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import hero from "../../assets/images/banner-slider-image.webp";
-import videoSrc from "../../assets/videos/hero.mp4";
+import videoSrc from "../../assets/videos/hero.mov";
 import Button from "../../components/common/Button";
 import { Link } from "react-router-dom";
 
