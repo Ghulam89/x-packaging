@@ -133,8 +133,16 @@ const BottomNav = ({ Menu, OpenMenu }) => {
 
       // Then fetch fresh data from API in background
       try {
+        console.log('Fetching brands from API...');
         const response = await axiosInstance.get(`${BaseUrl}/brands/getAll`, {
-          timeout: 15000, // Increased timeout for iOS Safari
+          timeout: 20000, // Increased timeout for iOS Safari
+        });
+        
+        console.log('Brands API Response:', {
+          status: response?.status,
+          dataStatus: response?.data?.status,
+          hasData: !!response?.data?.data,
+          dataLength: response?.data?.data?.length
         });
         
         if (response.data.status === "success" && response.data.data) {
@@ -145,9 +153,18 @@ const BottomNav = ({ Menu, OpenMenu }) => {
           
           // Update state with fresh data
           setCategories(transformedCategories);
+          console.log(`Successfully loaded ${response.data.data.length} brands`);
+        } else {
+          console.warn('Unexpected brands API response format:', response?.data);
         }
       } catch (error) {
-        console.error("Error fetching brands:", error);
+        console.error("Error fetching brands:", {
+          code: error.code,
+          message: error.message,
+          response: error.response?.data,
+          status: error.response?.status,
+          url: error.config?.url
+        });
         // If no cached data and API fails, keep empty array
         if (!cachedData) {
           setCategories([]);

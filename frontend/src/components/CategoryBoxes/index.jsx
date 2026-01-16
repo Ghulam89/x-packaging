@@ -13,40 +13,64 @@ const CategoryBoxes = () => {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      try {
-        setLoading(true);
-        // Fetch top categories from API with iOS Safari compatible configuration
-        const response = await axiosInstance.get(`${BaseUrl}/category/getAll?page=1&perPage=5`, {
-          timeout: 15000, // 15 second timeout for iOS Safari
-        });
-        
-        if (response?.data?.status === 'success' && response?.data?.data) {
-          setCategories(response.data.data);
-        } else {
-          // Handle unexpected response format
-          console.warn('Unexpected API response format:', response?.data);
-          setCategories([]);
-        }
-      } catch (error) {
-        console.error('Error fetching categories:', error);
-        // Retry once for iOS Safari network issues
-        if (error.code === 'ECONNABORTED' || !error.response) {
-          try {
-            const retryResponse = await axiosInstance.get(`${BaseUrl}/category/getAll?page=1&perPage=5`, {
-              timeout: 20000, // Longer timeout on retry
+      let retryCount = 0;
+      const maxRetries = 2;
+      
+      const attemptFetch = async (attemptNumber = 1) => {
+        try {
+          setLoading(true);
+          console.log(`Fetching categories (attempt ${attemptNumber})...`);
+          
+          // Fetch top categories from API with iOS Safari compatible configuration
+          const response = await axiosInstance.get(`${BaseUrl}/category/getAll?page=1&perPage=5`, {
+            timeout: 20000, // 20 second timeout for iOS Safari
+          });
+          
+          console.log('API Response received:', {
+            status: response?.status,
+            dataStatus: response?.data?.status,
+            hasData: !!response?.data?.data,
+            dataLength: response?.data?.data?.length
+          });
+          
+          if (response?.data?.status === 'success' && response?.data?.data) {
+            setCategories(response.data.data);
+            console.log(`Successfully loaded ${response.data.data.length} categories`);
+            return true;
+          } else {
+            // Handle unexpected response format
+            console.warn('Unexpected API response format:', {
+              status: response?.status,
+              data: response?.data
             });
-            if (retryResponse?.data?.status === 'success' && retryResponse?.data?.data) {
-              setCategories(retryResponse.data.data);
-              return;
-            }
-          } catch (retryError) {
-            console.error('Retry failed:', retryError);
+            return false;
           }
+        } catch (error) {
+          console.error(`Error fetching categories (attempt ${attemptNumber}):`, {
+            code: error.code,
+            message: error.message,
+            response: error.response?.data,
+            status: error.response?.status,
+            url: error.config?.url
+          });
+          
+          // Retry logic for network issues
+          if (attemptNumber < maxRetries && (error.code === 'ECONNABORTED' || !error.response || error.response?.status >= 500)) {
+            console.log(`Retrying... (${attemptNumber + 1}/${maxRetries})`);
+            await new Promise(resolve => setTimeout(resolve, 1000 * attemptNumber)); // Exponential backoff
+            return await attemptFetch(attemptNumber + 1);
+          }
+          
+          return false;
         }
+      };
+      
+      const success = await attemptFetch();
+      if (!success) {
         setCategories([]);
-      } finally {
-        setLoading(false);
+        console.error('Failed to fetch categories after all retries');
       }
+      setLoading(false);
     };
 
     fetchCategories();

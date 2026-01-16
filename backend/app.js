@@ -64,8 +64,16 @@ const app = express();
 app.use(express.static("static"));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
-// Middleware
-app.use(cors());
+// Middleware - Enhanced CORS for iOS Safari compatibility
+app.use(cors({
+  origin: '*', // Allow all origins (adjust in production)
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Cache-Control', 'Pragma'],
+  exposedHeaders: ['Content-Length', 'Content-Type'],
+  credentials: false, // Set to false for iOS Safari compatibility
+  maxAge: 86400, // 24 hours
+  optionsSuccessStatus: 200 // Some legacy browsers (IE11, various SmartTVs) choke on 204
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
