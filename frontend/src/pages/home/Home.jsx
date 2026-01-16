@@ -276,9 +276,9 @@ export const Home = React.memo(() => {
             <img src={google} alt='' loading="lazy" />
           </div>
           <div>
-            <button className='px-6 py-2.5 rounded-lg flex bg-blue-500 text-white  hover:bg-[#EE334B] hover:text-white hover:border-[#EE334B] text-sm items-center justify-center gap-2 
+          <a href="https://www.google.com/search?q=Umbrella+Custom+Packaging+USA+Reviews&rlz=1C1RXMK_en-GBPK1190PK1190&oq=umbre&gs_lcrp=EgZjaHJvbWUqCAgBEEUYJxg7MgYIABBFGEEyCAgBEEUYJxg7MhIIAhAuGCcYrwEYxwEYgAQYigUyDwgDEC4YQxixAxiABBiKBTIGCAQQRRg5MgYIBRBFGDwyBggGEEUYPTIGCAcQRRg80gEIMzgzN2owajeoAgCwAgA&sourceid=chrome&ie=UTF-8#lrd=0x80c2bbbf80eec803:0x8425555061bf7fe8,3,,,,"> <button  className='px-6 py-2.5 rounded-lg flex bg-blue-500 text-white  hover:bg-[#EE334B] hover:text-white hover:border-[#EE334B] text-sm items-center justify-center gap-2 
       transition-all duration-300 ease-in-out transform 
-      hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed'>Review us on Google</button>
+      hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed'>Review us on Google</button></a>
           </div>
         </div>
         
