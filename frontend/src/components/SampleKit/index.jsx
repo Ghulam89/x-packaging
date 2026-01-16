@@ -1,5 +1,5 @@
 import React from 'react'
-import sample from '../../assets/images/box-sample-kit.webp';
+// import sample from '../../assets/images/box-sample-kit.webp';
 import Input from '../common/Input';
 import Select from '../common/Select';
 import Button from '../common/Button';
@@ -78,7 +78,7 @@ const SampleKit = () => {
         </div>
 
         <div className="sm:w-4/12 w-full flex justify-center">
-          <img src={sample} alt="Sample Kit" className="w-full max-w-md  object-cover" />
+          {/* <img src={sample} alt="Sample Kit" className="w-full max-w-md  object-cover" /> */}
         </div>
       </div>
     </div>
