@@ -45,6 +45,7 @@ const Tabs = ({ tabs, defaultTab, className }) => {
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(true);
   const scrollContainerRef = useRef(null);
+  const isInitialMount = useRef(true);
 
   useEffect(() => {
     if (prevTab !== null && prevTab !== activeTab) {
@@ -77,7 +78,13 @@ const Tabs = ({ tabs, defaultTab, className }) => {
   }, [tabs]);
 
   useEffect(() => {
-    // Scroll active tab into view on mobile
+    // Skip scrolling on initial mount to prevent auto-scroll on page refresh
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+    
+    // Scroll active tab into view on mobile (only when user changes tabs)
     if (scrollContainerRef.current) {
       const activeButton = scrollContainerRef.current.querySelector(`[data-tab="${activeTab}"]`);
       if (activeButton) {

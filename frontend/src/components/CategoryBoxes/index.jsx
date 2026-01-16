@@ -37,29 +37,11 @@ const CategoryBoxes = () => {
     setIsQuoteModalOpen(true);
   };
 
-  if (loading) {
-    return (
-      <div className="py-12 bg-white">
-        <div className="sm:max-w-8xl w-[95%] mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="animate-pulse">
-                <div className="bg-gray-200 rounded-2xl h-64 mb-4"></div>
-                <div className="bg-gray-200 h-6 rounded mb-2"></div>
-                <div className="bg-gray-200 h-4 rounded w-2/3"></div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <>
       <div className="py-12 bg-white">
         <div className="sm:max-w-8xl w-[95%] mx-auto">
-          {/* Header Section */}
+          {/* Header Section - Always visible */}
           <div className="text-center mb-10">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">
               Custom Boxes for Every Industry
@@ -69,49 +51,63 @@ const CategoryBoxes = () => {
             </p>
           </div>
 
-          {/* Categories Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
-            {categories.map((category) => (
-              <div
-                key={category._id}
-                className="group flex flex-col items-center text-center"
-              >
-                {/* Category Image */}
-                <div className="relative w-full rounded-2xl overflow-hidden mb-4 bg-gray-50 group-hover:shadow-lg transition-shadow duration-300">
-                  <Link to={`/category/${category.slug}`}>
-                    <img
-                      src={category.image ? `${BaseUrl}/${category.image}` : `${BaseUrl}/images/placeholder.jpg`}
-                      alt={category.imageAltText || category.title}
-                      className="w-full sm:h-64 h-44 object-cover group-hover:scale-105 transition-transform duration-300"
-                      loading="lazy"
-                    />
-                  </Link>
+          {/* Categories Grid - Loading or Content */}
+          {loading ? (
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <div key={i} className="animate-pulse">
+                  <div className="bg-gray-200 rounded-2xl h-64 mb-4"></div>
+                  <div className="bg-gray-200 h-6 rounded mb-2"></div>
+                  <div className="bg-gray-200 h-4 rounded w-2/3"></div>
                 </div>
+              ))}
+            </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
+                {categories.map((category) => (
+                  <div
+                    key={category._id}
+                    className="group flex flex-col items-center text-center"
+                  >
+                    {/* Category Image */}
+                    <div className="relative w-full rounded-2xl overflow-hidden mb-4 bg-gray-50 group-hover:shadow-lg transition-shadow duration-300">
+                      <Link to={`/category/${category.slug}`}>
+                        <img
+                          src={category.image ? `${BaseUrl}/${category.image}` : `${BaseUrl}/images/placeholder.jpg`}
+                          alt={category.imageAltText || category.title}
+                          className="w-full sm:h-64 h-44 object-cover group-hover:scale-105 transition-transform duration-300"
+                          loading="lazy"
+                        />
+                      </Link>
+                    </div>
 
-                {/* Category Title */}
-                <h3 className="font-bold text-lg text-gray-800 mb-3">
-                  {category.title}
-                </h3>
+                    {/* Category Title */}
+                    <h3 className="font-bold text-lg text-gray-800 mb-3">
+                      {category.title}
+                    </h3>
 
-                {/* Request Quote Link */}
-                <button
-                  onClick={() => handleRequestQuote(category)}
-                  className="text-[#EE334B] font-semibold hover:underline transition-colors"
-                >
-                  Request a Quote
-                </button>
+                    {/* Request Quote Link */}
+                    <button
+                      onClick={() => handleRequestQuote(category)}
+                      className="text-[#EE334B] font-semibold hover:underline transition-colors"
+                    >
+                      Request a Quote
+                    </button>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
 
-          {/* Bottom Request A Quote Button */}
-          <div className="flex justify-center mt-6">
-            <Button
-              className="bg-[#800020] text-white hover:bg-[#800020]/90 rounded-lg px-8 py-3 text-base font-semibold"
-              label="Request A Quote"
-              onClick={() => setIsQuoteModalOpen(true)}
-            />
-          </div>
+              {/* Bottom Request A Quote Button */}
+              <div className="flex justify-center mt-6">
+                <Button
+                  className="bg-[#800020] text-white hover:bg-[#800020]/90 rounded-lg px-8 py-3 text-base font-semibold"
+                  label="Request A Quote"
+                  onClick={() => setIsQuoteModalOpen(true)}
+                />
+              </div>
+            </>
+          )}
         </div>
       </div>
 

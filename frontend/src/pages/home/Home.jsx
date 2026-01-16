@@ -199,14 +199,14 @@ export const Home = React.memo(() => {
           <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
             {/* Tab Buttons */}
             <div className="flex md:flex-col flex-row w-full md:w-auto justify-center md:justify-start gap-2 md:gap-3 px-2">
-  {[
-    { key: "material", label: "Custom Box Material" },
-    { key: "special", label: "Special Packaging" }
-  ].map((tab) => (
-    <button
-      key={tab.key}
-      onClick={() => setActiveTab(tab.key)}
-      className={`
+              {[
+                { key: "material", label: "Custom Box Material" },
+                { key: "special", label: "Special Packaging" }
+              ].map((tab) => (
+                <button
+                  key={tab.key}
+                  onClick={() => setActiveTab(tab.key)}
+                  className={`
         flex items-center justify-center text-[11px] md:text-sm font-semibold
         flex-1 md:flex-none
         w-auto md:w-14
@@ -217,29 +217,29 @@ export const Home = React.memo(() => {
         text-white
         shadow-md transition-all duration-300
         ${activeTab === tab.key
-          ? "ring-2 ring-[#213554]"
-          : "opacity-80 hover:opacity-100"
-        }
+                      ? "ring-2 ring-[#213554]"
+                      : "opacity-80 hover:opacity-100"
+                    }
       `}
-    >
-      <span  style={{color:'white'}} className="text-center leading-tight md:[writing-mode:vertical-rl] md:[text-orientation:mixed]">
-        {tab.label}
-      </span>
-    </button>
-  ))}
-</div>
+                >
+                  <span style={{ color: 'white' }} className="text-center leading-tight md:[writing-mode:vertical-rl] md:[text-orientation:mixed]">
+                    {tab.label}
+                  </span>
+                </button>
+              ))}
+            </div>
 
 
             {/* Tab Content */}
             <div className="flex-1 w-full min-w-0 mt-6 md:mt-0">
               {activeTab === "material" && (
-                <Suspense fallback={<LoadingFallback  />}>
+                <Suspense fallback={<LoadingFallback />}>
                   <CustomBoxMaterial />
                 </Suspense>
               )}
 
               {activeTab === "special" && (
-                <Suspense fallback={<LoadingFallback  />}>
+                <Suspense fallback={<LoadingFallback />}>
                   <SpecialPackaging />
                 </Suspense>
               )}

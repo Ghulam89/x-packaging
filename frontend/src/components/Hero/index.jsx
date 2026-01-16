@@ -38,7 +38,7 @@ const Hero = () => {
   }, [isFirstLoad]);
 
   return (
-    <div className="w-full h-[80vh] relative overflow-hidden">
+    <div className="w-full md:h-[80vh] h-[55vh] relative overflow-hidden">
       {/* Video Background */}
       <video
         autoPlay
@@ -67,7 +67,7 @@ const Hero = () => {
         <div className="w-full sm:w-3/5 px-6 sm:px-8 md:px-12 lg:px-16 text-left">
           {/* Background behind content - Half screen */}
           {/* bg-black/30 backdrop-blur-sm */}
-          <div className=" rounded-lg p-6 sm:p-8 md:p-10">
+          <div className=" rounded-lg p-0 sm:p-8 md:p-10">
             <div>
               <h1 className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 uppercase tracking-wide">
               The X Factor Always Delivers!
