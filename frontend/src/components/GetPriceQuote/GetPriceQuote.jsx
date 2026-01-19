@@ -133,13 +133,13 @@ const GetPriceQuote = () => {
     <div className="w-full bg-[#f7f7f7] max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
       
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 ">
         {/* Left Side - Leave Your Message Section */}
         <div className="bg-[#f7f7f7] p-4 sm:p-6 lg:p-8 flex flex-col justify-center relative overflow-hidden">
           {/* Watermark Background - Left Side */}
-          <div className="hidden md:flex absolute -top-32 sm:-top-32 bottom-0 -left-8 sm:-left-16 items-center justify-start pl-4 sm:pl-8 pointer-events-none">
+          <div className="hidden md:flex absolute -top-32 sm:-top-28 bottom-0 -left-8 sm:-left-16 items-center justify-start pl-4 sm:pl-8 pointer-events-none">
             <h6
-              className="text-[40px] sm:text-[60px] lg:text-[100px] font-bold text-gray-300 opacity-20 select-none" 
+              className="text-[40px] sm:text-[60px] lg:text-[100px] font-bold text-[#EE334B] opacity-10 select-none" 
               style={{ 
                 fontFamily: 'Arial, sans-serif',
                 writingMode: 'vertical-rl',
@@ -151,7 +151,7 @@ const GetPriceQuote = () => {
             </h6>
           </div>
           
-          <div className="relative z-10">
+          <div className="relative w-10/12  ml-auto z-10">
             {/* Small intro text */}
             <p className="text-sm sm:text-base text-gray-500 mb-3 sm:mb-4">
               Don't miss the great supplier
@@ -182,7 +182,7 @@ const GetPriceQuote = () => {
         </div>
 
         {/* Right Side - Form */}
-        <div className=" w-11/12 mx-auto">
+        <div className=" w-10/12 mx-auto">
         <div className="bg-[#ffffff] rounded-tl-[30px] sm:rounded-tl-[50px] overflow-hidden">
           {/* Red Header Banner */}
           <div className="bg-[#EE334B] text-white rounded-tl-full py-3 sm:py-4 px-4 sm:px-6 text-center">

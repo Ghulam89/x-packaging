@@ -121,6 +121,8 @@ const CustomPackagingProduced = () => {
   }));
 
   return (
+
+    
     <div className="bg-[#F7F7F7]">
       <div 
         className="w-full max-w-[95%] sm:max-w-8xl p-3 sm:p-4 py-9 mt-10 rounded-xl mx-auto relative"

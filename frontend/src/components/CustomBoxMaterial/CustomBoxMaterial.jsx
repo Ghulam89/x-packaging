@@ -1,7 +1,22 @@
 import React, { useState, useEffect } from "react";
-import Tabs from "../common/Tabs";
 import CustomBoxCard from "../common/CustomBoxCard";
 import { Box1, Box2, Box3, Box4, Box5, Box6, Box7 } from "../../assets";
+
+// Add fadeInUp animation
+if (typeof document !== 'undefined' && !document.getElementById('custom-box-animations')) {
+  const style = document.createElement('style');
+  style.id = 'custom-box-animations';
+  style.textContent = `
+    @keyframes fadeInUp {
+      0% { transform: translateY(10px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+    .animate-fadeInUp {
+      animation: fadeInUp 0.4s ease-out;
+    }
+  `;
+  document.head.appendChild(style);
+}
 
 // Preload critical images to prevent layout shifts
 const preloadImages = (imageUrls) => {
@@ -13,6 +28,7 @@ const preloadImages = (imageUrls) => {
 
 const CustomBoxMaterial = () => {
   const [imagesLoaded, setImagesLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState("Rigid Boxes");
   
   const customBox = [
     {
@@ -111,13 +127,12 @@ const CustomBoxMaterial = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const data = customBox.map((box) => ({
-    title: box.title,
-    content: <CustomBoxCard {...box} />,
-  }));
+  // Get first 4 boxes for the image grid (2x2)
+  const imageTabs = customBox.slice(0, 4);
+  const activeBoxData = customBox.find(box => box.title === activeTab) || customBox[0];
 
   return (
-    <div className="w-full mx-auto ">
+    <div className="w-full mx-auto">
       <div className="text-center">
         <h2 className="sm:text-[35px] text-[25px] font-sans font-[600] text-[#333333] break-words">
           Custom Box Material Guide: Finding the Perfect Fit
@@ -134,14 +149,91 @@ const CustomBoxMaterial = () => {
         </div>
       )}
       
-      {/* <div className="my-10" style={{ display: imagesLoaded ? 'block' : 'none' }}> */}
-        <Tabs 
-          defaultTab={"Rigid Boxes"} 
-          // className={'border-[#F7F7F7] border'} 
-          className={'bg-white'}
-          tabs={data} 
-        />
-      {/* </div> */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center lg:gap-8 mt-8">
+        {/* Left Side - Image Grid Tabs (2x2) */}
+        <div className="relative">
+          {/* Watermark Background */}
+          <div className="hidden lg:flex absolute -top-32 bottom-0 -left-8 items-center justify-start pl-4 pointer-events-none opacity-10">
+            <h6
+              className="text-[60px] lg:text-[100px] font-bold text-gray-300 select-none"
+              style={{
+                fontFamily: 'Arial, sans-serif',
+                writingMode: 'vertical-rl',
+                textOrientation: 'mixed',
+              }}
+            >
+              Custom style
+            </h6>
+          </div>
+          
+          
+          <div className="grid grid-cols-2 gap-4 relative z-10">
+            {imageTabs.map((box) => {
+              const isActive = activeTab === box.title;
+              return (
+                <button
+                  key={box.id}
+                  onClick={() => setActiveTab(box.title)}
+                  className={`relative group rounded-lg overflow-hidden border-2 transition-all duration-300 transform  ${
+                    isActive
+                      ? 'border-[#EE334B] shadow-lg'
+                      : 'border-gray-200 hover:border-[#EE334B]/50 hover:shadow-md'
+                  }`}
+                >
+                  <div className="relative w-full  aspect-square overflow-hidden">
+                    <img
+                      src={box.image}
+                      alt={box.title}
+                      className={`w-full h-full  object-cover transition-transform duration-700 ${
+                        isActive ? 'scale-110' : 'group-hover:scale-110'
+                      }`}
+                    />
+                    {/* Overlay Gradient */}
+                    <div className={`absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent transition-opacity duration-300 ${
+                      isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+                    }`}></div>
+                    {/* Shine Effect */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none"></div>
+                  </div>
+                  {/* Label */}
+                  <div className={`absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 via-black/60 to-transparent ${
+                    isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+                  } transition-opacity duration-300`}>
+                    <p className="text-white font-semibold text-sm text-center">{box.title}</p>
+                  </div>
+                  {/* Active Indicator */}
+                  {isActive && (
+                    <div className="absolute top-2 right-2 w-6 h-6 bg-[#EE334B] rounded-full flex items-center justify-center">
+                      <div className="w-2 h-2 bg-white rounded-full"></div>
+                    </div>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Right Side - Content */}
+        <div className="relative">
+          {/* Watermark Background */}
+          <div className="hidden lg:flex absolute -top-32 bottom-0 -right-8 items-center justify-end pr-4 pointer-events-none opacity-10">
+            <h6
+              className="text-[60px] lg:text-[100px] font-bold text-gray-300 select-none"
+              style={{
+                fontFamily: 'Arial, sans-serif',
+                writingMode: 'vertical-rl',
+                textOrientation: 'mixed',
+              }}
+            >
+              style
+            </h6>
+          </div>
+          
+          <div className="relative z-10 animate-fadeInUp">
+            <CustomBoxCard {...activeBoxData} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

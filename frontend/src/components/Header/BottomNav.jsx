@@ -370,7 +370,7 @@ const BottomNav = ({ Menu, OpenMenu }) => {
 
       {/* Mobile Menu */}
       <div
-        className={`sm:hidden ${Menu ? "block" : "hidden"} bg-black/60 backdrop-blur-sm fixed inset-0 z-50 animate-fadeIn`}
+        className={`sm:hidden ${Menu ? "block z-[9999]" : "hidden"} bg-black/60 backdrop-blur-sm fixed inset-0 z-[9999] animate-fadeIn`}
         onClick={() => OpenMenu(false)}
       >
         <div 

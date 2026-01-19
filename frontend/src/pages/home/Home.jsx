@@ -193,14 +193,14 @@ export const Home = React.memo(() => {
         <Hero />
         <BottomHero />
         <CategoryBoxes />
-        <WorkWithYou/>
+    
         <OfferCard discount={'Get 30%'} title={'Off Your First Order!'} />
         <Category />
-
+        <WorkWithYou/>
         <div className="w-full max-w-[95%] sm:max-w-8xl mx-auto mt-10 px-2 sm:px-4">
           <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
-            {/* Tab Buttons */}
-            <div className="flex md:flex-col flex-row w-full md:w-auto justify-center md:justify-start gap-2 md:gap-3 px-2">
+           
+            {/* <div className="flex md:flex-col flex-row w-full md:w-auto justify-center md:justify-start gap-2 md:gap-3 px-2">
               {[
                 { key: "material", label: "Custom Box Material" },
                 { key: "special", label: "Special Packaging" }
@@ -229,10 +229,10 @@ export const Home = React.memo(() => {
                   </span>
                 </button>
               ))}
-            </div>
+            </div> */}
 
 
-            {/* Tab Content */}
+           
             <div className="flex-1 w-full min-w-0 mt-6 md:mt-0">
               {activeTab === "material" && (
                 <Suspense fallback={<LoadingFallback />}>
@@ -276,7 +276,7 @@ export const Home = React.memo(() => {
         </Suspense> */}
         <div className='flex flex-col gap-8 my-12 bg-[#F6F6F6]'>
           <div>
-            <div className="  mt-8  sm:max-w-8xl bg-[#fff] p-8 flex sm:flex-row flex-col gap-5 justify-between items-center rounded-xl max-w-[95%] mx-auto">
+            {/* <div className="  mt-8  sm:max-w-8xl bg-[#fff] p-8 flex sm:flex-row flex-col gap-5 justify-between items-center rounded-xl max-w-[95%] mx-auto">
               <div>
                 <img src={google} alt='' loading="lazy" />
               </div>
@@ -287,7 +287,19 @@ export const Home = React.memo(() => {
       hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed'>Review us on Google</button>
                 </a>
               </div>
-            </div>
+            </div> */}
+            <div className="mt-8 sm:max-w-8xl bg-gradient-to-r from-[#213554] to-[#213554]/95 p-8 flex sm:flex-row flex-col gap-5 justify-between items-center rounded-2xl max-w-[95%] mx-auto shadow-xl">
+        <div>
+          <img src={google} alt='Google Reviews' className="filter brightness-0 invert" />
+        </div>
+        <div>
+          <button className='px-8 py-3 rounded-lg flex bg-white text-[#213554] hover:bg-[#EE334B] hover:text-white font-semibold text-sm items-center justify-center gap-2 
+      transition-all duration-300 ease-in-out transform 
+      hover:-translate-y-1 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed'>
+            Review us on Google
+          </button>
+        </div>
+      </div>
           </div>
           <div>
             {/* Below the fold - lazy loaded with Suspense */}

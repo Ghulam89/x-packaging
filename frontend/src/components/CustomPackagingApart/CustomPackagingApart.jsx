@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import abstractBg from '../../assets/images/abstract-bg.png';
+import abstractBg from '../../assets/images/custom packaging production.webp';
 import { Icon10, Icon11, Icon12, Icon7, Icon8, Icon9 } from '../../assets';
 
 const CustomPackagingApart = () => {
@@ -71,7 +71,7 @@ const CustomPackagingApart = () => {
   ], []);
  
   return (
-    <div className="sm:max-w-8xl my-6 max-w-[95%] mx-auto">
+    <div className=" mx-auto">
       <div className="text-center pb-3">
         <h2 className="sm:text-[35px] text-[25px] pb-3 font-sans font-[600] text-[#333333]">
           Vivid Custom Printing – Precision, Personalization & Brand Elevation
@@ -87,10 +87,10 @@ const CustomPackagingApart = () => {
           
           
           <div 
-            className=' p-6 sm:p-8 relative bg-cover bg-center bg-no-repeat'
-            // style={{ backgroundImage: `url(${abstractBg})` }}
+            className=' p-6 sm:p-8  relative  bg-cover  bg-center bg-no-repeat '
+            style={{ backgroundImage: `url(${abstractBg})` }}
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <div className="grid grid-cols-1 max-w-[95%] sm:max-w-8xl mx-auto sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
               {oldData.map((item) => (
                 <div key={item.id} className="text-center px-2">
                   <img 
