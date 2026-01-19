@@ -13,6 +13,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/effect-coverflow';
 import { Navigation, Autoplay, Mousewheel, Keyboard, EffectCoverflow } from 'swiper/modules';
+import gift from '../../assets/images/Gift.webp';
 import { gallery1, gallery2, gallery3, gallery4, gallery5, gallery6, gallery7, gallery8, gallery9 } from "../../assets";
 
 // Gallery images - moved outside component to avoid dependency issues
@@ -133,11 +134,58 @@ const GetPriceQuote = () => {
       
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
-        {/* Left Side - Form */}
-        <div className=" w-12/12 mx-auto">
-        <div className="bg-[#ffffff] rounded-tr-[30px] sm:rounded-tr-[50px] overflow-hidden">
+        {/* Left Side - Leave Your Message Section */}
+        <div className="bg-[#f7f7f7] p-4 sm:p-6 lg:p-8 flex flex-col justify-center relative overflow-hidden">
+          {/* Watermark Background - Left Side */}
+          <div className="hidden md:flex absolute -top-32 sm:-top-32 bottom-0 -left-8 sm:-left-16 items-center justify-start pl-4 sm:pl-8 pointer-events-none">
+            <h6
+              className="text-[40px] sm:text-[60px] lg:text-[100px] font-bold text-gray-300 opacity-20 select-none" 
+              style={{ 
+                fontFamily: 'Arial, sans-serif',
+                writingMode: 'vertical-rl',
+                textOrientation: 'mixed',
+                transform: 'rotate(0deg)'
+              }}
+            >
+              Custom Quote
+            </h6>
+          </div>
+          
+          <div className="relative z-10">
+            {/* Small intro text */}
+            <p className="text-sm sm:text-base text-gray-500 mb-3 sm:mb-4">
+              Don't miss the great supplier
+            </p>
+            
+            {/* Main heading */}
+            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-4 sm:mb-5 leading-tight">
+              Leave Your Message with Your Needs.
+            </h3>
+            
+            {/* Decorative line */}
+            <div className="w-16 sm:w-20 h-1 bg-[#EE334B] mb-5 sm:mb-6 rounded"></div>
+            
+            {/* Descriptive paragraph */}
+            <p className="text-gray-600 mb-6 sm:mb-8 text-sm sm:text-base lg:text-lg leading-relaxed">
+              The quick way to get a quote from us, fill in your name, email, phone and message, we will reply within 1 work day.
+            </p>
+            
+            {/* Image */}
+            <div className="relative w-full h-64 sm:h-80 lg:h-96 rounded-lg overflow-hidden">
+              <img 
+                src={gift} 
+                alt="Gift box packaging" 
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Right Side - Form */}
+        <div className=" w-11/12 mx-auto">
+        <div className="bg-[#ffffff] rounded-tl-[30px] sm:rounded-tl-[50px] overflow-hidden">
           {/* Red Header Banner */}
-          <div className="bg-[#EE334B] text-white rounded-tr-full py-3 sm:py-4 px-4 sm:px-6 text-center">
+          <div className="bg-[#EE334B] text-white rounded-tl-full py-3 sm:py-4 px-4 sm:px-6 text-center">
             <h3 className="text-base sm:text-lg lg:text-xl font-bold uppercase">GET CUSTOM QUOTE</h3>
           </div>
 
@@ -388,62 +436,6 @@ const GetPriceQuote = () => {
             </div>
           </form>
         </div>
-        </div>
-
-        {/* Right Side - Content */}
-        <div className="bg-[#f7f7f7] p-4 sm:p-6 lg:p-8 flex flex-col justify-center relative overflow-hidden">
-          {/* Watermark Background - Right Side */}
-          <div className="hidden md:flex absolute -top-32 sm:-top-32 bottom-0 -right-8 sm:-right-16 items-center justify-end pr-4 sm:pr-8 pointer-events-none">
-            <h6
-              className="text-[40px] sm:text-[60px] lg:text-[100px] font-bold text-gray-300 opacity-20 select-none" 
-              style={{ 
-                fontFamily: 'Arial, sans-serif',
-                writingMode: 'vertical-rl',
-                textOrientation: 'mixed',
-                transform: 'rotate(0deg)'
-              }}
-            >
-              Custom Quote
-            </h6>
-          </div>
-          
-          {/* Content */}
-          <div className="relative z-10">
-            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-4 sm:mb-5 lg:mb-6 leading-tight">
-              Custom Boxes, Designed for Your Brand, Made for Your Needs - Without the Hassle.
-            </h3>
-            
-            <p className="text-gray-600 mb-4 sm:mb-5 lg:mb-6 text-sm sm:text-base lg:text-lg leading-relaxed">
-              Ensuring the perfect fit, protection, branding, and presentation for your custom boxes is effortless with our comprehensive support.
-            </p>
-            
-            <p className="text-gray-600 mb-4 sm:mb-5 lg:mb-6 text-sm sm:text-base lg:text-lg leading-relaxed">
-              Get expert guidance, access a vast design library, and find the right size by sending your product. We assist in selecting the best materials, printing techniques, finishes, laminations, and add-ons—tailored to your packaging needs and purpose, without the hassle.
-            </p>
-            
-            <h4 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">
-              Still, There's More!
-            </h4>
-            
-            <ul className="mt-4 sm:mt-6 grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
-              <li className="flex items-center gap-2 sm:gap-3 bg-gray-100 rounded-lg p-3 sm:p-4">
-                <FaCheckCircle className="text-[#EE334B] text-lg sm:text-xl mt-0.5 flex-shrink-0" />
-                <span className="text-sm sm:text-base text-gray-700">New look for your brand</span>
-              </li>
-              <li className="flex items-center gap-2 sm:gap-3 bg-gray-100 rounded-lg p-3 sm:p-4">
-                <FaCheckCircle className="text-[#EE334B] text-lg sm:text-xl mt-0.5 flex-shrink-0" />
-                <span className="text-sm sm:text-base text-gray-700">Perfect fit to your products</span>
-              </li>
-              <li className="flex items-center gap-2 sm:gap-3 bg-gray-100 rounded-lg p-3 sm:p-4">
-                <FaCheckCircle className="text-[#EE334B] text-lg sm:text-xl mt-0.5 flex-shrink-0" />
-                <span className="text-sm sm:text-base text-gray-700">Perfect fit to your purpose</span>
-              </li>
-              <li className="flex items-center gap-2 sm:gap-3 bg-gray-100 rounded-lg p-3 sm:p-4 sm:h-14">
-                <FaCheckCircle className="text-[#EE334B] text-lg sm:text-xl mt-0.5 flex-shrink-0" />
-                <span className="text-sm sm:text-base text-gray-700">All with convenience quick</span>
-              </li>
-            </ul>
-          </div>
         </div>
       </div>
     </div>

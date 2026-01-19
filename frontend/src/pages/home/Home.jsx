@@ -19,6 +19,7 @@ import CustomPackagingApart from '../../components/CustomPackagingApart/CustomPa
 import PersonalTestimonial from '../../components/PersonalTestimnonial/PersonalTestimonial'
 import CustomBoxMaterial from '../../components/CustomBoxMaterial/CustomBoxMaterial'
 import Tabs from '../../components/common/Tabs'
+import WorkWithYou from '../../components/WorkWithYou'
 
 // Lazy load below-the-fold components for better FCP
 const FAQ = lazy(() => import('../../components/FAQ/FAQ'))
@@ -192,6 +193,7 @@ export const Home = React.memo(() => {
         <Hero />
         <BottomHero />
         <CategoryBoxes />
+        <WorkWithYou/>
         <OfferCard discount={'Get 30%'} title={'Off Your First Order!'} />
         <Category />
 
