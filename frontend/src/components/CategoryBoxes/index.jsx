@@ -132,12 +132,12 @@ const CategoryBoxes = () => {
                     </h3>
 
                     {/* Request Quote Link */}
-                    <button
+                    {/* <button
                       onClick={() => handleRequestQuote(category)}
                       className="text-[#EE334B] font-semibold hover:underline transition-colors"
                     >
                       Request a Quote
-                    </button>
+                    </button> */}
                   </div>
                 ))}
               </div>

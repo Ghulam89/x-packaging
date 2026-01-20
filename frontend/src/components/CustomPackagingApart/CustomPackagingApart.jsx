@@ -73,7 +73,16 @@ const CustomPackagingApart = () => {
   return (
     <div className=" mx-auto">
       <div className="text-center py-5">
-        <h2 className="sm:text-[35px] text-[25px] pb-3 font-sans font-[600] text-[#333333]">
+        
+       
+
+        <div className="">
+          
+          
+          <div 
+            className=' p-6 sm:p-8  relative  bg-cover  bg-center bg-no-repeat '
+            style={{ backgroundImage: `url(${abstractBg})` }}
+          ><h2 className="sm:text-[35px] text-[25px] pb-3 font-sans font-[600] text-[#333333]">
           Vivid Custom Printing – Precision, Personalization & Brand Elevation
         </h2>
         
@@ -81,15 +90,7 @@ const CustomPackagingApart = () => {
           Your packaging is more than just a container—it's a canvas for your brand. Our custom-printed boxes are designed to bring your vision to life with rich colors, precision detailing, and premium finishes, ensuring that every package reflects your brand identity with unmatched clarity and impact.
         </p>
         
-       
 
-        <div className="mt-8">
-          
-          
-          <div 
-            className=' p-6 sm:p-8  relative  bg-cover  bg-center bg-no-repeat '
-            style={{ backgroundImage: `url(${abstractBg})` }}
-          >
             <div className="grid grid-cols-1 max-w-[95%] sm:max-w-8xl mx-auto sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
               {oldData.map((item) => (
                 <div key={item.id} className="text-center px-2">

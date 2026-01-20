@@ -186,7 +186,7 @@ const CustomBoxMaterial = () => {
                 <button
                   key={box.id}
                   onClick={() => setActiveTab(box.title)}
-                  className={`relative group rounded-lg overflow-hidden border-2 transition-all duration-300 transform  ${
+                  className={`relative group rounded-lg overflow-hidden  border-[2px] transition-all duration-300 transform  ${
                     isActive
                       ? 'border-[#EE334B] shadow-lg'
                       : 'border-gray-200 hover:border-[#EE334B]/50 hover:shadow-md'
@@ -208,9 +208,7 @@ const CustomBoxMaterial = () => {
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none"></div>
                   </div>
                   {/* Label */}
-                  <div className={`absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 via-black/60 to-transparent ${
-                    isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
-                  } transition-opacity duration-300`}>
+                  <div className={`absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 via-black/60 to-transparent transition-opacity duration-300`}>
                     <p className="text-white font-semibold text-sm text-center">{box.title}</p>
                   </div>
                   {/* Active Indicator */}

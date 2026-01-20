@@ -20,6 +20,7 @@ import PersonalTestimonial from '../../components/PersonalTestimnonial/PersonalT
 import CustomBoxMaterial from '../../components/CustomBoxMaterial/CustomBoxMaterial'
 import Tabs from '../../components/common/Tabs'
 import WorkWithYou from '../../components/WorkWithYou'
+import CustomInserts from '../../components/CustomInserts'
 
 // Lazy load below-the-fold components for better FCP
 const FAQ = lazy(() => import('../../components/FAQ/FAQ'))
@@ -248,8 +249,8 @@ export const Home = React.memo(() => {
             </div>
           </div>
         </div>
-        <WorkWithYou/>
-
+        <CustomPackagingProduced />
+       
         <div className=' pt-5'>
           <Suspense fallback={<LoadingFallback height="h-64" />}>
             <GetPriceQuote />
@@ -274,11 +275,17 @@ export const Home = React.memo(() => {
           <img src={google} alt='Google Reviews' className="filter brightness-0 invert" />
         </div>
         <div>
-          <button className='px-8 py-3 rounded-lg flex bg-white text-[#213554] hover:bg-[#EE334B] hover:text-white font-semibold text-sm items-center justify-center gap-2 
+        <a href="https://www.google.com/search?q=Umbrella+Custom+Packaging+USA+Reviews&rlz=1C1RXMK_en-GBPK1190PK1190&oq=umbre&gs_lcrp=EgZjaHJvbWUqCAgBEEUYJxg7MgYIABBFGEEyCAgBEEUYJxg7MhIIAhAuGCcYrwEYxwEYgAQYigUyDwgDEC4YQxixAxiABBiKBTIGCAQQRRg5MgYIBRBFGDwyBggGEEUYPTIGCAcQRRg80gEIMzgzN2owajeoAgCwAgA&sourceid=chrome&ie=UTF-8#lrd=0x80c2bbbf80eec803:0x8425555061bf7fe8,3,,,," target="_blank" rel="noopener noreferrer"
+        >
+  <button className='px-8 py-3 rounded-lg flex bg-white text-[#213554] hover:bg-[#EE334B] hover:text-white font-semibold text-sm items-center justify-center gap-2 
       transition-all duration-300 ease-in-out transform 
       hover:-translate-y-1 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed'>
             Review us on Google
           </button>
+
+        </a>
+
+        
         </div>
       </div>
           </div>
@@ -290,8 +297,11 @@ export const Home = React.memo(() => {
           </div>
 
         </div>
-        <WeFulfil />
-        <CustomPackagingProduced />
+        <WorkWithYou/>
+        <CustomInserts/>
+        
+        
+        <CustomPackagingApart />
         {/* <FeaturesPackaging /> */}
         {/* <OfferCard discount={'Save 30%'} title={'on Bulk Orders'} subTitle={'Need more this year?'} /> */}
 
@@ -302,8 +312,7 @@ export const Home = React.memo(() => {
         
         <PackagingBanner title={'Order Kraft Packaging For Sustainable Future.'} bgImage={kraftPackagingBanner} subTitle={'Go Green with Umbrella Custom Packaging Go For Kraft Packaging'} url={'/shop'} />
 
-        <CustomPackagingApart />
-       
+        <WeFulfil />
 
 
         <Suspense fallback={<LoadingFallback height="h-96" />}>

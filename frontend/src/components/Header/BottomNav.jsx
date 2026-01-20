@@ -121,6 +121,37 @@ const BottomNav = ({ Menu, OpenMenu }) => {
     }));
   };
 
+  // Disable body scroll when mobile menu is open
+  useEffect(() => {
+    if (Menu) {
+      // Save current scroll position
+      const scrollY = window.scrollY;
+      // Disable scroll
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+      document.body.style.overflow = 'hidden';
+    } else {
+      // Re-enable scroll
+      const scrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflow = '';
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      }
+    }
+    
+    return () => {
+      // Cleanup on unmount
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflow = '';
+    };
+  }, [Menu]);
+
   // Fetch brands from API
   useEffect(() => {
     const fetchBrands = async () => {
@@ -370,7 +401,7 @@ const BottomNav = ({ Menu, OpenMenu }) => {
 
       {/* Mobile Menu */}
       <div
-        className={`sm:hidden ${Menu ? "block z-[9999]" : "hidden"} bg-black/60 backdrop-blur-sm fixed inset-0 z-[9999] animate-fadeIn`}
+        className={`sm:hidden ${Menu ? "block" : "hidden"} bg-black/60 backdrop-blur-sm fixed z-[10000] inset-0 animate-fadeIn`}
         onClick={() => OpenMenu(false)}
       >
         <div 
@@ -412,7 +443,7 @@ const BottomNav = ({ Menu, OpenMenu }) => {
             {displayCategories.map((category, index) => (
               <li key={index}>
                 <Link
-                  to={`/category/${category?.slug || category?.category}`}
+                  to={`/${category?.slug || category?.category}`}
                   className="block px-4 py-3 font-semibold text-[#213554] hover:text-[#EE334B] hover:bg-[#EE334B]/10 rounded-lg transition-all duration-300"
                   onClick={OpenMenu}
                 >

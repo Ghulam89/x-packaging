@@ -2,27 +2,25 @@ import React from 'react';
 import CardSlider from '../common/CardSlider';
 import { special1, special4, special7, special10, special13, special16 } from '../../assets';
 
-const WorkWithYou = () => {
+const CustomInserts = () => {
   const addons = [
-    { img: special1, title: 'Embossing', desc: 'Design a folding carton that suits your brand with custom sizes, prints, and eco-friendly materials.' },
-    { img: special4, title: 'Debossing', desc: 'Prepare your products with high-quality folding carton packaging, offering durability, customization, and eco-friendly solutions.' },
-    { img: special7, title: 'Silver Foiling', desc: 'Settle paper is used for securing products in folding cartons, ensuring safe, organized packaging during transit.' },
-    { img: special10, title: 'Gold Foiling', desc: 'Add-ons for customization, branding, or packaging enhancements to meet your specific needs.' },
-    { img: special13, title: 'Spot UV', desc: 'Enhance your packaging with spot UV coating for premium finish and visual appeal.' },
-    { img: special16, title: 'Holographic', desc: 'Create eye-catching holographic effects that make your packaging stand out.' },
+    { img: special1, title: 'Foam Inserts', desc: 'Design a folding carton that suits your brand with custom sizes, prints, and eco-friendly materials.' },
+    { img: special4, title: 'Cardboard Inserts', desc: 'Prepare your products with high-quality folding carton packaging, offering durability, customization, and eco-friendly solutions.' },
+    { img: special7, title: 'Clamshell Inserts', desc: 'Settle paper is used for securing products in folding cartons, ensuring safe, organized packaging during transit.' },
+    { img: special10, title: 'Corrugated Inserts', desc: 'Add-ons for customization, branding, or packaging enhancements to meet your specific needs.' },
+    { img: special13, title: 'Eva Foam Inserts', desc: 'Enhance your packaging with spot UV coating for premium finish and visual appeal.' },
+    
   ];
 
   return (
-    <section className="pt-12 bg-[#f7f7f7]">
+    <section className="pt-12 ">
       <div className="sm:max-w-8xl max-w-[95%] mx-auto px-4">
-      <div className=' text-center'>
-      <h2 className="sm:text-[35px] text-[25px] leading-9 font-sans font-[600] text-[#333333] break-words">
-          Enhance Your Product Presentation with Our Special Packaging Features
-        </h2>
-        <p className="pt-3 text-gray-600 pb-3 break-words">
-          Following are few steps which provide the complete Guide.
+        <h2 className="text-3xl font-bold text-center mb-5">Custom inserts that enhance unboxing and strengthen your brand identity.</h2>
+        <p className="text-center text-gray-600 mb-12">
+        Custom Packaging specializes in high-quality, tailor-made packaging solutions.
+We design and manufacture packaging that fits your product and brand perfectly.
+Our focus is on durability, premium presentation, and cost-effective solutions.
         </p>
-      </div>
         <CardSlider
           top={40}
           items={addons.map((addon, index) => (
@@ -57,4 +55,4 @@ const WorkWithYou = () => {
   );
 };
 
-export default WorkWithYou;
+export default CustomInserts;
