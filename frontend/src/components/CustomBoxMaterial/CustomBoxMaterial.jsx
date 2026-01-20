@@ -149,11 +149,11 @@ const CustomBoxMaterial = () => {
         </div>
       )}
       
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center lg:gap-8 mt-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center lg:gap-8 my-8">
         {/* Left Side - Image Grid Tabs (2x2) */}
         <div className="relative">
           {/* Watermark Background */}
-          <div className="hidden lg:flex absolute -top-32 bottom-0 -left-8 items-center justify-start pl-4 pointer-events-none opacity-10">
+          {/* <div className="hidden lg:flex absolute -top-32 bottom-0 -left-8 items-center justify-start pl-4 pointer-events-none opacity-10">
             <h6
               className="text-[60px] lg:text-[100px] font-bold text-gray-300 select-none"
               style={{
@@ -164,9 +164,21 @@ const CustomBoxMaterial = () => {
             >
               Custom style
             </h6>
+          </div> */}
+          {/* <div className="hidden md:flex absolute -top-32 sm:-top-28 bottom-0 -left-8 sm:-left-16 items-center justify-start pl-4 sm:pl-8 pointer-events-none">
+            <h6
+              className="text-[40px] sm:text-[60px] lg:text-[100px] font-bold text-[#EE334B] opacity-10 select-none" 
+              style={{ 
+                fontFamily: 'Arial, sans-serif',
+                writingMode: 'vertical-rl',
+                textOrientation: 'mixed',
+                transform: 'rotate(0deg)'
+              }}
+            >
+              Custom Quote
+            </h6>
           </div>
-          
-          
+           */}
           <div className="grid grid-cols-2 gap-4 relative z-10">
             {imageTabs.map((box) => {
               const isActive = activeTab === box.title;
@@ -180,12 +192,12 @@ const CustomBoxMaterial = () => {
                       : 'border-gray-200 hover:border-[#EE334B]/50 hover:shadow-md'
                   }`}
                 >
-                  <div className="relative w-full  aspect-square overflow-hidden">
+                  <div className="relative w-full  sm:h-64 h-auto aspect-square overflow-hidden">
                     <img
                       src={box.image}
                       alt={box.title}
                       className={`w-full h-full  object-cover transition-transform duration-700 ${
-                        isActive ? 'scale-110' : 'group-hover:scale-110'
+                        isActive ? '' : ''
                       }`}
                     />
                     {/* Overlay Gradient */}
@@ -216,7 +228,7 @@ const CustomBoxMaterial = () => {
         {/* Right Side - Content */}
         <div className="relative">
           {/* Watermark Background */}
-          <div className="hidden lg:flex absolute -top-32 bottom-0 -right-8 items-center justify-end pr-4 pointer-events-none opacity-10">
+          {/* <div className="hidden lg:flex absolute -top-32 bottom-0 -right-8 items-center justify-end pr-4 pointer-events-none opacity-10">
             <h6
               className="text-[60px] lg:text-[100px] font-bold text-gray-300 select-none"
               style={{
@@ -227,11 +239,28 @@ const CustomBoxMaterial = () => {
             >
               style
             </h6>
-          </div>
-          
-          <div className="relative z-10 animate-fadeInUp">
+          </div> */}
+          <div className="relative">
+          <div className=" z-10 animate-fadeInUp md:pr-20 pr-0">
             <CustomBoxCard {...activeBoxData} />
           </div>
+          <div className="hidden md:flex absolute  z-30 -bottom-18 right-0 items-center justify-start pointer-events-none">
+            <h6
+              className="text-[40px] sm:text-[60px]  lg:text-[77px] font-bold text-[#EE334B] opacity-10 select-none" 
+              style={{ 
+                fontFamily: 'Arial, sans-serif',
+                writingMode: 'vertical-rl',
+                textOrientation: 'mixed',
+                transform: 'rotate(0deg)',
+                whiteSpace: 'nowrap'
+              }}
+            >
+              Custom{'\u00A0'}Material 
+            </h6>
+          </div>
+       
+          </div>
+          
         </div>
       </div>
     </div>

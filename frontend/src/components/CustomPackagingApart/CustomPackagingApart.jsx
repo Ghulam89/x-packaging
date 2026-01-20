@@ -72,7 +72,7 @@ const CustomPackagingApart = () => {
  
   return (
     <div className=" mx-auto">
-      <div className="text-center pb-3">
+      <div className="text-center py-5">
         <h2 className="sm:text-[35px] text-[25px] pb-3 font-sans font-[600] text-[#333333]">
           Vivid Custom Printing – Precision, Personalization & Brand Elevation
         </h2>

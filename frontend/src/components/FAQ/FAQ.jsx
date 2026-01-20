@@ -85,7 +85,7 @@ const FAQ = () => {
               <span className="absolute bottom-0 left-0 w-full h-1 bg-[#EE334B]"></span>
             </h2>
           </div>
-          <div className="flex sm:flex-row  flex-col justify-between sm:gap-8 gap-6 items-center">
+          <div className="flex sm:flex-row  pb-5 flex-col justify-between sm:gap-8 gap-6 items-center">
             {/* Left Side - Image */}
             <div className="sm:w-5/12 mx-auto w-full flex justify-center items-center relative">
               <div className="relative w-full  pt-3">

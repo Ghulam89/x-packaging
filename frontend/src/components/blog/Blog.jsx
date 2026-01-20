@@ -18,7 +18,7 @@ const BlogCard = lazy(() => import("../common/BlogCard"));
 
 // Skeleton loader for blog cards
 const BlogCardSkeleton = () => (
-  <div className="group relative h-full">
+  <div className="group relative py-4 h-full">
     <div className="rounded-2xl overflow-hidden h-full bg-white shadow-md border border-gray-200 flex flex-col animate-pulse">
       {/* Blog Image Skeleton */}
       <div className="w-full h-64 overflow-hidden relative rounded-t-2xl bg-gray-200"></div>
@@ -85,7 +85,7 @@ const Blog = () => {
 
 
   return (
-     <section ref={elementRef} className=''>
+     <section ref={elementRef} className=' bg-[#F7F7F7] py-5'>
      <div className='sm:max-w-8xl w-[95%] mx-auto'>
        <div className='mb-5 flex sm:flex-row flex-col items-center gap-2.5'>
          <h2 className='text-left'>Blogs & News</h2>

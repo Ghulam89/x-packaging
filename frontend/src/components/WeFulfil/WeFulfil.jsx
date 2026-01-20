@@ -6,14 +6,7 @@ function WeFulfil() {
   return (
     <div className='sm:max-w-8xl w-[95%] mt-5 mx-auto text-center rounded-[8px]'>
       <div className='grid lg:grid-cols-2 grid-cols-1 gap-6 md:gap-10'>
-        <div className='flex items-center justify-center'>
-          <img 
-            src={IndustryStandard} 
-            className=' w-full h-auto  rounded-xl object-cover' 
-            alt='Industry Standard Packaging' 
-            loading='lazy'
-          />
-        </div>
+       
 
         <div className='flex flex-col items-start justify-center space-y-4 md:space-y-5'>
           <h2 className="sm:text-[35px] text-[25px]   leading-9    text-start  font-sans   font-[600] text-[#333333] ">
@@ -65,6 +58,14 @@ function WeFulfil() {
               ))}
             </div>
           </div>
+        </div>
+        <div className='flex items-center justify-center'>
+          <img 
+            src={IndustryStandard} 
+            className=' w-full h-auto  rounded-xl object-cover' 
+            alt='Industry Standard Packaging' 
+            loading='lazy'
+          />
         </div>
       </div>
     </div>

@@ -196,7 +196,7 @@ export const Home = React.memo(() => {
     
         <OfferCard discount={'Get 30%'} title={'Off Your First Order!'} />
         <Category />
-        <WorkWithYou/>
+       
         <div className="w-full max-w-[95%] sm:max-w-8xl mx-auto mt-10 px-2 sm:px-4">
           <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
            
@@ -248,32 +248,13 @@ export const Home = React.memo(() => {
             </div>
           </div>
         </div>
-
+        <WorkWithYou/>
 
         <div className=' pt-5'>
           <Suspense fallback={<LoadingFallback height="h-64" />}>
             <GetPriceQuote />
           </Suspense>
         </div>
-        <WeFulfil />
-        <CustomPackagingProduced />
-        <PackagingBanner title={'Order Kraft Packaging For Sustainable Future.'} bgImage={kraftPackagingBanner} subTitle={'Go Green with Umbrella Custom Packaging Go For Kraft Packaging'} url={'/shop'} />
-        {/* <FeaturesPackaging /> */}
-        {/* <OfferCard discount={'Save 30%'} title={'on Bulk Orders'} subTitle={'Need more this year?'} /> */}
-
-
-
-
-
-        {/* <Blogs /> */}
-
-        <Suspense fallback={<LoadingFallback height="h-96" />}>
-          <InspirationPackaging />
-        </Suspense>
-        <CustomPackagingApart />
-        {/* <Suspense fallback={<LoadingFallback height="h-96" />}>
-          <Capabilities />
-        </Suspense> */}
         <div className='flex flex-col gap-8 my-12 bg-[#F6F6F6]'>
           <div>
             {/* <div className="  mt-8  sm:max-w-8xl bg-[#fff] p-8 flex sm:flex-row flex-col gap-5 justify-between items-center rounded-xl max-w-[95%] mx-auto">
@@ -309,14 +290,31 @@ export const Home = React.memo(() => {
           </div>
 
         </div>
+        <WeFulfil />
+        <CustomPackagingProduced />
+        {/* <FeaturesPackaging /> */}
+        {/* <OfferCard discount={'Save 30%'} title={'on Bulk Orders'} subTitle={'Need more this year?'} /> */}
 
+
+
+
+
+        
+        <PackagingBanner title={'Order Kraft Packaging For Sustainable Future.'} bgImage={kraftPackagingBanner} subTitle={'Go Green with Umbrella Custom Packaging Go For Kraft Packaging'} url={'/shop'} />
+
+        <CustomPackagingApart />
+       
 
 
         <Suspense fallback={<LoadingFallback height="h-96" />}>
-          <FAQ />
+          <InspirationPackaging />
         </Suspense>
+       
         <Suspense fallback={<LoadingFallback height="h-96" />}>
           <PersonalTestimonial />
+        </Suspense>
+        <Suspense fallback={<LoadingFallback height="h-96" />}>
+          <FAQ />
         </Suspense>
         <Suspense fallback={<LoadingFallback height="h-96" />}>
           <Blog />
