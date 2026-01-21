@@ -7,9 +7,9 @@ import axios from 'axios';
 import { BaseUrl } from '../../utils/BaseUrl';
 import { useIntersectionObserver } from '../../utils/useIntersectionObserver';
 
-const Category = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+const Category = ({ serverData }) => {
+  const [products, setProducts] = useState(serverData || []);
+  const [loading, setLoading] = useState(!serverData);
   const [elementRef, isIntersecting] = useIntersectionObserver({
     threshold: 0.1,
     rootMargin: '100px', // Start loading 100px before component is visible
@@ -17,6 +17,13 @@ const Category = () => {
   });
 
   useEffect(() => {
+    // If serverData is provided, use it and don't fetch
+    if (serverData && serverData.length > 0) {
+      setProducts(serverData);
+      setLoading(false);
+      return;
+    }
+
     // Only fetch products when component is about to be visible
     if (!isIntersecting) return;
 
@@ -38,7 +45,7 @@ const Category = () => {
     };
 
     fetchProducts();
-  }, [isIntersecting]);
+  }, [isIntersecting, serverData]);
 
   return (
     <div ref={elementRef} className=' bg-[#f7f7f7] pt-12'>

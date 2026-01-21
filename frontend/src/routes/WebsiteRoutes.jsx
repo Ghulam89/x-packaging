@@ -86,12 +86,12 @@ import TermsAndConditions from "../pages/TermsAndConditions/TermsAndConditions";
 
 // const MemoProductDetailsWrapper = React.memo(ProductDetailsWrapper);
 
-export default function useWebsiteRoutes(serverData, CategoryProducts) {
-  const sharedServer = serverData?.serverData ?? null;
+export default function useWebsiteRoutes(serverData, CategoryProducts, homePageData) {
+  const sharedServer = serverData?.serverData ?? serverData ?? null;
   const initialProduct = sharedServer ?? null;
 
   const routes = useMemo(() => [
-    { path: '/', element: <Home key="home" /> },
+    { path: '/', element: <Home key="home" homePageData={homePageData} /> },
     { path: '/about-us', element: <About key="about" /> },
     { path: '/contact-us', element: <ContactUs key="contact" /> },
     { path: '/blogs', element: <Blogs key="blogs" /> },
@@ -112,14 +112,14 @@ export default function useWebsiteRoutes(serverData, CategoryProducts) {
     // { path: '/portfolio', element: <Portfolio key="portfolio" /> },
     // { path: '/404', element: <NotFound key="not-found" /> },
     // { path: '/category/:slug', element: <Category key="category" serverData={sharedServer} /> },
-    { path: '/:slug', element: <Category key="category" /> },
+    { path: '/:slug', element: <Category key="category" serverData={sharedServer} /> },
     { path: '/blog/:slug', element: <SingleBlog key="blog" serverData={sharedServer} /> },
     // { path: '/sub-category/:slug', element: <SubCategory key="subcategory" serverData={sharedServer} CategoryProducts={CategoryProducts} /> },
-    { path: '/category/:slug', element: <SubCategory key="subcategory"/> },
+    { path: '/category/:slug', element: <SubCategory key="subcategory" serverData={sharedServer} CategoryProducts={CategoryProducts} /> },
     // // { path: '/:slug', element: <MemoProductDetailsWrapper key="product" initialProduct={initialProduct} /> },
-    { path: '/product/:slug', element: <ProductDetails key="product" /> },
+    { path: '/product/:slug', element: <ProductDetails key="product" serverData={sharedServer} /> },
     // { path: '*', element: <NotFound key="catch-all" /> }
-  ], [sharedServer, CategoryProducts, initialProduct]);
+  ], [sharedServer, CategoryProducts, initialProduct, homePageData]);
 
   return routes;
 }

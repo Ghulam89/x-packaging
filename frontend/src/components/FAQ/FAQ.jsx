@@ -4,9 +4,7 @@ import Accordion from '../common/Accordion';
 import { BaseUrl } from '../../utils/BaseUrl';
 import faqImage from '../../assets/images/faq.webp';
 
-const FAQ = () => {
-  const [accordions, setAccordions] = useState([]);
-  const [loading, setLoading] = useState(true);
+const FAQ = ({ serverData }) => {
   const stripHtml = (html) => {
     if (!html) return '';
     if (typeof document === 'undefined') {
@@ -17,21 +15,35 @@ const FAQ = () => {
     return tmp.textContent || tmp.innerText || '';
   };
 
+  const processFAQs = (faqs) => {
+    if (!faqs || !Array.isArray(faqs)) return [];
+    return faqs.map((faq, index) => ({
+      key: index + 1,
+      id: String(index + 1).padStart(2, '0'),
+      title: faq.question,
+      data: stripHtml(faq.answer),
+      isOpen: false,
+    }));
+  };
+
+  const [accordions, setAccordions] = useState(() => processFAQs(serverData));
+  const [loading, setLoading] = useState(!serverData);
+
   useEffect(() => {
+    // If serverData is provided, use it and don't fetch
+    if (serverData && serverData.length > 0) {
+      setAccordions(processFAQs(serverData));
+      setLoading(false);
+      return;
+    }
+
     const fetchFAQs = async () => {
       try {
         setLoading(true);
         const response = await axios.get(`${BaseUrl}/faq/getAll`);
         
         if (response.data.status === 'success' && response.data.data) {
-          const faqData = response.data.data.map((faq, index) => ({
-            key: index + 1,
-            id: String(index + 1).padStart(2, '0'),
-            title: faq.question,
-            data: stripHtml(faq.answer),
-            isOpen: false,
-          }));
-          setAccordions(faqData);
+          setAccordions(processFAQs(response.data.data));
         }
       } catch (error) {
         console.error('Error fetching FAQs:', error);
@@ -41,7 +53,7 @@ const FAQ = () => {
     };
 
     fetchFAQs();
-  }, []);
+  }, [serverData]);
 
   const toggleAccordion = (accordionKey) => {
     const updatedAccordions = accordions.map((accordion) => {

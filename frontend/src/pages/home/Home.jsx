@@ -21,6 +21,7 @@ import CustomBoxMaterial from '../../components/CustomBoxMaterial/CustomBoxMater
 import Tabs from '../../components/common/Tabs'
 import WorkWithYou from '../../components/WorkWithYou'
 import CustomInserts from '../../components/CustomInserts'
+import BannerContent from '../../components/BannerContent'
 
 // Lazy load below-the-fold components for better FCP
 const FAQ = lazy(() => import('../../components/FAQ/FAQ'))
@@ -30,7 +31,7 @@ const InspirationPackaging = lazy(() => import('../../components/InspirationPack
 const Testimonials = lazy(() => import('../../components/Testimonials'))
 const GetPriceQuote = lazy(() => import('../../components/GetPriceQuote/GetPriceQuote'))
 const Blog = lazy(() => import('../../components/blog/Blog'))
-export const Home = React.memo(() => {
+export const Home = React.memo(({ homePageData }) => {
   useEffect(() => {
     const heroSubCategories = [
       'fashion-apparel-packaging-boxes',
@@ -196,8 +197,8 @@ export const Home = React.memo(() => {
         <CategoryBoxes />
     
         <OfferCard discount={'Get 30%'} title={'Off Your First Order!'} />
-        <Category />
-       
+        <Category serverData={homePageData?.topProducts} />
+        
         <div className="w-full max-w-[95%] sm:max-w-8xl mx-auto mt-10 px-2 sm:px-4">
           <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
            
@@ -322,8 +323,10 @@ export const Home = React.memo(() => {
         <Suspense fallback={<LoadingFallback height="h-96" />}>
           <PersonalTestimonial />
         </Suspense>
+        <BannerContent serverData={homePageData?.banner} />
+       
         <Suspense fallback={<LoadingFallback height="h-96" />}>
-          <FAQ />
+          <FAQ serverData={homePageData?.faqs} />
         </Suspense>
         <Suspense fallback={<LoadingFallback height="h-96" />}>
           <Blog />

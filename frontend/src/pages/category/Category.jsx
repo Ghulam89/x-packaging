@@ -299,14 +299,14 @@ import BlogCard from '../../components/common/BlogCard'
 import Blog from '../../components/blog/Blog'
 import PageMetadata from '../../components/common/PageMetadata'
 
-const Category = () => {
+const Category = ({ serverData }) => {
   const { slug } = useParams();
   const navigate = useNavigate();
   const [allCategories, setAllCategories] = useState([]);
   const [loadingCategories, setLoadingCategories] = useState(false);
-  const [categoryData, setCategoryData] = useState(null);
+  const [categoryData, setCategoryData] = useState(serverData || null);
   const [categoryProduct, setCategoryProduct] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!serverData);
 
   const FetchCategory = async () => {
     setLoading(true);
@@ -331,8 +331,12 @@ const Category = () => {
   };
 
   useEffect(() => {
-    if (slug) {
+    // Only fetch if serverData is not available or slug changed
+    if (slug && (!serverData || serverData.slug !== slug)) {
       FetchCategory();
+    } else if (serverData && serverData.slug === slug) {
+      setCategoryData(serverData);
+      setLoading(false);
     }
   }, [slug]); // Remove categoryData from dependencies to avoid infinite loop
 

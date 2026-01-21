@@ -91,7 +91,7 @@
 
 import Tabs from "../common/Tabs";
 import SpecialCard from "../common/SpecialCard";
-import { special1, special10, special11, special12, special13, special14, special15, special16, special17, special18, special2, special3, special4, special5, special6, special7, special8, special9 } from "../../assets";
+import { special1, special3, special4, special5, special6, special7,  } from "../../assets";
 const SpecialPackaging = () => {
   const customBox = [
     {
@@ -100,53 +100,41 @@ const SpecialPackaging = () => {
       
       images:[
         special1,
-        special2,
-        special3,
       ]
     },
     {
       id: 2,
       title: "Debossing",
       images:[
-        special4,
-        special5,
-        special6,
+        special3,
       ]
     },
     {
         id: 2,
         title: "Silver Foiling",
         images:[
-          special7,
-        special8,
-        special9,
+          special4,
         ]
       },
       {
         id: 2,
         title: "Gold Foiling",
         images:[
-           special10,
-        special11,
-        special12,
+           special5,
         ]
       },
       {
         id: 2,
         title: "Spot UV",
         images:[
-           special13,
-        special14,
-        special15,
+           special6,
         ]
       },
       {
         id: 2,
         title: "Holographic",
         images:[
-          special16,
-        special17,
-        special18,
+          special7,
         ]
       },
   ];

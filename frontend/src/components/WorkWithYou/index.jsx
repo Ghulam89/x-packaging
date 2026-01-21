@@ -1,15 +1,16 @@
 import React from 'react';
 import CardSlider from '../common/CardSlider';
-import { special1, special4, special7, special10, special13, special16 } from '../../assets';
+import { special1, special2, special3, special4, special5, special6, special7} from '../../assets';
 
 const WorkWithYou = () => {
   const addons = [
     { img: special1, title: 'Embossing', desc: 'Design a folding carton that suits your brand with custom sizes, prints, and eco-friendly materials.' },
-    { img: special4, title: 'Debossing', desc: 'Prepare your products with high-quality folding carton packaging, offering durability, customization, and eco-friendly solutions.' },
-    { img: special7, title: 'Silver Foiling', desc: 'Settle paper is used for securing products in folding cartons, ensuring safe, organized packaging during transit.' },
-    { img: special10, title: 'Gold Foiling', desc: 'Add-ons for customization, branding, or packaging enhancements to meet your specific needs.' },
-    { img: special13, title: 'Spot UV', desc: 'Enhance your packaging with spot UV coating for premium finish and visual appeal.' },
-    { img: special16, title: 'Holographic', desc: 'Create eye-catching holographic effects that make your packaging stand out.' },
+    { img: special2, title: 'Debossing', desc: 'Prepare your products with high-quality folding carton packaging, offering durability, customization, and eco-friendly solutions.' },
+    { img: special3, title: 'Custom Foiling', desc: 'Settle paper is used for securing products in folding cartons, ensuring safe, organized packaging during transit.' },
+    { img: special4, title: 'Metallic Printing', desc: 'Add-ons for customization, branding, or packaging enhancements to meet your specific needs.' },
+    { img: special5, title: 'PVC Window', desc: 'Enhance your packaging with spot UV coating for premium finish and visual appeal.' },
+    { img: special6, title: 'Spot UV', desc: 'Create eye-catching holographic effects that make your packaging stand out.' },
+    { img: special7, title: 'Custom Ribbons', desc: 'Create eye-catching holographic effects that make your packaging stand out.' },
   ];
 
   return (
@@ -37,7 +38,7 @@ const WorkWithYou = () => {
                   <img 
                     src={addon.img} 
                     alt={addon.title} 
-                    className="w-full h-44 object-cover transform transition-transform duration-700" 
+                    className="w-full  object-cover transform transition-transform duration-700" 
                   />
                   {/* Hover Overlay Gradient */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-lg"></div>

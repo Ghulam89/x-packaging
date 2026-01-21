@@ -8,14 +8,14 @@ import { Suspense, useEffect, useState } from 'react';
 import Navbar from './components/Header/Navbar';
 import WhatsAppFloat from './components/SocialMedia/WhatsAppModal';
 import AnnouncementBanner from './components/AnnouncementBanner';
-function App({ serverData, CategoryProducts }) {
+function App({ serverData, CategoryProducts, homePageData }) {
   const location = useLocation();
   const [currentUrl, setCurrentUrl] = useState('');
  useEffect(() => {
   window.scrollTo({ top: 0, behavior: "instant" });
   setCurrentUrl(window.location.origin + location.pathname + location.search);
 }, [location]);
-  const routes = WebsiteRoutes({ serverData, CategoryProducts })
+  const routes = WebsiteRoutes({ serverData, CategoryProducts, homePageData })
   const element = useRoutes(routes);
   return (
     <>

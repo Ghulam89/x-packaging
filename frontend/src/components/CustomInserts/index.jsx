@@ -1,14 +1,14 @@
 import React from 'react';
 import CardSlider from '../common/CardSlider';
-import { special1, special4, special7, special10, special13, special16 } from '../../assets';
+import { insert1, insert2, insert3, insert4, insert5 } from '../../assets';
 
 const CustomInserts = () => {
   const addons = [
-    { img: special1, title: 'Foam Inserts', desc: 'Design a folding carton that suits your brand with custom sizes, prints, and eco-friendly materials.' },
-    { img: special4, title: 'Cardboard Inserts', desc: 'Prepare your products with high-quality folding carton packaging, offering durability, customization, and eco-friendly solutions.' },
-    { img: special7, title: 'Clamshell Inserts', desc: 'Settle paper is used for securing products in folding cartons, ensuring safe, organized packaging during transit.' },
-    { img: special10, title: 'Corrugated Inserts', desc: 'Add-ons for customization, branding, or packaging enhancements to meet your specific needs.' },
-    { img: special13, title: 'Eva Foam Inserts', desc: 'Enhance your packaging with spot UV coating for premium finish and visual appeal.' },
+    { img: insert1, title: 'Foam Inserts', desc: 'Design a folding carton that suits your brand with custom sizes, prints, and eco-friendly materials.' },
+    { img: insert2, title: 'Cardboard Inserts', desc: 'Prepare your products with high-quality folding carton packaging, offering durability, customization, and eco-friendly solutions.' },
+    { img: insert3, title: 'Clamshell Inserts', desc: 'Settle paper is used for securing products in folding cartons, ensuring safe, organized packaging during transit.' },
+    { img: insert4, title: 'Corrugated Inserts', desc: 'Add-ons for customization, branding, or packaging enhancements to meet your specific needs.' },
+    { img: insert5, title: 'Eva Foam Inserts', desc: 'Enhance your packaging with spot UV coating for premium finish and visual appeal.' },
     
   ];
 
@@ -35,7 +35,7 @@ Our focus is on durability, premium presentation, and cost-effective solutions.
                   <img 
                     src={addon.img} 
                     alt={addon.title} 
-                    className="w-full h-44 object-cover transform transition-transform duration-700" 
+                    className="w-full  object-cover transform transition-transform duration-700" 
                   />
                   {/* Hover Overlay Gradient */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-lg"></div>

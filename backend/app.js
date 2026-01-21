@@ -273,6 +273,19 @@ app.use('*', async (req, res, next) => {
     // Race between render and timeout
     rendered = await Promise.race([renderPromise, timeoutPromise]);
     
+    // Prepare server data for injection
+    const serverDataScript = rendered.serverData 
+      ? `<script>window.__SERVER_DATA__ = ${JSON.stringify({ serverData: rendered.serverData })};</script>`
+      : '<script>window.__SERVER_DATA__ = null;</script>';
+    
+    const categoryProductsScript = rendered.CategoryProducts
+      ? `<script>window.__CATEGORY_PRODUCTS__ = ${JSON.stringify(rendered.CategoryProducts)};</script>`
+      : '<script>window.__CATEGORY_PRODUCTS__ = null;</script>';
+
+    const homePageDataScript = rendered.homePageData
+      ? `<script>window.__HOME_PAGE_DATA__ = ${JSON.stringify(rendered.homePageData)};</script>`
+      : '<script>window.__HOME_PAGE_DATA__ = null;</script>';
+
     const html = template
       .replace(
         '<!--app-head-->',
@@ -281,7 +294,7 @@ app.use('*', async (req, res, next) => {
       .replace('<!--app-html-->', rendered.html || '')
       .replace(
         '<!--server-data-->', 
-        `<script>window.__SERVER_DATA__ = ${JSON.stringify(rendered.serverData || {})}</script>`
+        `${serverDataScript}\n${categoryProductsScript}\n${homePageDataScript}`
       );
     
     if (isProduction && res.statusCode === 200) {
@@ -303,7 +316,7 @@ app.use('*', async (req, res, next) => {
         const fallbackHtml = template
           .replace('<!--app-head-->', '')
           .replace('<!--app-html-->', '<div id="app"></div>')
-          .replace('<!--server-data-->', '<script>window.__SERVER_DATA__ = {}</script>');
+          .replace('<!--server-data-->', '<script>window.__SERVER_DATA__ = null;</script>\n<script>window.__CATEGORY_PRODUCTS__ = null;</script>\n<script>window.__HOME_PAGE_DATA__ = null;</script>');
         
         res.status(200).set({ 'Content-Type': 'text/html' }).send(fallbackHtml);
       } else {
