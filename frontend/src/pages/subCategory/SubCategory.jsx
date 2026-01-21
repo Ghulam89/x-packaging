@@ -792,11 +792,11 @@ import InstantQuoteModal from '../../components/common/InstantQuoteModal';
 const SubCategory = ({ serverData, CategoryProducts }) => {
   const { slug } = useParams();
   const [isMenuOpen, setMenuOpen] = useState(false);
-  const [categoryData, setCategoryData] = useState(null)
+  const [categoryData, setCategoryData] = useState(serverData || null)
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [allProducts, setAllProducts] = useState([]);
-  const [loading, setLoading] = useState(false)
+  const [allProducts, setAllProducts] = useState(CategoryProducts || []);
+  const [loading, setLoading] = useState(!serverData && !CategoryProducts) // Don't show loading if serverData exists
   const [loadingMore, setLoadingMore] = useState(false);
   const [loadingProducts, setLoadingProducts] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);

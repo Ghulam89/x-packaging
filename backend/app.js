@@ -267,11 +267,20 @@ app.use('*', async (req, res, next) => {
     
     const renderPromise = render(url);
     const timeoutPromise = new Promise((_, reject) => 
-      setTimeout(() => reject(new Error('SSR timeout')), 2000)
+      setTimeout(() => reject(new Error('SSR timeout')), 10000) // Increased to 10 seconds for API calls
     );
     
     // Race between render and timeout
     rendered = await Promise.race([renderPromise, timeoutPromise]);
+    
+    // Debug logging
+    console.log(`SSR render result for ${url}:`, {
+      hasHtml: !!rendered.html,
+      hasServerData: !!rendered.serverData,
+      hasCategoryProducts: !!rendered.CategoryProducts,
+      hasHomePageData: !!rendered.homePageData,
+      homePageDataKeys: rendered.homePageData ? Object.keys(rendered.homePageData) : []
+    });
     
     // Prepare server data for injection
     const serverDataScript = rendered.serverData 
@@ -285,6 +294,20 @@ app.use('*', async (req, res, next) => {
     const homePageDataScript = rendered.homePageData
       ? `<script>window.__HOME_PAGE_DATA__ = ${JSON.stringify(rendered.homePageData)};</script>`
       : '<script>window.__HOME_PAGE_DATA__ = null;</script>';
+    
+    console.log(`SSR scripts prepared for ${url}:`, {
+      serverData: rendered.serverData ? 'present' : 'null',
+      categoryProducts: rendered.CategoryProducts ? 'present' : 'null',
+      homePageData: rendered.homePageData ? 'present' : 'null'
+    });
+    
+    // Check if HTML content contains data (for SEO/view-source visibility)
+    if (rendered.serverData) {
+      const hasDataInHtml = rendered.html.includes(rendered.serverData.name || rendered.serverData.title || rendered.serverData.slug || '');
+      console.log(`SSR: Data visible in HTML for ${url}:`, hasDataInHtml, {
+        dataKey: rendered.serverData.name || rendered.serverData.title || rendered.serverData.slug || 'N/A'
+      });
+    }
 
     const html = template
       .replace(

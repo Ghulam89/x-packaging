@@ -18,7 +18,7 @@ function SingleBlog({ serverData }) {
    
     const { slug } = useParams();
     const navigate = useNavigate();
-    const [singleBlog, setSingleBlog] = useState(serverData || {});
+    const [singleBlog, setSingleBlog] = useState(serverData || null);
     const [blogs, setBlogs] = useState([])
 
 

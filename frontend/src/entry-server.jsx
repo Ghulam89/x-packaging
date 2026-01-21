@@ -9,6 +9,7 @@ import { BaseUrl } from "./utils/BaseUrl";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 export async function render(url) {
+  console.log('SSR render called with URL:', url);
   const normalizedUrl = url.startsWith("/") ? url : `/${url}`;
   const cleanUrl = normalizedUrl.endsWith("/")
     ? normalizedUrl.slice(0, -1)
@@ -16,6 +17,14 @@ export async function render(url) {
 
   // Remove query parameters
   const baseUrl = cleanUrl.split("?")[0];
+  
+  console.log('SSR URL processing:', {
+    originalUrl: url,
+    normalizedUrl,
+    cleanUrl,
+    baseUrl
+  });
+  
   const helmetContext = {};
   let serverData = null;
   let CategoryProducts = null;
@@ -23,14 +32,23 @@ export async function render(url) {
 
   try {
     // Handle different routes - check in order of specificity
-    if (baseUrl === "/") {
+    // Check for home page - baseUrl will be "" or "/" after cleaning
+    const isHomePage = baseUrl === "/" || baseUrl === "" || normalizedUrl === "/" || url === "/";
+    console.log('SSR: Is home page?', isHomePage, { baseUrl, normalizedUrl, url });
+    
+    if (isHomePage) {
       // Handle home page - fetch multiple data sources
+      console.log('SSR: Fetching home page data...');
       try {
         const [productsRes, faqRes, bannerRes] = await Promise.allSettled([
           axios.get(`${BaseUrl}/products/getAll?page=1&perPage=8`),
           axios.get(`${BaseUrl}/faq/getAll`),
           axios.get(`${BaseUrl}/banner/getAll`)
         ]);
+
+        console.log('SSR: Products result:', productsRes.status, productsRes.status === 'fulfilled' ? productsRes.value?.data?.status : productsRes.reason?.message);
+        console.log('SSR: FAQ result:', faqRes.status, faqRes.status === 'fulfilled' ? faqRes.value?.data?.status : faqRes.reason?.message);
+        console.log('SSR: Banner result:', bannerRes.status, bannerRes.status === 'fulfilled' ? bannerRes.value?.data?.data?.length : bannerRes.reason?.message);
 
         homePageData = {
           topProducts: productsRes.status === 'fulfilled' && productsRes.value?.data?.status === 'success' 
@@ -43,8 +61,15 @@ export async function render(url) {
             ? bannerRes.value.data.data[0]
             : null
         };
+        
+        console.log('SSR: Home page data prepared:', {
+          topProducts: homePageData.topProducts?.length || 0,
+          faqs: homePageData.faqs?.length || 0,
+          banner: homePageData.banner ? 'present' : 'null',
+          homePageDataObject: homePageData
+        });
       } catch (homeErr) {
-        console.error('Home page data fetch error:', homeErr.message);
+        console.error('SSR: Home page data fetch error:', homeErr.message, homeErr.stack);
       }
 
     } else if (baseUrl.startsWith("/blog/")) {
@@ -72,7 +97,7 @@ export async function render(url) {
       const { data } = await axios.get(`${BaseUrl}/products/get?slug=${slug}`);
       serverData = data?.data;
 
-    } else if (baseUrl !== "/" && baseUrl.split("/").length === 2) {
+    } else if (baseUrl !== "/" && baseUrl !== "" && baseUrl.split("/").length === 2) {
       // Handle category/brand route (e.g., /fashion-apparel-packaging-boxes)
       const slug = baseUrl.split("/")[1];
       const { data } = await axios.get(`${BaseUrl}/brands/get?slug=${slug}`);
@@ -101,7 +126,13 @@ export async function render(url) {
 
   const { helmet } = helmetContext;
 
-  return {
+  // Ensure homePageData is set for home page even if fetch failed
+  const isHomePage = baseUrl === "/" || baseUrl === "" || normalizedUrl === "/" || url === "/";
+  if (isHomePage && !homePageData) {
+    homePageData = { topProducts: [], faqs: [], banner: null };
+  }
+  
+  const result = {
     html: appHtml,
     helmet: {
       title: helmet?.title?.toString() || "",
@@ -113,4 +144,14 @@ export async function render(url) {
     CategoryProducts: CategoryProducts || null,
     homePageData: homePageData || null,
   };
+  
+  console.log('SSR: Returning result:', {
+    hasHtml: !!result.html,
+    hasServerData: !!result.serverData,
+    hasCategoryProducts: !!result.CategoryProducts,
+    hasHomePageData: !!result.homePageData,
+    homePageDataKeys: result.homePageData ? Object.keys(result.homePageData) : []
+  });
+  
+  return result;
 }
