@@ -141,9 +141,9 @@ export async function render(url) {
         <HelmetProvider context={helmetContext}>
           <Provider store={store}>
             <StaticRouter location={normalizedUrl}>
-              <Suspense fallback={<div id="app">Loading...</div>}>
+            
                 <App serverData={serverData} CategoryProducts={CategoryProducts} homePageData={homePageData} />
-              </Suspense>
+              
             </StaticRouter>
           </Provider>
         </HelmetProvider>

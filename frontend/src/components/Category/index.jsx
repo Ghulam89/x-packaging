@@ -12,25 +12,25 @@ const Category = ({ serverData }) => {
   const [loading, setLoading] = useState(!serverData);
   const [elementRef, isIntersecting] = useIntersectionObserver({
     threshold: 0.1,
-    rootMargin: '100px', // Start loading 100px before component is visible
+    rootMargin: '100px',
     triggerOnce: true
   });
 
   useEffect(() => {
-    // If serverData is provided, use it and don't fetch
+    
     if (serverData && serverData.length > 0) {
       setProducts(serverData);
       setLoading(false);
       return;
     }
 
-    // Only fetch products when component is about to be visible
+   
     if (!isIntersecting) return;
 
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        // Fetch products using getAll API without category filter
+       
         const response = await axios.get(`${BaseUrl}/products/getAll?page=1&perPage=8`);
         
         if (response?.data?.status === 'success' && response?.data?.data) {

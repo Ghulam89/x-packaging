@@ -127,19 +127,25 @@ const CategoryBoxes = () => {
                     {/* Category Image */}
                     <div className="relative w-full rounded-2xl overflow-hidden mb-4 bg-gray-50 group-hover:shadow-lg transition-shadow duration-300">
                       <Link to={`/category/${category.slug}`}>
-                        <img
-                          src={category.image ? `${BaseUrl}/${category.image}` : `${BaseUrl}/images/placeholder.jpg`}
-                          alt={category.imageAltText || category.title}
-                          className="w-full sm:h-64 h-44 object-cover group-hover:scale-105 transition-transform duration-300"
-                          loading="lazy"
-                        />
+                        <div className="relative w-full sm:h-64 h-44 rounded-2xl overflow-hidden">
+                          <img
+                            src={category.image ? `${BaseUrl}/${category.image}` : `${BaseUrl}/images/placeholder.jpg`}
+                            alt={category.imageAltText || category.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 rounded-2xl"
+                            loading="lazy"
+                          />
+                          {/* Gallery Hover Overlay Gradient */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-2xl"></div>
+                          {/* Gallery Shine Effect - Sweeps across on hover */}
+                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-2xl"></div>
+                        </div>
                       </Link>
                     </div>
 
                     {/* Category Title */}
-                    <h3 className="font-bold text-lg text-gray-800 mb-3">
+                    <h6 className="font-bold text-lg text-gray-800 mb-3">
                       {category.title}
-                    </h3>
+                    </h6>
 
                     {/* Request Quote Link */}
                     {/* <button

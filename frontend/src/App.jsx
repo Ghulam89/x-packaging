@@ -32,7 +32,7 @@ function App({ serverData, CategoryProducts, homePageData }) {
           {/* <TopNav /> */}
           <Navbar />
           
-          <Suspense fallback={<div id="app">Loading...</div>}>
+          <Suspense fallback={<div id="app"></div>}>
             {element}
           </Suspense>
          

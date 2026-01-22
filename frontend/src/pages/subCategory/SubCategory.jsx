@@ -782,13 +782,11 @@ import axios from 'axios';
 import { BaseUrl } from '../../utils/BaseUrl';
 import { prefetchProduct, prefetchProductsBatch, prefetchSubCategory, getCachedSubCategory } from '../../utils/prefetchUtils';
 import PageMetadata from '../../components/common/PageMetadata';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/effect-coverflow';
-import { Navigation, Autoplay, Mousewheel, Keyboard, EffectCoverflow } from 'swiper/modules';
 import InstantQuoteModal from '../../components/common/InstantQuoteModal';
 import CustomInserts from '../../components/CustomInserts'
+import { insert1, insert2, insert3, insert4, insert5 } from '../../assets';
+import CardSlider from '../../components/common/CardSlider';
+import FAQ from '../../components/FAQ/FAQ'
 
 const SubCategory = ({ serverData, CategoryProducts }) => {
   const { slug } = useParams();
@@ -1300,107 +1298,121 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
       </section>
     
 
-     <CustomInserts/>
-      {/* Products Gallery Carousel with Center Big Image */}
+
+      {/* Separate 5 Grid Inserts Section - No Slider */}
+      <section className='py-10 bg-white  overflow-x-hidden'>
+        <div className="sm:max-w-8xl max-w-[95%] mx-auto px-4">
+        <h2 className="text-3xl font-bold text-center mb-5">Get the Inserts Your Product Needs </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+            {[
+              { img: insert1, title: 'Foam Inserts' },
+              { img: insert2, title: 'Cardboard Inserts' },
+              { img: insert3, title: 'Clamshell Inserts' },
+              { img: insert4, title: 'Corrugated Inserts' },
+              { img: insert4, title: 'Corrugated Inserts' },
+              { img: insert5, title: 'Eva Foam Inserts' }
+            ].map((item, index) => (
+              <div 
+                key={index}
+                className="bg-white rounded-xl text-center border border-gray-100 hover:border-[#EE334B]/20 hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-col items-center p-4 overflow-hidden"
+              >
+                <div className="relative mb-4 w-40 h-40 mx-auto aspect-square">
+                  <div className="w-full h-full rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-[#EE334B]/30 transition-all duration-300">
+                    <img 
+                      src={item.img} 
+                      alt={item.title} 
+                      className="w-full h-full object-cover aspect-square transform transition-transform duration-700 group-hover:scale-110" 
+                    />
+                  </div>
+                  {/* Hover Overlay Gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-full"></div>
+                  {/* Shine Effect - Sweeps across on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-full"></div>
+                </div>
+                <div className='px-2 pb-2'>
+                  <h6 className="font-semibold  group-hover:text-[#EE334B] transition-colors duration-300">{item.title}</h6>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Products Gallery - Modern Grid Layout */}
       {allProducts && allProducts.length > 0 && (
-        <section className='py-8 bg-white'>
-          <div className="sm:max-w-full max-w-[95%] mx-auto">
-            <div className='text-center mb-6'>
-              <h2 className='text-3xl sm:text-4xl font-bold text-[#213554] mb-2'>
+        <section className='py-16 bg-gradient-to-br from-gray-50 via-white to-gray-50 relative overflow-hidden'>
+          {/* Decorative Background Elements */}
+          <div className="absolute inset-0 opacity-5">
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#EE334B] rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#213554] rounded-full blur-3xl"></div>
+          </div>
+          
+          <div className="sm:max-w-8xl max-w-[95%] mx-auto relative z-10">
+            <div className='text-center mb-12'>
+              <div className="inline-block mb-4">
+                <div className="w-20 h-1 bg-gradient-to-r from-[#EE334B] to-[#213554] mx-auto rounded-full"></div>
+              </div>
+              <h2 className='text-4xl sm:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-[#213554] to-[#EE334B] bg-clip-text text-transparent mb-4'>
                 {categoryData?.title || serverData?.title || 'Custom'} Gallery
               </h2>
+              <p className='text-gray-600 text-lg max-w-2xl mx-auto'>
+                Explore our premium collection of custom packaging solutions
+              </p>
             </div>
             
+            {/* Modern Masonry Gallery Grid */}
             <div className='max-w-8xl mx-auto py-8'>
-              <style>{`
-                .gallery-center-swiper .swiper-slide {
-                  transition: all 0.4s ease;
-                  opacity: 0.5;
-                  transform: scale(0.8);
-                }
-                .gallery-center-swiper .swiper-slide-active {
-                  opacity: 1;
-                  transform: scale(1.1);
-                  z-index: 10;
-                }
-                .gallery-center-swiper .swiper-slide-prev,
-                .gallery-center-swiper .swiper-slide-next {
-                  opacity: 0.7;
-                  transform: scale(0.9);
-                }
-                .gallery-center-swiper .swiper-button-next,
-                .gallery-center-swiper .swiper-button-prev {
-                  display: none !important;
-                }
-                .gallery-center-swiper .swiper-slide img {
-                  transition: all 0.4s ease;
-                }
-                .gallery-center-swiper .swiper-slide-active img {
-                  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-                }
-                @media (max-width: 640px) {
-                  .gallery-center-swiper .swiper-slide {
-                    transform: scale(0.9);
-                  }
-                  .gallery-center-swiper .swiper-slide-active {
-                    transform: scale(1.05);
-                  }
-                }
-              `}</style>
-              <Swiper
-                modules={[Navigation, Autoplay, Mousewheel, Keyboard, EffectCoverflow]}
-                effect="coverflow"
-                grabCursor={true}
-                centeredSlides={true}
-                slidesPerView="auto"
-                coverflowEffect={{
-                  rotate: 0,
-                  stretch: 0,
-                  depth: 100,
-                  modifier: 2,
-                  slideShadows: true,
-                }}
-                navigation={false}
-                mousewheel={true}
-                keyboard={true}
-                autoplay={{
-                  delay: 3000,
-                  disableOnInteraction: false,
-                }}
-                loop={allProducts.length > 5}
-                spaceBetween={30}
-                className="gallery-center-swiper"
-              >
-                {allProducts.map((product, index) => (
-                  <SwiperSlide 
-                    key={product._id}
-                    style={{ width: 'auto', maxWidth: '500px' }}
-                  >
+              <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-3 space-y-6">
+                {allProducts.map((product, index) => {
+                  // Varying heights for masonry effect
+                  const heights = ['h-[300px]', 'h-[400px]', 'h-[350px]', 'h-[450px]', 'h-[380px]', 'h-[320px]'];
+                  const heightClass = heights[index % heights.length];
+                  
+                  return (
                     <Link 
+                      key={product._id}
                       to={`/${product?.slug}`}
-                      className="block group relative mx-auto overflow-hidden rounded-[15px]"
+                      className="group relative block overflow-hidden rounded-xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 break-inside-avoid mb-6"
                       onMouseEnter={() => {
                         if (product?.slug) {
                           prefetchProduct(product.slug);
                         }
                       }}
                     >
-                      <div className="relative overflow-hidden rounded-[15px] shadow-lg transition-all duration-300">
+                      {/* Image Container */}
+                      <div className={`relative ${heightClass} overflow-hidden`}>
                         <img
                           src={`${BaseUrl}/${product?.images?.[0]?.url}`}
                           alt={product?.images?.[0]?.altText || product?.name}
-                          className="swiper-lazy rounded-[15px] w-full h-[450px] object-cover transition-transform duration-500 group-hover:scale-110"
-                          loading={index < 3 ? "eager" : "lazy"}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                          loading={index < 8 ? "eager" : "lazy"}
                         />
-                        {/* Hover Overlay Gradient */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-[15px]"></div>
-                        {/* Shine Effect - Sweeps across on hover */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-[15px]"></div>
+                        
+                        {/* Gradient Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-500"></div>
+                        
+                        {/* Shine Effect */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none"></div>
+                        
+                        {/* Product Name Overlay */}
+                        <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
+                          <h3 className="text-white text-lg sm:text-xl font-bold mb-1 transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-100">
+                            {product?.name}
+                          </h3>
+                          <div className="w-0 h-0.5 bg-gradient-to-r from-[#EE334B] to-[#213554] group-hover:w-16 transition-all duration-500 delay-200 rounded-full"></div>
+                        </div>
+                        
+                        {/* Corner Badge */}
+                        <div className="absolute top-4 right-4 w-10 h-10 bg-[#EE334B] rounded-full opacity-0 group-hover:opacity-100 transform scale-0 group-hover:scale-100 transition-all duration-500 flex items-center justify-center shadow-lg">
+                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </div>
                       </div>
                     </Link>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </section>
@@ -1408,7 +1420,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
      
 
       <section className='mb-8'>
-        <div className="sm:max-w-8xl bg-gradient-to-br from-gray-50 to-white rounded-2xl p-8 sm:p-12 shadow-lg max-w-[95%] mx-auto border border-gray-100">
+        <div className="sm:max-w-8xl bg-gradient-to-br from-gray-50 to-white rounded-2xl p-8 sm:p-12 shadow-md max-w-[95%] mx-auto border border-gray-100">
           <div className="text-center mb-8">
             
             <h2 className='text-3xl sm:text-4xl font-bold text-[#213554] mb-4'>
@@ -1429,21 +1441,42 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
 
         </div>
       </section>
+      
+      {/* Card Slider Section */}
+      <section className='pt-10'>
+        <div className="sm:max-w-8xl max-w-[95%] mx-auto">
+          <div className="text-center mb-8">
+            <div className="inline-block mb-4">
+              <div className="w-20 h-1 bg-gradient-to-r from-[#EE334B] to-[#213554] mx-auto rounded-full"></div>
+            </div>
+            <h2 className='text-3xl sm:text-4xl font-bold text-[#213554] mb-2'>
+            Your Packaging Journey Starts Here!
 
-      <div className="mt-8 sm:max-w-8xl bg-gradient-to-r from-[#213554] to-[#213554]/95 p-8 flex sm:flex-row flex-col gap-5 justify-between items-center rounded-2xl max-w-[95%] mx-auto shadow-xl">
-        <div>
-          <img src={google} alt='Google Reviews' className="filter brightness-0 invert" />
+            </h2>
+            <p className='text-gray-600 text-lg'>
+            Discover how quality packaging makes all the difference! Experience real client experiences, expert tips, and innovative packaging solutions that enhance brands. From custom designs to seamless functionality, see how we bring packaging visions to life.
+
+
+            </p>
+          </div>
+          
+          <ProductSelectionProvider>
+            <CardSlider
+              items={allProducts?.map((item, index) => {
+                return (
+                  <div key={item._id || index} className="w-[280px] rounded-xl overflow-hidden h-[400px] flex-shrink-0">
+                    
+                    <img src={`${BaseUrl}/${item?.images?.[0]?.url}`} alt={item?.name} className="w-full rounded-xl h-full object-cover" />
+                   
+                  </div>
+                );
+              })}
+            />
+          </ProductSelectionProvider>
         </div>
-        <div>
-          <button className='px-8 py-3 rounded-lg flex bg-white text-[#213554] hover:bg-[#EE334B] hover:text-white font-semibold text-sm items-center justify-center gap-2 
-      transition-all duration-300 ease-in-out transform 
-      hover:-translate-y-1 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed'>
-            Review us on Google
-          </button>
-        </div>
-      </div>
-      <Testimonials />
-      {/* <Capabilities /> */}
+      </section>
+
+      <FAQ/>
 
       <InstantQuoteModal 
         setIsModalOpen={setIsModalOpen} 
@@ -1455,4 +1488,4 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
   )
 }
 
-export default SubCategory
+export default SubCategory;
