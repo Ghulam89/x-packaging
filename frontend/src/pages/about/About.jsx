@@ -13,7 +13,7 @@ import gallery2 from '../../assets/images/about-imges/gallery2.jpg';
 import Silks from '../../assets/images/about-imges/Silks.webp';
 import xpackaging from '../../assets/images/about-imges/xpackaging.webp';
 import thumbnailvideo from '../../assets/images/about-imges/thumbnailvideo.webp';  
-import thumbnailvideo from '../../assets/images/about-imges/thumbnailvideo.mp4';  
+import videoabout from '../../assets/images/about-imges/videoabout.mp4';  
 import xfav from '../../assets/images/about-imges/xfav.webp';
 
 /**
@@ -150,18 +150,15 @@ export default function About() {
               className="w-full h-full object-cover"
             />
           </div>
-         import myVideo from '../assets/videos/packaging-showcase.mp4'; // Import your local file
-
-// ... inside your component
-<div className="absolute top-0 right-4 w-1/2 aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl z-10 border-4 border-white">
+        <div className="absolute top-0 right-4 w-1/2 aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl z-10 border-4 border-white">
   <div className="relative w-full h-full group">
     <video
-      src={myVideo}
+      src={videoabout}
       autoPlay
       loop
       muted
       playsInline
-      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+      className="w-full h-full object-cover transition-transform duration-500 scale-110"
     />
     {/* Overlay stays if you want a slight tint, or remove it for clarity */}
     <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors" />
@@ -280,7 +277,10 @@ export default function About() {
             {[
               { country: "USA", address: "9854 National Blvd #1042, Los Angeles, CA 90034", flag: "🇺🇸" },
               { country: "UK", address: "275 New North Road, Islington, Suite 1946, London", flag: "🇬🇧" },
-              { country: "Canada", address: "7398 Yonge St #6d, Thornhill, ON L4J 8J2", flag: "🇨🇦" }
+              { country: "Canada", address: "7398 Yonge St #6d, Thornhill, ON L4J 8J2", flag: "🇨🇦" },
+              { country: "Canada", address: "7398 Yonge St #6d, Thornhill, ON L4J 8J2", flag: "🇨🇦" },
+              { country: "Canada", address: "7398 Yonge St #6d, Thornhill, ON L4J 8J2", flag: "🇨🇦" },
+              { country: "Canada", address: "7398 Yonge St #6d, Thornhill, ON L4J 8J2", flag: "🇨🇦" },
             ].map((loc, idx) => (
               <div key={idx} className="group p-8 rounded-3xl border border-slate-100 hover:border-red-500/20 hover:bg-slate-50/50 transition-all duration-300">
                 <div className="text-4xl mb-4 grayscale group-hover:grayscale-0 transition-all">{loc.flag}</div>
