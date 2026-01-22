@@ -12,8 +12,7 @@ import gallery1 from '../../assets/images/about-imges/gallery1.jpg';
 import gallery2 from '../../assets/images/about-imges/gallery2.jpg';
 import Silks from '../../assets/images/about-imges/Silks.webp';
 import xpackaging from '../../assets/images/about-imges/xpackaging.webp';
-import thumbnailvideo from '../../assets/images/about-imges/thumbnailvideo.webp';  
-import videoabout from '../../assets/images/about-imges/videoabout.mp4';  
+import videoabout from '../../assets/images/about-imges/videoabout.mp4';
 import xfav from '../../assets/images/about-imges/xfav.webp';
 
 /**
@@ -32,7 +31,7 @@ const CreativePackaging = () => {
   const [activeImage, setActiveImage] = useState(images[0].url);
 
   return (
-    <section className="bg-slate-50  px-6">
+    <section className="bg-white py-10 px-6" id='brand-details-section'>
       <div className="max-w-8xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
@@ -46,9 +45,9 @@ const CreativePackaging = () => {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-16">
           <div className="md:col-span-8 group relative overflow-hidden rounded-[2.5rem] bg-white p-4 shadow-xl shadow-slate-200/50 border border-lime-100">
             <div className="overflow-hidden rounded-[2rem] h-[500px]">
-              <img 
-                src={activeImage} 
-                alt="Featured Packaging" 
+              <img
+                src={activeImage}
+                alt="Featured Packaging"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
             </div>
@@ -59,12 +58,12 @@ const CreativePackaging = () => {
               <img src={images[1].url} alt="Detail" className="w-full h-full object-cover rounded-[1.5rem]" />
             </div>
             <div className="h-1/2 grid grid-cols-2 gap-4">
-               <div className="rounded-[1.5rem] overflow-hidden border-2 border-lime-200 p-1 bg-white">
-                  <img src={images[2].url} alt="Detail 2" className="w-full h-full object-cover rounded-[1.2rem]" />
-               </div>
-               <div className="rounded-[1.5rem] overflow-hidden border-2 border-lime-200 p-1 bg-white">
-                  <img src={images[3].url} alt="Detail 3" className="w-full h-full object-cover rounded-[1.2rem]" />
-               </div>
+              <div className="rounded-[1.5rem] overflow-hidden border-2 border-lime-200 p-1 bg-white">
+                <img src={images[2].url} alt="Detail 2" className="w-full h-full object-cover rounded-[1.2rem]" />
+              </div>
+              <div className="rounded-[1.5rem] overflow-hidden border-2 border-lime-200 p-1 bg-white">
+                <img src={images[3].url} alt="Detail 3" className="w-full h-full object-cover rounded-[1.2rem]" />
+              </div>
             </div>
           </div>
         </div>
@@ -72,12 +71,11 @@ const CreativePackaging = () => {
         <div className="relative group">
           <div className="flex items-center gap-4 overflow-x-auto pb-4 scroll-smooth no-scrollbar">
             {images.map((img, idx) => (
-              <button 
+              <button
                 key={idx}
                 onClick={() => setActiveImage(img.url)}
-                className={`flex-shrink-0 w-32 h-20 rounded-2xl overflow-hidden border-4 transition-all duration-300 ${
-                  activeImage === img.url ? 'border-lime-400 scale-105 shadow-lg' : 'border-transparent opacity-60 hover:opacity-100'
-                }`}
+                className={`flex-shrink-0 w-32 h-20 rounded-2xl overflow-hidden border-4 transition-all duration-300 ${activeImage === img.url ? 'border-lime-400 scale-105 shadow-lg' : 'border-transparent opacity-60 hover:opacity-100'
+                  }`}
               >
                 <img src={img.url} className="w-full h-full object-cover" alt="thumbnail" />
               </button>
@@ -134,125 +132,152 @@ export default function About() {
 
   return (
     <div className="font-sans selection:bg-red-500 selection:text-white bg-gray-50 text-slate-800">
-      
+
       {/* Hero Banner */}
       <div >
-       <Banner title={"About Us"} subTitle={"About Us"}/>
+        <Banner title={"About Us"} subTitle={"About Us"} />
       </div>
 
       {/* Intro Section */}
-      <section className="max-w-8xl mx-auto px-10 py-16 md:py-32 flex flex-col md:flex-row items-center gap-12 b g">
+      <section className="max-w-8xl mx-auto px-10 py-16 md:py-12 flex flex-col md:flex-row items-center gap-12 bg-white">
         <div className="relative w-full md:w-1/2 flex items-center justify-center">
           <div className="relative w-3/4 aspect-[5/4] rounded-3xl overflow-hidden shadow-2xl z-0 transform -translate-x-6">
-            <img 
+            <img
               src={xpackaging}
-              alt="Fashion showcase" 
+              alt="Fashion showcase"
               className="w-full h-full object-cover"
             />
           </div>
-        <div className="absolute top-0 right-4 w-1/2 aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl z-10 border-4 border-white">
-  <div className="relative w-full h-full group">
-    <video
-      src={videoabout}
-      autoPlay
-      loop
-      muted
-      playsInline
-      className="w-full h-full object-cover transition-transform duration-500 scale-110"
-    />
-    {/* Overlay stays if you want a slight tint, or remove it for clarity */}
-    <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors" />
-  </div>
-</div>
+          <div className="absolute top-0 right-4 w-1/2 aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl z-10 border-4 border-white">
+            <div className="relative w-full h-full group">
+              <video
+                src={videoabout}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover transition-transform duration-500 scale-110"
+              />
+              {/* Overlay stays if you want a slight tint, or remove it for clarity */}
+              <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors" />
+            </div>
+          </div>
         </div>
 
         <div className="w-full md:w-1/2 flex flex-col items-start  space-y-6">
           <h2 className="text-5xl md:text-6xl text-gray-900 leading-tight font-bold">
-            Crafting premium experiences
+            Delivering Premium Custom Packaging at Scale
           </h2>
-          <div className=' overflow-y-auto max-h-72'>
-              <p className="text-gray-600 leading-relaxed text-lg  text-justify p-2">
-           The production team is very efficient which helps us in completing every task in minimum time span. Timely printing and shipment are the core values of our company. Umbrella Custom Packaging takes pride in delivering the best solution at reasonable price. Cardboard boxes, Kraft boxes, corrugated boxes, window boxes, die cut boxes and wedding boxes come under our range of expertise. From these box types, we accept the responsibility to manufacture spectacular packaging for electronics, food items, toys, cosmetics, etc. You name it and we have it. Umbrella Custom Packaging is a specialist in producing catchy customizations. Die cut, embossing, perforations, laminations, UV, glossy, matte and several other options are available for the designing of your customized packaging boxes. We use environment and consumer friendly stocks for manufacturing the boxes without compromising on excellence. Our competent work force enables us presenting impeccable printed designs and styles.<br></br>Umbrella Custom Packaging has been catering the packaging needs of thousands of businesses across the globe. We have achieved a magnanimous success in short period of time due to our premium printing services, fastest turnaround, free shipping and unique customized designing. Umbrella Custom Packaging is helping many macro and mini businesses in their packaging needs. For specific events, we offer exciting favor and gift boxes with special discounts. Customer satisfaction is our top priority. To facilitate the customers by cutting down their expenses, we not only print at our in-house press in USA but also utilize the offshore printing facilities in Asia and Africa. We look forward to hear from your business in the near future. Our customer care services are available around the clock. For custom quote or inquiry, feel free to contact our representatives from Monday-Friday.
-          </p>
+          <div className=' overflow-y-auto max-h-48'>
+            <p className="text-gray-600 leading-relaxed text-lg  text-justify p-2">
+              At X Custom Packaging, we believe packaging is more than just protection—it is a powerful representation of your brand’s identity and values. With a state-of-the-art production facility and a reliable logistics network, we deliver high-quality custom packaging solutions designed to meet the evolving needs of modern businesses.
+
+              Our advanced manufacturing capabilities allow us to produce a wide range of packaging styles, from simple and cost-effective boxes to premium, luxury packaging. We work with durable materials such as cardboard, kraft, corrugated, rigid, and specialty stocks to ensure maximum product safety and visual appeal. Whether your products are in retail, eCommerce, cosmetics, food, electronics, or promotional industries, X Custom Packaging provides tailored solutions that align perfectly with your brand.
+
+              Efficiency and precision are at the core of our production process. Our experienced team carefully manages every stage—from structural design and printing to finishing and quality control. We offer extensive customization options, including die-cutting, embossing, debossing, foil stamping, window cutouts, UV coating, and matte or gloss lamination. These features allow businesses to create packaging that not only protects their products but also enhances customer experience and shelf presence.
+
+              Timely delivery is one of our strongest commitments. Supported by an organized shipping and logistics system, we ensure your orders are completed and dispatched within agreed timelines. Our dependable supply chain helps businesses maintain smooth operations and meet market demands without delays. No matter the order size, we focus on consistency, accuracy, and reliability.
+
+              At X Custom Packaging, customer satisfaction drives everything we do. We collaborate closely with our clients to understand their goals and transform ideas into packaging that leaves a lasting impression. Our dedication to quality craftsmanship, innovation, and affordability has made us a trusted partner for brands seeking dependable custom packaging solutions.
+            </p>
           </div>
-        
-          <Button label={"Learn More About Our Journey"}/>
+
+         <a href="#brand-details-section"> <Button label={"See Our Work in Action"} /></a>
         </div>
       </section>
+      <section className="max-w-8xl mx-auto px-6 py-10 relative overflow-hidden bg-white">
+        <div className="relative z-10">
+          <div className="max-w-6xl mx-auto">
 
-      {/* Brand Cards Section */}
-<section className={`max-w-8xl mx-auto px-6 mb-24 relative overflow-hidden `} style={{backgroundImage: `url(${xfav})` }}>
-  
-  {/* --- LARGE BACKGROUND WATERMARKS --- */}
-  {/* Left Side: Premium Quality */}
-  <div className="hidden 2xl:block absolute -left-16 top-1/2 -translate-y-1/2 select-none pointer-events-none z-0">
-    <span className="text-[220px] font-black uppercase tracking-tighter text-slate-100/40 [writing-mode:vertical-lr] rotate-180 leading-none">
-      Premium Quality
-    </span>
-  </div>
+            {/* Header */}
+            <div className="text-center mb-20">
+              <h1 className="text-5xl font-bold text-slate-800 mb-4">Our Premium Brands</h1>
+              <p className="text-xl text-slate-600">Discover excellence across every industry</p>
+            </div>
 
-  {/* Right Side: Trusted Brands */}
-  <div className="hidden 2xl:block absolute -right-16 top-1/2 -translate-y-1/2 select-none pointer-events-none z-0">
-    <span className="text-[220px] font-black uppercase tracking-tighter text-slate-100/40 [writing-mode:vertical-lr] leading-none">
-      Trusted Brands
-    </span>
-  </div>
-  {/* ---------------------------------- */}
+            <div className="relative">
+              {/* Central Vertical Line */}
+              <div className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-slate-200 hidden md:block"></div>
 
-  <div className="py-12 px-4 sm:px-6 lg:px-8 relative z-10">
-    <div className="max-w-5xl mx-auto">
-      <div className="text-center mb-16">
-        <h1 className="text-5xl font-bold text-slate-800 mb-4">Our Premium Brands</h1>
-        <p className="text-xl text-slate-600">Discover quality products that bring excellence to every industry</p>
-      </div>
+              <div className="flex flex-col gap-16 md:gap-10">
+                {/* Process brands in pairs */}
+                {[0, 2, 4].map((startIndex) => {
+                  const brand1 = companyLogos[startIndex];
+                  const brand2 = companyLogos[startIndex + 1];
+                  const isCentered = startIndex === 4; // The 5th item logic
 
-      <div className="flex flex-col gap-8">
-        {companyLogos.map((brand, index) => {
-          const isEven = index % 2 === 0;
-          return (
-            <div 
-              key={index} 
-              className={`group relative ${isEven ? "bg-white" : "bg-slate-50/50"} 
-                rounded-[2.5rem] flex flex-col md:flex-row items-center border border-slate-200/60 
-                shadow-sm transition-all duration-500 hover:shadow-xl hover:scale-[1.01] overflow-hidden`}
-            >
-              {/* Subtle Initial behind the text in the card */}
-              <div className="absolute right-8 bottom-[-20px] text-[120px] font-bold text-slate-900/[0.03] pointer-events-none uppercase">
-                {brand.name.charAt(0)}
-              </div>
+                  return (
+                    <div key={startIndex} className="relative w-full">
+                      {isCentered ? (
+                        /* --- 5th BOX: CENTERED --- */
+                        <div className="flex justify-center w-full relative">
+                          {/* Central Dot for 5th item */}
+                          <div className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 hidden md:flex z-20">
+                            <div className="w-6 h-6 bg-white rounded-full border-[4px] border-slate-800 shadow-md"></div>
+                          </div>
 
-              <div className="w-full md:w-1/3 p-6">
-                <div className={`w-full h-40 md:h-48 ${brand.accentColor} rounded-3xl flex items-center justify-center overflow-hidden shadow-inner`}>
-                  <img src={brand.logo} alt={brand.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                </div>
-              </div>
+                          <div className="w-full md:w-[60%] lg:w-[50%] group relative bg-white p-5 rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden">
+                            <div className={`w-32 h-32 mb-8 rounded-[2rem] flex items-center justify-center overflow-hidden shadow-inner border border-slate-100 ${brand1?.accentColor || 'bg-slate-50'}`}>
+                              <img src={brand1?.logo} alt={brand1?.name} className="w-full h-full object-contain p-4 transition-transform duration-500 group-hover:scale-110" />
+                            </div>
+                            <h3 className="text-3xl font-bold text-slate-800 mb-4">{brand1?.name}</h3>
+                            <p className="text-slate-500 text-lg leading-relaxed">{brand1?.tagline}</p>
+                            <div className="absolute right-8 bottom-4 text-8xl font-bold text-slate-900/[0.03] pointer-events-none uppercase">
+                              {brand1?.name.charAt(0)}
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        /* --- PAIRS: FRONT TO FRONT --- */
+                        <div className="flex flex-col md:flex-row items-stretch justify-between gap-8 md:gap-0 relative">
+                          {/* Central Dot for Pair */}
+                          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:flex z-20">
+                            <div className="w-6 h-6 bg-white rounded-full border-[4px] border-slate-800 shadow-md"></div>
+                          </div>
 
-              <div className="px-8 py-6 md:py-4 flex flex-col md:flex-row items-center justify-between flex-1 gap-8 z-10">
-                <div className="text-center md:text-left">
-                  <h2 className="text-3xl font-bold text-slate-800 mb-2">{brand.name}</h2>
-                  <p className="text-slate-500 text-base max-w-md leading-relaxed">{brand.tagline}</p>
-                </div>
-               <Button
-  className={`whitespace-nowrap py-3.5 px-10 ${brand.color} text-white font-bold text-sm rounded-2xl transition-all shadow-md hover:shadow-lg hover:-translate-y-1 active:scale-95`}
-  label="Explore Products">
+                          {/* Left Card */}
+                          <div className="w-full md:w-[45%] group relative bg-white p-5 rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden">
+                            <div className={`w-32 h-32 mb-2 rounded-[2rem] flex items-center justify-center overflow-hidden shadow-inner border border-slate-100 ${brand1?.accentColor || 'bg-slate-50'}`}>
+                              <img src={brand1?.logo} alt={brand1?.name} className="w-full h-full object-contain p-4 transition-transform duration-500 group-hover:scale-110" />
+                            </div>
+                            <h3 className="text-3xl font-bold text-slate-800 mb-4">{brand1?.name}</h3>
+                            <p className="text-slate-500 text-lg leading-relaxed">{brand1?.tagline}</p>
+                            <div className="absolute right-8 bottom-4 text-8xl font-bold text-slate-900/[0.03] pointer-events-none uppercase">
+                              {brand1?.name.charAt(0)}
+                            </div>
+                          </div>
 
-</Button>
-
-                
+                          {/* Right Card */}
+                          <div className="w-full md:w-[45%] group relative bg-white p-5 rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden">
+                            {brand2 && (
+                              <>
+                                <div className={`w-32 h-32 mb-2 rounded-[2rem] flex items-center justify-center overflow-hidden shadow-inner border border-slate-100 ${brand2.accentColor || 'bg-slate-50'}`}>
+                                  <img src={brand2.logo} alt={brand2.name} className="w-full h-full object-contain p-4 transition-transform duration-500 group-hover:scale-110" />
+                                </div>
+                                <h3 className="text-3xl font-bold text-slate-800 mb-4">{brand2.name}</h3>
+                                <p className="text-slate-500 text-lg leading-relaxed">{brand2.tagline}</p>
+                                <div className="absolute right-8 bottom-4 text-8xl font-bold text-slate-900/[0.03] pointer-events-none uppercase">
+                                  {brand2.name.charAt(0)}
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </div>
-          );
-        })}
-      </div>
-    </div>
-  </div>
-</section>
+          </div>
+        </div>
+      </section>
 
       {/* Gallery Section Component */}
       <CreativePackaging />
 
       {/* Global Stats & Footprint */}
-      <section className="bg-white py-24 px-6 relative overflow-hidden">
+      <section className=" py-24 px-6 relative overflow-hidden">
         <div className="max-w-8xl mx-auto relative z-10">
           <div className="grid lg:grid-cols-12 gap-12 items-center mb-20">
             <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -282,7 +307,7 @@ export default function About() {
               { country: "Canada", address: "7398 Yonge St #6d, Thornhill, ON L4J 8J2", flag: "🇨🇦" },
               { country: "Canada", address: "7398 Yonge St #6d, Thornhill, ON L4J 8J2", flag: "🇨🇦" },
             ].map((loc, idx) => (
-              <div key={idx} className="group p-8 rounded-3xl border border-slate-100 hover:border-red-500/20 hover:bg-slate-50/50 transition-all duration-300">
+              <div key={idx} className="group p-8 bg-white rounded-3xl border border-slate-100 hover:border-red-500/20 hover:bg-slate-50/50 transition-all duration-300">
                 <div className="text-4xl mb-4 grayscale group-hover:grayscale-0 transition-all">{loc.flag}</div>
                 <h4 className="text-2xl font-black mb-3">{loc.country}</h4>
                 <p className="text-slate-500 text-sm leading-relaxed mb-6">{loc.address}</p>

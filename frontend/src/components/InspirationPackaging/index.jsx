@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import Button from "../common/Button";
 import { Link } from "react-router-dom";
-import { gallery1, gallery2, gallery3, gallery4, gallery5, gallery6, gallery7, gallery8, gallery9 } from "../../assets";
+import { gallery1, gallery2, gallery3, gallery4, gallery5, gallery6, gallery7, gallery8, gallery9,gallery10,gallery11,gallery12,gallery13,gallery14,gallery15 } from "../../assets";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -58,7 +58,13 @@ const InspirationPackaging = () => {
         { src: gallery7, alt: imageDescriptions[5] },
         { src: gallery8, alt: imageDescriptions[6] },
         { src: gallery3, alt: imageDescriptions[7] },
-        { src: gallery4, alt: imageDescriptions[8] }
+        { src: gallery4, alt: imageDescriptions[8] },
+        { src: gallery10, alt: imageDescriptions[9] },
+        { src: gallery11, alt: imageDescriptions[10] },
+        { src: gallery12, alt: imageDescriptions[11] },
+        { src: gallery13, alt: imageDescriptions[12] },
+        { src: gallery14, alt: imageDescriptions[13] },
+        { src: gallery15, alt: imageDescriptions[14] }  
     ];
 
     // Keyboard navigation for image viewer
