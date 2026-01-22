@@ -7,9 +7,10 @@ const WorkWithYou = () => {
     { img: special1, title: 'Embossing', desc: 'Embossing raises your logo or artwork for a premium, tactile experience that customers can see and feel.' },
     { img: special2, title: 'Debossing', desc: 'Debossing presses your design into the material for a subtle, sophisticated, and timeless textured effect on the box.' },
     { img: special3, title: 'Custom Foiling', desc: 'Custom foiling adds metallic colored foil on the box for instant luxury that creates a brilliant and premium finish.' },
+    { img: special6, title: 'Spot UV', desc: 'A PVC window adds a practical display, allowing customers to see the product inside the packaging without opening it.' },
     { img: special4, title: 'Metallic Printing', desc: 'Metallized printing uses special inks and paper to create a vibrant, shimmering metallic effect across your packaging design.' },
     { img: special5, title: 'PVC Window', desc: 'Enhance your packaging with spot UV coating for premium finish and visual appeal.' },
-    { img: special6, title: 'Spot UV', desc: 'A PVC window adds a practical display, allowing customers to see the product inside the packaging without opening it.' },
+   
     { img: special7, title: 'Custom Ribbons', desc: 'Custom printed ribbons add a final touch of elegance and color, perfect for gift and luxury packaging presentations.' },
   ];
 
