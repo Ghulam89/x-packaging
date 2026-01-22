@@ -4,22 +4,20 @@ import { insert1, insert2, insert3, insert4, insert5 } from '../../assets';
 
 const CustomInserts = () => {
   const addons = [
-    { img: insert1, title: 'Foam Inserts', desc: 'Design a folding carton that suits your brand with custom sizes, prints, and eco-friendly materials.' },
-    { img: insert2, title: 'Cardboard Inserts', desc: 'Prepare your products with high-quality folding carton packaging, offering durability, customization, and eco-friendly solutions.' },
-    { img: insert3, title: 'Clamshell Inserts', desc: 'Settle paper is used for securing products in folding cartons, ensuring safe, organized packaging during transit.' },
-    { img: insert4, title: 'Corrugated Inserts', desc: 'Add-ons for customization, branding, or packaging enhancements to meet your specific needs.' },
-    { img: insert5, title: 'Eva Foam Inserts', desc: 'Enhance your packaging with spot UV coating for premium finish and visual appeal.' },
+    { img: insert1, title: 'Foam Inserts', desc: 'Foam inserts cushion and secure delicate products, providing protection and a polished unboxing presentation. We make them in any color you want.' },
+    { img: insert2, title: 'Cardboard Inserts', desc: 'Cardboard inserts provide structured protection and organization inside your box. These are economical and for lightweight items. We can customize them in any color.' },
+    { img: insert3, title: 'Clamshell Inserts', desc: 'Clamshell inserts surround and securely display your product, perfect for a clear, retail-ready presentation. These are the best suited for bulk usage.' },
+    { img: insert4, title: 'Corrugated Inserts', desc: 'Corrugated inserts are the most durable inserts that we offer in any custom design. You can trust them to fit heavy and light-weight items both.' },
+    { img: insert5, title: 'Eva Foam Inserts', desc: 'It is a type of premium foam insert that gives an ultra feel to the customers. We recommend this for expensive products. It comes in natural white and black colors.' },
     
   ];
 
   return (
     <section className="pt-12 ">
       <div className="sm:max-w-8xl max-w-[95%] mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-5">Custom inserts that enhance unboxing and strengthen your brand identity.</h2>
+        <h2 className="text-3xl font-bold text-center mb-5">Get the Inserts Your Product Needs </h2>
         <p className="text-center text-gray-600 mb-12">
-        Custom Packaging specializes in high-quality, tailor-made packaging solutions.
-We design and manufacture packaging that fits your product and brand perfectly.
-Our focus is on durability, premium presentation, and cost-effective solutions.
+        Secure your product inside the box with the insert, which is the best fit for it. We customize a wide range of inserts, which include luxury foam, economical cardboard, durable corrugated, and premium clamshell and Eva foam inserts. We can suggest the best insert for your product while keeping in view your budget.
         </p>
         <CardSlider
           top={40}

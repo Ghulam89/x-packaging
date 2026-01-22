@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axiosInstance from '../../utils/axiosConfig';
 import { BaseUrl } from '../../utils/BaseUrl';
 import { Link } from 'react-router-dom';
+import { FaAngleRight } from 'react-icons/fa';
 import Button from '../common/Button';
 import GetQuoteModal from '../common/GetQuoteModal';
 
@@ -15,24 +16,24 @@ const CategoryBoxes = () => {
     const fetchCategories = async () => {
       let retryCount = 0;
       const maxRetries = 2;
-      
+
       const attemptFetch = async (attemptNumber = 1) => {
         try {
           setLoading(true);
           console.log(`Fetching categories (attempt ${attemptNumber})...`);
-          
+
           // Fetch top categories from API with iOS Safari compatible configuration
           const response = await axiosInstance.get(`${BaseUrl}/category/getAll?page=1&perPage=5`, {
             timeout: 20000, // 20 second timeout for iOS Safari
           });
-          
+
           console.log('API Response received:', {
             status: response?.status,
             dataStatus: response?.data?.status,
             hasData: !!response?.data?.data,
             dataLength: response?.data?.data?.length
           });
-          
+
           if (response?.data?.status === 'success' && response?.data?.data) {
             setCategories(response.data.data);
             console.log(`Successfully loaded ${response.data.data.length} categories`);
@@ -53,18 +54,18 @@ const CategoryBoxes = () => {
             status: error.response?.status,
             url: error.config?.url
           });
-          
+
           // Retry logic for network issues
           if (attemptNumber < maxRetries && (error.code === 'ECONNABORTED' || !error.response || error.response?.status >= 500)) {
             console.log(`Retrying... (${attemptNumber + 1}/${maxRetries})`);
             await new Promise(resolve => setTimeout(resolve, 1000 * attemptNumber)); // Exponential backoff
             return await attemptFetch(attemptNumber + 1);
           }
-          
+
           return false;
         }
       };
-      
+
       const success = await attemptFetch();
       if (!success) {
         setCategories([]);
@@ -88,11 +89,20 @@ const CategoryBoxes = () => {
           {/* Header Section - Always visible */}
           <div className="text-center mb-10">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">
-              Custom Boxes for Every Industry
+              Customized Packaging for Every Industry
             </h2>
-            <p className="text-gray-600 text-base sm:text-lg max-w-3xl mx-auto">
-              Discover our custom boxes crafted for your industry. Perfectly designed to showcase, store, and ship products while elevating your brand identity.
+            <p className="text-gray-600 text-base sm:text-lg">
+              We recognize that each industry has distinct packaging requirements. That’s why X Custom Packaging offers custom packaging solutions designed for retail, apparel, e-commerce, food and beverage, cosmetics, electronics, and beyond. We ensure the quality, feel, and durability of your packaging so that your every box stands out well on the store shelves.
+
+              <Link
+                to=""
+                className="ml-2 uppercase font-bold text-[#EE334B] inline-flex items-center align-baseline hover:opacity-80 transition-opacity"
+              >
+                View all
+                <FaAngleRight className="ml-1" size={15} />
+              </Link>
             </p>
+
           </div>
 
           {/* Categories Grid - Loading or Content */}
@@ -146,7 +156,7 @@ const CategoryBoxes = () => {
               <div className="flex justify-center mt-6">
                 <Button
                   className="bg-[#800020] text-white hover:bg-[#800020]/90 rounded-lg px-8 py-3 text-base font-semibold"
-                  label="Request A Quote"
+                  label="Get Instant Quote"
                   onClick={() => setIsQuoteModalOpen(true)}
                 />
               </div>
@@ -156,8 +166,8 @@ const CategoryBoxes = () => {
       </div>
 
       {/* Request Quote Modal */}
-      <GetQuoteModal 
-        isModalOpen={isQuoteModalOpen} 
+      <GetQuoteModal
+        isModalOpen={isQuoteModalOpen}
         setIsModalOpen={setIsQuoteModalOpen}
         closeModal={() => setIsQuoteModalOpen(false)}
         categoryData={selectedCategory}

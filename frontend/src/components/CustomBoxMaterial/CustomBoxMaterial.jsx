@@ -34,9 +34,9 @@ const CustomBoxMaterial = () => {
     {
       id: 1,
       title: "Rigid Boxes",
-      subTitle: "Strong Boxes for Special Things: Rigid Boxes Explained!",
+      subTitle: "Premium Feel & Protection with Rigid Boxes",
       description:
-        "Rigid boxes are like super strong and unbreakable homes for extraordinary things. The manufacturers make these boxes using special materials to keep toys, makeup, and nice things protected. Additionally, people use printed rigid boxes to make things look extra special by painting them with cool colors and designs.",
+        "For special, luxury, and unique products that deserve exceptional presentation, rigid boxes are the ideal choice. X Custom Packaging made rigid boxes offer superior durability, a luxury feel, and unmatched shelf presence. We are amongst the best when it comes to making rigid boxes.",
       image: Box1,
       buttonUrl: "#",
       width: 450,  // Added explicit dimensions
@@ -45,9 +45,9 @@ const CustomBoxMaterial = () => {
     {
       id: 2,
       title: "Corrugated Boxes",
-      subTitle: "Super Boxes: How Corrugated Magic Keeps Things Safe!",
+      subTitle: "The Reliable Strength of Corrugated Boxes",
       description:
-        "Corrugated boxes are special types of containers made from a material called corrugated cardboard. Essentially, these boxes consist of three layers. The inner layer, known as corrugation, adds strength and durability to the box. Perfect for mailing and shipping, they make sure your items reach their destination in great shape. Trust corrugated boxes for a safe and secure journey!",
+        "Corrugated boxes are safe and reliable to ship products even across the oceans due to their layered structure and construction. We use corrugated materials that ensure your products arrive securely, every time, with fantastic print on them as per your artwork.",
       image: Box2,
       buttonUrl: "#",
       width: 450,
@@ -56,9 +56,9 @@ const CustomBoxMaterial = () => {
     {
       id: 3,
       title: "Kraft Boxes",
-      subTitle: "Go Green with Kraft Boxes!",
+      subTitle: "100% Recycled Packaging with Kraft Boxes",
       description:
-        "Make a smart choice with Kraft boxes—good for your stuff and good for the environment! These boxes are strong containers for packing things, and they’re made from a special paper called kraft paper. These boxes are handy for packing lots of different things, showing that they work well for many uses.",
+        "Go for natural and sustainable Kraft boxes, bags, and cups for a look that’s both rustic and responsible. Made from renewable resources, our Kraft packaging is strong, biodegradable, and perfect for brands committed to contributing to the environment. Go green with X Custom Packaging!",
       image: Box3,
       buttonUrl: "#",
       width: 450,
@@ -68,9 +68,9 @@ const CustomBoxMaterial = () => {
       id: 4,
       title: "Cardboard Boxes",
       subTitle:
-        "Magic of Cardboard: Versatile Containers for Retail Packaging!",
+        "Economical & The Only Choice for Retail",
       description:
-        "Cardboard boxes are like strong, big containers made out of thick paper. They’re used for packing and carrying lots of different things. They come in all shapes and sizes, like small ones for holding toys or big ones. These boxes are perfect for packaging your items and making them look neat on the shelves. They keep your products safe and make your shop look great!",
+        "Cardboard boxes are an excellent choice for retail packaging because they are economical, best suited for printing any artwork on them, and adaptable to any shape. Our cardboard boxes are best for product and display packaging. X Custom Packaging transforms plain cardboard into powerful brand statements that connect with customers.",
       image: Box4,
       buttonUrl: "#",
       width: 450,
@@ -135,10 +135,12 @@ const CustomBoxMaterial = () => {
     <div className="w-full mx-auto">
       <div className="text-center">
         <h2 className="sm:text-[35px] text-[25px] font-sans font-[600] text-[#333333] break-words">
-          Custom Box Material Guide: Finding the Perfect Fit
+          Choose the Perfect Material for Your Custom Box
+
         </h2>
-        <p className="pt-3 pb-6 text-sm break-words">
-          Let's explore the Types of Materials for Your Unique Packaging.
+        <p className="pt-3 pb-6 text-sm break-words max-w-7xl mx-auto">
+         We help you choose the right material for your packaging as it is key to balancing protection, presentation, and cost. <b>This guide breaks down your options</b>, from durable corrugated mailers to luxury rigid boxes and from eco-friendly kraft boxes and bags to budget-friendly retail cardboard boxes, helping you make the smartest choice for your product.<b>box your packaging with X Custom Packaging!</b> 
+
         </p>
       </div>
       

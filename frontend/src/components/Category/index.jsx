@@ -50,14 +50,24 @@ const Category = ({ serverData }) => {
   return (
     <div ref={elementRef} className=' bg-[#f7f7f7] pt-12'>
       <div className=' sm:max-w-8xl w-[95%] mx-auto'>
-        <div className=' mb-5 flex  sm:flex-row  flex-col items-center gap-2.5'>
-          <h2 className=' text-left'>Top Packaging Styles</h2>
-
-          <p className=' border-l  border-gray-300 pl-3 '>We cover all your packaging needs. Can't find yours?</p>
-          <Link to="" className=" uppercase">
-            <p className=' font-bold  text-[#EE334B] flex items-center'>View all  <FaAngleRight className="ml-1" size={15} />  </p>
-          </Link>
-        </div>
+          <div className="text-center mb-10">
+                    <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">
+                     Our Signature Packaging Styles
+                    </h2>
+                    <p className="text-gray-600 text-base sm:text-lg">
+                     Explore our range of premium packaging shapes and styles, each designed to protect, present, and enhance your brand value. From protective mailer and shipper style to luxury magnetic closure and two-piece boxes, X Custom Packaging offers the perfect style to make your product fit in and stand out. We simply say, Xbox your packaging! 
+        
+                      <Link
+                        to=""
+                        className="ml-2 uppercase font-bold text-[#EE334B] inline-flex items-center align-baseline hover:opacity-80 transition-opacity"
+                      >
+                        View all
+                        <FaAngleRight className="ml-1" size={15} />
+                      </Link>
+                    </p>
+        
+                  </div>
+      
         {loading ? (
           <div className="py-2">
             <CardSlider

@@ -4,13 +4,13 @@ import { special1, special2, special3, special4, special5, special6, special7} f
 
 const WorkWithYou = () => {
   const addons = [
-    { img: special1, title: 'Embossing', desc: 'Design a folding carton that suits your brand with custom sizes, prints, and eco-friendly materials.' },
-    { img: special2, title: 'Debossing', desc: 'Prepare your products with high-quality folding carton packaging, offering durability, customization, and eco-friendly solutions.' },
-    { img: special3, title: 'Custom Foiling', desc: 'Settle paper is used for securing products in folding cartons, ensuring safe, organized packaging during transit.' },
-    { img: special4, title: 'Metallic Printing', desc: 'Add-ons for customization, branding, or packaging enhancements to meet your specific needs.' },
+    { img: special1, title: 'Embossing', desc: 'Embossing raises your logo or artwork for a premium, tactile experience that customers can see and feel.' },
+    { img: special2, title: 'Debossing', desc: 'Debossing presses your design into the material for a subtle, sophisticated, and timeless textured effect on the box.' },
+    { img: special3, title: 'Custom Foiling', desc: 'Custom foiling adds metallic colored foil on the box for instant luxury that creates a brilliant and premium finish.' },
+    { img: special4, title: 'Metallic Printing', desc: 'Metallized printing uses special inks and paper to create a vibrant, shimmering metallic effect across your packaging design.' },
     { img: special5, title: 'PVC Window', desc: 'Enhance your packaging with spot UV coating for premium finish and visual appeal.' },
-    { img: special6, title: 'Spot UV', desc: 'Create eye-catching holographic effects that make your packaging stand out.' },
-    { img: special7, title: 'Custom Ribbons', desc: 'Create eye-catching holographic effects that make your packaging stand out.' },
+    { img: special6, title: 'Spot UV', desc: 'A PVC window adds a practical display, allowing customers to see the product inside the packaging without opening it.' },
+    { img: special7, title: 'Custom Ribbons', desc: 'Custom printed ribbons add a final touch of elegance and color, perfect for gift and luxury packaging presentations.' },
   ];
 
   return (
@@ -18,10 +18,10 @@ const WorkWithYou = () => {
       <div className="sm:max-w-8xl max-w-[95%] mx-auto px-4">
       <div className=' text-center'>
       <h2 className="sm:text-[35px] text-[25px] leading-9 font-sans font-[600] text-[#333333] break-words">
-          Enhance Your Product Presentation with Our Special Packaging Features
+          Our Add-ons for Premium Packaging 
         </h2>
         <p className="pt-3 text-gray-600 pb-3 break-words">
-          Following are few steps which provide the complete Guide.
+          X Custom Packaging is one stop shop where you can add custom colored foil to your packaging, make custom-printed ribbons, do embossing and debossing, and beyond. Our premium add-ons to your packaging would be enough themselves to boost your sales, increase brand elegancy and make your presents look special.
         </p>
       </div>
         <CardSlider

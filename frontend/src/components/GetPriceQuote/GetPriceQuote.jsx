@@ -154,12 +154,12 @@ const GetPriceQuote = () => {
           <div className="relative sm:w-10/12 w-full  ml-auto z-10">
             {/* Small intro text */}
             <p className="text-sm sm:text-base text-gray-500 mb-3 sm:mb-4">
-              Don't miss the great supplier
+              We promise unbeatable prices.
             </p>
             
             {/* Main heading */}
             <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-4 sm:mb-5 leading-tight">
-              Leave Your Message with Your Needs.
+              Get your Quote in Just 20 Minutes 
             </h3>
             
             {/* Decorative line */}
@@ -167,7 +167,7 @@ const GetPriceQuote = () => {
             
             {/* Descriptive paragraph */}
             <p className="text-gray-600 mb-6 sm:mb-8 text-sm sm:text-base lg:text-lg leading-relaxed">
-              The quick way to get a quote from us, fill in your name, email, phone and message, we will reply within 1 work day.
+              Just fill in your name, email, phone number, and the instructions. We will email you the price quote in 20 minutes. The X factor always delivers!
             </p>
             
             {/* Image */}

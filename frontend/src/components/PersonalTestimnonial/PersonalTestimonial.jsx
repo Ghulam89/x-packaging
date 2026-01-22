@@ -1,123 +1,147 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../common/Button';
 import abstractBg from '../../assets/images/stars.webp';
-// Generating 30 sample testimonials
-const testimonialsData = Array.from({ length: 30 }, (_, i) => ({
-    id: i + 1,
-    name: i % 3 === 0 ? "Aren Jordan" : i % 3 === 1 ? "Mathilde Lewis" : "Sarah Chen",
-    text: "The training was hands-on and practical. I landed my first clients fast.",
-    role: "Certified Appointment Setter",
-    rating: 5,
-}));
 
 const TestimonialCard = ({ testimonial }) => {
-    // Logic to get initials (e.g., "Aren Jordan" -> "AJ")
-    const initials = testimonial.name
+    // Get initials from the name field in the API
+    const name = testimonial.name || "Anonymous";
+    const initials = name
         .split(' ')
         .map((n) => n[0])
         .join('')
-        .toUpperCase();
+        .toUpperCase()
+        .slice(0, 2);
 
     return (
         <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm flex flex-col gap-4 text-left w-[320px] md:w-[350px] shrink-0 mb-2 overflow-x-hidden">
-            <div className="flex items-center gap-3 ">
-                {/* Initials Avatar with #ee334b background */}
+            <div className="flex items-center gap-3">
                 <div
-                    className="w-11 h-11 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0 shadow-inner p-3"
+                    className="w-11 h-11 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0 shadow-inner"
                     style={{ backgroundColor: '#ee334b' }}
                 >
                     {initials}
                 </div>
                 <div>
                     <h4 className="font-bold text-sm tracking-tight" style={{ color: '#213554' }}>
-                        {testimonial.name}
+                        {name}
                     </h4>
                     <div className="flex text-amber-400 text-[10px] mt-0.5">
-                        {[...Array(testimonial.rating)].map((_, i) => (
+                        {/* Ensure rating is a number, default to 5 if missing */}
+                        {[...Array(Number(testimonial.rating) || 5)].map((_, i) => (
                             <span key={i}>★</span>
                         ))}
                     </div>
                 </div>
             </div>
 
-            <p className="text-zinc-600 text-[14px] leading-relaxed line-clamp-3">
-                {testimonial.text}
+            {/* API uses the 'review' field for the message */}
+            <p className="text-zinc-600 text-[14px] leading-relaxed line-clamp-4">
+                {testimonial.review}
             </p>
-
         </div>
     );
 };
 
 const PersonalTestimonial = () => {
+    const [testimonials, setTestimonials] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchTestimonials = async () => {
+            try {
+                const response = await fetch('https://xcustompackaging.com/Rating/getAll');
+                const result = await response.json();
+                
+                // Based on your JSON: result.status === "success" and data is in result.data
+                if (result.status === "success" && Array.isArray(result.data)) {
+                    setTestimonials(result.data);
+                }
+            } catch (error) {
+                console.error("Error fetching testimonials:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchTestimonials();
+    }, []);
+
+    // Split data into two rows for the marquee effect
+    const halfIndex = Math.ceil(testimonials.length / 2);
+    const row1 = testimonials.slice(0, halfIndex);
+    const row2 = testimonials.slice(halfIndex);
+
+    // Dynamic animation timing: longer list = slower speed to keep it smooth
+    const scrollSpeed = testimonials.length > 10 ? testimonials.length * 3 : 30;
+
+    if (loading) return <div className="py-20 text-center font-bold">Loading Reviews...</div>;
+    if (testimonials.length === 0) return null;
+
     return (
-        <section className="bg-[#f7f7f7] py-10 overflow-hidden  relative bg-cover bg-center bg-no-repeat">
-
-
+        <section className="bg-[#f7f7f7] py-10 overflow-hidden relative">
             <style>
                 {`
-          @keyframes scrollLeft {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(calc(-350px * 15 - 1.5rem * 15)); }
-          }
-          @keyframes scrollRight {
-            0% { transform: translateX(calc(-350px * 15 - 1.5rem * 15)); }
-            100% { transform: translateX(0); }
-          }
-          .animate-scroll-left { animation: scrollLeft 60s linear infinite; }
-          .animate-scroll-right { animation: scrollRight 60s linear infinite; }
-          .pause-on-hover:hover .animate-scroll-left,
-          .pause-on-hover:hover .animate-scroll-right {
-            animation-play-state: paused;
-          }
-          /* Gradient mask to fade edges */
-          .testimonial-mask {
-            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-          }
-        `}
+                @keyframes scrollLeft {
+                    0% { transform: translateX(0); }
+                    100% { transform: translateX(calc(-350px * ${row1.length} - 1.5rem * ${row1.length})); }
+                }
+                @keyframes scrollRight {
+                    0% { transform: translateX(calc(-350px * ${row2.length} - 1.5rem * ${row2.length})); }
+                    100% { transform: translateX(0); }
+                }
+                .animate-scroll-left { animation: scrollLeft ${scrollSpeed}s linear infinite; }
+                .animate-scroll-right { animation: scrollRight ${scrollSpeed}s linear infinite; }
+                .pause-on-hover:hover .animate-scroll-left,
+                .pause-on-hover:hover .animate-scroll-right {
+                    animation-play-state: paused;
+                }
+                .testimonial-mask {
+                    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+                    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+                }
+                `}
             </style>
 
-            <div className="max-w-8xl mx-auto" >
-              
-              <div  className='  relative bg-cover bg-center bg-no-repeat' style={{ backgroundImage: `url(${abstractBg})` }}>
-              <div className='flex flex-col  justify-between items-center pb-10'>
-                    <h2
-                        className="text-3xl md:text-5xl font-black text-center mb-10 tracking-tight"
-                        style={{ color: '#213554' }}
-                    >
-                        What People Are Saying
-                    </h2>
-                    <Button label={"Write a Review"} />
-
-                </div>
-              <div className="flex flex-col gap-8  pause-on-hover testimonial-mask">
-                    {/* Row 1: Sliding Left */}
-                    <div className="flex overflow-hidden">
-                        <div className="flex gap-6 animate-scroll-left">
-                            {[...testimonialsData.slice(0, 15), ...testimonialsData.slice(0, 15)].map((t, idx) => (
-                                <TestimonialCard key={`row1-${t.id}-${idx}`} testimonial={t} />
-                            ))}
-                        </div>
+            <div className="max-w-8xl mx-auto">
+                <div className='relative bg-cover bg-center bg-no-repeat' style={{ backgroundImage: `url(${abstractBg})` }}>
+                    <div className='flex flex-col justify-between items-center pb-10'>
+                        <h2 className="text-3xl md:text-5xl font-black text-center mb-10 tracking-tight" style={{ color: '#213554' }}>
+                            What People Are Saying
+                        </h2>
+                        <Button label={"Write a Review"} />
                     </div>
 
-                    {/* Row 2: Sliding Right */}
-                    <div className="flex overflow-hidden">
-                        <div className="flex gap-6 animate-scroll-right">
-                            {[...testimonialsData.slice(15, 30), ...testimonialsData.slice(15, 30)].map((t, idx) => (
-                                <TestimonialCard key={`row2-${t.id}-${idx}`} testimonial={t} />
-                            ))}
-                        </div>
+                    <div className="flex flex-col gap-8 pause-on-hover testimonial-mask">
+                        {/* Row 1 */}
+                        {row1.length > 0 && (
+                            <div className="flex overflow-hidden">
+                                <div className="flex gap-6 animate-scroll-left">
+                                    {[...row1, ...row1].map((t, idx) => (
+                                        <TestimonialCard key={`row1-${t._id}-${idx}`} testimonial={t} />
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Row 2 */}
+                        {row2.length > 0 && (
+                            <div className="flex overflow-hidden">
+                                <div className="flex gap-6 animate-scroll-right">
+                                    {[...row2, ...row2].map((t, idx) => (
+                                        <TestimonialCard key={`row2-${t._id}-${idx}`} testimonial={t} />
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    <div className='flex flex-col justify-between items-center pt-10'>
+                        <Button label={"Read More"} variant='red' />
                     </div>
                 </div>
-                  <div className='flex flex-col  justify-between items-center pt-10'>
-                
-                    <Button label={"Read More"} variant='red' />
-
-                </div>
-              </div>
-                
             </div>
         </section>
     );
 };
 
-export default PersonalTestimonial;
+export default PersonalTestimonial;   

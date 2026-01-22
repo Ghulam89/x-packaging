@@ -196,7 +196,7 @@ export const Home = React.memo(({ homePageData }) => {
         <BottomHero />
         <CategoryBoxes />
     
-        <OfferCard discount={'Get 30%'} title={'Off Your First Order!'} />
+        <OfferCard discount={'Get 40%'} title={'Saving on Buying the Bulk'} />
         <Category serverData={homePageData?.topProducts} />
         
         <div className="w-full max-w-[95%] sm:max-w-8xl mx-auto mt-10 px-2 sm:px-4">

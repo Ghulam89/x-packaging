@@ -10,16 +10,16 @@ const CustomPackagingProduced = () => {
       title: "Price Quote",
       data: [
         {
-          title: "Get Price Quote",
-          desc: "Submit a request for free custom quote first through our website or calling our customer service representative. You will have the prices in 30 minutes.",
+          title: "Instant Price Quote",
+          desc: "Get an instant price quote for your customized packaging project within 20 minutes. You can submit a form, email, or call us.",
         },
         {
-          title: "Price Matching",
-          desc: "Match the price with your budget line and ask the representative to beat that. We will try our best to give you the lowest possible prices here at Umbrella Custom Packaging.",
+          title: "Price Matching ",
+          desc: "Match the price with your budget and let us know about it. We will try our best to give you the economical price quote.",
         },
         {
           title: "Price Approval",
-          desc: "Give your approval on the prices to proceed with the order right away. We will be delighted to take you on board with Umbrella Custom Packaging throughout your packaging needs.",
+          desc: "Give us approval on the prices so that we can proceed with the order. You will find us the best in the custom packaging line.",
         },
       ],
     },
@@ -28,16 +28,16 @@ const CustomPackagingProduced = () => {
       title: "Design Approval",
       data: [
         {
-          title: "Mockup/design Creation",
-          desc: "Share your artwork file to the dedicated representative so that our design department can create a 3D digital mockup for you. You can ask for the template to design it by your own as well.",
+          title: "Mockup Designing ",
+          desc: "Send us your artwork so that we can design a 3D digital mockup of the box. If you have/are a designer, then you can ask for a dieline as well.",
         },
         {
-          title: "Design Suggestions",
-          desc: "It’s a very important step. Our Creative design team can provide you some creative design suggestions if you ask for that. It’s a certain value addition to your packaging.",
+          title: "Artwork Revisions",
+          desc: "If you find any mistakes or have any suggestions, feel free to ask your representative for the revisions until you are satisfied with the best.",
         },
         {
-          title: "Mockup/design Approval",
-          desc: "After you receive a 3D digital Mockup for your packaging, you need to approve that in order to proceed ahead. You can ask for frequent changes until it satisfies you before you approve it.",
+          title: "Mockup Approval",
+          desc: "After receiving the 3D digital mockup of the box, please give us approval on the mockup if everything looks good to you.",
         },
       ],
     },
@@ -47,15 +47,15 @@ const CustomPackagingProduced = () => {
       data: [
         {
           title: "Credit/Debit Card",
-          desc: "The next step is to make the payment and our payment methods are very secure. the first one is that you can make it through your debit/card.",
+          desc: "You can make the payment by requesting a payment link from your representative using your debit or credit card via a secure merchant.",
         },
         {
-          title: "PayPal",
-          desc: "The other method is for the PayPal users. We accept the payments through PayPal as well. Refund Policy is mentioned on our website.",
+          title: "Wire/ACH Transfer",
+          desc: "You can make the payment through ACH or Wire Transfer to our bank if it is best suited for you. You can request our bank account details.",
         },
         {
-          title: "Wire/ACH Bank Transfer",
-          desc: "For the bigger amounts we suggest Wire/ACH bank transfers in order to avoid the payment processor’s taxes.",
+          title: "PayPal / Google Pay",
+          desc: "If you are a PayPal user, then you can simply transfer the amount by requesting a PayPal invoice from us. The same goes for Google Pay.",
         },
       ],
     },
@@ -64,16 +64,16 @@ const CustomPackagingProduced = () => {
       title: "Production",
       data: [
         {
-          title: "Final Specification Sheet",
-          desc: "A final specification sheet will be sent to you before we send your order towards to the production after the payment.",
+          title: "Final Approval",
+          desc: "Our representative will send you a final specification sheet, which includes all the necessary details of your project for final approval.",
         },
         {
           title: "Prototyping/Sampling",
-          desc: "The sample run will be sent to the customer before the bulk order if it’s required or if the customer go for it.",
+          desc: "We will do a sample run of your project if it is requested or needed by us to make the best version of the final products. We need your approval on this.",
         },
         {
-          title: "Order Production",
-          desc: "The order will be produced in the given time span and will be sent toward the Quality Control unit before shipping.",
+          title: "The Production",
+          desc: "We will start the production after the final approval or after sample approval (if needed). The order will be produced as per the committed time.",
         },
       ],
     },
@@ -82,16 +82,16 @@ const CustomPackagingProduced = () => {
       title: "Shipping",
       data: [
         {
-          title: "Quality Control",
-          desc: "Our QC department will check the order and approve it after certain text if it comes good. After It will be sent to the shipping department.",
+          title: "QC Analysis",
+          desc: "After the production, our quality control department operates the QC analysis to pass or reject the production and to ensure quality.",
         },
         {
           title: "Shipping",
-          desc: "The Order will be shipped right away after it is cleared from the QC department. Tracking ID will be provided and the order will be delivered.",
+          desc: "The order will be shipped after the QC analysis. The tracking ID will be provided with every day updates until it is delivered safely.",
         },
         {
-          title: "Customer’s Review",
-          desc: "The customer’s thoughts and suggestions on the order will be taken and displayed on our media. Also, the issue will be addressed.",
+          title: "Customer’s Feedback",
+          desc: "The customer’s feedback really matters to us, so we urge customers to give their feedback on the project we delivered.",
         },
       ],
     },
@@ -101,15 +101,15 @@ const CustomPackagingProduced = () => {
       data: [
         {
           title: "Dedicated Support Person",
-          desc: "One of our customer service representative will be appointed to the customer whoever places the order with us. He/she will keep the customer in a loop so to make the next order placement super easy for both the customer and company.",
+          desc: "We appoint a dedicated support person to your every upcoming project to keep you in the loop. In this way, your future order placement would be just one email away.",
         },
         {
-          title: "Discounts",
-          desc: "The customer will be regularly informed about the discounts that the company offers every month and year like month-end and Christmas discounts.",
+          title: "Heavy Discounts",
+          desc: "The support person will constantly follow up with you to inform you of our heavy bulk order, month end, and occasional discounts. This will save you the big.",
         },
         {
-          title: "Long Term Business Partnership",
-          desc: "Umbrella Custom Packaging will ultimately build this route to a successful and profitable business relationship with the customer.",
+          title: "Ultimate Business Partnership",
+          desc: "We will provide the best of ourselves to take this beautiful business relationship to new heights. We will be there with you side by side.",
         },
       ],
     },
@@ -130,7 +130,8 @@ const CustomPackagingProduced = () => {
         <div className="relative z-10">
           <div className="text-center pb-3 px-2">
             <h2 className="sm:text-[35px] text-[25px] font-sans font-[600] text-[#333333] break-words">
-              Simple Steps to get the Custom Packaging Produced
+              5 Simple Steps to Get Your Custom Packaging 
+
             </h2>
             <p className="pt-3 text-gray-600 break-words">
               Following are few steps which provide the complete Guide.
