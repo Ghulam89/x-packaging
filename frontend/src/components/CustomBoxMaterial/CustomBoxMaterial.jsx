@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CustomBoxCard from "../common/CustomBoxCard";
 import { Box1, Box2, Box3, Box4, Box5, Box6, Box7 } from "../../assets";
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 
 // Add fadeInUp animation
 if (typeof document !== 'undefined' && !document.getElementById('custom-box-animations')) {
@@ -28,7 +29,7 @@ const preloadImages = (imageUrls) => {
 
 const CustomBoxMaterial = () => {
   const [imagesLoaded, setImagesLoaded] = useState(false);
-  const [activeTab, setActiveTab] = useState("Rigid Boxes");
+  const [currentIndex, setCurrentIndex] = useState(0);
   
   const customBox = [
     {
@@ -76,43 +77,25 @@ const CustomBoxMaterial = () => {
       width: 450,
       height: 300,
     },
-    {
-      id: 5,
-      title: "Black Linen Boxes",
-      subTitle:
-        "Fancy Boxes: Cool Black Linen Style!",
-      description:
-        "Get sleek Black Linen boxes for your special items! These boxes look cool and feel smooth. They come in black color. These boxes are eco-friendly helping to keep the Earth healthy. Perfect for keeping your things safe and looking fancy. You can choose black Linen boxes for a stylish way to store and protect your stuff!",
-      image: Box5,
-      buttonUrl: "#",
-      width: 450,
-      height: 300,
-    },
-    {
-      id: 6,
-      title: "White Linen Boxes",
-      subTitle:
-        "Classic Elegance: White Linen Boxes!",
-      description:
-        "White Linen boxes are bright and feel soft. Perfect for keeping your stuff safe and looking neat. They come in bright white color. You can choose white Linen boxes for a cool way to store and protect your things! These boxes are eco-friendly helping to keep the Earth healthy.",
-      image: Box6,
-      buttonUrl: "#",
-      width: 450,
-      height: 300,
-    },
-    {
-      id: 7,
-      title: "Bux Boxes",
-      subTitle:
-        "Affordable and Reliable: Bux Board Boxes!",
-      description:
-        "Bux Board boxes are budget-friendly options for storing your things. Despite being economical, they're still strong and reliable. Don't let the low price fool you – they are still sturdy and get the job done. So, if you're looking for an inexpensive yet dependable packaging or storage option, Bux Board boxes are a great choice, providing both affordability and reliability.",
-      image: Box7,
-      buttonUrl: "#",
-      width: 450,
-      height: 300,
-    },
+  
   ];
+
+  // Navigation functions
+  const goToPrevious = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex === 0 ? customBox.length - 1 : prevIndex - 1
+    );
+  };
+
+  const goToNext = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex === customBox.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const goToSlide = (index) => {
+    setCurrentIndex(index);
+  };
 
   // Preload images on component mount
   useEffect(() => {
@@ -127,9 +110,32 @@ const CustomBoxMaterial = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Get first 4 boxes for the image grid (2x2)
-  const imageTabs = customBox.slice(0, 4);
-  const activeBoxData = customBox.find(box => box.title === activeTab) || customBox[0];
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (e.key === 'ArrowLeft') {
+        goToPrevious();
+      } else if (e.key === 'ArrowRight') {
+        goToNext();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [currentIndex]);
+
+  // Get first 4 boxes for the image grid (2x2) - showing boxes around current index
+  const getVisibleBoxes = () => {
+    const boxes = [];
+    for (let i = 0; i < 4; i++) {
+      const index = (currentIndex + i) % customBox.length;
+      boxes.push(customBox[index]);
+    }
+    return boxes;
+  };
+
+  const imageTabs = getVisibleBoxes();
+  const activeBoxData = customBox[currentIndex];
 
   return (
     <div className="w-full mx-auto">
@@ -138,7 +144,7 @@ const CustomBoxMaterial = () => {
           Choose the Perfect Material for Your Custom Box
 
         </h2>
-        <p className="pt-3 pb-6 text-sm break-words max-w-7xl mx-auto">
+        <p className="pt-3 pb-6 text-sm  max-w-7xl mx-auto">
          We help you choose the right material for your packaging as it is key to balancing protection, presentation, and cost. <b>This guide breaks down your options</b>, from durable corrugated mailers to luxury rigid boxes and from eco-friendly kraft boxes and bags to budget-friendly retail cardboard boxes, helping you make the smartest choice for your product.<b>box your packaging with X Custom Packaging!</b> 
 
         </p>
@@ -182,12 +188,13 @@ const CustomBoxMaterial = () => {
           </div>
            */}
           <div className="grid grid-cols-2 gap-4 relative z-10">
-            {imageTabs.map((box) => {
-              const isActive = activeTab === box.title;
+            {imageTabs.map((box, idx) => {
+              const boxIndex = customBox.findIndex(b => b.id === box.id);
+              const isActive = boxIndex === currentIndex;
               return (
                 <button
                   key={box.id}
-                  onClick={() => setActiveTab(box.title)}
+                  onClick={() => goToSlide(boxIndex)}
                   className={`relative group rounded-lg overflow-hidden  border-[2px] transition-all duration-300 transform  ${
                     isActive
                       ? 'border-[#EE334B] shadow-lg'
@@ -215,7 +222,7 @@ const CustomBoxMaterial = () => {
                   </div>
                   {/* Active Indicator */}
                   {isActive && (
-                    <div className="absolute top-2 right-2 w-6 h-6 bg-[#EE334B] rounded-full flex items-center justify-center">
+                    <div className="absolute top-2 right-2 w-6 h-6 bg-[#EE334B] rounded-full flex items-center justify-center shadow-lg">
                       <div className="w-2 h-2 bg-white rounded-full"></div>
                     </div>
                   )}
@@ -227,42 +234,97 @@ const CustomBoxMaterial = () => {
 
         {/* Right Side - Content */}
         <div className="relative">
-          {/* Watermark Background */}
-          {/* <div className="hidden lg:flex absolute -top-32 bottom-0 -right-8 items-center justify-end pr-4 pointer-events-none opacity-10">
-            <h6
-              className="text-[60px] lg:text-[100px] font-bold text-gray-300 select-none"
-              style={{
-                fontFamily: 'Arial, sans-serif',
-                writingMode: 'vertical-rl',
-                textOrientation: 'mixed',
-              }}
-            >
-              style
-            </h6>
-          </div> */}
+         
+
           <div className="relative">
-          <div className=" z-10 animate-fadeInUp md:pr-20 pr-0">
-            <CustomBoxCard {...activeBoxData} />
+            <div className=" z-10 animate-fadeInUp md:pr-20 pr-0">
+              <CustomBoxCard {...activeBoxData} />
+              
+              {/* Indicator Dots with Images below Get Quote button */}
+              <div className=" mt-3">
+                <div className="flex flex-col items-center gap-3">
+                  <div className="flex items-center justify-center gap-2 mb-2">
+                    {/* Left Arrow */}
+                    <button
+                      onClick={goToPrevious}
+                      className="flex items-center justify-center w-8 h-8 rounded-full bg-white border-2 border-[#EE334B] text-[#EE334B] hover:bg-[#EE334B] hover:text-white transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-110"
+                      aria-label="Previous box"
+                    >
+                      <FaAngleLeft size={14} />
+                    </button>
+                    
+                    {/* Indicator Dots - Only First 4 Images */}
+                    <div className="flex items-center justify-center gap-2 sm:gap-3 px-2">
+                      {customBox.slice(0, 4).map((box, index) => {
+                        const isActive = index === currentIndex;
+                        return (
+                          <button
+                            key={box.id}
+                            onClick={() => goToSlide(index)}
+                            className={`relative group transition-all duration-300 ${
+                              isActive ? 'scale-110' : 'hover:scale-105'
+                            }`}
+                            aria-label={`Go to ${box.title}`}
+                          >
+                            {/* Image Thumbnail */}
+                            <div className={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden border-2 transition-all duration-300 shadow-md ${
+                              isActive 
+                                ? 'border-[#EE334B] shadow-lg ring-2 ring-[#EE334B]/30' 
+                                : 'border-gray-200 hover:border-[#EE334B]/50'
+                            }`}>
+                              <img
+                                src={box.image}
+                                alt={box.title}
+                                className={`w-full h-full object-cover transition-transform duration-300 ${
+                                  isActive ? 'scale-110' : 'group-hover:scale-105'
+                                }`}
+                              />
+                              {/* Active Indicator Dot */}
+                              {/* {isActive && (
+                                <div className="absolute -top-1 -right-1 w-4 h-4 bg-[#EE334B] rounded-full flex items-center justify-center shadow-lg border-2 border-white">
+                                  <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
+                                </div>
+                              )} */}
+                              {/* Overlay for active state */}
+                              {isActive && (
+                                <div className="absolute inset-0 bg-[#EE334B]/20"></div>
+                              )}
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                    
+                    {/* Right Arrow */}
+                    <button
+                      onClick={goToNext}
+                      className="flex items-center justify-center w-8 h-8 rounded-full bg-white border-2 border-[#EE334B] text-[#EE334B] hover:bg-[#EE334B] hover:text-white transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-110"
+                      aria-label="Next box"
+                    >
+                      <FaAngleRight size={14} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="hidden md:flex absolute  z-30 -bottom-18 right-0 items-center justify-start pointer-events-none">
+              <h6
+                className="text-[40px] sm:text-[60px]  lg:text-[77px] font-bold text-[#EE334B] opacity-10 select-none" 
+                style={{ 
+                  fontFamily: 'Arial, sans-serif',
+                  writingMode: 'vertical-rl',
+                  textOrientation: 'mixed',
+                  transform: 'rotate(0deg)',
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                Custom{'\u00A0'}Material 
+              </h6>
+            </div>
           </div>
-          <div className="hidden md:flex absolute  z-30 -bottom-18 right-0 items-center justify-start pointer-events-none">
-            <h6
-              className="text-[40px] sm:text-[60px]  lg:text-[77px] font-bold text-[#EE334B] opacity-10 select-none" 
-              style={{ 
-                fontFamily: 'Arial, sans-serif',
-                writingMode: 'vertical-rl',
-                textOrientation: 'mixed',
-                transform: 'rotate(0deg)',
-                whiteSpace: 'nowrap'
-              }}
-            >
-              Custom{'\u00A0'}Material 
-            </h6>
-          </div>
-       
-          </div>
-          
         </div>
       </div>
+
     </div>
   );
 };

@@ -133,8 +133,9 @@ const CustomPackagingProduced = () => {
               5 Simple Steps to Get Your Custom Packaging 
 
             </h2>
-            <p className="pt-3 text-gray-600 break-words">
-              Following are few steps which provide the complete Guide.
+            <p className="py-3 text-gray-600 break-words">
+            X Custom Packaging is a one-stop shop where you can meet your every packaging demand, as we made the order placement as easy as it is child's play.
+ 
             </p>
           </div>
           <div className="w-full overflow-hidden">

@@ -105,10 +105,11 @@ const PersonalTestimonial = () => {
             <div className="max-w-8xl mx-auto">
                 <div className='relative bg-cover bg-center bg-no-repeat' style={{ backgroundImage: `url(${abstractBg})` }}>
                     <div className='flex flex-col justify-between items-center pb-10'>
-                        <h2 className="text-3xl md:text-5xl font-black text-center mb-10 tracking-tight" style={{ color: '#213554' }}>
+                        <h2 className="text-3xl md:text-5xl font-black text-center  pb-3 tracking-tight" style={{ color: '#213554' }}>
                             What People Are Saying
                         </h2>
-                        <Button label={"Write a Review"} />
+                        <p className='  mb-5'>Start creating your custom boxes effortlessly with our extensive library, featuring fully customizable layouts for promotional, mailer, and dispaly boxes,</p>
+                        <Button label={"Write a Review"} className='' />
                     </div>
 
                     <div className="flex flex-col gap-8 pause-on-hover testimonial-mask">

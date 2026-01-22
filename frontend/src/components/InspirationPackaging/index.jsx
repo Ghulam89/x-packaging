@@ -152,7 +152,7 @@ const InspirationPackaging = () => {
 
     return (
         <div className="mx-auto overflow-x-hidden">
-            <div className="py-8 text-center">
+            <div className="pt-8 text-center">
                 <h2 className="sm:text-[35px] text-[25px] font-bold text-[#213554] mb-3">
                     Easy to Design & Professional Results
                 </h2>
@@ -163,7 +163,7 @@ const InspirationPackaging = () => {
             </div>
             
             {/* Gallery Swiper Coverflow */}
-            <div className='w-full mx-auto py-8 overflow-hidden'>
+            <div className='w-full mx-auto pb-8 pt-3 overflow-hidden'>
               <style>{`
                 .gallery-center-swiper {
                   overflow: hidden !important;

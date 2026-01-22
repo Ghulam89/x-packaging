@@ -3,6 +3,8 @@ import axios from 'axios';
 import Accordion from '../common/Accordion';
 import { BaseUrl } from '../../utils/BaseUrl';
 import faqImage from '../../assets/images/faq.webp';
+import Button from '../common/Button';
+import { FaArrowDown, FaArrowRight } from 'react-icons/fa';
 
 const FAQ = ({ serverData }) => {
   const stripHtml = (html) => {
@@ -77,6 +79,20 @@ const FAQ = ({ serverData }) => {
                 Frequently Asked Question
                 <span className="absolute bottom-0 left-0 w-full h-1 bg-[#EE334B]"></span>
               </h2>
+
+
+              <Button
+              
+              label={'View All FAQs'}
+              variant="red"
+              size="md"
+              className=" uppercase text-white"
+              rIcons={
+                <span className={`transform transition-transform duration-200 inline-block `}>
+                  <FaArrowDown color='white' />
+                </span>
+              }
+            />
             </div>
             <div className="mt-12 text-center">
               <p>Loading FAQs...</p>
@@ -96,6 +112,20 @@ const FAQ = ({ serverData }) => {
               Frequently Asked Question
               <span className="absolute bottom-0 left-0 w-full h-1 bg-[#EE334B]"></span>
             </h2>
+            <div className=' mt-5'>
+            <Button
+              
+              label={'View All FAQs'}
+              variant="red"
+              size="md"
+              className=" uppercase text-white"
+              rIcons={
+                <span className={`transform transition-transform duration-200 inline-block `}>
+                  <FaArrowRight color='white' />
+                </span>
+              }
+            />
+            </div>
           </div>
           <div className="flex sm:flex-row  pb-5 flex-col justify-between sm:gap-8 gap-6 items-center">
             {/* Left Side - Image */}

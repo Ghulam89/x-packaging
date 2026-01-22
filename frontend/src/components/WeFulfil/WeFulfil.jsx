@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaCircleNotch } from "react-icons/fa";
+import { FaCheckCircle, FaCircleNotch } from "react-icons/fa";
 import { IndustryStandard } from '../../assets';
 
 function WeFulfil() {
@@ -20,7 +20,7 @@ function WeFulfil() {
           </p>
           
           <div className='grid grid-cols-1 sm:grid-cols-2 pt-6 gap-4 w-full'>
-            <div className='space-y-1'>
+            <div className='space-y-1.5'>
               {[
                 "Easy User Interface",
                 "Smart Pricing System",
@@ -33,13 +33,13 @@ function WeFulfil() {
                 "Free Lamination"
               ].map((item, index) => (
                 <div key={index} className='flex items-center space-x-2 group'>
-                  <FaCircleNotch className=' group-hover:scale-125 transition-transform' />
+                  <FaCheckCircle color='#EE334B' className=' group-hover:scale-125 transition-transform' />
                   <span className='text-sm md:text-[16px]'>{item}</span>
                 </div>
               ))}
             </div>
             
-            <div className='space-y-1'>
+            <div className='space-y-1.5'>
               {[
                 "No Plate/Die Charges",
                 "Low MOQs",
@@ -52,7 +52,7 @@ function WeFulfil() {
                 "Fast Customer Service"
               ].map((item, index) => (
                 <div key={index} className='flex items-center space-x-2 group'>
-                  <FaCircleNotch className=' group-hover:scale-125 transition-transform' />
+                  <FaCheckCircle color='#EE334B' className=' group-hover:scale-125 transition-transform' />
                   <span className='text-sm md:text-[16px]'>{item}</span>
                 </div>
               ))}
