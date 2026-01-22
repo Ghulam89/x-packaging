@@ -788,6 +788,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/effect-coverflow';
 import { Navigation, Autoplay, Mousewheel, Keyboard, EffectCoverflow } from 'swiper/modules';
 import InstantQuoteModal from '../../components/common/InstantQuoteModal';
+import CustomInserts from '../../components/CustomInserts'
 
 const SubCategory = ({ serverData, CategoryProducts }) => {
   const { slug } = useParams();
@@ -986,12 +987,12 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
               <div className="flex flex-wrap gap-4">
                 <Button
                   onClick={() => setIsModalOpen(true)}
-                  label="Get a Quote"
+                  label="Get an Instant Quote"
                   className="bg-[#2D5016] hover:bg-[#3A6B1F] text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
                 />
                 <Link to="/dielines">
                   <Button
-                    label="Boxes By Style"
+                    label="Explore Shapes & Styles"
                     className="bg-[#2D5016] hover:bg-[#3A6B1F] text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
                   />
                 </Link>
@@ -1219,7 +1220,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
 
           <div className=" sm:max-w-8xl w-full mx-auto">
             <ProductSelectionProvider>
-              <div className="grid  gap-6 grid-cols-2 md:grid-cols-4  lg:grid-cols-4">
+              <div className="grid  gap-6 grid-cols-5">
                 {/* Loading Skeletons */}
                 {loading && loadingProducts.length > 0 && loadingProducts.map((_, index) => (
                   <div className=' w-full' key={`loading-${index}`}>
@@ -1259,31 +1260,47 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
       </div>
 
 
+      <section className=' bg-gradient-to-br mt-12 from-white to-gray-50'>
+        <div className="sm:max-w-8xl justify-between gap-8 lg:gap-12 items-center max-w-[95%] flex sm:flex-row flex-col mx-auto">
+        <div className='sm:w-5/12 w-full'>
+            <div className="rounded-2xl overflow-hidden shadow-xl">
+            <img
+               src={`${BaseUrl}/${categoryData?.bannerImageFirst || serverData?.bannerImageFirst}`}
+                alt={categoryData?.bannerImageFirstAltText || serverData?.bannerImageFirstAltText}
+                className={"  w-full h-auto rounded-xl shadow-md"}
+                 loading="lazy"
+         />
+            </div>
+          </div>
+          <div className='sm:w-7/12 w-full'>
+            <div className=" p-8">
+              
+            <h2 className="sm:text-[38px] text-[25px]  leading-[42px] pb-2  font-sans   font-[600] text-[#333333]">
+                {categoryData?.bannerTitleFirst || serverData?.bannerTitleFirst}
+               </h2>
+              <div className=' overflow-y-auto h-56'>
+                 <p dangerouslySetInnerHTML={{ __html: categoryData?.bannerContentFirst || serverData?.bannerContentFirst }} className="text-sm leading-6  mb-6">
 
-      <section className='mb-8'>
-        <div className="sm:max-w-8xl bg-gradient-to-br from-gray-50 to-white rounded-2xl p-8 sm:p-12 shadow-lg max-w-[95%] mx-auto border border-gray-100">
-          <div className="text-center mb-8">
-            
-            <h2 className='text-3xl sm:text-4xl font-bold text-[#213554] mb-4'>
-              Learn More About Custom Bakery Boxes
-            </h2>
-            <h3 className='text-xl sm:text-2xl font-semibold text-[#213554]/80 pt-2'>
-              Keep Your Baked Goods Fresh & Preserved with Durable Custom Bakery Boxes
-            </h3>
+
+                  </p>
+
+                  </div>
+
+              <div className='mt-6'>
+                <Button
+                  className="bg-gradient-to-r from-[#213554] to-[#213554]/90 hover:from-[#EE334B] hover:to-[#EE334B]/90 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                  label={"Get Custom Quote"}
+                />
+              </div>
+            </div>
           </div>
 
-          <div
-            className='prose prose-sm sm:prose-base max-w-none text-gray-700 leading-relaxed'
-            dangerouslySetInnerHTML={{ __html: categoryData?.description || serverData?.description }}
-            style={{
-              lineHeight: '1.75'
-            }}
-          ></div>
-
+          
         </div>
       </section>
+    
 
-
+     <CustomInserts/>
       {/* Products Gallery Carousel with Center Big Image */}
       {allProducts && allProducts.length > 0 && (
         <section className='py-8 bg-white'>
@@ -1388,46 +1405,30 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
           </div>
         </section>
       )}
-      <section className=' bg-gradient-to-br from-white to-gray-50'>
-        <div className="sm:max-w-8xl justify-between gap-8 lg:gap-12 items-center max-w-[95%] flex sm:flex-row flex-col mx-auto">
-        <div className='sm:w-5/12 w-full'>
-            <div className="rounded-2xl overflow-hidden shadow-xl">
-            <img
-               src={`${BaseUrl}/${categoryData?.bannerImageFirst || serverData?.bannerImageFirst}`}
-                alt={categoryData?.bannerImageFirstAltText || serverData?.bannerImageFirstAltText}
-                className={"  w-full h-auto rounded-xl shadow-md"}
-                 loading="lazy"
-         />
-            </div>
-          </div>
-          <div className='sm:w-7/12 w-full'>
-            <div className=" p-8">
-              
-            <h2 className="sm:text-[38px] text-[25px]  leading-[42px] pb-2  font-sans   font-[600] text-[#333333]">
-                {categoryData?.bannerTitleFirst || serverData?.bannerTitleFirst}
-               </h2>
-              <div className=' overflow-y-auto h-56'>
-                 <p dangerouslySetInnerHTML={{ __html: categoryData?.bannerContentFirst || serverData?.bannerContentFirst }} className="text-sm leading-6  mb-6">
+     
 
-
-                  </p>
-
-                  </div>
-
-              <div className='mt-6'>
-                <Button
-                  className="bg-gradient-to-r from-[#213554] to-[#213554]/90 hover:from-[#EE334B] hover:to-[#EE334B]/90 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                  label={"Get Custom Quote"}
-                />
-              </div>
-            </div>
+      <section className='mb-8'>
+        <div className="sm:max-w-8xl bg-gradient-to-br from-gray-50 to-white rounded-2xl p-8 sm:p-12 shadow-lg max-w-[95%] mx-auto border border-gray-100">
+          <div className="text-center mb-8">
+            
+            <h2 className='text-3xl sm:text-4xl font-bold text-[#213554] mb-4'>
+              Learn More About Custom Bakery Boxes
+            </h2>
+            <h3 className='text-xl sm:text-2xl font-semibold text-[#213554]/80 pt-2'>
+              Keep Your Baked Goods Fresh & Preserved with Durable Custom Bakery Boxes
+            </h3>
           </div>
 
-          
+          <div
+            className='prose prose-sm sm:prose-base max-w-none text-gray-700 leading-relaxed'
+            dangerouslySetInnerHTML={{ __html: categoryData?.description || serverData?.description }}
+            style={{
+              lineHeight: '1.75'
+            }}
+          ></div>
+
         </div>
       </section>
-
-
 
       <div className="mt-8 sm:max-w-8xl bg-gradient-to-r from-[#213554] to-[#213554]/95 p-8 flex sm:flex-row flex-col gap-5 justify-between items-center rounded-2xl max-w-[95%] mx-auto shadow-xl">
         <div>
@@ -1442,7 +1443,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
         </div>
       </div>
       <Testimonials />
-      <Capabilities />
+      {/* <Capabilities /> */}
 
       <InstantQuoteModal 
         setIsModalOpen={setIsModalOpen} 

@@ -155,7 +155,7 @@ const CategoryBoxes = () => {
               {/* Bottom Request A Quote Button */}
               <div className="flex justify-center mt-6">
                 <Button
-                  className="bg-[#800020] text-white hover:bg-[#800020]/90 rounded-lg px-8 py-3 text-base font-semibold"
+                  className="bg-[#800020] text-white hover:bg-[#800020]/90 rounded-lg text-base font-semibold"
                   label="Get Instant Quote"
                   onClick={() => setIsQuoteModalOpen(true)}
                 />

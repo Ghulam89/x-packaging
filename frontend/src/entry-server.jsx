@@ -1,4 +1,4 @@
-import { StrictMode } from "react";
+import { StrictMode, Suspense } from "react";
 import { renderToString } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";
 import App from "./App";
@@ -75,54 +75,88 @@ export async function render(url) {
     } else if (baseUrl.startsWith("/blog/")) {
       // Handle blog route
       const slug = baseUrl.split("/")[2];
-      const { data } = await axios.get(`${BaseUrl}/blog/get?slug=${slug}`);
-      serverData = data?.data;
+      try {
+        const { data } = await axios.get(`${BaseUrl}/blog/get?slug=${slug}`);
+        serverData = data?.data;
+      } catch (blogErr) {
+        console.error('SSR: Blog fetch error:', blogErr.message);
+        // Continue without serverData
+      }
 
     } else if (baseUrl.startsWith("/category/")) {
       // Handle sub-category route
       const slug = baseUrl.split("/")[2];
-      const { data } = await axios.get(`${BaseUrl}/redis/category/get?slug=${slug}`);
-      serverData = data?.data;
+      try {
+        const { data } = await axios.get(`${BaseUrl}/redis/category/get?slug=${slug}`);
+        serverData = data?.data;
 
-      if (serverData?._id) {
-        const { data: productData } = await axios.get(
-          `${BaseUrl}/products/categoryProducts/${serverData._id}`
-        );
-        CategoryProducts = productData?.data;
+        if (serverData?._id) {
+          try {
+            const { data: productData } = await axios.get(
+              `${BaseUrl}/products/categoryProducts/${serverData._id}`
+            );
+            CategoryProducts = productData?.data;
+          } catch (productErr) {
+            console.error('SSR: Category products fetch error:', productErr.message);
+          }
+        }
+      } catch (categoryErr) {
+        console.error('SSR: Category fetch error:', categoryErr.message);
+        // Continue without serverData
       }
 
     } else if (baseUrl.startsWith("/product/")) {
       // Handle product route
       const slug = baseUrl.split("/")[2];
-      const { data } = await axios.get(`${BaseUrl}/products/get?slug=${slug}`);
-      serverData = data?.data;
+      try {
+        const { data } = await axios.get(`${BaseUrl}/products/get?slug=${slug}`);
+        serverData = data?.data;
+      } catch (productErr) {
+        console.error('SSR: Product fetch error:', productErr.message);
+        // Continue without serverData
+      }
 
     } else if (baseUrl !== "/" && baseUrl !== "" && baseUrl.split("/").length === 2) {
       // Handle category/brand route (e.g., /fashion-apparel-packaging-boxes)
       const slug = baseUrl.split("/")[1];
-      const { data } = await axios.get(`${BaseUrl}/brands/get?slug=${slug}`);
-      serverData = data?.data;
+      try {
+        const { data } = await axios.get(`${BaseUrl}/brands/get?slug=${slug}`);
+        serverData = data?.data;
+      } catch (brandErr) {
+        console.error('SSR: Brand fetch error:', brandErr.message);
+        // Continue without serverData
+      }
     }
   } catch (err) {
     // On error → noindex meta
     console.error('SSR data fetch error:', err.message);
+    // Don't set helmet on outer catch - let individual routes handle errors
+  }
+
+  // Render app with Suspense boundary to handle lazy loaded components
+  let appHtml = '';
+  try {
+    appHtml = renderToString(
+      <StrictMode>
+        <HelmetProvider context={helmetContext}>
+          <Provider store={store}>
+            <StaticRouter location={normalizedUrl}>
+              <Suspense fallback={<div id="app">Loading...</div>}>
+                <App serverData={serverData} CategoryProducts={CategoryProducts} homePageData={homePageData} />
+              </Suspense>
+            </StaticRouter>
+          </Provider>
+        </HelmetProvider>
+      </StrictMode>
+    );
+  } catch (renderError) {
+    console.error('SSR render error:', renderError.message);
+    // Fallback HTML if render fails
+    appHtml = '<div id="app"></div>';
     helmetContext.helmet = {
       meta: { toString: () => `<meta name="robots" content="noindex nofollow" />` },
     };
   }
-
-  // Render app
-  const appHtml = renderToString(
-    <StrictMode>
-      <HelmetProvider context={helmetContext}>
-        <Provider store={store}>
-          <StaticRouter location={normalizedUrl}>
-            <App serverData={serverData} CategoryProducts={CategoryProducts} homePageData={homePageData} />
-          </StaticRouter>
-        </Provider>
-      </HelmetProvider>
-    </StrictMode>
-  );
 
   const { helmet } = helmetContext;
 
