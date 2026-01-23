@@ -151,8 +151,8 @@ const InspirationPackaging = () => {
     }, [images.length]);
 
     return (
-        <div className="mx-auto overflow-x-hidden">
-            <div className="pt-8 text-center">
+        <div className="mx-auto overflow-x-hidden py-10 bg-[#f7f7f7]">
+            <div className=" text-center">
                 <h2 className="sm:text-[35px] text-[25px] font-bold text-[#213554] mb-3">
                     Easy to Design & Professional Results
                 </h2>

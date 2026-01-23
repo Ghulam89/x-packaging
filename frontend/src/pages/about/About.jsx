@@ -13,7 +13,13 @@ import gallery2 from '../../assets/images/about-imges/gallery2.jpg';
 import Silks from '../../assets/images/about-imges/Silks.webp';
 import xpackaging from '../../assets/images/about-imges/xpackaging.webp';
 import videoabout from '../../assets/images/about-imges/videoabout.mp4';
-import xfav from '../../assets/images/about-imges/xfav.webp';
+import usa from '../../assets/images/about-imges/usa.svg';
+import uk from '../../assets/images/about-imges/uk.svg';
+import canda from '../../assets/images/about-imges/canda.svg';
+import australia from '../../assets/images/about-imges/australia.svg';
+import uae from '../../assets/images/about-imges/uae.svg';
+import chaina from '../../assets/images/about-imges/chaina.svg';
+
 
 /**
  * Sub-component for the Gallery/Packaging Section
@@ -277,46 +283,53 @@ export default function About() {
       <CreativePackaging />
 
       {/* Global Stats & Footprint */}
-      <section className=" py-24 px-6 relative overflow-hidden">
-        <div className="max-w-8xl mx-auto relative z-10">
-          <div className="grid lg:grid-cols-12 gap-12 items-center mb-20">
-            <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div className="bg-slate-800 p-8 rounded-3xl text-white shadow-xl">
-                <h3 className="text-6xl font-black text-red-500 mb-2 tracking-tighter">5+</h3>
-                <p className="text-slate-300 text-sm font-bold uppercase tracking-widest leading-tight">Global Headquarters</p>
-              </div>
-              <div className="bg-slate-50 p-8 rounded-3xl border border-slate-100 shadow-sm">
-                <h3 className="text-6xl font-black text-slate-800 mb-2 tracking-tighter">1k+</h3>
-                <p className="text-slate-500 text-sm font-bold uppercase tracking-widest leading-tight">Satisfied Brand Partners</p>
-              </div>
-            </div>
-            <div className="lg:col-span-7 space-y-4">
-              <h2 className="text-red-500 font-black text-xs uppercase tracking-widest">Our Global Footprint</h2>
-              <h3 className="text-slate-800 text-4xl lg:text-5xl font-black leading-tight tracking-tight">
-                Operating at the speed of <span className="text-slate-400">International Commerce.</span>
-              </h3>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { country: "USA", address: "9854 National Blvd #1042, Los Angeles, CA 90034", flag: "🇺🇸" },
-              { country: "UK", address: "275 New North Road, Islington, Suite 1946, London", flag: "🇬🇧" },
-              { country: "Canada", address: "7398 Yonge St #6d, Thornhill, ON L4J 8J2", flag: "🇨🇦" },
-              { country: "Canada", address: "7398 Yonge St #6d, Thornhill, ON L4J 8J2", flag: "🇨🇦" },
-              { country: "Canada", address: "7398 Yonge St #6d, Thornhill, ON L4J 8J2", flag: "🇨🇦" },
-              { country: "Canada", address: "7398 Yonge St #6d, Thornhill, ON L4J 8J2", flag: "🇨🇦" },
-            ].map((loc, idx) => (
-              <div key={idx} className="group p-8 bg-white rounded-3xl border border-slate-100 hover:border-red-500/20 hover:bg-slate-50/50 transition-all duration-300">
-                <div className="text-4xl mb-4 grayscale group-hover:grayscale-0 transition-all">{loc.flag}</div>
-                <h4 className="text-2xl font-black mb-3">{loc.country}</h4>
-                <p className="text-slate-500 text-sm leading-relaxed mb-6">{loc.address}</p>
-                <div className="w-10 h-1 bg-slate-200 group-hover:w-full group-hover:bg-red-500 transition-all duration-500"></div>
-              </div>
-            ))}
-          </div>
+     <section className="py-24 px-6 relative overflow-hidden bg-white">
+  <div className="max-w-8xl mx-auto relative z-10">
+    <div className="grid lg:grid-cols-12 gap-12 items-center mb-20">
+      <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="bg-slate-800 p-8 rounded-3xl text-white shadow-xl">
+          <h3 className="text-6xl font-black text-red-500 mb-2 tracking-tighter">5+</h3>
+          <p className="text-slate-300 text-sm font-bold uppercase tracking-widest leading-tight">
+            Global Headquarters
+          </p>
         </div>
-      </section>
+        <div className="bg-slate-50 p-8 rounded-3xl border border-slate-100 shadow-sm">
+          <h3 className="text-6xl font-black text-slate-800 mb-2 tracking-tighter">1k+</h3>
+          <p className="text-slate-500 text-sm font-bold uppercase tracking-widest leading-tight">
+            Satisfied Brand Partners
+          </p>
+        </div>
+      </div>
+      <div className="lg:col-span-7 space-y-4">
+        <h2 className="text-red-500 font-black text-xs uppercase tracking-widest">Our Global Footprint</h2>
+        <h3 className="text-slate-800 text-4xl lg:text-5xl font-black leading-tight tracking-tight">
+          Operating at the speed of <span className="text-slate-400">International Commerce.</span>
+        </h3>
+      </div>
+    </div>
+
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {[
+        { country: "USA", address: "9854 National Blvd #1042, Los Angeles, CA 90034", flag: usa },
+        { country: "UK", address: "275 New North Road, Islington, Suite 1946, London", flag: uk },
+        { country: "Canada", address: "7398 Yonge St #6d, Thornhill, ON L4J 8J2", flag: chaina }, // Fixed variable name
+        { country: "Australia", address: "7398 Yonge St #6d, Thornhill, ON L4J 8J2", flag: australia },
+        { country: "UAE", address: "7398 Yonge St #6d, Thornhill, ON L4J 8J2", flag: uae },
+        { country: "China", address: "7398 Yonge St #6d, Thornhill, ON L4J 8J2", flag: chaina }, // Fixed variable name
+      ].map((loc, idx) => (
+        <div key={idx} className="group p-8 bg-white rounded-3xl border border-slate-100 hover:border-red-500/20 hover:bg-slate-50/50 transition-all duration-300">
+          <div className="mb-4 flex justify-start items-start  transition-all">
+            {/* Added fixed width/height to image to prevent layout breaking */}
+            <img src={loc.flag} alt={`${loc.country} flag`} className="w-12 h-8 object-contain" />
+          </div>
+          <h4 className="text-2xl font-black mb-3">{loc.country}</h4>
+          <p className="text-slate-500 text-sm leading-relaxed mb-6">{loc.address}</p>
+          <div className="w-10 h-1 bg-slate-200 group-hover:w-full group-hover:bg-red-500 transition-all duration-500"></div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
     </div>
   );
 }

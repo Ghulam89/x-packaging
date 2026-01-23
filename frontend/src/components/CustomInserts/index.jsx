@@ -13,7 +13,7 @@ const CustomInserts = () => {
   ];
 
   return (
-    <section className="pt-12 ">
+    <section className="py-10 bg-[#f7f7f7] ">
       <div className="sm:max-w-8xl max-w-[95%] mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-5">Get the Inserts Your Product Needs </h2>
         <p className="text-center text-gray-600 mb-12">

@@ -138,7 +138,7 @@ const CustomBoxMaterial = () => {
   const activeBoxData = customBox[currentIndex];
 
   return (
-    <div className="w-full mx-auto">
+    <div className="w-full mx-auto py-10">
       <div className="text-center">
         <h2 className="sm:text-[35px] text-[25px] font-sans font-[600] text-[#333333] break-words">
           Choose the Perfect Material for Your Custom Box

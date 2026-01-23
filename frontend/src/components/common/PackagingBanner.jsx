@@ -17,7 +17,8 @@ function PackagingBanner({
       <Link to={url} className="mt-4">
             <Button
               className="bg-[#4440E6] text-white px-6 py-3 sm:px-8 sm:py-4 rounded-lg min-w-[150px] text-sm sm:text-base"
-              label="Order Kraft Packaging"
+              label="Order Kraft Packaging
+"
             />
           </Link>
      

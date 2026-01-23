@@ -4,19 +4,20 @@ import { IndustryStandard } from '../../assets';
 
 function WeFulfil() {
   return (
-    <div className='sm:max-w-8xl w-[95%] mt-5 mx-auto text-center rounded-[8px]'>
+    <div className='sm:max-w-8xl w-[95%] mt-5 mx-auto text-center rounded-[8px] py-10'>
       <div className='grid lg:grid-cols-2 grid-cols-1 gap-6 md:gap-10'>
        
 
         <div className='flex flex-col items-start justify-center space-y-4 md:space-y-5'>
           <h2 className="sm:text-[35px] text-[25px]   leading-9    text-start  font-sans   font-[600] text-[#333333] ">
-            We Fulfil the standards of the Packaging Industry.
+           We Fully Meet the Packaging Industry Standards 
           </h2>
           
           <p className='text-[#333333] text-sm md:text-[14px] text-left'>
-            Umbrella Custom Packaging follows strict standards, much like a recipe, ensuring each box is the right size, 
-            crafted from top-quality materials, and designed to perfection. With attention to detail and quality control, 
-            they deliver custom boxes that are both reliable and customized to your preferences.
+           X Custom Packaging manufactures all products in strict accordance with applicable industry regulations and quality standards, ensuring compliance, safety, and reliability for every order. We have a Quality Control Department that makes sure the supreme quality of every box you receive. 
+Our Design Department x Free Design Support 
+X Custom Packaging offers free design support to whoever comes to us and asks for it. Whether you place the order or not, we are there for you anytime. For expert advice, you can place your order on the website by filling out the form asking for design support, or send an email to <a href="mailto:sales@xcustompackaging.com">sales@xcustompackaging.com</a>. Just come to us, our dedicated design team will bring your vision to life.
+
           </p>
           
           <div className='grid grid-cols-1 sm:grid-cols-2 pt-6 gap-4 w-full'>

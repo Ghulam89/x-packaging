@@ -84,7 +84,7 @@ const CategoryBoxes = () => {
 
   return (
     <>
-      <div className="pb-12 pt-6 bg-white">
+      <div className="py-10 bg-white">
         <div className="sm:max-w-8xl w-[95%] mx-auto">
           {/* Header Section - Always visible */}
           <div className="text-center mb-10">

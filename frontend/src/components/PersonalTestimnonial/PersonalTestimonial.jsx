@@ -78,7 +78,7 @@ const PersonalTestimonial = () => {
     if (testimonials.length === 0) return null;
 
     return (
-        <section className="bg-[#f7f7f7] py-10 overflow-hidden relative">
+        <section className=" bg-white py-10 overflow-hidden relative">
             <style>
                 {`
                 @keyframes scrollLeft {
@@ -102,7 +102,7 @@ const PersonalTestimonial = () => {
                 `}
             </style>
 
-            <div className="max-w-8xl mx-auto">
+            <div className="max-w-8xl mx-auto ">
                 <div className='relative bg-cover bg-center bg-no-repeat' style={{ backgroundImage: `url(${abstractBg})` }}>
                     <div className='flex flex-col justify-between items-center pb-10'>
                         <h2 className="text-3xl md:text-5xl font-black text-center  pb-3 tracking-tight" style={{ color: '#213554' }}>

@@ -36,43 +36,43 @@ const CustomPackagingApart = () => {
       id: 1,
       icon: Icon7,
       title: 'No Die & Plate Charges',
-      description: 'Enjoy the benefit of no additional costs for die and plate setups on your custom orders.'
+      description: 'Benefit from zero setup fees for dies and plates on your custom packaging project.'
     },
     {
       id: 2,
       icon: Icon8,
-      title: 'No Minimum Order Qty',
-      description: 'Order as few or as many items as you need without any minimum quantity restrictions.'
+      title: 'No limit on MOQ',
+      description: 'Order exactly what you need, no minimum quantity requirements, from small orders to large runs.'
     },
     {
       id: 3,
       icon: Icon9,
-      title: 'Free Design',
-      description: 'Avail professional design services without any added fees, ensuring your vision comes to life.'
+      title: 'Free Design Support',
+      description: 'We have an In-house design department that works for free, bringing your custom packaging vision to life.'
     },
     {
       id: 4,
       icon: Icon10,
       title: 'Quickest Turnaround',
-      description: 'Get your orders processed and delivered promptly, ensuring the fastest turnaround time possible.'
+      description: 'We make sure the fastest possible turnaround, with quick production and delivery for your custom packaging project.'
     },
     {
       id: 5,
       icon: Icon11,
-      title: 'Cheapest Prices',
-      description: 'Benefit from our regular discounted rates and get the best custom packaging at the lowest prices.'
+      title: 'Economical Prices',
+      description: 'We offer the lowest possible prices, along with everyday heavy discounts on bulk purchases.'
     },
     {
       id: 6,
       icon: Icon12,
       title: 'Free Shipping',
-      description: 'Enjoy the added perk of free shipping on your orders, making it even more cost-effective for you.'
+      description: 'X Custom Packaging provides free shipping all across the USA for orders of any size. You just need to pay for the production.'
     }
   ], []);
  
   return (
     <div className=" mx-auto">
-      <div className="text-center py-5">
+      <div className="text-center ">
         
        
 
@@ -83,7 +83,7 @@ const CustomPackagingApart = () => {
             className=' p-6 sm:p-8  relative  bg-cover  bg-center bg-no-repeat '
             style={{ backgroundImage: `url(${abstractBg})` }}
           ><h2 className="sm:text-[35px] text-[25px] pb-3 font-sans font-[600] text-[#333333]">
-          Vivid Custom Printing – Precision, Personalization & Brand Elevation
+         What Makes X Custom Packaging Different Amongst All 
         </h2>
         
         <p className="sm:text-[18px] text-[16px] text-[#666666] max-w-4xl mx-auto mb-8 px-4">
