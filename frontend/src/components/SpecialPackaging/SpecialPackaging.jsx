@@ -145,8 +145,8 @@ const SpecialPackaging = () => {
   }));
 
   return (
-    <div className="w-full  pb-7">
-      <div className="text-center py-3">
+    <div className="w-full ">
+      <div className="text-center py-10">
         <h2 className="sm:text-[35px] text-[25px] leading-9 font-sans font-[600] text-[#333333] break-words">
           Enhance Your Product Presentation with Our Special Packaging Features
         </h2>

@@ -15,7 +15,7 @@ const WorkWithYou = () => {
   ];
 
   return (
-    <section className="pt-12 bg-[#f7f7f7]">
+    <section className="py-10">
       <div className="sm:max-w-8xl max-w-[95%] mx-auto px-4">
       <div className=' text-center'>
       <h2 className="sm:text-[35px] text-[25px] leading-9 font-sans font-[600] text-[#333333] break-words">
@@ -30,10 +30,10 @@ const WorkWithYou = () => {
           items={addons.map((addon, index) => (
             <div 
               key={index} 
-              className="w-[85vw] sm:w-[352px] flex-shrink-0 px-2 sm:px-2"
+              className="w-[85vw] sm:w-[352px] flex-shrink-0 px-2 sm:px-2 "
             >
               <div 
-                className="bg-white rounded-xl overflow-hidden text-center border border-gray-200 hover:border-[#EE334B]/20 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group cursor-pointer h-full flex flex-col"
+                className="bg-[#f7f7f7] rounded-xl overflow-hidden text-center border border-gray-200 hover:border-[#EE334B]/20 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group cursor-pointer h-full flex flex-col"
               >
                 <div className="relative mb-4">
                   <img 

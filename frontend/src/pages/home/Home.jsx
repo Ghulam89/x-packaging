@@ -311,7 +311,7 @@ export const Home = React.memo(({ homePageData }) => {
 
 
         
-        <PackagingBanner title={'Order Kraft Packaging For Sustainable Future.'} bgImage={kraftPackagingBanner} subTitle={'Go Green with Umbrella Custom Packaging Go For Kraft Packaging'} url={'/shop'} />
+        <PackagingBanner title={'Go green with Kraft packaging.'} bgImage={kraftPackagingBanner} subTitle={'X Custom Packaging Cares About Its Environment'} url={'/shop'} />
 
         <WeFulfil />
 

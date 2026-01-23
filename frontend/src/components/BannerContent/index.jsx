@@ -73,7 +73,7 @@ const BannerContent = React.memo(({ serverData }) => {
 
   if (loading) {
     return (
-      <div className=" bg-white">
+      <div className=" bg-[#f7f7f7] py-10">
         <div className=" mx-auto px-4 sm:px-6 md:max-w-8xl w-[95%]">
           <div className="flex justify-center items-center h-64">
             <div className="text-center">

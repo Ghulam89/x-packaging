@@ -48,7 +48,7 @@ const Category = ({ serverData }) => {
   }, [isIntersecting, serverData]);
 
   return (
-    <div ref={elementRef} className=' bg-[#f7f7f7] pt-12'>
+    <div ref={elementRef} className=' bg-[#f7f7f7] py-10'>
       <div className=' sm:max-w-8xl w-[95%] mx-auto'>
           <div className="text-center mb-10">
                     <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">

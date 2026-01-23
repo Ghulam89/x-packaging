@@ -130,7 +130,7 @@ const GetPriceQuote = () => {
   };
 
   return (
-    <div className="w-full  bg-white max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+    <div className="w-full  bg-white max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-10">
       
 
       <div className="grid grid-cols-1 lg:grid-cols-2 ">
