@@ -1257,9 +1257,6 @@ const ProductDetails = ({
                         </div>
                     )}
                 </section>
-
-            <SampleKit />
-
             {isViewerOpen && selectedImage && (
                 <div 
                     className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn"

@@ -970,17 +970,43 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
       {/* Top Banner Section */}
       <section className='py-8 sm:py-12' style={{ backgroundColor: categoryData?.bannerBgColor || serverData?.bannerBgColor}}>
         <div className="sm:max-w-8xl max-w-[95%] mx-auto">
-          <div className='flex sm:flex-row flex-col gap-8 lg:gap-12 items-center'>
+          <div className='flex sm:flex-row flex-col gap-8 lg:gap-12'>
             {/* Left Side - Text Content */}
             <div className='sm:w-1/2 w-full'>
+              {/* Breadcrumb Navigation */}
+              <div className='flex gap-2 pb-4 items-center'>
+                <IoHomeOutline size={20} className="text-gray-600" />
+                <LiaAngleRightSolid className="text-gray-500" />
+                <h6 className='flex items-center gap-2'>
+                  <Link to={'/'} className='text-[#213554] hover:text-[#EE334B] transition-colors duration-200'>
+                    Home
+                  </Link>
+                  {(categoryData?.brandId?.name || serverData?.brandId?.name) && (
+                    <>
+                      <LiaAngleRightSolid className="text-gray-500" />
+                      <Link 
+                        to={`/${categoryData?.brandId?.slug || serverData?.brandId?.slug}`} 
+                        className='text-[#213554] hover:text-[#EE334B] transition-colors duration-200 capitalize'
+                      >
+                        {categoryData?.brandId?.name || serverData?.brandId?.name}
+                      </Link>
+                    </>
+                  )}
+                  {(categoryData?.title || serverData?.title) && (
+                    <>
+                      <LiaAngleRightSolid className="text-gray-500" />
+                      <span className='text-gray-600 capitalize'>
+                        {categoryData?.title || serverData?.title}
+                      </span>
+                    </>
+                  )}
+                </h6>
+              </div>
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
                 {categoryData?.subTitle || serverData?.subTitle || 'Bespoke Packaging Solutions for Car Parts, Tools, and Accessories'}
               </h1>
-              <p className="text-base sm:text-lg text-gray-700 mb-6 leading-relaxed">
-                {categoryData?.description ? 
-                  (categoryData?.description?.replace(/<[^>]*>/g, '').substring(0, 150) + '...') : 
-                  'IBEX Packaging adds style and resistance simultaneously in custom automotive packaging boxes.'
-                }
+              <p   dangerouslySetInnerHTML={{ __html: (categoryData?.description?.replace(/<[^>]*>/g, '').substring(0, 490) + '...')}}  className="text-base sm:text-lg text-gray-700 mb-6 leading-relaxed">
+                
               </p>
               <div className="flex flex-wrap gap-4">
                 <Button
@@ -1371,7 +1397,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
                   return (
                     <Link 
                       key={product._id}
-                      to={`/${product?.slug}`}
+                      to={`/product/${product?.slug}`}
                       className="group relative block overflow-hidden rounded-xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 break-inside-avoid mb-6"
                       onMouseEnter={() => {
                         if (product?.slug) {

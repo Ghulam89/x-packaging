@@ -11,6 +11,7 @@ const BannerContent = React.memo(({ serverData }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showReadMore, setShowReadMore] = useState(false);
   const contentRef = useRef(null);
+  const bannerSectionRef = useRef(null);
 
   const fetchBanner = async () => {
     try {
@@ -52,6 +53,24 @@ const BannerContent = React.memo(({ serverData }) => {
     }
   }, [banner]);
 
+  // Handle read more/less toggle with scroll to top
+  const handleToggle = () => {
+    if (isExpanded) {
+      // When collapsing, scroll to top of banner section
+      setIsExpanded(false);
+      setTimeout(() => {
+        if (bannerSectionRef.current) {
+          bannerSectionRef.current.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start' 
+          });
+        }
+      }, 100);
+    } else {
+      setIsExpanded(true);
+    }
+  };
+
   if (loading) {
     return (
       <div className=" bg-white">
@@ -72,7 +91,7 @@ const BannerContent = React.memo(({ serverData }) => {
   }
 
   return (
-    <div className="py-5 sm:py-8 bg-white">
+    <div ref={bannerSectionRef} className="py-5 sm:py-8 bg-white">
       <div className=" mx-auto px-4 sm:px-6 sm:max-w-8xl w-[95%]">
         <div
           ref={contentRef}
@@ -95,7 +114,7 @@ const BannerContent = React.memo(({ serverData }) => {
         {showReadMore && (
           <div className="mt-4 flex items-start">
             <Button
-              onClick={() => setIsExpanded(!isExpanded)}
+              onClick={handleToggle}
               label={isExpanded ? 'READ LESS' : 'READ MORE'}
               variant="red"
               size="md"
