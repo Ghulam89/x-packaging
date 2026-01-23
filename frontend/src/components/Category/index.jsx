@@ -50,7 +50,7 @@ const Category = ({ serverData }) => {
   return (
     <div ref={elementRef} className=' bg-[#f7f7f7] py-10'>
       <div className=' sm:max-w-8xl w-[95%] mx-auto'>
-          <div className="text-center mb-10">
+          <div className="text-center mb-8">
                     <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">
                      Our Signature Packaging Styles
                     </h2>
@@ -73,7 +73,7 @@ const Category = ({ serverData }) => {
             <CardSlider
               top={40}
               items={Array(8).fill(null).map((_, index) => (
-                <div key={index} className="w-[85vw] sm:w-[365px] flex-shrink-0 px-2 sm:px-2">
+                <div key={index} className="w-[85vw] sm:w-[280px] flex-shrink-0 px-2 sm:px-2">
                   <div 
                     className="group text-gray-700 bg-[#F9F9F9] rounded-3xl flex font-bold flex-col gap-0.5 items-center border border-gray-200 animate-pulse"
                   >
@@ -94,7 +94,7 @@ const Category = ({ serverData }) => {
               top={40}
               items={products?.map((item, index) => {
                 return (
-                  <div key={item._id || index} className="w-[85vw] sm:w-[365px] flex-shrink-0 px-2 sm:px-2">
+                  <div key={item._id || index} className="w-[85vw] sm:w-[285px] flex-shrink-0 px-2 sm:px-2">
                     <ProductCard data={item} disableSelection={true} />
                   </div>
                 );

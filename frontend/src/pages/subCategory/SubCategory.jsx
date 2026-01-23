@@ -968,7 +968,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
       ) : null}
 
       {/* Top Banner Section */}
-      <section className='py-8 sm:py-12' style={{ backgroundColor: categoryData?.bannerBgColor || serverData?.bannerBgColor}}>
+      <section className='py-5' style={{ backgroundColor: categoryData?.bannerBgColor || serverData?.bannerBgColor}}>
         <div className="sm:max-w-8xl max-w-[95%] mx-auto">
           <div className='flex sm:flex-row flex-col gap-8 lg:gap-12'>
             {/* Left Side - Text Content */}
@@ -1508,6 +1508,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
         setIsModalOpen={setIsModalOpen} 
         isModalOpen={isModalOpen}
         closeModal={() => setIsModalOpen(false)}
+        categoryData={categoryData || serverData}
       />
 
     </>

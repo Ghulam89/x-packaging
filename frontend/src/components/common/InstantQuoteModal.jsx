@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { MdClose } from "react-icons/md";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -10,7 +10,7 @@ import { BaseUrl } from "../../utils/BaseUrl";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const InstantQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
+const InstantQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal, categoryData }) => {
 
 
   const navigate = useNavigate()
@@ -47,10 +47,12 @@ const InstantQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
       name: "",
       email: "",
       phoneNumber: "",
+      categoryName: "",
       message: "",
       image: null,
     },
     validationSchema,
+    enableReinitialize: true,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
       setSubmitting(true)
       try {
@@ -58,6 +60,7 @@ const InstantQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
         formData.append("name", values.name);
         formData.append("email", values.email);
         formData.append("phoneNumber", values.phoneNumber);
+        formData.append("categoryName", values.categoryName || "");
         formData.append("message", values.message);
         formData.append("image", values.image);
         formData.append("pageUrl", window.location.href);
@@ -85,6 +88,16 @@ const InstantQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
     },
   });
 
+  // Auto-fill category name when modal opens and categoryData is available
+  useEffect(() => {
+    if (isModalOpen && categoryData?.title) {
+      formik.setFieldValue('categoryName', categoryData.title);
+    } else if (!isModalOpen) {
+      // Reset category name when modal closes
+      formik.setFieldValue('categoryName', '');
+    }
+  }, [isModalOpen, categoryData?.title]);
+
   return (
     <Modal isOpen={isModalOpen} onClose={closeModal} className={"rounded-xl"}>
       <div className="p-5 overflow-y-auto ">
@@ -103,7 +116,26 @@ const InstantQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
 
           <form onSubmit={formik.handleSubmit} className="w-full">
             <div className="flex flex-col w-full gap-3 justify-between">
-              {/* Name Field */}
+              {/* Category Name Field */}
+              <div className="w-full">
+                <Input
+                  label="Category Name"
+                  type="text"
+                  name="categoryName"
+                  placeholder="Category Name"
+                  value={formik.values.categoryName}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  className={`rounded-[8px] w-full border-[#333333] border bg-[#fff] p-3 ${
+                    formik.touched.categoryName && formik.errors.categoryName
+                      ? "border-red-500"
+                      : ""
+                  }`}
+                  disabled
+                />
+              </div>
+              <div className=" grid grid-cols-2 gap-2">
+                {/* Name Field */}
               <div className="w-full">
                 <Input
                   label="Name"
@@ -119,13 +151,14 @@ const InstantQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
                       : ""
                   }`}
                 />
-              </div>
-
-              {formik.touched.name && formik.errors.name && (
+                {formik.touched.name && formik.errors.name && (
                   <div className="text-red-500 text-xs mt-1">
                     {formik.errors.name}
                   </div>
                 )}
+              </div>
+
+              
               {/* Email Field */}
               <div className="w-full">
                 <Input
@@ -142,13 +175,15 @@ const InstantQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
                       : ""
                   }`}
                 />
-              </div>
-
-              {formik.touched.email && formik.errors.email && (
+                  {formik.touched.email && formik.errors.email && (
                   <div className="text-red-500 text-xs mt-1">
                     {formik.errors.email}
                   </div>
                 )}
+              </div>
+
+            
+              </div>
 
               {/* Phone Number Field */}
               <div className="w-full">
@@ -171,6 +206,14 @@ const InstantQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
               {formik.touched.phoneNumber && formik.errors.phoneNumber && (
                   <div className="text-red-500 text-xs mt-1">
                     {formik.errors.phoneNumber}
+                  </div>
+                )}
+
+              
+
+              {formik.touched.categoryName && formik.errors.categoryName && (
+                  <div className="text-red-500 text-xs mt-1">
+                    {formik.errors.categoryName}
                   </div>
                 )}
 
@@ -209,7 +252,7 @@ const InstantQuoteModal = ({ isModalOpen, setIsModalOpen, closeModal }) => {
                   className="pb-1.5 flex text-[#333333] text-sm font-medium text-textColor"
                   htmlFor="image"
                 >
-                  Upload Your Design
+                  Upload Image
                   <span className="text-xs text-gray-500 ml-1">
                     (Max Size 5MB, Allowed: png, pdf, jpg, jpeg, webp)
                   </span>
