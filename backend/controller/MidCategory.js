@@ -279,6 +279,11 @@ export const updateCategory = catchAsyncError(async (req, res, next) => {
             fs.unlinkSync(fullOldPath);
           }
         }
+      } else {
+        // Preserve existing value if no new file is uploaded
+        if (existingCategory[field]) {
+          updateData[field] = existingCategory[field];
+        }
       }
     }
 

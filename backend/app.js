@@ -106,6 +106,7 @@ app.use("/blog", blogRouter);
 app.use("/faq", FaqRouter);
 app.use("/admin", adminRoute);
 app.use("/category", categoryRouter);
+app.use("/subcategory", categoryRouter); // Alias for subcategory routes
 app.use("/products", productRouter);
 app.use("/checkout", checkoutRouter);
 app.use("/rating", ratingRoute);
