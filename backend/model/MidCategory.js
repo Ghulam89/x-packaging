@@ -1,6 +1,18 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
+const questionAnswerSchema = new Schema({
+  question: {
+    type: String,
+    required: true
+  },
+  answer: {
+    type: String,
+    required: true
+  }
+});
+
+
 const midcategorySchema = new Schema({
   brandId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -78,6 +90,7 @@ const midcategorySchema = new Schema({
     type: String,
     default: "",
   },
+  qna: [questionAnswerSchema],
   createdAt: {
     type: Date,
     default: Date.now,

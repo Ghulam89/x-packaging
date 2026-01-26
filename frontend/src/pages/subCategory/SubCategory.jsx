@@ -1502,7 +1502,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
         </div>
       </section>
 
-      <FAQ/>
+      <FAQ serverData={categoryData?.qna || serverData?.qna} />
 
       <InstantQuoteModal 
         setIsModalOpen={setIsModalOpen} 

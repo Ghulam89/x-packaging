@@ -71,6 +71,14 @@ export const createCategory = catchAsyncError(async (req, res, next) => {
       message: `The following files are missing or invalid: ${missingFiles.join(', ')}`,
     });
   }
+  let qna = [];
+  if (req.body.qna !== undefined) {
+   try {
+     qna = typeof req.body.qna === 'string' ? JSON.parse(req.body.qna) : req.body.qna;
+   } catch (error) {
+     console.error('Error parsing Q&A:', error);
+   }
+ }
 
   try {
     const categoryData = {
@@ -96,6 +104,7 @@ export const createCategory = catchAsyncError(async (req, res, next) => {
       bannerTitleFirst,
       bannerContentFirst,
       bannerImageFirst: `images/${req.files.bannerImageFirst[0].filename}`.replace(/\\/g, '/'),
+      qna: qna
     };
 
     const newCategory = await MidCategory.create(categoryData);
@@ -187,6 +196,14 @@ export const updateCategory = catchAsyncError(async (req, res, next) => {
       message: "Category not found" 
     });
   }
+  let qna = existingCategory.qna;
+  if (req.body.qna !== undefined) {
+   try {
+     qna = typeof req.body.qna === 'string' ? JSON.parse(req.body.qna) : req.body.qna;
+   } catch (error) {
+     console.error('Error parsing Q&A:', error);
+   }
+ }
   let updateData = {
     title: data.title,
     slug: data.slug,
@@ -207,6 +224,7 @@ export const updateCategory = catchAsyncError(async (req, res, next) => {
       iconAltText:data.iconAltText,
       bannerImageFirstAltText:data.bannerImageFirstAltText,
       bannerBgColor: data.bannerBgColor,
+      qna: qna
   };
 
   const newFiles = [];
