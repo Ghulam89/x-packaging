@@ -48,7 +48,7 @@ export const uploadCategoryImages = upload.fields([
     { name: 'bannerImageFirst', maxCount: 1 },
     { name: 'bannerImageSecond', maxCount: 1 },
     { name: 'bannerImageThird', maxCount: 1 },
-    { name: 'bannerImageFourth', maxCount: 1 },
+    { name: 'faqImage', maxCount: 1 },
 ]);
 
 export const uploadBannerImages = upload.fields([

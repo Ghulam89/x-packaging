@@ -9,8 +9,9 @@ export default defineConfig({
 
   resolve: {
     alias: {
-      "redux-persist": "redux-persist/es", 
+      "redux-persist": "redux-persist/es",
     },
+    dedupe: ["react", "react-dom"],
   },
 
   server: {
@@ -42,6 +43,9 @@ export default defineConfig({
     exclude: [
       "react-dom/server",
     ],
+    esbuildOptions: {
+      resolveExtensions: [".jsx", ".js", ".ts", ".tsx"],
+    },
   },
 
   build: {
