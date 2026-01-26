@@ -1502,7 +1502,14 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
         </div>
       </section>
 
-      <FAQ serverData={categoryData?.qna || serverData?.qna} />
+      {/* Only show FAQ section if FAQs exist */}
+      {((categoryData?.qna && categoryData.qna.length > 0) || (serverData?.qna && serverData.qna.length > 0)) && (
+        <FAQ 
+          serverData={categoryData?.qna || serverData?.qna} 
+          faqImageUrl={categoryData?.faqImage || serverData?.faqImage}
+          faqImageAltText={categoryData?.faqImageAltText || serverData?.faqImageAltText}
+        />
+      )}
 
       <InstantQuoteModal 
         setIsModalOpen={setIsModalOpen} 

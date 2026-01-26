@@ -6,7 +6,7 @@ import faqImage from '../../assets/images/faq.webp';
 import Button from '../common/Button';
 import { FaArrowDown, FaArrowRight } from 'react-icons/fa';
 
-const FAQ = ({ serverData }) => {
+const FAQ = ({ serverData, faqImageUrl, faqImageAltText }) => {
   const stripHtml = (html) => {
     if (!html) return '';
     if (typeof document === 'undefined') {
@@ -132,8 +132,8 @@ const FAQ = ({ serverData }) => {
             <div className="sm:w-5/12 mx-auto w-full flex justify-center items-center relative">
               <div className="relative w-full  pt-3">
                 <img 
-                  src={faqImage} 
-                  alt="FAQ" 
+                  src={faqImageUrl ? `${BaseUrl}/${faqImageUrl}` : faqImage} 
+                  alt={faqImageAltText || "FAQ"} 
                   className="w-full h-auto object-contain"
                   loading="lazy"
                 />

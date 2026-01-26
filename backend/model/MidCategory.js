@@ -90,6 +90,14 @@ const midcategorySchema = new Schema({
     type: String,
     default: "",
   },
+  faqImage: {
+    type: String,
+    default: "",
+  },
+  faqImageAltText: {
+    type: String,
+    default: "",
+  },
   qna: [questionAnswerSchema],
   createdAt: {
     type: Date,

@@ -25,7 +25,7 @@ export const createCategory = catchAsyncError(async (req, res, next) => {
     bannerTitleFirst,
     bannerContentFirst,
     imageAltText,iconAltText,bannerImageFirstAltText,
-    bannerBgColor
+    bannerBgColor,faqImageAltText
   } = req.body;
 
   const findName = await MidCategory.findOne({ title });
@@ -99,11 +99,13 @@ export const createCategory = catchAsyncError(async (req, res, next) => {
       iconAltText,
       bannerImageFirstAltText,
       bannerBgColor: bannerBgColor || "#F5F5DC",
+      faqImageAltText: faqImageAltText || "",
       icon: `images/${req.files.icon[0].filename}`.replace(/\\/g, '/'),
       image: `images/${req.files.image[0].filename}`.replace(/\\/g, '/'),
       bannerTitleFirst,
       bannerContentFirst,
       bannerImageFirst: `images/${req.files.bannerImageFirst[0].filename}`.replace(/\\/g, '/'),
+      faqImage: req.files?.faqImage ? `images/${req.files.faqImage[0].filename}`.replace(/\\/g, '/') : "",
       qna: qna
     };
 
@@ -224,6 +226,7 @@ export const updateCategory = catchAsyncError(async (req, res, next) => {
       iconAltText:data.iconAltText,
       bannerImageFirstAltText:data.bannerImageFirstAltText,
       bannerBgColor: data.bannerBgColor,
+      faqImageAltText: data.faqImageAltText || "",
       qna: qna
   };
 
@@ -259,7 +262,8 @@ export const updateCategory = catchAsyncError(async (req, res, next) => {
     }
 
     const bannerFields = [
-      'bannerImageFirst'
+      'bannerImageFirst',
+      'faqImage'
     ];
 
     for (const field of bannerFields) {
