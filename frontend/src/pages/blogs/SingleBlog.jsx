@@ -8,6 +8,7 @@ import { Helmet } from 'react-helmet-async';
 import PageMetadata from '../../components/common/PageMetadata';
 import GetQuoteModal from '../../components/common/GetQuoteModal';
 import BlogCard from '../../components/common/BlogCard';
+import ProductCard from '../../components/common/ProductCard';
 import { FaCalendarAlt, FaClock } from 'react-icons/fa';
 
 function SingleBlog({ serverData }) {
@@ -19,7 +20,8 @@ function SingleBlog({ serverData }) {
     const { slug } = useParams();
     const navigate = useNavigate();
     const [singleBlog, setSingleBlog] = useState(serverData || null);
-    const [blogs, setBlogs] = useState([])
+    const [blogs, setBlogs] = useState([]);
+    const [blogProducts, setBlogProducts] = useState([]);
 
 
      console.log(singleBlog);
@@ -34,9 +36,28 @@ function SingleBlog({ serverData }) {
                 return
             }
             setSingleBlog(response?.data?.data);
+            // Fetch blog products after blog is loaded
+            if (response?.data?.data?._id) {
+                fetchBlogProducts(response.data.data._id);
+            }
         } catch (error) {
             // If there's an error or blog not found, redirect to 404
             navigate('/404')
+        }
+    };
+
+    const fetchBlogProducts = async (blogId) => {
+        try {
+            const response = await axios.get(`${BaseUrl}/blog-product/blog/${blogId}`);
+            if (response?.data?.data) {
+                // Extract products from blog products array
+                const products = response.data.data
+                    .map(bp => bp.productId)
+                    .filter(product => product !== null && product !== undefined);
+                setBlogProducts(products);
+            }
+        } catch (error) {
+            console.error("Error fetching blog products:", error);
         }
     };
 
@@ -209,6 +230,28 @@ useEffect(() => {
                             />
                         </article>
                     </div>
+
+                    {/* Blog Products Section - Modernized */}
+                    {blogProducts && blogProducts.length > 0 && (
+                        <div className='w-full mt-8'>
+                            <div className='bg-white rounded-2xl shadow-lg p-6 md:p-8'>
+                                <div className='mb-6'>
+                                    <h2 className='text-2xl md:text-3xl font-bold text-[#213554] mb-2'>Related Products</h2>
+                                    <p className='text-gray-600 text-sm md:text-base'>Explore products related to this article</p>
+                                </div>
+                                <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6'>
+                                    {blogProducts.map((product, index) => (
+                                        <ProductCard
+                                            key={product._id || index}
+                                            data={product}
+                                            disableSelection={true}
+                                            size="compact"
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    )}
 
                     {/* Latest Articles Section - Modernized */}
                     <div className='w-full mt-8'>
