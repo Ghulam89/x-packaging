@@ -154,10 +154,11 @@ const InspirationPackaging = () => {
         <div className="mx-auto overflow-x-hidden py-10 bg-[#f7f7f7]">
             <div className=" text-center">
                 <h2 className="sm:text-[35px] text-[25px] font-bold text-[#213554] mb-3">
-                    Easy to Design & Professional Results
+                   Our Design Department x Free Design Support 
+
                 </h2>
                 <p className="text-gray-600 text-sm sm:text-base mb-4  max-w-6xl mx-auto">
-                   Start creating your custom boxes effortlessly with our extensive library, featuring fully customizable layouts for promotional, mailer, and dispaly boxes, plus industry-specific styles for cosmetics, hotels, apparel, and more. Need expert guidance? Our professional designers are to ready to assist-so you can design with Confidence and package your produts in a box that stands out.
+                  X Custom Packaging offers free design support to whoever comes to us and asks for it. Whether you place the order or not, we are there for you anytime. For expert advice, you can place your order on the website by filling out the form asking for design support, or send an email to <a href="mailto:sales@xcustompackaging.com">sales@xcustompackaging.com</a>. Just come to us, our dedicated design team will bring your vision to life.
                 </p>
                
             </div>

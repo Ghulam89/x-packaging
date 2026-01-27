@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 // Components
 import Banner from '../../components/common/Banner';
 import Button from '../../components/common/Button';
+import { Link } from 'react-router-dom';
+import { FaAngleRight } from 'react-icons/fa';
 
 // Assets
 import Leatherjackets from '../../assets/images/about-imges/leatherjackets.webp';
@@ -102,40 +104,44 @@ export default function About() {
     {
       name: "X-Custom Packaging",
       logo: xcustompacakging,
+      location: "Global Solutions",
       tagline: "Tailored packaging solutions designed to elevate your brand identity.",
-      color: "bg-[#213554]",
-      accentColor: "bg-slate-100",
+      bgColor: "bg-white",
+      textColor: "text-slate-800",
     },
     {
       name: "Leather Jackets",
       logo: Leatherjackets,
+      location: "Premium Apparel",
       tagline: "Timeless craftsmanship meets modern style in every premium hide.",
-      color: "bg-[#213554]",
-      accentColor: "bg-slate-100",
+      bgColor: "bg-slate-50", // Light grey/blue tint like the image
+      textColor: "text-slate-800",
     },
     {
       name: "X-Inc",
       logo: xinc,
+      location: "Innovation Hub",
       tagline: "Driving innovation and excellence across global enterprise sectors.",
-      color: "bg-[#213554]",
-      accentColor: "bg-slate-100",
+      bgColor: "bg-white",
+      textColor: "text-slate-800",
     },
     {
       name: "X-Custom Clothing",
       logo: xcustomclothing,
+      location: "Bespoke Fashion",
       tagline: "Bespoke apparel crafted with precision for the modern individual.",
-      color: "bg-[#213554]",
-      accentColor: "bg-slate-100",
+      bgColor: "bg-slate-50",
+      textColor: "text-slate-800",
     },
     {
       name: "Silks",
       logo: Silks,
+      location: "Luxury Textiles",
       tagline: "Exquisite luxury fabrics defined by elegance and superior comfort.",
-      color: "bg-[#213554]",
-      accentColor: "bg-slate-100",
+      bgColor: "bg-white",
+      textColor: "text-slate-800",
     },
   ];
-
   return (
     <div className="font-sans selection:bg-red-500 selection:text-white bg-gray-50 text-slate-800">
 
@@ -147,7 +153,7 @@ export default function About() {
       {/* Intro Section */}
       <section className="max-w-8xl mx-auto px-10 py-16 md:py-12 flex flex-col md:flex-row items-center gap-12 bg-white">
         <div className="relative w-full md:w-1/2 flex items-center justify-center">
-          <div className="relative w-3/4 aspect-[5/4] rounded-3xl overflow-hidden shadow-2xl z-0 transform -translate-x-6">
+          <div className="relative w-8/4 aspect-[5/4] rounded-3xl overflow-hidden shadow-2xl z-0 transform -translate-x-6">
             <img
               src={xpackaging}
               alt="Fashion showcase"
@@ -191,93 +197,72 @@ export default function About() {
          <a href="#brand-details-section"> <Button label={"See Our Work in Action"} /></a>
         </div>
       </section>
-      <section className="max-w-8xl mx-auto px-6 py-10 relative overflow-hidden bg-white">
-        <div className="relative z-10">
-          <div className="max-w-6xl mx-auto">
-
-            {/* Header */}
-            <div className="text-center mb-20">
-              <h1 className="text-5xl font-bold text-slate-800 mb-4">Our Premium Brands</h1>
-              <p className="text-xl text-slate-600">Discover excellence across every industry</p>
-            </div>
-
-            <div className="relative">
-              {/* Central Vertical Line */}
-              <div className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-slate-200 hidden md:block"></div>
-
-              <div className="flex flex-col gap-16 md:gap-10">
-                {/* Process brands in pairs */}
-                {[0, 2, 4].map((startIndex) => {
-                  const brand1 = companyLogos[startIndex];
-                  const brand2 = companyLogos[startIndex + 1];
-                  const isCentered = startIndex === 4; // The 5th item logic
-
-                  return (
-                    <div key={startIndex} className="relative w-full">
-                      {isCentered ? (
-                        /* --- 5th BOX: CENTERED --- */
-                        <div className="flex justify-center w-full relative">
-                          {/* Central Dot for 5th item */}
-                          <div className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 hidden md:flex z-20">
-                            <div className="w-6 h-6 bg-white rounded-full border-[4px] border-slate-800 shadow-md"></div>
-                          </div>
-
-                          <div className="w-full md:w-[60%] lg:w-[50%] group relative bg-white p-5 rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden">
-                            <div className={`w-32 h-32 mb-8 rounded-[2rem] flex items-center justify-center overflow-hidden shadow-inner border border-slate-100 ${brand1?.accentColor || 'bg-slate-50'}`}>
-                              <img src={brand1?.logo} alt={brand1?.name} className="w-full h-full object-contain p-4 transition-transform duration-500 group-hover:scale-110" />
-                            </div>
-                            <h3 className="text-3xl font-bold text-slate-800 mb-4">{brand1?.name}</h3>
-                            <p className="text-slate-500 text-lg leading-relaxed">{brand1?.tagline}</p>
-                            <div className="absolute right-8 bottom-4 text-8xl font-bold text-slate-900/[0.03] pointer-events-none uppercase">
-                              {brand1?.name.charAt(0)}
-                            </div>
-                          </div>
-                        </div>
-                      ) : (
-                        /* --- PAIRS: FRONT TO FRONT --- */
-                        <div className="flex flex-col md:flex-row items-stretch justify-between gap-8 md:gap-0 relative">
-                          {/* Central Dot for Pair */}
-                          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:flex z-20">
-                            <div className="w-6 h-6 bg-white rounded-full border-[4px] border-slate-800 shadow-md"></div>
-                          </div>
-
-                          {/* Left Card */}
-                          <div className="w-full md:w-[45%] group relative bg-white p-5 rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden">
-                            <div className={`w-32 h-32 mb-2 rounded-[2rem] flex items-center justify-center overflow-hidden shadow-inner border border-slate-100 ${brand1?.accentColor || 'bg-slate-50'}`}>
-                              <img src={brand1?.logo} alt={brand1?.name} className="w-full h-full object-contain p-4 transition-transform duration-500 group-hover:scale-110" />
-                            </div>
-                            <h3 className="text-3xl font-bold text-slate-800 mb-4">{brand1?.name}</h3>
-                            <p className="text-slate-500 text-lg leading-relaxed">{brand1?.tagline}</p>
-                            <div className="absolute right-8 bottom-4 text-8xl font-bold text-slate-900/[0.03] pointer-events-none uppercase">
-                              {brand1?.name.charAt(0)}
-                            </div>
-                          </div>
-
-                          {/* Right Card */}
-                          <div className="w-full md:w-[45%] group relative bg-white p-5 rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden">
-                            {brand2 && (
-                              <>
-                                <div className={`w-32 h-32 mb-2 rounded-[2rem] flex items-center justify-center overflow-hidden shadow-inner border border-slate-100 ${brand2.accentColor || 'bg-slate-50'}`}>
-                                  <img src={brand2.logo} alt={brand2.name} className="w-full h-full object-contain p-4 transition-transform duration-500 group-hover:scale-110" />
-                                </div>
-                                <h3 className="text-3xl font-bold text-slate-800 mb-4">{brand2.name}</h3>
-                                <p className="text-slate-500 text-lg leading-relaxed">{brand2.tagline}</p>
-                                <div className="absolute right-8 bottom-4 text-8xl font-bold text-slate-900/[0.03] pointer-events-none uppercase">
-                                  {brand2.name.charAt(0)}
-                                </div>
-                              </>
-                            )}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
+      <section className="max-w-8xl mx-auto px-6 py-16 bg-white">
+      {/* Section Header */}
+      
+        
+         <div className="sm:max-w-8xl max-w-[100%] mx-auto py-10">
+          <div className=' flex sm:flex-row flex-col items-center justify-between gap-4'>
+            <div className="flex items-center gap-4">
+              <div className="w-1 h-12 bg-gradient-to-b from-[#EE334B] to-[#213554] rounded-full"></div>
+              <div>
+                <h2 className='text-3xl sm:text-4xl font-bold text-[#213554] text-left'>
+                  Our Brand Partners
+                </h2>
+                <p className='text-gray-600 mt-1'>
+                  We cover all your packaging needs. Can't find yours?
+                </p>
               </div>
             </div>
+            <Link to="" className="group">
+              <p className='font-bold text-[#EE334B] flex items-center hover:text-[#213554] transition-colors duration-300 uppercase text-sm'>
+                View all <FaAngleRight className="ml-1 group-hover:translate-x-1 transition-transform duration-300" size={15} />
+              </p>
+            </Link>
           </div>
         </div>
-      </section>
+      
+
+      <div className="flex flex-col gap-6">
+        {companyLogos.map((brand, index) => (
+          <div 
+            key={index} 
+            className={`flex flex-col md:flex-row items-center rounded-xl overflow-hidden border border-slate-100 shadow-sm transition-hover duration-300 hover:shadow-md ${brand.bgColor}`}
+          >
+            {/* Content Side (Left) */}
+            <div className="w-full md:w-[60%] p-8 md:p-12 order-2 md:order-1">
+              <h3 className="text-2xl md:text-3xl font-bold text-slate-800 mb-2">
+                {brand.name}
+              </h3>
+              
+              {/* Location/Category Pin */}
+              <div className="flex items-center gap-2 mb-4 text-slate-500">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span className="text-sm font-semibold uppercase tracking-wider">{brand.location}</span>
+              </div>
+
+              <p className="text-lg text-slate-600 leading-relaxed max-w-2xl">
+                {brand.tagline}
+              </p>
+            </div>
+
+            {/* Logo Side (Right) */}
+            <div className="w-full md:w-[40%] p-8 flex justify-center items-center order-1 md:order-2 bg-opacity-50">
+               <div className="relative group">
+                  <img 
+                    src={brand.logo} 
+                    alt={brand.name} 
+                    className="max-w-full h-auto object-contain max-h-96 transition-transform duration-500 group-hover:scale-105"
+                  />
+               </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
 
       {/* Gallery Section Component */}
       <CreativePackaging />
@@ -320,7 +305,7 @@ export default function About() {
         <div key={idx} className="group p-8 bg-white rounded-3xl border border-slate-100 hover:border-red-500/20 hover:bg-slate-50/50 transition-all duration-300">
           <div className="mb-4 flex justify-start items-start  transition-all">
             {/* Added fixed width/height to image to prevent layout breaking */}
-            <img src={loc.flag} alt={`${loc.country} flag`} className="w-12 h-8 object-contain" />
+            <img src={loc.flag} alt={`${loc.country} flag`} className="w-8 h-8  text-start" />
           </div>
           <h4 className="text-2xl font-black mb-3">{loc.country}</h4>
           <p className="text-slate-500 text-sm leading-relaxed mb-6">{loc.address}</p>

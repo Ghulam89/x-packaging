@@ -15,8 +15,7 @@ function WeFulfil() {
           
           <p className='text-[#333333] text-sm md:text-[14px] text-left'>
            X Custom Packaging manufactures all products in strict accordance with applicable industry regulations and quality standards, ensuring compliance, safety, and reliability for every order. We have a Quality Control Department that makes sure the supreme quality of every box you receive. 
-Our Design Department x Free Design Support 
-X Custom Packaging offers free design support to whoever comes to us and asks for it. Whether you place the order or not, we are there for you anytime. For expert advice, you can place your order on the website by filling out the form asking for design support, or send an email to <a href="mailto:sales@xcustompackaging.com">sales@xcustompackaging.com</a>. Just come to us, our dedicated design team will bring your vision to life.
+
 
           </p>
           

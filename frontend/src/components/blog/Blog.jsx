@@ -87,17 +87,23 @@ const Blog = () => {
   return (
      <section ref={elementRef} className=' bg-[#F7F7F7] py-10'>
      <div className='sm:max-w-8xl w-[95%] mx-auto'>
-       <div className='mb-5 flex sm:flex-row flex-col items-center gap-2.5'>
-         <h2 className='text-left'>Blogs & News</h2>
-         <p className='border-l border-gray-300 pl-3'>
-           Stay updated with the latest packaging trends and insights.
-         </p>
-         <Link to="/blogs" className="uppercase">
-           <p className='font-bold text-[#e71d38] flex items-center'>
-             View all <FaAngleRight className="ml-1" size={15} />
-           </p>
-         </Link>
-       </div>
+      <div className="text-center mb-8">
+                    <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">
+                     Client’s Spotlights & Blog   I   Xbox Your Packaging 
+                    </h2>
+                    <p className="text-gray-600 text-base sm:text-lg">
+                     Please see below how businesses like yours have elevated their brand with X Custom Packaging. We have responded quickly to them every time to maintain their inventories and fulfill their urgent needs. You can also find here the recent trends in packaging.
+        
+                      <Link
+                        to=""
+                        className="ml-2 uppercase font-bold text-[#EE334B] inline-flex items-center align-baseline hover:opacity-80 transition-opacity"
+                      >
+                        View all
+                        <FaAngleRight className="ml-1" size={15} />
+                      </Link>
+                    </p>
+        
+                  </div>
        {loadingBlogs ? (
          <div className="py-2">
            <CardSlider
