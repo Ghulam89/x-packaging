@@ -38,7 +38,7 @@ const Hero = () => {
   }, [isFirstLoad]);
 
   return (
-    <div className="w-full md:h-[75vh] h-[55vh] relative overflow-hidden">
+    <div className="w-full lg:h-[75vh] h-[55vh] relative overflow-hidden">
       {/* Video Background */}
       <video
         autoPlay

@@ -968,13 +968,10 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
       ) : null}
 
       {/* Top Banner Section */}
-      <section className='py-5' style={{ backgroundColor: categoryData?.bannerBgColor || serverData?.bannerBgColor}}>
+      <section className='py-5 sm:h-[70vh] h-auto' style={{ backgroundColor: categoryData?.bannerBgColor || serverData?.bannerBgColor}}>
         <div className="sm:max-w-8xl max-w-[95%] mx-auto">
-          <div className='flex sm:flex-row flex-col gap-8 lg:gap-12'>
-            {/* Left Side - Text Content */}
-            <div className='sm:w-1/2 w-full'>
-              {/* Breadcrumb Navigation */}
-              <div className='flex gap-2 pb-4 items-center'>
+          {/* Breadcrumb Navigation */}
+          <div className='flex gap-2 pb-4 items-center'>
                 <IoHomeOutline size={20} className="text-gray-600" />
                 <LiaAngleRightSolid className="text-gray-500" />
                 <h6 className='flex items-center gap-2'>
@@ -1002,10 +999,14 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
                   )}
                 </h6>
               </div>
+          <div className='flex sm:flex-row items-center flex-col gap-8 lg:gap-12'>
+            {/* Left Side - Text Content */}
+            <div className='sm:w-1/2 w-full'>
+              
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
                 {categoryData?.subTitle || serverData?.subTitle || 'Bespoke Packaging Solutions for Car Parts, Tools, and Accessories'}
               </h1>
-              <p   dangerouslySetInnerHTML={{ __html: (categoryData?.description?.replace(/<[^>]*>/g, '').substring(0, 490) + '...')}}  className="text-base sm:text-lg text-gray-700 mb-6 leading-relaxed">
+              <p   dangerouslySetInnerHTML={{ __html:categoryData?.description}}  className="text-base sm:text-lg text-gray-700 mb-6 leading-relaxed">
                 
               </p>
               <div className="flex flex-wrap gap-4">
@@ -1030,24 +1031,11 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
                   <img
                     src={`${BaseUrl}/${categoryData?.image || serverData?.image}`}
                     alt={categoryData?.imageAltText || serverData?.imageAltText || categoryData?.title || serverData?.title}
-                    className="w-full h-auto rounded-xl object-cover"
+                    className=" mx-auto rounded-xl object-cover"
                     loading="eager"
                   />
                 </div>
-              ) : allProducts && allProducts.length > 0 ? (
-                <div className="grid grid-cols-2 gap-4">
-                  {allProducts.slice(0, 4).map((product, index) => (
-                    <div key={product._id || index} className="relative overflow-hidden rounded-lg shadow-lg">
-                      <img
-                        src={`${BaseUrl}/${product?.images?.[0]?.url}`}
-                        alt={product?.images?.[0]?.altText || product?.name}
-                        className="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
-                        loading={index < 2 ? "eager" : "lazy"}
-                      />
-                    </div>
-                  ))}
-                </div>
-              ) : null}
+              ):null}
             </div>
           </div>
         </div>

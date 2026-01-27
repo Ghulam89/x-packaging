@@ -38,6 +38,10 @@ const midcategorySchema = new Schema({
     type: String,
     require: true,
   },
+  details: {
+    type: String,
+    default: "",
+  },
   icon: {
     type: String,
     require: true,
@@ -56,11 +60,11 @@ const midcategorySchema = new Schema({
   },
   videoUpperHeading:{
      type: String,
-    require: true,
+    require: false,
   },
   videoUpperDescription:{
      type: String,
-    require: true,
+    require: false,
   },
   videoLink: {
     type: String,
@@ -68,7 +72,7 @@ const midcategorySchema = new Schema({
   },
   videoDescription: {
     type: String,
-    require: true,
+    require: false,
   },
   bannerTitleFirst: {
     type: String,
