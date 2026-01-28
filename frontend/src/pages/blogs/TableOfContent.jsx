@@ -5,38 +5,46 @@ function TableOfContent({ content }) {
     const [openTable, setTableOpen] = useState(true);
     const [headings, setHeadings] = useState([]);
     const [activeId, setActiveId] = useState(null);
-    const contentRef = useRef(null);
     const observerRef = useRef(null);
 
     useEffect(() => {
         if (content) {
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = content;
-            
-            const headingElements = Array.from(tempDiv.querySelectorAll('h1, h2, h3, h4, h5, h6'));
-            
-            const processedHeadings = headingElements.map((heading, index) => {
-                let id = heading.id;
-                if (!id) {
-                    id = `section-${index}-${heading.textContent
-                        .toLowerCase()
-                        .replace(/[^\w\s]/g, '')
-                        .replace(/\s+/g, '-')}`;
-                }
-                return {
-                    text: heading.textContent,
-                    id: id,
-                    level: parseInt(heading.tagName.substring(1))
-                };
-            });
+            // Wait for DOM to be ready
+            const timeoutId = setTimeout(() => {
+                const contentElement = document.querySelector('.blog_content');
+                if (contentElement) {
+                    const headingElements = Array.from(
+                        contentElement.querySelectorAll('h1, h2, h3, h4, h5, h6')
+                    );
+                    
+                    const processedHeadings = headingElements.map((heading, index) => {
+                        let id = heading.id;
+                        if (!id) {
+                            id = `section-${index}-${heading.textContent
+                                .toLowerCase()
+                                .replace(/[^\w\s]/g, '')
+                                .replace(/\s+/g, '-')}`;
+                            heading.id = id;
+                        }
+                        return {
+                            text: heading.textContent,
+                            id: id,
+                            level: parseInt(heading.tagName.substring(1))
+                        };
+                    });
 
-            setHeadings(processedHeadings);
-            tempDiv.remove();
+                    setHeadings(processedHeadings);
+                }
+            }, 200);
+
+            return () => clearTimeout(timeoutId);
         }
     }, [content]);
 
     useEffect(() => {
         // Set up IntersectionObserver to track which heading is in view
+        if (headings.length === 0) return;
+
         const callback = (entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -46,8 +54,8 @@ function TableOfContent({ content }) {
         };
 
         observerRef.current = new IntersectionObserver(callback, {
-            rootMargin: '-100px 0px -50% 0px', // Adjust these values to fine-tune when a heading is considered "active"
-            threshold: 1.0
+            rootMargin: '-100px 0px -50% 0px',
+            threshold: 0.5
         });
 
         // Observe all headings
@@ -66,99 +74,84 @@ function TableOfContent({ content }) {
         };
     }, [headings]);
 
-    useEffect(() => {
-        // Ensure content headings have proper IDs
-        if (headings.length > 0) {
-            const contentElement = document.querySelector('.blog_content');
-            if (contentElement) {
-                headings.forEach((heading, index) => {
-                    const domHeading = contentElement.querySelector(`h${heading.level}:nth-of-type(${index + 1})`);
-                    if (domHeading && !domHeading.id) {
-                        domHeading.id = heading.id;
-                    }
-                });
-            }
-        }
-    }, [headings]);
-
     const scrollToHeading = (id, event) => {
         event.preventDefault();
-        setActiveId(id); // Immediately set as active when clicked
+        setActiveId(id);
         
-        let element = document.getElementById(id);
-        if (!element) {
-            setTimeout(() => {
-                element = document.getElementById(id);
-                if (element) {
-                    performScroll(element);
-                }
-            }, 100);
-            return;
+        const element = document.getElementById(id);
+        if (element) {
+            const offset = 120;
+            const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+            const offsetPosition = elementPosition - offset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+
+            // Update URL without triggering scroll
+            window.history.pushState(null, null, `#${id}`);
         }
-        
-        performScroll(element);
     };
 
-    const performScroll = (element) => {
-        const offset = 100;
-        const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
-        const offsetPosition = elementPosition - offset;
-
-        window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-        });
-
-        window.history.pushState(null, null, `#${element.id}`);
-    };
+    if (!headings || headings.length === 0) {
+        return null;
+    }
 
     return (
-        <div className='sticky z-40 top-5'>
-            <div className='bg-white rounded-lg border shadow overflow-hidden'>
-                <div 
-                    className='flex items-center justify-between p-4 cursor-pointer'
-                    onClick={() => setTableOpen(!openTable)}
-                >
-                    <h5 className='text-lg font-semibold'>Table of Contents</h5>
-                    <IoIosArrowDown className={`transition-transform ${openTable ? 'rotate-180' : ''}`} />
-                </div>
-                
-                {openTable && (
-                    <div className='border-t max-h-96 overflow-y-auto'>
-                        <ul className='p-4 space-y-2'>
+        <div className='bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden mb-6'>
+            <div 
+                className='flex items-center justify-between p-4 cursor-pointer bg-gradient-to-r from-[#213554] to-[#213554]/95'
+                onClick={() => setTableOpen(!openTable)}
+            >
+                <h5 className='text-lg font-bold text-white'>Table of Contents</h5>
+                <IoIosArrowDown 
+                    className={`transition-transform duration-300 text-white ${openTable ? 'rotate-180' : ''}`} 
+                />
+            </div>
+            
+            {openTable && (
+                <div className='border-t max-h-[500px] overflow-y-auto custom-scrollbar'>
+                    <nav className='p-4'>
+                        <ul className='space-y-2'>
                             {headings.map((heading, index) => (
                                 <li 
                                     key={`${heading.id}-${index}`} 
-                                    className={`text-sm hover:text-[#4440E6] cursor-pointer transition-colors ${
+                                    className={`text-sm transition-all duration-200 ${
                                         heading.level === 1 ? 'pl-0 font-semibold' : 
-                                        heading.level === 2 ? 'pl-2' : 
-                                        'pl-4'
-                                    } ${
-                                        activeId === heading.id ? 'text-[#4440E6] font-medium' : 'text-gray-700'
+                                        heading.level === 2 ? 'pl-3' : 
+                                        heading.level === 3 ? 'pl-6' :
+                                        'pl-9'
                                     }`}
                                 >
                                     <a 
                                         href={`#${heading.id}`}
                                         onClick={(e) => scrollToHeading(heading.id, e)}
-                                        className=' hover:underline hover:text-[#4440E6] flex items-start'
+                                        className={`block py-1.5 px-2 rounded-md transition-all duration-200 hover:bg-[#EE334B]/10 hover:text-[#EE334B] ${
+                                            activeId === heading.id 
+                                                ? 'text-[#EE334B] font-semibold bg-[#EE334B]/10 border-l-2 border-[#EE334B]' 
+                                                : 'text-gray-700 hover:text-[#EE334B]'
+                                        }`}
                                     >
-                                        <span style={{fontSize:'15px'}} className={`mr-2 min-w-[20px] ${
-                                            activeId === heading.id ? 'text-[#FF6B00]' : 'text-gray-500'
-                                        }`}>
-                                            {index + 1}.
-                                        </span>
-                                        <span style={{fontSize:'15px'}}>
-                                            {heading.text.length > 30 
-                                                ? `${heading.text.substring(0, 30)}...` 
-                                                : heading.text}
+                                        <span className="flex items-start">
+                                            <span className={`mr-2 min-w-[20px] text-xs mt-0.5 ${
+                                                activeId === heading.id ? 'text-[#EE334B] font-bold' : 'text-gray-400'
+                                            }`}>
+                                                {index + 1}.
+                                            </span>
+                                            <span className="leading-relaxed">
+                                                {heading.text.length > 40 
+                                                    ? `${heading.text.substring(0, 40)}...` 
+                                                    : heading.text}
+                                            </span>
                                         </span>
                                     </a>
                                 </li>
                             ))}
                         </ul>
-                    </div>
-                )}
-            </div>
+                    </nav>
+                </div>
+            )}
         </div>
     );
 }

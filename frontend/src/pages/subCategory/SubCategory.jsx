@@ -787,6 +787,7 @@ import CustomInserts from '../../components/CustomInserts'
 import { insert1, insert2, insert3, insert4, insert5 } from '../../assets';
 import CardSlider from '../../components/common/CardSlider';
 import FAQ from '../../components/FAQ/FAQ'
+import TrustBanner from '../../components/common/TrustBanner'
 
 const SubCategory = ({ serverData, CategoryProducts }) => {
   const { slug } = useParams();
@@ -1040,139 +1041,16 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
           </div>
         </div>
       </section>
-
-      {/* <section className='bg-gradient-to-br from-gray-50 to-white pb-8'>
-        <div className="sm:max-w-8xl max-w-[95%] mx-auto">
-          
-          
-          <div className='flex sm:flex-row flex-col  gap-8 lg:gap-12'>
-            <div className='sm:w-6/12 w-full'>
-            
-              <div className="from-gray-50 to-white rounded-2xl  p-8 h-full">
-              
-          <div className=' flex gap-2 pb-5 items-center'>
-            <IoHomeOutline size={20} /> <LiaAngleRightSolid />
-            <h6 className=' flex items-center '>
-              <Link to={'/'} className='text-[#213554]'>Home</Link>
-              {(categoryData?.brandId?.name || serverData?.brandId?.name) && (
-                <>
-                  <LiaAngleRightSolid />
-                  <Link 
-                    to={`/category/${categoryData?.brandId?.slug || serverData?.brandId?.slug}`} 
-                    className='text-[#213554] capitalize'
-                  >
-                    {categoryData?.brandId?.name || serverData?.brandId?.name}
-                  </Link>
-                </>
-              )}
-              {(categoryData?.title || serverData?.title) && (
-                <>
-                  <LiaAngleRightSolid />
-                  <span className='text-[#213554]'>{categoryData?.title || serverData?.title}</span>
-                </>
-              )}
-            </h6>
-          </div>
-               
-                <h2 className="text-3xl sm:text-4xl font-bold text-[#213554] mb-4 leading-tight">
-                  {categoryData?.subTitle || serverData?.subTitle}
-                </h2>
-                <div
-                  className='text-gray-600 leading-relaxed mb-6'
-                  dangerouslySetInnerHTML={{ __html: categoryData?.description || serverData?.description }}>
-                </div>
-                {categoryData?.image || serverData?.image ? (
-                  <div className="mt-6 rounded-xl overflow-hidden shadow-md">
-                    <img
-                      src={`${BaseUrl}/${categoryData?.image || serverData?.image}`}
-                      alt={categoryData?.imageAltText || serverData?.imageAltText || categoryData?.title || serverData?.title}
-                      className="w-full h-auto object-cover"
-                    />
-                  </div>
-                ) : null}
-              </div>
-            </div>
-
-            <div className='sm:w-5/12 w-full'>
-              <div className="instant-quote-form rounded-2xl from-gray-50 to-white  p-8 sticky top-4">
-                <div className="flex items-center gap-2 mb-6">
-                  <div className="w-1 h-8 bg-gradient-to-b from-[#EE334B] to-[#213554] rounded-full"></div>
-                  <h2 className="text-2xl font-bold text-[#213554]">Get an Instant Quote</h2>
-                </div>
-
-                <div className='pt-2'>
-                  <form className='grid grid-cols-2 gap-4'>
-                    <div className='w-full col-span-2 sm:col-span-1'>
-                      <Input
-                        label="Full Name"
-                        star={"*"}
-                        placeholder="Full Name"
-                      />
-                    </div>
-                    <div className='w-full col-span-2 sm:col-span-1'>
-                      <Input
-                        label="Email"
-                        star={"*"}
-                        placeholder="Email"
-                      />
-                    </div>
-                    <div className='w-full col-span-2 sm:col-span-1'>
-                      <Input
-                        label="Phone"
-                        star={"*"}
-                        placeholder="Phone"
-                      />
-                    </div>
-                    <div className='w-full col-span-2 sm:col-span-1'>
-                      <Input
-                        label="Quantity"
-                        star={"*"}
-                        placeholder="Quantity (min: 200)*"
-                      />
-                    </div>
-
-                    <div className='col-span-2'>
-                      <Select
-                        label="Select Industry"
-                        name="industry"
-                        star={"*"}
-                        placeholder="Select Industry"
-                      >
-                        <option>Select Industry</option>
-                        <option>Automotive</option>
-                        <option>Electronics</option>
-                        <option>Bakery</option>
-                      </Select>
-                    </div>
-                    <div className='col-span-2'>
-                      <Textarea
-                        label="Description"
-                        name="description"
-                        star={"*"}
-                        rows={5}
-                        placeholder="Describe your packaging requirements..."
-                      />
-                    </div>
-                    <div className='w-full col-span-2'>
-                      <Button
-                        label={'Get a Quote'}
-                        className="bg-gradient-to-r from-[#213554] to-[#213554]/90 hover:from-[#213554]/90 hover:to-[#213554] text-white w-full py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
-                      />
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section> */}
       <BottomHero />
       
-      
+      {/* Trust Banner */}
+      <TrustBanner 
+        categoryName={categoryData?.title || serverData?.title || "Apparel Packaging"} 
+      />
 
       <section className='py-8 bg-white'>
         <div className="sm:max-w-8xl max-w-[95%] mx-auto">
-          <div className=' flex sm:flex-row flex-col items-center justify-between gap-4'>
+          <div className=' flex sm:flex-row flex-col items-center justify-between gap-4'> 
             <div className="flex items-center gap-4">
               <div className="w-1 h-12 bg-gradient-to-b from-[#EE334B] to-[#213554] rounded-full"></div>
               <div>
@@ -1489,6 +1367,8 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
           </ProductSelectionProvider>
         </div>
       </section>
+
+      
 
       {/* Only show FAQ section if FAQs exist */}
       {((categoryData?.qna && categoryData.qna.length > 0) || (serverData?.qna && serverData.qna.length > 0)) && (
