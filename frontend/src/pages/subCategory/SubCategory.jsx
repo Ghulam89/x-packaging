@@ -792,6 +792,12 @@ import TrustBanner from '../../components/common/TrustBanner'
 import CreativePackaging from '../../components/CreativeBanner/CreativePackaging';
 import BoxesBrands from '../../components/BoxesBrands';
 import CreativeGallery from '../../components/CreativeBanner/CreativeGallery';
+import CustomPackagingApart from '../../components/CustomPackagingApart/CustomPackagingApart';
+import PackagingFeatures from '../../components/CustomPackagingApart/PackagingFeatures';
+import Tabs from '../../components/common/Tabs';
+import { TfiAngleLeft, TfiAngleRight } from 'react-icons/tfi';
+import PackagingJourney from '../../components/PackagingJourney';
+import CategoryBanner from '../../components/CategoryBanner';
 
 const SubCategory = ({ serverData, CategoryProducts }) => {
   const { slug } = useParams();
@@ -804,6 +810,13 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
   const [loadingMore, setLoadingMore] = useState(false);
   const [loadingProducts, setLoadingProducts] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [materialCurr, setMaterialCurr] = useState(0);
+  const [wrappingsCurr, setWrappingsCurr] = useState(0);
+  const [printingsCurr, setPrintingsCurr] = useState(0);
+  const [coatingsCurr, setCoatingsCurr] = useState(0);
+  const [finishesCurr, setFinishesCurr] = useState(0);
+  const [insertsCurr, setInsertsCurr] = useState(0);
+  const [addonsCurr, setAddonsCurr] = useState(0);
 
   const toggleMenu = () => {
     setMenuOpen(!isMenuOpen);
@@ -981,6 +994,602 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
     }
   ];
 
+  // Base Materials slides data
+  const baseMaterialsSlides = [
+    {
+      title: "White",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Premium white cardboard material"
+    },
+    {
+      title: "Card Stock",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Durable card stock option"
+    },
+    {
+      title: "Corrugated",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Strong corrugated material"
+    },
+    {
+      title: "Kraft",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Eco-friendly kraft paper"
+    },
+    {
+      title: "Recycled",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Sustainable recycled material"
+    },
+    {
+      title: "Bleached",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Bright bleached paper"
+    },
+    {
+      title: "Unbleached",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Natural unbleached paper"
+    },
+    {
+      title: "Coated",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Premium coated material"
+    }
+  ];
+
+  // Wrappings slides data
+  const wrappingsSlides = [
+    {
+      title: "Cellophane",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Clear cellophane wrapping"
+    },
+    {
+      title: "Shrink Wrap",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Tight shrink wrap film"
+    },
+    {
+      title: "Bubble Wrap",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Protective bubble wrap"
+    },
+    {
+      title: "Polyethylene",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Durable PE wrapping"
+    },
+    {
+      title: "Polypropylene",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Strong PP wrapping"
+    },
+    {
+      title: "Stretch Film",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Flexible stretch film"
+    }
+  ];
+
+  // Printings slides data
+  const printingsSlides = [
+    {
+      title: "Offset Printing",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "High-quality offset printing"
+    },
+    {
+      title: "Digital Printing",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Fast digital printing"
+    },
+    {
+      title: "Flexographic",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Flexographic printing"
+    },
+    {
+      title: "Screen Printing",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Custom screen printing"
+    },
+    {
+      title: "Embossing",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Elegant embossed design"
+    },
+    {
+      title: "Foil Stamping",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Premium foil stamping"
+    }
+  ];
+
+  // Coatings slides data
+  const coatingsSlides = [
+    {
+      title: "Glossy Coating",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Shiny glossy finish"
+    },
+    {
+      title: "Matte Coating",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Smooth matte finish"
+    },
+    {
+      title: "UV Coating",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Durable UV coating"
+    },
+    {
+      title: "Aqueous Coating",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Water-based coating"
+    },
+    {
+      title: "Varnish",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Protective varnish"
+    }
+  ];
+
+  // Finishes slides data
+  const finishesSlides = [
+    {
+      title: "Glossy Finish",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "High-gloss finish"
+    },
+    {
+      title: "Matte Finish",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Elegant matte finish"
+    },
+    {
+      title: "Satin Finish",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Smooth satin finish"
+    },
+    {
+      title: "Textured Finish",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Unique textured finish"
+    }
+  ];
+
+  // Inserts slides data
+  const insertsSlides = [
+    {
+      title: "Foam Inserts",
+      image: insert1,
+      description: "Protective foam inserts"
+    },
+    {
+      title: "Cardboard Inserts",
+      image: insert2,
+      description: "Custom cardboard inserts"
+    },
+    {
+      title: "Clamshell Inserts",
+      image: insert3,
+      description: "Secure clamshell inserts"
+    },
+    {
+      title: "Corrugated Inserts",
+      image: insert4,
+      description: "Strong corrugated inserts"
+    },
+    {
+      title: "EVA Foam Inserts",
+      image: insert5,
+      description: "Premium EVA foam"
+    }
+  ];
+
+  // Add-ons slides data
+  const addonsSlides = [
+    {
+      title: "Handles",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Custom handles"
+    },
+    {
+      title: "Windows",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Display windows"
+    },
+    {
+      title: "Magnetic Closure",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Magnetic closure system"
+    },
+    {
+      title: "Ribbons",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Decorative ribbons"
+    },
+    {
+      title: "Labels",
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      description: "Custom labels"
+    }
+  ];
+
+  // Helper function to create chunks
+  const createChunks = (slides, chunkSize = 4) => {
+    const chunks = [];
+    for (let i = 0; i < slides.length; i += chunkSize) {
+      chunks.push(slides.slice(i, i + chunkSize));
+    }
+    return chunks;
+  };
+
+  const baseMaterialChunks = createChunks(baseMaterialsSlides);
+  const wrappingsChunks = createChunks(wrappingsSlides);
+  const printingsChunks = createChunks(printingsSlides);
+  const coatingsChunks = createChunks(coatingsSlides);
+  const finishesChunks = createChunks(finishesSlides);
+  const insertsChunks = createChunks(insertsSlides);
+  const addonsChunks = createChunks(addonsSlides);
+
+  // Navigation functions for each tab
+  const prevMaterial = () => {
+    setMaterialCurr((prevIndex) =>
+      prevIndex === 0 ? baseMaterialChunks.length - 1 : prevIndex - 1
+    );
+  };
+
+  const nextMaterial = () => {
+    setMaterialCurr((prevIndex) =>
+      prevIndex === baseMaterialChunks.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const prevWrappings = () => {
+    setWrappingsCurr((prevIndex) =>
+      prevIndex === 0 ? wrappingsChunks.length - 1 : prevIndex - 1
+    );
+  };
+
+  const nextWrappings = () => {
+    setWrappingsCurr((prevIndex) =>
+      prevIndex === wrappingsChunks.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const prevPrintings = () => {
+    setPrintingsCurr((prevIndex) =>
+      prevIndex === 0 ? printingsChunks.length - 1 : prevIndex - 1
+    );
+  };
+
+  const nextPrintings = () => {
+    setPrintingsCurr((prevIndex) =>
+      prevIndex === printingsChunks.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const prevCoatings = () => {
+    setCoatingsCurr((prevIndex) =>
+      prevIndex === 0 ? coatingsChunks.length - 1 : prevIndex - 1
+    );
+  };
+
+  const nextCoatings = () => {
+    setCoatingsCurr((prevIndex) =>
+      prevIndex === coatingsChunks.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const prevFinishes = () => {
+    setFinishesCurr((prevIndex) =>
+      prevIndex === 0 ? finishesChunks.length - 1 : prevIndex - 1
+    );
+  };
+
+  const nextFinishes = () => {
+    setFinishesCurr((prevIndex) =>
+      prevIndex === finishesChunks.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const prevInserts = () => {
+    setInsertsCurr((prevIndex) =>
+      prevIndex === 0 ? insertsChunks.length - 1 : prevIndex - 1
+    );
+  };
+
+  const nextInserts = () => {
+    setInsertsCurr((prevIndex) =>
+      prevIndex === insertsChunks.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const prevAddons = () => {
+    setAddonsCurr((prevIndex) =>
+      prevIndex === 0 ? addonsChunks.length - 1 : prevIndex - 1
+    );
+  };
+
+  const nextAddons = () => {
+    setAddonsCurr((prevIndex) =>
+      prevIndex === addonsChunks.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  // Helper component for slider content
+  const SliderContent = ({ chunks, currentIndex, onPrev, onNext }) => (
+    <div className="relative rounded-2xl pb-12 overflow-hidden bg-white/50">
+      <div className="overflow-hidden">
+        <div
+          className="flex transition-transform duration-500 ease-out"
+          style={{
+            transform: `translateX(-${currentIndex * 100}%)`,
+          }}
+        >
+          {chunks.map((chunk, chunkIndex) => (
+            <div
+              key={chunkIndex}
+              className="w-full flex-shrink-0 flex justify-between gap-3 sm:gap-4"
+            >
+              {chunk.map((slide) => (
+                <div
+                  key={slide.title}
+                  className="flex-1 flex flex-col items-center group"
+                >
+                  <div className="w-full flex justify-center">
+                    <div className="w-44 h-32 lg:w-48 lg:h-36 rounded-xl overflow-hidden bg-white shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 group-hover:scale-105">
+                      <img
+                        src={slide.image}
+                        alt={slide.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                    </div>
+                  </div>
+                  <h4 className="mt-4 text-sm font-semibold text-[#213554] group-hover:text-[#EE334B] transition-colors duration-300">
+                    {slide.title}
+                  </h4>
+                  <p className="mt-1 text-[11px] text-gray-600 text-center">
+                    {slide.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="absolute bottom-3 right-4 flex items-center gap-3">
+        <button
+          type="button"
+          onClick={onPrev}
+          className="w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-md hover:bg-gradient-to-r hover:from-[#213554] hover:to-[#213554]/90 hover:shadow-lg transition-all duration-300 group"
+        >
+          <TfiAngleLeft size={18} className="text-[#213554] group-hover:text-white transition-colors duration-300" />
+        </button>
+        <button
+          type="button"
+          onClick={onNext}
+          className="w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-md hover:bg-gradient-to-r hover:from-[#213554] hover:to-[#213554]/90 hover:shadow-lg transition-all duration-300 group"
+        >
+          <TfiAngleRight size={18} className="text-[#213554] group-hover:text-white transition-colors duration-300" />
+        </button>
+      </div>
+    </div>
+  );
+
+  // Tabs data - matching image structure
+  const tabsData = [
+    {
+      title: "Base Materials",
+      content: (
+        <div className="flex flex-col lg:flex-row gap-8 bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+          <div className="lg:w-6/12 w-full">
+            <h3 className="text-lg font-semibold text-[#213554]">
+              Discover our range of high-quality packaging materials
+            </h3>
+            <p className="mt-3 text-sm text-gray-700 leading-relaxed">
+              Discover our range of high-quality packaging materials designed to
+              tailor your packaging order to perfection. From sturdy cardboard
+              boxes to eco-friendly options, we have the ideal materials for your
+              unique needs. Elevate your brand and protect your products with our
+              customizable packaging solutions.
+            </p>
+          </div>
+          <div className="lg:w-6/12 w-full">
+            <SliderContent
+              chunks={baseMaterialChunks}
+              currentIndex={materialCurr}
+              onPrev={prevMaterial}
+              onNext={nextMaterial}
+            />
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: "Wrappings",
+      content: (
+        <div className="flex flex-col lg:flex-row gap-8 bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+          <div className="lg:w-6/12 w-full">
+            <h3 className="text-lg font-semibold text-[#213554]">
+              Premium wrapping solutions for your products
+            </h3>
+            <p className="mt-3 text-sm text-gray-700 leading-relaxed">
+              Protect and enhance your products with our professional wrapping options.
+              From clear cellophane to protective bubble wrap, we offer a wide range
+              of wrapping materials to keep your items safe during transit and storage.
+            </p>
+          </div>
+          <div className="lg:w-6/12 w-full">
+            <SliderContent
+              chunks={wrappingsChunks}
+              currentIndex={wrappingsCurr}
+              onPrev={prevWrappings}
+              onNext={nextWrappings}
+            />
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: "Printings",
+      content: (
+        <div className="flex flex-col lg:flex-row gap-8 bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+          <div className="lg:w-6/12 w-full">
+            <h3 className="text-lg font-semibold text-[#213554]">
+              High-quality printing services for your packaging
+            </h3>
+            <p className="mt-3 text-sm text-gray-700 leading-relaxed">
+              Bring your brand to life with our professional printing services.
+              From offset to digital printing, embossing to foil stamping, we offer
+              various printing techniques to create stunning packaging designs that
+              make your products stand out.
+            </p>
+          </div>
+          <div className="lg:w-6/12 w-full">
+            <SliderContent
+              chunks={printingsChunks}
+              currentIndex={printingsCurr}
+              onPrev={prevPrintings}
+              onNext={nextPrintings}
+            />
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: "Coatings",
+      content: (
+        <div className="flex flex-col lg:flex-row gap-8 bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+          <div className="lg:w-6/12 w-full">
+            <h3 className="text-lg font-semibold text-[#213554]">
+              Protective and decorative coating options
+            </h3>
+            <p className="mt-3 text-sm text-gray-700 leading-relaxed">
+              Enhance the durability and appearance of your packaging with our
+              premium coating solutions. Choose from glossy, matte, UV, or aqueous
+              coatings to protect your packaging and create a professional finish.
+            </p>
+          </div>
+          <div className="lg:w-6/12 w-full">
+            <SliderContent
+              chunks={coatingsChunks}
+              currentIndex={coatingsCurr}
+              onPrev={prevCoatings}
+              onNext={nextCoatings}
+            />
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: "Finishes",
+      content: (
+        <div className="flex flex-col lg:flex-row gap-8 bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+          <div className="lg:w-6/12 w-full">
+            <h3 className="text-lg font-semibold text-[#213554]">
+              Elegant finish options for premium packaging
+            </h3>
+            <p className="mt-3 text-sm text-gray-700 leading-relaxed">
+              Add the perfect finishing touch to your packaging with our range of
+              finish options. From glossy to matte, satin to textured finishes,
+              create packaging that reflects your brand's quality and style.
+            </p>
+          </div>
+          <div className="lg:w-6/12 w-full">
+            <SliderContent
+              chunks={finishesChunks}
+              currentIndex={finishesCurr}
+              onPrev={prevFinishes}
+              onNext={nextFinishes}
+            />
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: "Get the Inserts Your Product Needs",
+      content: (
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+          <h2 className="text-3xl font-bold text-center mb-5 text-[#213554]">
+            Get the Inserts Your Product Needs
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+            {[
+              { img: insert1, title: 'Foam Inserts' },
+              { img: insert2, title: 'Cardboard Inserts' },
+              { img: insert3, title: 'Clamshell Inserts' },
+              { img: insert4, title: 'Corrugated Inserts' },
+              { img: insert4, title: 'Corrugated Inserts' },
+              { img: insert5, title: 'Eva Foam Inserts' }
+            ].map((item, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-xl text-center border border-gray-100 hover:border-[#EE334B]/20 hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-col items-center p-4 overflow-hidden"
+              >
+                <div className="relative mb-4 w-40 h-40 mx-auto aspect-square">
+                  <div className="w-full h-full rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-[#EE334B]/30 transition-all duration-300">
+                    <img
+                      src={item.img}
+                      alt={item.title}
+                      className="w-full h-full object-cover aspect-square transform transition-transform duration-700 group-hover:scale-110"
+                    />
+                  </div>
+                  {/* Hover Overlay Gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-full"></div>
+                  {/* Shine Effect - Sweeps across on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-full"></div>
+                </div>
+                <div className='px-2 pb-2'>
+                  <h6 className="font-semibold group-hover:text-[#EE334B] transition-colors duration-300">{item.title}</h6>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: "Our Add-ons for Premium Packaging",
+      content: (
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+          <h2 className="text-3xl font-bold text-center mb-5 text-[#213554]">
+            Our Add-ons for Premium Packaging
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            {addonsSlides.map((addon, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-xl text-center border border-gray-100 hover:border-[#EE334B]/20 hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-col items-center p-4 overflow-hidden"
+              >
+                <div className="relative mb-4 w-40 h-40 mx-auto aspect-square">
+                  <div className="w-full h-full rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-[#EE334B]/30 transition-all duration-300">
+                    <img
+                      src={addon.image}
+                      alt={addon.title}
+                      className="w-full h-full object-cover aspect-square transform transition-transform duration-700 group-hover:scale-110"
+                    />
+                  </div>
+                  {/* Hover Overlay Gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-full"></div>
+                  {/* Shine Effect - Sweeps across on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-full"></div>
+                </div>
+                <div className='px-2 pb-2'>
+                  <h6 className="font-semibold group-hover:text-[#EE334B] transition-colors duration-300">{addon.title}</h6>
+                  <p className="text-xs text-gray-600 mt-1">{addon.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ),
+    }
+  ];
+
   return (
     <>
       {(categoryData || serverData) ? (
@@ -1080,13 +1689,13 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
       />
 
       {/* Boxes Brands Section */}
-      <BoxesBrands 
+      <BoxesBrands
         title={`X Custom Packaging X Top ${categoryData?.title || serverData?.title || ''} Brands`}
         description="We don't just make packaging, we build brand moments! We have helped brands thrive in the market. Read their success stories below!"
         products={allProducts && allProducts.length > 0 ? allProducts.slice(0, 10) : []}
-       
+
       />
-     
+
       <section className='py-8 bg-white'>
         <div className="sm:max-w-8xl max-w-[95%] mx-auto">
           <div className=' flex sm:flex-row flex-col items-center justify-between gap-4'>
@@ -1115,36 +1724,6 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
 
         <div className="flex  sm:flex-row flex-col pt-4 gap-12">
 
-          {/* <div
-
-          >
-
-
-            <div className="h-full">
-
-              {categories?.map((item, index) => {
-                return (
-                  <>
-                    <h4 className=" border-b  border-gray-200 pb-2.5">{item?.category}</h4>
-                    <ul className=' my-3.5'>
-                      {item?.menu?.map((item, index) => {
-                        return (
-                          <li className=' flex gap-1.5 items-center'>
-                            <Input type={'checkbox'} className={' w-4 h-4'} />
-                            <h6>{item?.title}</h6>
-                          </li>
-                        )
-                      })}
-
-
-                    </ul>
-                  </>
-                )
-              })}
-
-
-            </div>
-          </div> */}
 
 
           <div className=" sm:max-w-8xl w-full mx-auto">
@@ -1189,89 +1768,21 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
       </div>
 
 
-      <section className=' bg-gradient-to-br mt-12 from-white to-gray-50'>
-        <div className="sm:max-w-8xl justify-between gap-8 lg:gap-12 items-center max-w-[95%] flex sm:flex-row flex-col mx-auto">
-          <div className='sm:w-5/12 w-full'>
-            <div className="rounded-2xl overflow-hidden shadow-xl">
-              <img
-                src={`${BaseUrl}/${categoryData?.bannerImageFirst || serverData?.bannerImageFirst}`}
-                alt={categoryData?.bannerImageFirstAltText || serverData?.bannerImageFirstAltText}
-                className={"  w-full h-auto rounded-xl shadow-md"}
-                loading="lazy"
-              />
-            </div>
-          </div>
-          <div className='sm:w-7/12 w-full'>
-            <div className=" p-8">
+      <CategoryBanner
+        title={categoryData?.bannerTitleFirst || serverData?.bannerTitleFirst}
+        content={categoryData?.bannerContentFirst || serverData?.bannerContentFirst}
+        image={categoryData?.bannerImageFirst || serverData?.bannerImageFirst}
+        imageAltText={categoryData?.bannerImageFirstAltText || serverData?.bannerImageFirstAltText}
+        buttonLabel="Get Custom Quote"
+        onButtonClick={() => setIsModalOpen(true)}
+      />
 
-              <h2 className="sm:text-[38px] text-[25px]  leading-[42px] pb-2  font-sans   font-[600] text-[#333333]">
-                {categoryData?.bannerTitleFirst || serverData?.bannerTitleFirst}
-              </h2>
-              <div className=' overflow-y-auto h-56'>
-                <p dangerouslySetInnerHTML={{ __html: categoryData?.bannerContentFirst || serverData?.bannerContentFirst }} className="text-sm leading-6  mb-6">
-
-
-                </p>
-
-              </div>
-
-              <div className='mt-6'>
-                <Button
-                  className="bg-gradient-to-r from-[#213554] to-[#213554]/90 hover:from-[#EE334B] hover:to-[#EE334B]/90 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                  label={"Get Custom Quote"}
-                />
-              </div>
-            </div>
-          </div>
-
-
-        </div>
-      </section>
-
-
-
-      {/* Separate 5 Grid Inserts Section - No Slider */}
-      <section className='py-10 bg-white  overflow-x-hidden'>
-        <div className="sm:max-w-8xl max-w-[95%] mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-5">Get the Inserts Your Product Needs </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-            {[
-              { img: insert1, title: 'Foam Inserts' },
-              { img: insert2, title: 'Cardboard Inserts' },
-              { img: insert3, title: 'Clamshell Inserts' },
-              { img: insert4, title: 'Corrugated Inserts' },
-              { img: insert4, title: 'Corrugated Inserts' },
-              { img: insert5, title: 'Eva Foam Inserts' }
-            ].map((item, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-xl text-center border border-gray-100 hover:border-[#EE334B]/20 hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-col items-center p-4 overflow-hidden"
-              >
-                <div className="relative mb-4 w-40 h-40 mx-auto aspect-square">
-                  <div className="w-full h-full rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-[#EE334B]/30 transition-all duration-300">
-                    <img
-                      src={item.img}
-                      alt={item.title}
-                      className="w-full h-full object-cover aspect-square transform transition-transform duration-700 group-hover:scale-110"
-                    />
-                  </div>
-                  {/* Hover Overlay Gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-full"></div>
-                  {/* Shine Effect - Sweeps across on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-full"></div>
-                </div>
-                <div className='px-2 pb-2'>
-                  <h6 className="font-semibold  group-hover:text-[#EE334B] transition-colors duration-300">{item.title}</h6>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Packaging Features - 6 Items */}
+      <PackagingFeatures />
 
       {/* Creative Gallery - Dynamic */}
       <section className='py-10'>
-        <CreativeGallery 
+        <CreativeGallery
           products={allProducts && allProducts.length > 0 ? allProducts : []}
           title={`${categoryData?.title || serverData?.title || 'Custom'} Gallery`}
           description="Explore our premium collection of custom packaging solutions"
@@ -1301,42 +1812,17 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
 
         </div>
       </section>
-    
-      {/* Card Slider Section */}
-      <section className='pt-10'>
-        <div className="sm:max-w-8xl max-w-[95%] mx-auto">
-          <div className="text-center mb-8">
-            <div className="inline-block mb-4">
-              <div className="w-20 h-1 bg-gradient-to-r from-[#EE334B] to-[#213554] mx-auto rounded-full"></div>
-            </div>
-            <h2 className='text-3xl sm:text-4xl font-bold text-[#213554] mb-2'>
-              Your Packaging Journey Starts Here!
-
-            </h2>
-            <p className='text-gray-600 text-lg'>
-              Discover how quality packaging makes all the difference! Experience real client experiences, expert tips, and innovative packaging solutions that enhance brands. From custom designs to seamless functionality, see how we bring packaging visions to life.
 
 
-            </p>
-          </div>
 
-          <ProductSelectionProvider>
-            <CardSlider
-              items={allProducts?.map((item, index) => {
-                return (
-                  <div key={item._id || index} className="w-[280px] rounded-xl overflow-hidden h-[400px] flex-shrink-0">
 
-                    <img src={`${BaseUrl}/${item?.images?.[0]?.url}`} alt={item?.name} className="w-full rounded-xl h-full object-cover" />
 
-                  </div>
-                );
-              })}
-            />
-          </ProductSelectionProvider>
+      {/* Tabs Section */}
+      <section className='sm:max-w-8xl max-w-[95%] mx-auto'>
+        <div className="mt-10">
+          <Tabs defaultTab={"Base Materials"} tabs={tabsData} />
         </div>
       </section>
-
-    
 
       {/* Only show FAQ section if FAQs exist */}
       {((categoryData?.qna && categoryData.qna.length > 0) || (serverData?.qna && serverData.qna.length > 0)) && (
@@ -1347,12 +1833,41 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
         />
       )}
 
+      {/* Packaging Journey Section */}
+      <PackagingJourney products={allProducts} />
       <InstantQuoteModal
         setIsModalOpen={setIsModalOpen}
         isModalOpen={isModalOpen}
         closeModal={() => setIsModalOpen(false)}
         categoryData={categoryData || serverData}
       />
+
+      <style>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 8px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: #f1f1f1;
+          border-radius: 10px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: linear-gradient(180deg, #EE334B 0%, #213554 100%);
+          border-radius: 10px;
+          border: none;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: linear-gradient(180deg, #EE334B 0%, #213554 100%);
+          opacity: 0.9;
+        }
+        
+        .custom-scrollbar {
+          scrollbar-width: thin;
+          scrollbar-color: #EE334B #f1f1f1;
+        }
+      `}</style>
 
     </>
   )
