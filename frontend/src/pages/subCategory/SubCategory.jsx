@@ -791,6 +791,7 @@ import FAQ from '../../components/FAQ/FAQ'
 import TrustBanner from '../../components/common/TrustBanner'
 import CreativePackaging from '../../components/CreativeBanner/CreativePackaging';
 import BoxesBrands from '../../components/BoxesBrands';
+import CreativeGallery from '../../components/CreativeBanner/CreativeGallery';
 
 const SubCategory = ({ serverData, CategoryProducts }) => {
   const { slug } = useParams();
@@ -1268,85 +1269,14 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
         </div>
       </section>
 
-      {/* Products Gallery - Modern Grid Layout */}
-      {allProducts && allProducts.length > 0 && (
-        <section className='py-16 bg-gradient-to-br from-gray-50 via-white to-gray-50 relative overflow-hidden'>
-          {/* Decorative Background Elements */}
-          <div className="absolute inset-0 opacity-5">
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#EE334B] rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#213554] rounded-full blur-3xl"></div>
-          </div>
-
-          <div className="sm:max-w-8xl max-w-[95%] mx-auto relative z-10">
-            <div className='text-center mb-12'>
-              <div className="inline-block mb-4">
-                <div className="w-20 h-1 bg-gradient-to-r from-[#EE334B] to-[#213554] mx-auto rounded-full"></div>
-              </div>
-              <h2 className='text-4xl sm:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-[#213554] to-[#EE334B] bg-clip-text text-transparent mb-4'>
-                {categoryData?.title || serverData?.title || 'Custom'} Gallery
-              </h2>
-              <p className='text-gray-600 text-lg max-w-2xl mx-auto'>
-                Explore our premium collection of custom packaging solutions
-              </p>
-            </div>
-
-            {/* Modern Masonry Gallery Grid */}
-            <div className='max-w-8xl mx-auto py-8'>
-              <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-3 space-y-6">
-                {allProducts.map((product, index) => {
-                  // Varying heights for masonry effect
-                  const heights = ['h-[300px]', 'h-[400px]', 'h-[350px]', 'h-[450px]', 'h-[380px]', 'h-[320px]'];
-                  const heightClass = heights[index % heights.length];
-
-                  return (
-                    <Link
-                      key={product._id}
-                      to={`/product/${product?.slug}`}
-                      className="group relative block overflow-hidden rounded-xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 break-inside-avoid mb-6"
-                      onMouseEnter={() => {
-                        if (product?.slug) {
-                          prefetchProduct(product.slug);
-                        }
-                      }}
-                    >
-                      {/* Image Container */}
-                      <div className={`relative ${heightClass} overflow-hidden`}>
-                        <img
-                          src={`${BaseUrl}/${product?.images?.[0]?.url}`}
-                          alt={product?.images?.[0]?.altText || product?.name}
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                          loading={index < 8 ? "eager" : "lazy"}
-                        />
-
-                        {/* Gradient Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-500"></div>
-
-                        {/* Shine Effect */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none"></div>
-
-                        {/* Product Name Overlay */}
-                        <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
-                          <h3 className="text-white text-lg sm:text-xl font-bold mb-1 transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-100">
-                            {product?.name}
-                          </h3>
-                          <div className="w-0 h-0.5 bg-gradient-to-r from-[#EE334B] to-[#213554] group-hover:w-16 transition-all duration-500 delay-200 rounded-full"></div>
-                        </div>
-
-                        {/* Corner Badge */}
-                        <div className="absolute top-4 right-4 w-10 h-10 bg-[#EE334B] rounded-full opacity-0 group-hover:opacity-100 transform scale-0 group-hover:scale-100 transition-all duration-500 flex items-center justify-center shadow-lg">
-                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
-                        </div>
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
+      {/* Creative Gallery - Dynamic */}
+      <section className='py-10'>
+        <CreativeGallery 
+          products={allProducts && allProducts.length > 0 ? allProducts : []}
+          title={`${categoryData?.title || serverData?.title || 'Custom'} Gallery`}
+          description="Explore our premium collection of custom packaging solutions"
+        />
+      </section>
 
 
       <section className='mb-8'>
@@ -1371,7 +1301,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
 
         </div>
       </section>
-
+    
       {/* Card Slider Section */}
       <section className='pt-10'>
         <div className="sm:max-w-8xl max-w-[95%] mx-auto">
@@ -1406,14 +1336,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
         </div>
       </section>
 
-      <section className='py-10'>
-       
-         
-          <CreativePackaging/>
-     
-
-      </section>
-
+    
 
       {/* Only show FAQ section if FAQs exist */}
       {((categoryData?.qna && categoryData.qna.length > 0) || (serverData?.qna && serverData.qna.length > 0)) && (
