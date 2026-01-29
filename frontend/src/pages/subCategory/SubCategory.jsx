@@ -764,6 +764,7 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import SampleKit from '../../components/SampleKit'
 import Button from '../../components/common/Button'
+import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 import Input from '../../components/common/Input'
 import Select from '../../components/common/Select'
 import Textarea from '../../components/common/Textarea'
@@ -788,6 +789,8 @@ import { insert1, insert2, insert3, insert4, insert5 } from '../../assets';
 import CardSlider from '../../components/common/CardSlider';
 import FAQ from '../../components/FAQ/FAQ'
 import TrustBanner from '../../components/common/TrustBanner'
+import CreativePackaging from '../../components/CreativeBanner/CreativePackaging';
+import BoxesBrands from '../../components/BoxesBrands';
 
 const SubCategory = ({ serverData, CategoryProducts }) => {
   const { slug } = useParams();
@@ -929,7 +932,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
     "item": `${BaseUrl}/${item?.slug}`,
     "image": item?.images?.[0]?.url ? `${BaseUrl}/${item.images[0].url}` : undefined
   })) || [];
-  
+
   const itemListSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -950,6 +953,33 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
     ]
   };
 
+  const brands = [
+    {
+      name: "Packaging",
+      logo: insert1, // Replace with real logos
+      image: insert2,
+      rating: 5,
+    },
+    {
+      name: "Myka Meier",
+      logo: insert1,
+      image: insert1,
+      rating: 5,
+    },
+    {
+      name: "Plenaire",
+      logo: insert1,
+      image: insert1,
+      rating: 5,
+    },
+    {
+      name: "Toups & Co Organics",
+      logo: insert1,
+      image: insert1,
+      rating: 5,
+    }
+  ];
+
   return (
     <>
       {(categoryData || serverData) ? (
@@ -969,46 +999,46 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
       ) : null}
 
       {/* Top Banner Section */}
-      <section className='py-5 sm:h-[70vh] h-auto' style={{ backgroundColor: categoryData?.bannerBgColor || serverData?.bannerBgColor}}>
+      <section className='py-5 sm:h-[70vh] h-auto' style={{ backgroundColor: categoryData?.bannerBgColor || serverData?.bannerBgColor }}>
         <div className="sm:max-w-8xl max-w-[95%] mx-auto">
           {/* Breadcrumb Navigation */}
           <div className='flex gap-2 pb-4 items-center'>
-                <IoHomeOutline size={20} className="text-gray-600" />
-                <LiaAngleRightSolid className="text-gray-500" />
-                <h6 className='flex items-center gap-2'>
-                  <Link to={'/'} className='text-[#213554] hover:text-[#EE334B] transition-colors duration-200'>
-                    Home
+            <IoHomeOutline size={20} className="text-gray-600" />
+            <LiaAngleRightSolid className="text-gray-500" />
+            <h6 className='flex items-center gap-2'>
+              <Link to={'/'} className='text-[#213554] hover:text-[#EE334B] transition-colors duration-200'>
+                Home
+              </Link>
+              {(categoryData?.brandId?.name || serverData?.brandId?.name) && (
+                <>
+                  <LiaAngleRightSolid className="text-gray-500" />
+                  <Link
+                    to={`/${categoryData?.brandId?.slug || serverData?.brandId?.slug}`}
+                    className='text-[#213554] hover:text-[#EE334B] transition-colors duration-200 capitalize'
+                  >
+                    {categoryData?.brandId?.name || serverData?.brandId?.name}
                   </Link>
-                  {(categoryData?.brandId?.name || serverData?.brandId?.name) && (
-                    <>
-                      <LiaAngleRightSolid className="text-gray-500" />
-                      <Link 
-                        to={`/${categoryData?.brandId?.slug || serverData?.brandId?.slug}`} 
-                        className='text-[#213554] hover:text-[#EE334B] transition-colors duration-200 capitalize'
-                      >
-                        {categoryData?.brandId?.name || serverData?.brandId?.name}
-                      </Link>
-                    </>
-                  )}
-                  {(categoryData?.title || serverData?.title) && (
-                    <>
-                      <LiaAngleRightSolid className="text-gray-500" />
-                      <span className='text-gray-600 capitalize'>
-                        {categoryData?.title || serverData?.title}
-                      </span>
-                    </>
-                  )}
-                </h6>
-              </div>
+                </>
+              )}
+              {(categoryData?.title || serverData?.title) && (
+                <>
+                  <LiaAngleRightSolid className="text-gray-500" />
+                  <span className='text-gray-600 capitalize'>
+                    {categoryData?.title || serverData?.title}
+                  </span>
+                </>
+              )}
+            </h6>
+          </div>
           <div className='flex sm:flex-row items-center flex-col gap-8 lg:gap-12'>
             {/* Left Side - Text Content */}
             <div className='sm:w-1/2 w-full'>
-              
+
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
                 {categoryData?.subTitle || serverData?.subTitle || 'Bespoke Packaging Solutions for Car Parts, Tools, and Accessories'}
               </h1>
-              <p   dangerouslySetInnerHTML={{ __html:categoryData?.description}}  className="text-base sm:text-lg text-gray-700 mb-6 leading-relaxed">
-                
+              <p dangerouslySetInnerHTML={{ __html: categoryData?.description }} className="text-base sm:text-lg text-gray-700 mb-6 leading-relaxed">
+
               </p>
               <div className="flex flex-wrap gap-4">
                 <Button
@@ -1036,21 +1066,29 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
                     loading="eager"
                   />
                 </div>
-              ):null}
+              ) : null}
             </div>
           </div>
         </div>
       </section>
       <BottomHero />
-      
+
       {/* Trust Banner */}
-      <TrustBanner 
-        categoryName={categoryData?.title || serverData?.title || "Apparel Packaging"} 
+      <TrustBanner
+        categoryName={categoryData?.title || serverData?.title}
       />
 
+      {/* Boxes Brands Section */}
+      <BoxesBrands 
+        title={`X Custom Packaging X Top ${categoryData?.title || serverData?.title || ''} Brands`}
+        description="We don't just make packaging, we build brand moments! We have helped brands thrive in the market. Read their success stories below!"
+        products={allProducts && allProducts.length > 0 ? allProducts.slice(0, 10) : []}
+       
+      />
+     
       <section className='py-8 bg-white'>
         <div className="sm:max-w-8xl max-w-[95%] mx-auto">
-          <div className=' flex sm:flex-row flex-col items-center justify-between gap-4'> 
+          <div className=' flex sm:flex-row flex-col items-center justify-between gap-4'>
             <div className="flex items-center gap-4">
               <div className="w-1 h-12 bg-gradient-to-b from-[#EE334B] to-[#213554] rounded-full"></div>
               <div>
@@ -1152,29 +1190,29 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
 
       <section className=' bg-gradient-to-br mt-12 from-white to-gray-50'>
         <div className="sm:max-w-8xl justify-between gap-8 lg:gap-12 items-center max-w-[95%] flex sm:flex-row flex-col mx-auto">
-        <div className='sm:w-5/12 w-full'>
+          <div className='sm:w-5/12 w-full'>
             <div className="rounded-2xl overflow-hidden shadow-xl">
-            <img
-               src={`${BaseUrl}/${categoryData?.bannerImageFirst || serverData?.bannerImageFirst}`}
+              <img
+                src={`${BaseUrl}/${categoryData?.bannerImageFirst || serverData?.bannerImageFirst}`}
                 alt={categoryData?.bannerImageFirstAltText || serverData?.bannerImageFirstAltText}
                 className={"  w-full h-auto rounded-xl shadow-md"}
-                 loading="lazy"
-         />
+                loading="lazy"
+              />
             </div>
           </div>
           <div className='sm:w-7/12 w-full'>
             <div className=" p-8">
-              
-            <h2 className="sm:text-[38px] text-[25px]  leading-[42px] pb-2  font-sans   font-[600] text-[#333333]">
+
+              <h2 className="sm:text-[38px] text-[25px]  leading-[42px] pb-2  font-sans   font-[600] text-[#333333]">
                 {categoryData?.bannerTitleFirst || serverData?.bannerTitleFirst}
-               </h2>
+              </h2>
               <div className=' overflow-y-auto h-56'>
-                 <p dangerouslySetInnerHTML={{ __html: categoryData?.bannerContentFirst || serverData?.bannerContentFirst }} className="text-sm leading-6  mb-6">
+                <p dangerouslySetInnerHTML={{ __html: categoryData?.bannerContentFirst || serverData?.bannerContentFirst }} className="text-sm leading-6  mb-6">
 
 
-                  </p>
+                </p>
 
-                  </div>
+              </div>
 
               <div className='mt-6'>
                 <Button
@@ -1185,16 +1223,16 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
             </div>
           </div>
 
-          
+
         </div>
       </section>
-    
+
 
 
       {/* Separate 5 Grid Inserts Section - No Slider */}
       <section className='py-10 bg-white  overflow-x-hidden'>
         <div className="sm:max-w-8xl max-w-[95%] mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-5">Get the Inserts Your Product Needs </h2>
+          <h2 className="text-3xl font-bold text-center mb-5">Get the Inserts Your Product Needs </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
             {[
               { img: insert1, title: 'Foam Inserts' },
@@ -1204,16 +1242,16 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
               { img: insert4, title: 'Corrugated Inserts' },
               { img: insert5, title: 'Eva Foam Inserts' }
             ].map((item, index) => (
-              <div 
+              <div
                 key={index}
                 className="bg-white rounded-xl text-center border border-gray-100 hover:border-[#EE334B]/20 hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-col items-center p-4 overflow-hidden"
               >
                 <div className="relative mb-4 w-40 h-40 mx-auto aspect-square">
                   <div className="w-full h-full rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-[#EE334B]/30 transition-all duration-300">
-                    <img 
-                      src={item.img} 
-                      alt={item.title} 
-                      className="w-full h-full object-cover aspect-square transform transition-transform duration-700 group-hover:scale-110" 
+                    <img
+                      src={item.img}
+                      alt={item.title}
+                      className="w-full h-full object-cover aspect-square transform transition-transform duration-700 group-hover:scale-110"
                     />
                   </div>
                   {/* Hover Overlay Gradient */}
@@ -1238,7 +1276,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#EE334B] rounded-full blur-3xl"></div>
             <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#213554] rounded-full blur-3xl"></div>
           </div>
-          
+
           <div className="sm:max-w-8xl max-w-[95%] mx-auto relative z-10">
             <div className='text-center mb-12'>
               <div className="inline-block mb-4">
@@ -1251,7 +1289,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
                 Explore our premium collection of custom packaging solutions
               </p>
             </div>
-            
+
             {/* Modern Masonry Gallery Grid */}
             <div className='max-w-8xl mx-auto py-8'>
               <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-3 space-y-6">
@@ -1259,9 +1297,9 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
                   // Varying heights for masonry effect
                   const heights = ['h-[300px]', 'h-[400px]', 'h-[350px]', 'h-[450px]', 'h-[380px]', 'h-[320px]'];
                   const heightClass = heights[index % heights.length];
-                  
+
                   return (
-                    <Link 
+                    <Link
                       key={product._id}
                       to={`/product/${product?.slug}`}
                       className="group relative block overflow-hidden rounded-xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 break-inside-avoid mb-6"
@@ -1279,13 +1317,13 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                           loading={index < 8 ? "eager" : "lazy"}
                         />
-                        
+
                         {/* Gradient Overlay */}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-500"></div>
-                        
+
                         {/* Shine Effect */}
                         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none"></div>
-                        
+
                         {/* Product Name Overlay */}
                         <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
                           <h3 className="text-white text-lg sm:text-xl font-bold mb-1 transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-100">
@@ -1293,7 +1331,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
                           </h3>
                           <div className="w-0 h-0.5 bg-gradient-to-r from-[#EE334B] to-[#213554] group-hover:w-16 transition-all duration-500 delay-200 rounded-full"></div>
                         </div>
-                        
+
                         {/* Corner Badge */}
                         <div className="absolute top-4 right-4 w-10 h-10 bg-[#EE334B] rounded-full opacity-0 group-hover:opacity-100 transform scale-0 group-hover:scale-100 transition-all duration-500 flex items-center justify-center shadow-lg">
                           <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1309,12 +1347,12 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
           </div>
         </section>
       )}
-     
+
 
       <section className='mb-8'>
         <div className="sm:max-w-8xl bg-gradient-to-br from-gray-50 to-white rounded-2xl p-8 sm:p-12 shadow-md max-w-[95%] mx-auto border border-gray-100">
           <div className="text-center mb-8">
-            
+
             <h2 className='text-3xl sm:text-4xl font-bold text-[#213554] mb-4'>
               Learn More About Custom Bakery Boxes
             </h2>
@@ -1333,7 +1371,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
 
         </div>
       </section>
-      
+
       {/* Card Slider Section */}
       <section className='pt-10'>
         <div className="sm:max-w-8xl max-w-[95%] mx-auto">
@@ -1342,24 +1380,24 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
               <div className="w-20 h-1 bg-gradient-to-r from-[#EE334B] to-[#213554] mx-auto rounded-full"></div>
             </div>
             <h2 className='text-3xl sm:text-4xl font-bold text-[#213554] mb-2'>
-            Your Packaging Journey Starts Here!
+              Your Packaging Journey Starts Here!
 
             </h2>
             <p className='text-gray-600 text-lg'>
-            Discover how quality packaging makes all the difference! Experience real client experiences, expert tips, and innovative packaging solutions that enhance brands. From custom designs to seamless functionality, see how we bring packaging visions to life.
+              Discover how quality packaging makes all the difference! Experience real client experiences, expert tips, and innovative packaging solutions that enhance brands. From custom designs to seamless functionality, see how we bring packaging visions to life.
 
 
             </p>
           </div>
-          
+
           <ProductSelectionProvider>
             <CardSlider
               items={allProducts?.map((item, index) => {
                 return (
                   <div key={item._id || index} className="w-[280px] rounded-xl overflow-hidden h-[400px] flex-shrink-0">
-                    
+
                     <img src={`${BaseUrl}/${item?.images?.[0]?.url}`} alt={item?.name} className="w-full rounded-xl h-full object-cover" />
-                   
+
                   </div>
                 );
               })}
@@ -1368,19 +1406,26 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
         </div>
       </section>
 
-      
+      <section className='py-10'>
+       
+         
+          <CreativePackaging/>
+     
+
+      </section>
+
 
       {/* Only show FAQ section if FAQs exist */}
       {((categoryData?.qna && categoryData.qna.length > 0) || (serverData?.qna && serverData.qna.length > 0)) && (
-        <FAQ 
-          serverData={categoryData?.qna || serverData?.qna} 
+        <FAQ
+          serverData={categoryData?.qna || serverData?.qna}
           faqImageUrl={categoryData?.faqImage || serverData?.faqImage}
           faqImageAltText={categoryData?.faqImageAltText || serverData?.faqImageAltText}
         />
       )}
 
-      <InstantQuoteModal 
-        setIsModalOpen={setIsModalOpen} 
+      <InstantQuoteModal
+        setIsModalOpen={setIsModalOpen}
         isModalOpen={isModalOpen}
         closeModal={() => setIsModalOpen(false)}
         categoryData={categoryData || serverData}
