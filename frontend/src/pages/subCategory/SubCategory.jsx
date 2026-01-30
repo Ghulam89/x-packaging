@@ -762,7 +762,7 @@
 
 
 import React, { useState, useEffect, useMemo } from 'react'
-import SampleKit from '../../components/SampleKit'
+import SampleKit from '../../components/CategoryTestimonials'
 import Button from '../../components/common/Button'
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 import Input from '../../components/common/Input'
@@ -796,9 +796,14 @@ import CustomPackagingApart from '../../components/CustomPackagingApart/CustomPa
 import PackagingFeatures from '../../components/CustomPackagingApart/PackagingFeatures';
 import Tabs from '../../components/common/Tabs';
 import { TfiAngleLeft, TfiAngleRight } from 'react-icons/tfi';
+import { RiPhoneLine } from 'react-icons/ri';
 import PackagingJourney from '../../components/PackagingJourney';
 import CategoryBanner from '../../components/CategoryBanner';
-
+import OfferCard from '../../components/common/OfferCard';
+import ServiceSelectionCard from '../../components/common/ServiceSelectionCard';
+import { Icon1, Icon2, Icon3, Icon4, Icon5, Icon6, Icon7 } from '../../assets';
+import CategoryTestimonials from '../../components/CategoryTestimonials';
+import video1 from '../../assets/videos/gallery/video1.mp4';
 const SubCategory = ({ serverData, CategoryProducts }) => {
   const { slug } = useParams();
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -1234,6 +1239,68 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
   const insertsChunks = createChunks(insertsSlides);
   const addonsChunks = createChunks(addonsSlides);
 
+  // Service Selection Cards Data
+  const serviceSelectionData = [
+    {
+      id: 1,
+      icon: Icon4,
+      title: 'FREE SHIPPING',
+      description: 'Free shipping on all orders'
+    },
+    {
+      id: 2,
+      icon: Icon1,
+      title: 'MONEY BACK GUARANTEE',
+      description: '100% money back'
+    },
+    {
+      id: 3,
+      icon: Icon6,
+      title: 'ONLINE SUPPORT 24/7',
+      description: '24/7 Customer Support'
+    },
+    {
+      id: 4,
+      icon: Icon7,
+      title: 'No Die & Plate Charges',
+      description: ''
+    },
+    {
+      id: 5,
+      icon: Icon3,
+      title: 'Free Design Support',
+      description: 'Professional design services'
+    },
+    {
+      id: 6,
+      icon: Icon7,
+      title: 'No Die & Plate Charges',
+      description: ''
+    }
+  ];
+
+  const galleryVideo = [
+    {
+      title: "Gallery Video 1",
+      video: video1
+    },
+    {
+      title: "Gallery Video 2",
+      video: video1
+    },
+    {
+      title: "Gallery Video 2",
+      video: video1
+    },
+    {
+      title: "Gallery Video 2",
+      video: video1
+    },
+    {
+      title: "Gallery Video 2",
+      video: video1
+    }
+  ];
   // Navigation functions for each tab
   const prevMaterial = () => {
     setMaterialCurr((prevIndex) =>
@@ -1385,26 +1452,35 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
     {
       title: "Base Materials",
       content: (
-        <div className="flex flex-col lg:flex-row gap-8 bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-          <div className="lg:w-6/12 w-full">
-            <h3 className="text-lg font-semibold text-[#213554]">
-              Discover our range of high-quality packaging materials
-            </h3>
-            <p className="mt-3 text-sm text-gray-700 leading-relaxed">
-              Discover our range of high-quality packaging materials designed to
-              tailor your packaging order to perfection. From sturdy cardboard
-              boxes to eco-friendly options, we have the ideal materials for your
-              unique needs. Elevate your brand and protect your products with our
-              customizable packaging solutions.
-            </p>
-          </div>
-          <div className="lg:w-6/12 w-full">
-            <SliderContent
-              chunks={baseMaterialChunks}
-              currentIndex={materialCurr}
-              onPrev={prevMaterial}
-              onNext={nextMaterial}
-            />
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+          <h2 className="text-3xl font-bold text-center mb-5 text-[#213554]">
+            Our Add-ons for Premium Packaging
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            {addonsSlides.map((addon, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-xl text-center border border-gray-100 hover:border-[#EE334B]/20 hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-col items-center p-4 overflow-hidden"
+              >
+                <div className="relative mb-4 w-40 h-40 mx-auto aspect-square">
+                  <div className="w-full h-full rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-[#EE334B]/30 transition-all duration-300">
+                    <img
+                      src={addon.image}
+                      alt={addon.title}
+                      className="w-full h-full object-cover aspect-square transform transition-transform duration-700 group-hover:scale-110"
+                    />
+                  </div>
+                  {/* Hover Overlay Gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-full"></div>
+                  {/* Shine Effect - Sweeps across on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-full"></div>
+                </div>
+                <div className='px-2 pb-2'>
+                  <h6 className="font-semibold group-hover:text-[#EE334B] transition-colors duration-300">{addon.title}</h6>
+                  <p className="text-xs text-gray-600 mt-1">{addon.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       ),
@@ -1412,106 +1488,149 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
     {
       title: "Wrappings",
       content: (
-        <div className="flex flex-col lg:flex-row gap-8 bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-          <div className="lg:w-6/12 w-full">
-            <h3 className="text-lg font-semibold text-[#213554]">
-              Premium wrapping solutions for your products
-            </h3>
-            <p className="mt-3 text-sm text-gray-700 leading-relaxed">
-              Protect and enhance your products with our professional wrapping options.
-              From clear cellophane to protective bubble wrap, we offer a wide range
-              of wrapping materials to keep your items safe during transit and storage.
-            </p>
-          </div>
-          <div className="lg:w-6/12 w-full">
-            <SliderContent
-              chunks={wrappingsChunks}
-              currentIndex={wrappingsCurr}
-              onPrev={prevWrappings}
-              onNext={nextWrappings}
-            />
-          </div>
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+        <h2 className="text-3xl font-bold text-center mb-5 text-[#213554]">
+          Our Add-ons for Premium Packaging
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+          {addonsSlides.map((addon, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-xl text-center border border-gray-100 hover:border-[#EE334B]/20 hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-col items-center p-4 overflow-hidden"
+            >
+              <div className="relative mb-4 w-40 h-40 mx-auto aspect-square">
+                <div className="w-full h-full rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-[#EE334B]/30 transition-all duration-300">
+                  <img
+                    src={addon.image}
+                    alt={addon.title}
+                    className="w-full h-full object-cover aspect-square transform transition-transform duration-700 group-hover:scale-110"
+                  />
+                </div>
+                {/* Hover Overlay Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-full"></div>
+                {/* Shine Effect - Sweeps across on hover */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-full"></div>
+              </div>
+              <div className='px-2 pb-2'>
+                <h6 className="font-semibold group-hover:text-[#EE334B] transition-colors duration-300">{addon.title}</h6>
+                <p className="text-xs text-gray-600 mt-1">{addon.description}</p>
+              </div>
+            </div>
+          ))}
         </div>
+      </div>
       ),
     },
     {
       title: "Printings",
       content: (
-        <div className="flex flex-col lg:flex-row gap-8 bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-          <div className="lg:w-6/12 w-full">
-            <h3 className="text-lg font-semibold text-[#213554]">
-              High-quality printing services for your packaging
-            </h3>
-            <p className="mt-3 text-sm text-gray-700 leading-relaxed">
-              Bring your brand to life with our professional printing services.
-              From offset to digital printing, embossing to foil stamping, we offer
-              various printing techniques to create stunning packaging designs that
-              make your products stand out.
-            </p>
-          </div>
-          <div className="lg:w-6/12 w-full">
-            <SliderContent
-              chunks={printingsChunks}
-              currentIndex={printingsCurr}
-              onPrev={prevPrintings}
-              onNext={nextPrintings}
-            />
-          </div>
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+        <h2 className="text-3xl font-bold text-center mb-5 text-[#213554]">
+          Our Add-ons for Premium Packaging
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+          {addonsSlides.map((addon, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-xl text-center border border-gray-100 hover:border-[#EE334B]/20 hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-col items-center p-4 overflow-hidden"
+            >
+              <div className="relative mb-4 w-40 h-40 mx-auto aspect-square">
+                <div className="w-full h-full rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-[#EE334B]/30 transition-all duration-300">
+                  <img
+                    src={addon.image}
+                    alt={addon.title}
+                    className="w-full h-full object-cover aspect-square transform transition-transform duration-700 group-hover:scale-110"
+                  />
+                </div>
+                {/* Hover Overlay Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-full"></div>
+                {/* Shine Effect - Sweeps across on hover */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-full"></div>
+              </div>
+              <div className='px-2 pb-2'>
+                <h6 className="font-semibold group-hover:text-[#EE334B] transition-colors duration-300">{addon.title}</h6>
+                <p className="text-xs text-gray-600 mt-1">{addon.description}</p>
+              </div>
+            </div>
+          ))}
         </div>
+      </div>
       ),
     },
     {
       title: "Coatings",
       content: (
-        <div className="flex flex-col lg:flex-row gap-8 bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-          <div className="lg:w-6/12 w-full">
-            <h3 className="text-lg font-semibold text-[#213554]">
-              Protective and decorative coating options
-            </h3>
-            <p className="mt-3 text-sm text-gray-700 leading-relaxed">
-              Enhance the durability and appearance of your packaging with our
-              premium coating solutions. Choose from glossy, matte, UV, or aqueous
-              coatings to protect your packaging and create a professional finish.
-            </p>
-          </div>
-          <div className="lg:w-6/12 w-full">
-            <SliderContent
-              chunks={coatingsChunks}
-              currentIndex={coatingsCurr}
-              onPrev={prevCoatings}
-              onNext={nextCoatings}
-            />
-          </div>
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+        <h2 className="text-3xl font-bold text-center mb-5 text-[#213554]">
+          Our Add-ons for Premium Packaging
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+          {addonsSlides.map((addon, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-xl text-center border border-gray-100 hover:border-[#EE334B]/20 hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-col items-center p-4 overflow-hidden"
+            >
+              <div className="relative mb-4 w-40 h-40 mx-auto aspect-square">
+                <div className="w-full h-full rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-[#EE334B]/30 transition-all duration-300">
+                  <img
+                    src={addon.image}
+                    alt={addon.title}
+                    className="w-full h-full object-cover aspect-square transform transition-transform duration-700 group-hover:scale-110"
+                  />
+                </div>
+                {/* Hover Overlay Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-full"></div>
+                {/* Shine Effect - Sweeps across on hover */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-full"></div>
+              </div>
+              <div className='px-2 pb-2'>
+                <h6 className="font-semibold group-hover:text-[#EE334B] transition-colors duration-300">{addon.title}</h6>
+                <p className="text-xs text-gray-600 mt-1">{addon.description}</p>
+              </div>
+            </div>
+          ))}
         </div>
+      </div>
       ),
     },
     {
       title: "Finishes",
       content: (
-        <div className="flex flex-col lg:flex-row gap-8 bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-          <div className="lg:w-6/12 w-full">
-            <h3 className="text-lg font-semibold text-[#213554]">
-              Elegant finish options for premium packaging
-            </h3>
-            <p className="mt-3 text-sm text-gray-700 leading-relaxed">
-              Add the perfect finishing touch to your packaging with our range of
-              finish options. From glossy to matte, satin to textured finishes,
-              create packaging that reflects your brand's quality and style.
-            </p>
-          </div>
-          <div className="lg:w-6/12 w-full">
-            <SliderContent
-              chunks={finishesChunks}
-              currentIndex={finishesCurr}
-              onPrev={prevFinishes}
-              onNext={nextFinishes}
-            />
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+          <h2 className="text-3xl font-bold text-center mb-5 text-[#213554]">
+            Our Add-ons for Premium Packaging
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            {addonsSlides.map((addon, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-xl text-center border border-gray-100 hover:border-[#EE334B]/20 hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-col items-center p-4 overflow-hidden"
+              >
+                <div className="relative mb-4 w-40 h-40 mx-auto aspect-square">
+                  <div className="w-full h-full rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-[#EE334B]/30 transition-all duration-300">
+                    <img
+                      src={addon.image}
+                      alt={addon.title}
+                      className="w-full h-full object-cover aspect-square transform transition-transform duration-700 group-hover:scale-110"
+                    />
+                  </div>
+                  {/* Hover Overlay Gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-full"></div>
+                  {/* Shine Effect - Sweeps across on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-full"></div>
+                </div>
+                <div className='px-2 pb-2'>
+                  <h6 className="font-semibold group-hover:text-[#EE334B] transition-colors duration-300">{addon.title}</h6>
+                  <p className="text-xs text-gray-600 mt-1">{addon.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       ),
     },
     {
-      title: "Get the Inserts Your Product Needs",
+      title: "Inserts",
       content: (
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
           <h2 className="text-3xl font-bold text-center mb-5 text-[#213554]">
@@ -1553,7 +1672,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
       ),
     },
     {
-      title: "Our Add-ons for Premium Packaging",
+      title: "Add-ons",
       content: (
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
           <h2 className="text-3xl font-bold text-center mb-5 text-[#213554]">
@@ -1590,6 +1709,189 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
     }
   ];
 
+
+  const tabsData2 = [
+    {
+      title: "Materials",
+      content: (
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+          <h2 className="text-3xl font-bold text-center mb-5 text-[#213554]">
+            Our Add-ons for Premium Packaging
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            {addonsSlides.map((addon, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-xl text-center border border-gray-100 hover:border-[#EE334B]/20 hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-col items-center p-4 overflow-hidden"
+              >
+                <div className="relative mb-4 w-40 h-40 mx-auto aspect-square">
+                  <div className="w-full h-full rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-[#EE334B]/30 transition-all duration-300">
+                    <img
+                      src={addon.image}
+                      alt={addon.title}
+                      className="w-full h-full object-cover aspect-square transform transition-transform duration-700 group-hover:scale-110"
+                    />
+                  </div>
+                  {/* Hover Overlay Gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-full"></div>
+                  {/* Shine Effect - Sweeps across on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-full"></div>
+                </div>
+                <div className='px-2 pb-2'>
+                  <h6 className="font-semibold group-hover:text-[#EE334B] transition-colors duration-300">{addon.title}</h6>
+                  <p className="text-xs text-gray-600 mt-1">{addon.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: "Printing Options",
+      content: (
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+        <h2 className="text-3xl font-bold text-center mb-5 text-[#213554]">
+          Our Add-ons for Premium Packaging
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+          {addonsSlides.map((addon, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-xl text-center border border-gray-100 hover:border-[#EE334B]/20 hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-col items-center p-4 overflow-hidden"
+            >
+              <div className="relative mb-4 w-40 h-40 mx-auto aspect-square">
+                <div className="w-full h-full rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-[#EE334B]/30 transition-all duration-300">
+                  <img
+                    src={addon.image}
+                    alt={addon.title}
+                    className="w-full h-full object-cover aspect-square transform transition-transform duration-700 group-hover:scale-110"
+                  />
+                </div>
+                {/* Hover Overlay Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-full"></div>
+                {/* Shine Effect - Sweeps across on hover */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-full"></div>
+              </div>
+              <div className='px-2 pb-2'>
+                <h6 className="font-semibold group-hover:text-[#EE334B] transition-colors duration-300">{addon.title}</h6>
+                <p className="text-xs text-gray-600 mt-1">{addon.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      ),
+    },
+    {
+      title: "Inks",
+      content: (
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+        <h2 className="text-3xl font-bold text-center mb-5 text-[#213554]">
+          Our Add-ons for Premium Packaging
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+          {addonsSlides.map((addon, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-xl text-center border border-gray-100 hover:border-[#EE334B]/20 hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-col items-center p-4 overflow-hidden"
+            >
+              <div className="relative mb-4 w-40 h-40 mx-auto aspect-square">
+                <div className="w-full h-full rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-[#EE334B]/30 transition-all duration-300">
+                  <img
+                    src={addon.image}
+                    alt={addon.title}
+                    className="w-full h-full object-cover aspect-square transform transition-transform duration-700 group-hover:scale-110"
+                  />
+                </div>
+                {/* Hover Overlay Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-full"></div>
+                {/* Shine Effect - Sweeps across on hover */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-full"></div>
+              </div>
+              <div className='px-2 pb-2'>
+                <h6 className="font-semibold group-hover:text-[#EE334B] transition-colors duration-300">{addon.title}</h6>
+                <p className="text-xs text-gray-600 mt-1">{addon.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      ),
+    },
+    {
+      title: "Finishing",
+      content: (
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+        <h2 className="text-3xl font-bold text-center mb-5 text-[#213554]">
+          Our Add-ons for Premium Packaging
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+          {addonsSlides.map((addon, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-xl text-center border border-gray-100 hover:border-[#EE334B]/20 hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-col items-center p-4 overflow-hidden"
+            >
+              <div className="relative mb-4 w-40 h-40 mx-auto aspect-square">
+                <div className="w-full h-full rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-[#EE334B]/30 transition-all duration-300">
+                  <img
+                    src={addon.image}
+                    alt={addon.title}
+                    className="w-full h-full object-cover aspect-square transform transition-transform duration-700 group-hover:scale-110"
+                  />
+                </div>
+                {/* Hover Overlay Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-full"></div>
+                {/* Shine Effect - Sweeps across on hover */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-full"></div>
+              </div>
+              <div className='px-2 pb-2'>
+                <h6 className="font-semibold group-hover:text-[#EE334B] transition-colors duration-300">{addon.title}</h6>
+                <p className="text-xs text-gray-600 mt-1">{addon.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      ),
+    },
+    {
+      title: "Shapes & Add-Ons",
+      content: (
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+          <h2 className="text-3xl font-bold text-center mb-5 text-[#213554]">
+            Our Add-ons for Premium Packaging
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            {addonsSlides.map((addon, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-xl text-center border border-gray-100 hover:border-[#EE334B]/20 hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-col items-center p-4 overflow-hidden"
+              >
+                <div className="relative mb-4 w-40 h-40 mx-auto aspect-square">
+                  <div className="w-full h-full rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-[#EE334B]/30 transition-all duration-300">
+                    <img
+                      src={addon.image}
+                      alt={addon.title}
+                      className="w-full h-full object-cover aspect-square transform transition-transform duration-700 group-hover:scale-110"
+                    />
+                  </div>
+                  {/* Hover Overlay Gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-full"></div>
+                  {/* Shine Effect - Sweeps across on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-full"></div>
+                </div>
+                <div className='px-2 pb-2'>
+                  <h6 className="font-semibold group-hover:text-[#EE334B] transition-colors duration-300">{addon.title}</h6>
+                  <p className="text-xs text-gray-600 mt-1">{addon.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ),
+    }
+  ];
   return (
     <>
       {(categoryData || serverData) ? (
@@ -1681,12 +1983,21 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
           </div>
         </div>
       </section>
-      <BottomHero />
+      
+      {/* Bottom Hero - Show only if enabled in admin */}
+      {(categoryData?.showBottomHero || serverData?.showBottomHero) && (
+        <BottomHero />
+      )}
 
-      {/* Trust Banner */}
-      <TrustBanner
-        categoryName={categoryData?.title || serverData?.title}
-      />
+      {/* Trust Banner - Show only if enabled in admin */}
+      {(categoryData?.showTrustBanner || serverData?.showTrustBanner) && (
+        <TrustBanner
+          categoryName={categoryData?.title || serverData?.title}
+        />
+      )}
+      <CategoryTestimonials/>
+      {/* Service Selection Cards */}
+      <ServiceSelectionCard items={serviceSelectionData} />
 
       {/* Boxes Brands Section */}
       <BoxesBrands
@@ -1777,6 +2088,14 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
         onButtonClick={() => setIsModalOpen(true)}
       />
 
+
+<OfferCard 
+  title={'Looking For Other Custom Boxes And packaging?'} 
+  subTitle={'Chat live with our packaging experts now for a free consultation and insert price quote.'} 
+  buttonText={'Contact Us'} 
+  buttonIcon={<RiPhoneLine size={18} />}
+/>
+
       {/* Packaging Features - 6 Items */}
       <PackagingFeatures />
 
@@ -1820,9 +2139,19 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
       {/* Tabs Section */}
       <section className='sm:max-w-8xl max-w-[95%] mx-auto'>
         <div className="mt-10">
-          <Tabs defaultTab={"Base Materials"} tabs={tabsData} />
+          <Tabs className={' bg-white'} defaultTab={"Base Materials"} tabs={tabsData} />
         </div>
       </section>
+
+
+  {/* Tabs Section */}
+  <section className='sm:max-w-8xl max-w-[95%] mx-auto'>
+        <div className="mt-10">
+          <Tabs className={' bg-white'} defaultTab={"Materials"} tabs={tabsData2} />
+        </div>
+      </section>
+
+
 
       {/* Only show FAQ section if FAQs exist */}
       {((categoryData?.qna && categoryData.qna.length > 0) || (serverData?.qna && serverData.qna.length > 0)) && (
@@ -1834,7 +2163,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
       )}
 
       {/* Packaging Journey Section */}
-      <PackagingJourney products={allProducts} />
+      <PackagingJourney products={galleryVideo} />
       <InstantQuoteModal
         setIsModalOpen={setIsModalOpen}
         isModalOpen={isModalOpen}

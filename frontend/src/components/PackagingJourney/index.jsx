@@ -23,12 +23,25 @@ const PackagingJourney = ({ products = [] }) => {
           <CardSlider
             items={products?.map((item, index) => {
               return (
-                <div key={item._id || index} className="w-[280px] rounded-xl overflow-hidden h-[400px] flex-shrink-0">
-                  <img 
-                    src={`${BaseUrl}/${item?.images?.[0]?.url}`} 
-                    alt={item?.name} 
-                    className="w-full rounded-xl h-full object-cover" 
-                  />
+                <div key={item._id || index} className="w-[280px] rounded-xl overflow-hidden  flex-shrink-0">
+                  {item?.video ? (
+                    <video
+                      src={item.video}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="w-full rounded-xl h-full object-cover"
+                    >
+                      Your browser does not support the video tag.
+                    </video>
+                  ) : (
+                    <img 
+                      src={`${BaseUrl}/${item?.images?.[0]?.url}`} 
+                      alt={item?.name || item?.title} 
+                      className="w-full rounded-xl h-full object-cover" 
+                    />
+                  )}
                 </div>
               );
             })}

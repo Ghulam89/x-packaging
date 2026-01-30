@@ -102,6 +102,14 @@ const midcategorySchema = new Schema({
     type: String,
     default: "",
   },
+  showBottomHero: {
+    type: Boolean,
+    default: false,
+  },
+  showTrustBanner: {
+    type: Boolean,
+    default: false,
+  },
   qna: [questionAnswerSchema],
   createdAt: {
     type: Date,

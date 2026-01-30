@@ -6,7 +6,7 @@ import Hero1 from './images/web-banner.webp';
 import usa from './images/flag/us.svg';
 import uk from './images/flag/uk.svg';
 import canada from './images/flag/canda.svg';
-import logo from './images/umbrella-logo.svg';
+import logo from './images/brand/logo.png';
 import special1  from "./images/special/embossing.webp";
 import special2  from "./images/special/Debossing.webp";
 import special3 from "./images/special/metalick printed.webp";

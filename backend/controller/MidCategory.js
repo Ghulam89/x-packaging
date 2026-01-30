@@ -26,7 +26,9 @@ export const createCategory = catchAsyncError(async (req, res, next) => {
     bannerTitleFirst,
     bannerContentFirst,
     imageAltText,iconAltText,bannerImageFirstAltText,
-    bannerBgColor,faqImageAltText
+    bannerBgColor,faqImageAltText,
+    showBottomHero,
+    showTrustBanner
   } = req.body;
 
   const findName = await MidCategory.findOne({ title });
@@ -108,7 +110,9 @@ export const createCategory = catchAsyncError(async (req, res, next) => {
       bannerContentFirst,
       bannerImageFirst: `images/${req.files.bannerImageFirst[0].filename}`.replace(/\\/g, '/'),
       faqImage: req.files?.faqImage ? `images/${req.files.faqImage[0].filename}`.replace(/\\/g, '/') : "",
-      qna: qna
+      qna: qna,
+      showBottomHero: showBottomHero === 'true' || showBottomHero === true,
+      showTrustBanner: showTrustBanner === 'true' || showTrustBanner === true
     };
 
     const newCategory = await MidCategory.create(categoryData);
@@ -230,7 +234,9 @@ export const updateCategory = catchAsyncError(async (req, res, next) => {
       bannerImageFirstAltText:data.bannerImageFirstAltText,
       bannerBgColor: data.bannerBgColor,
       faqImageAltText: data.faqImageAltText || "",
-      qna: qna
+      qna: qna,
+      showBottomHero: data.showBottomHero !== undefined ? (data.showBottomHero === 'true' || data.showBottomHero === true) : existingCategory.showBottomHero,
+      showTrustBanner: data.showTrustBanner !== undefined ? (data.showTrustBanner === 'true' || data.showTrustBanner === true) : existingCategory.showTrustBanner
   };
 
   const newFiles = [];
