@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import SampleKit from '../../components/SampleKit'
 import Tabs from '../../components/common/Tabs'
 import { TfiAngleLeft, TfiAngleRight } from 'react-icons/tfi'
 import Input from '../../components/common/Input'
