@@ -25,8 +25,6 @@ import BannerContent from '../../components/BannerContent'
 
 // Lazy load below-the-fold components for better FCP
 const FAQ = lazy(() => import('../../components/FAQ/FAQ'))
-const SampleKit = lazy(() => import('../../components/SampleKit'))
-const Capabilities = lazy(() => import('../../components/Capabilities'))
 const InspirationPackaging = lazy(() => import('../../components/InspirationPackaging'))
 const Testimonials = lazy(() => import('../../components/Testimonials'))
 const GetPriceQuote = lazy(() => import('../../components/GetPriceQuote/GetPriceQuote'))

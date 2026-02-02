@@ -17,7 +17,7 @@ import Icon1 from '../../assets/images/icon/free quote.svg';
 import Icon3 from '../../assets/images/icon/Free Design support.svg';
 import Icon2 from '../../assets/images/icon/Free Lamination.svg';
 import aboutVideo from '../../assets/videos/about.mp4'
-import Icon4 from '../../assets/images/icon/free shipping.svg';
+import Icon4 from '../../assets/images/icon/Free-delivery.png';
 import Icon5 from '../../assets/images/icon/FSC Certified.svg';
 import Icon6 from '../../assets/images/icon/Quickest Turnaround.svg';
 import GetPriceQuote from '../../components/GetPriceQuote/GetPriceQuote'

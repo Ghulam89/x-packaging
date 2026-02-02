@@ -3,7 +3,7 @@ import BigSale from '../../assets/images/icon/Big sale.svg';
 import BulkOrder from '../../assets/images/icon/Bulk orders.svg';
 import Discount from '../../assets/images/icon/Discount.svg';
 import contactUs from '../../assets/images/icon/contact us.svg';
-import freeShipping from '../../assets/images/icon/free shipping.svg';
+import freeShipping from '../../assets/images/icon/Free-delivery.png';
 
 // Note: Save 40%.svg file has % character which causes URI encoding issues
 // Using BigSale as fallback until file is renamed (e.g., "Save-40-percent.svg")

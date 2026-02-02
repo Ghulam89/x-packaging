@@ -785,7 +785,7 @@ import { prefetchProduct, prefetchProductsBatch, prefetchSubCategory, getCachedS
 import PageMetadata from '../../components/common/PageMetadata';
 import InstantQuoteModal from '../../components/common/InstantQuoteModal';
 import CustomInserts from '../../components/CustomInserts'
-import { insert1, insert2, insert3, insert4, insert5 } from '../../assets';
+import { Icon13, Icon15, Icon16, insert1, insert2, insert3, insert4, insert5 } from '../../assets';
 import CardSlider from '../../components/common/CardSlider';
 import FAQ from '../../components/FAQ/FAQ'
 import TrustBanner from '../../components/common/TrustBanner'
@@ -801,9 +801,13 @@ import PackagingJourney from '../../components/PackagingJourney';
 import CategoryBanner from '../../components/CategoryBanner';
 import OfferCard from '../../components/common/OfferCard';
 import ServiceSelectionCard from '../../components/common/ServiceSelectionCard';
-import { Icon1, Icon2, Icon3, Icon4, Icon5, Icon6, Icon7 } from '../../assets';
+import { Icon1, Icon2, Icon3, Icon4, Icon5,Icon14, Icon6, Icon7 } from '../../assets';
 import CategoryTestimonials from '../../components/CategoryTestimonials';
 import video1 from '../../assets/videos/gallery/video1.mp4';
+import video2 from '../../assets/videos/gallery/video2.mp4';
+import video3 from '../../assets/videos/gallery/video3.mp4';
+import video4 from '../../assets/videos/gallery/video4.mp4';
+import video5 from '../../assets/videos/gallery/video5.mp4';
 const SubCategory = ({ serverData, CategoryProducts }) => {
   const { slug } = useParams();
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -1243,26 +1247,26 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
   const serviceSelectionData = [
     {
       id: 1,
-      icon: Icon4,
+      icon: Icon13,
       title: 'FREE SHIPPING',
       description: 'Free shipping on all orders'
     },
-    {
-      id: 2,
-      icon: Icon1,
-      title: 'MONEY BACK GUARANTEE',
-      description: '100% money back'
-    },
+    // {
+    //   id: 2,
+    //   icon: Icon1,
+    //   title: 'MONEY BACK GUARANTEE',
+    //   description: '100% money back'
+    // },
     {
       id: 3,
-      icon: Icon6,
+      icon: Icon15,
       title: 'ONLINE SUPPORT 24/7',
       description: '24/7 Customer Support'
     },
     {
       id: 4,
-      icon: Icon7,
-      title: 'No Die & Plate Charges',
+      icon: Icon16,
+      title: 'Quickest Turnaround',
       description: ''
     },
     {
@@ -1273,7 +1277,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
     },
     {
       id: 6,
-      icon: Icon7,
+      icon: Icon14,
       title: 'No Die & Plate Charges',
       description: ''
     }
@@ -1286,19 +1290,19 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
     },
     {
       title: "Gallery Video 2",
-      video: video1
+      video: video2
     },
     {
       title: "Gallery Video 2",
-      video: video1
+      video: video3
     },
     {
       title: "Gallery Video 2",
-      video: video1
+      video: video4
     },
     {
       title: "Gallery Video 2",
-      video: video1
+      video: video5
     }
   ];
   // Navigation functions for each tab
@@ -1453,9 +1457,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
       title: "Base Materials",
       content: (
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-          <h2 className="text-3xl font-bold text-center mb-5 text-[#213554]">
-            Our Add-ons for Premium Packaging
-          </h2>
+         
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
             {addonsSlides.map((addon, index) => (
               <div
@@ -1489,9 +1491,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
       title: "Wrappings",
       content: (
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-        <h2 className="text-3xl font-bold text-center mb-5 text-[#213554]">
-          Our Add-ons for Premium Packaging
-        </h2>
+      
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {addonsSlides.map((addon, index) => (
             <div
@@ -1525,9 +1525,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
       title: "Printings",
       content: (
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-        <h2 className="text-3xl font-bold text-center mb-5 text-[#213554]">
-          Our Add-ons for Premium Packaging
-        </h2>
+      
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {addonsSlides.map((addon, index) => (
             <div
@@ -1561,9 +1559,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
       title: "Coatings",
       content: (
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-        <h2 className="text-3xl font-bold text-center mb-5 text-[#213554]">
-          Our Add-ons for Premium Packaging
-        </h2>
+       
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {addonsSlides.map((addon, index) => (
             <div
@@ -1597,9 +1593,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
       title: "Finishes",
       content: (
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-          <h2 className="text-3xl font-bold text-center mb-5 text-[#213554]">
-            Our Add-ons for Premium Packaging
-          </h2>
+        
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
             {addonsSlides.map((addon, index) => (
               <div
@@ -1633,9 +1627,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
       title: "Inserts",
       content: (
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-          <h2 className="text-3xl font-bold text-center mb-5 text-[#213554]">
-            Get the Inserts Your Product Needs
-          </h2>
+         
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
             {[
               { img: insert1, title: 'Foam Inserts' },
@@ -1675,9 +1667,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
       title: "Add-ons",
       content: (
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-          <h2 className="text-3xl font-bold text-center mb-5 text-[#213554]">
-            Our Add-ons for Premium Packaging
-          </h2>
+          
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
             {addonsSlides.map((addon, index) => (
               <div
@@ -1710,36 +1700,175 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
   ];
 
 
+  // Service Selection Cards Data for each tab (4 cards per tab) - with images
+  const materialsCards = [
+    {
+      id: 1,
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      title: 'Kraft Material',
+      description: 'Eco-friendly kraft material perfect for sustainable packaging solutions with natural brown appearance.'
+    },
+    {
+      id: 2,
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      title: 'White Cardboard',
+      description: 'Premium white cardboard material ideal for high-quality printing and professional appearance.'
+    },
+    {
+      id: 3,
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      title: 'Corrugated Board',
+      description: 'Strong and durable corrugated board providing excellent protection for shipping and storage.'
+    },
+    {
+      id: 4,
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      title: 'Recycled Paper',
+      description: 'Sustainable recycled paper option that helps reduce environmental impact while maintaining quality.'
+    }
+  ];
+
+  const printingOptionsCards = [
+    {
+      id: 1,
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      title: 'Offset Printing',
+      description: 'High-quality offset printing perfect for large quantities with vibrant colors and sharp details.'
+    },
+    {
+      id: 2,
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      title: 'Digital Printing',
+      description: 'Fast digital printing solutions ideal for small batches and quick turnaround times.'
+    },
+    {
+      id: 3,
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      title: 'Flexographic',
+      description: 'Flexographic printing options for flexible packaging materials with excellent color consistency.'
+    },
+    {
+      id: 4,
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      title: 'Screen Printing',
+      description: 'Custom screen printing for unique designs and specialty finishes on various materials.'
+    }
+  ];
+
+  const inksCards = [
+    {
+      id: 1,
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      title: 'Eco-Friendly Inks',
+      description: 'Sustainable ink options made from natural ingredients that are safe for food packaging.'
+    },
+    {
+      id: 2,
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      title: 'Metallic Inks',
+      description: 'Premium metallic finishes that add luxury and elegance to your packaging design.'
+    },
+    {
+      id: 3,
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      title: 'Specialty Inks',
+      description: 'Unique specialty options including glow-in-the-dark, scented, and textured inks.'
+    },
+    {
+      id: 4,
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      title: 'Custom Colors',
+      description: 'Custom color matching to perfectly match your brand colors and design requirements.'
+    }
+  ];
+
+  const finishingCards = [
+    {
+      id: 1,
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      title: 'UV Coating',
+      description: 'Durable UV coating that provides protection against scratches and enhances visual appeal.'
+    },
+    {
+      id: 2,
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      title: 'Matte Finish',
+      description: 'Elegant matte finish that reduces glare and provides a sophisticated, premium look.'
+    },
+    {
+      id: 3,
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      title: 'Glossy Finish',
+      description: 'High-gloss finish that makes colors pop and creates a vibrant, eye-catching appearance.'
+    },
+    {
+      id: 4,
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      title: 'Embossing',
+      description: 'Premium embossed designs that add texture and depth to create a luxurious feel.'
+    }
+  ];
+
+  const shapesAddonsCards = [
+    {
+      id: 1,
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      title: 'Custom Shapes',
+      description: 'Unique shape options tailored to your product requirements and brand identity.'
+    },
+    {
+      id: 2,
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      title: 'Handles',
+      description: 'Custom handle options including die-cut handles, rope handles, and ribbon handles.'
+    },
+    {
+      id: 3,
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      title: 'Windows',
+      description: 'Display window options that allow customers to see the product before purchasing.'
+    },
+    {
+      id: 4,
+      image: "https://www.halfpricepackaging.com/_ipx/f_webp&q_70&s_200x200/images/products/material/white.jpg",
+      title: 'Magnetic Closure',
+      description: 'Premium closure systems with magnetic closures for easy access and secure sealing.'
+    }
+  ];
+
   const tabsData2 = [
     {
       title: "Materials",
       content: (
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-          <h2 className="text-3xl font-bold text-center mb-5 text-[#213554]">
-            Our Add-ons for Premium Packaging
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-            {addonsSlides.map((addon, index) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {materialsCards.map((card, index) => (
               <div
-                key={index}
-                className="bg-white rounded-xl text-center border border-gray-100 hover:border-[#EE334B]/20 hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-col items-center p-4 overflow-hidden"
+                key={card.id || index}
+                className="bg-white rounded-lg border border-gray-100 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer flex flex-col"
               >
-                <div className="relative mb-4 w-40 h-40 mx-auto aspect-square">
-                  <div className="w-full h-full rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-[#EE334B]/30 transition-all duration-300">
+                {/* Image Section */}
+                {card.image && (
+                  <div className="relative w-full h-48 overflow-hidden bg-gray-50">
                     <img
-                      src={addon.image}
-                      alt={addon.title}
-                      className="w-full h-full object-cover aspect-square transform transition-transform duration-700 group-hover:scale-110"
+                      src={card.image}
+                      alt={card.title || 'Card image'}
+                      className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
                     />
                   </div>
-                  {/* Hover Overlay Gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-full"></div>
-                  {/* Shine Effect - Sweeps across on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-full"></div>
-                </div>
-                <div className='px-2 pb-2'>
-                  <h6 className="font-semibold group-hover:text-[#EE334B] transition-colors duration-300">{addon.title}</h6>
-                  <p className="text-xs text-gray-600 mt-1">{addon.description}</p>
+                )}
+                
+                {/* Content Section */}
+                <div className="p-5 flex-1 flex flex-col">
+                  <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-[#EE334B] transition-colors duration-300">
+                    {card.title}
+                  </h3>
+                  {card.description && (
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      {card.description}
+                    </p>
+                  )}
                 </div>
               </div>
             ))}
@@ -1751,139 +1880,151 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
       title: "Printing Options",
       content: (
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-        <h2 className="text-3xl font-bold text-center mb-5 text-[#213554]">
-          Our Add-ons for Premium Packaging
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-          {addonsSlides.map((addon, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-xl text-center border border-gray-100 hover:border-[#EE334B]/20 hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-col items-center p-4 overflow-hidden"
-            >
-              <div className="relative mb-4 w-40 h-40 mx-auto aspect-square">
-                <div className="w-full h-full rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-[#EE334B]/30 transition-all duration-300">
-                  <img
-                    src={addon.image}
-                    alt={addon.title}
-                    className="w-full h-full object-cover aspect-square transform transition-transform duration-700 group-hover:scale-110"
-                  />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {printingOptionsCards.map((card, index) => (
+              <div
+                key={card.id || index}
+                className="bg-white rounded-lg border border-gray-100 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer flex flex-col"
+              >
+                {/* Image Section */}
+                {card.image && (
+                  <div className="relative w-full h-48 overflow-hidden bg-gray-50">
+                    <img
+                      src={card.image}
+                      alt={card.title || 'Card image'}
+                      className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  </div>
+                )}
+                
+                {/* Content Section */}
+                <div className="p-5 flex-1 flex flex-col">
+                  <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-[#EE334B] transition-colors duration-300">
+                    {card.title}
+                  </h3>
+                  {card.description && (
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      {card.description}
+                    </p>
+                  )}
                 </div>
-                {/* Hover Overlay Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-full"></div>
-                {/* Shine Effect - Sweeps across on hover */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-full"></div>
               </div>
-              <div className='px-2 pb-2'>
-                <h6 className="font-semibold group-hover:text-[#EE334B] transition-colors duration-300">{addon.title}</h6>
-                <p className="text-xs text-gray-600 mt-1">{addon.description}</p>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
       ),
     },
     {
       title: "Inks",
       content: (
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-        <h2 className="text-3xl font-bold text-center mb-5 text-[#213554]">
-          Our Add-ons for Premium Packaging
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-          {addonsSlides.map((addon, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-xl text-center border border-gray-100 hover:border-[#EE334B]/20 hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-col items-center p-4 overflow-hidden"
-            >
-              <div className="relative mb-4 w-40 h-40 mx-auto aspect-square">
-                <div className="w-full h-full rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-[#EE334B]/30 transition-all duration-300">
-                  <img
-                    src={addon.image}
-                    alt={addon.title}
-                    className="w-full h-full object-cover aspect-square transform transition-transform duration-700 group-hover:scale-110"
-                  />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {inksCards.map((card, index) => (
+              <div
+                key={card.id || index}
+                className="bg-white rounded-lg border border-gray-100 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer flex flex-col"
+              >
+                {/* Image Section */}
+                {card.image && (
+                  <div className="relative w-full h-48 overflow-hidden bg-gray-50">
+                    <img
+                      src={card.image}
+                      alt={card.title || 'Card image'}
+                      className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  </div>
+                )}
+                
+                {/* Content Section */}
+                <div className="p-5 flex-1 flex flex-col">
+                  <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-[#EE334B] transition-colors duration-300">
+                    {card.title}
+                  </h3>
+                  {card.description && (
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      {card.description}
+                    </p>
+                  )}
                 </div>
-                {/* Hover Overlay Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-full"></div>
-                {/* Shine Effect - Sweeps across on hover */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-full"></div>
               </div>
-              <div className='px-2 pb-2'>
-                <h6 className="font-semibold group-hover:text-[#EE334B] transition-colors duration-300">{addon.title}</h6>
-                <p className="text-xs text-gray-600 mt-1">{addon.description}</p>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
       ),
     },
     {
       title: "Finishing",
       content: (
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-        <h2 className="text-3xl font-bold text-center mb-5 text-[#213554]">
-          Our Add-ons for Premium Packaging
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-          {addonsSlides.map((addon, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-xl text-center border border-gray-100 hover:border-[#EE334B]/20 hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-col items-center p-4 overflow-hidden"
-            >
-              <div className="relative mb-4 w-40 h-40 mx-auto aspect-square">
-                <div className="w-full h-full rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-[#EE334B]/30 transition-all duration-300">
-                  <img
-                    src={addon.image}
-                    alt={addon.title}
-                    className="w-full h-full object-cover aspect-square transform transition-transform duration-700 group-hover:scale-110"
-                  />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {finishingCards.map((card, index) => (
+              <div
+                key={card.id || index}
+                className="bg-white rounded-lg border border-gray-100 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer flex flex-col"
+              >
+                {/* Image Section */}
+                {card.image && (
+                  <div className="relative w-full h-48 overflow-hidden bg-gray-50">
+                    <img
+                      src={card.image}
+                      alt={card.title || 'Card image'}
+                      className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  </div>
+                )}
+                
+                {/* Content Section */}
+                <div className="p-5 flex-1 flex flex-col">
+                  <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-[#EE334B] transition-colors duration-300">
+                    {card.title}
+                  </h3>
+                  {card.description && (
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      {card.description}
+                    </p>
+                  )}
                 </div>
-                {/* Hover Overlay Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-full"></div>
-                {/* Shine Effect - Sweeps across on hover */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-full"></div>
               </div>
-              <div className='px-2 pb-2'>
-                <h6 className="font-semibold group-hover:text-[#EE334B] transition-colors duration-300">{addon.title}</h6>
-                <p className="text-xs text-gray-600 mt-1">{addon.description}</p>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
       ),
     },
     {
       title: "Shapes & Add-Ons",
       content: (
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-          <h2 className="text-3xl font-bold text-center mb-5 text-[#213554]">
-            Our Add-ons for Premium Packaging
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-            {addonsSlides.map((addon, index) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {shapesAddonsCards.map((card, index) => (
               <div
-                key={index}
-                className="bg-white rounded-xl text-center border border-gray-100 hover:border-[#EE334B]/20 hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-col items-center p-4 overflow-hidden"
+                key={card.id || index}
+                className="bg-white rounded-lg border border-gray-100 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer flex flex-col"
               >
-                <div className="relative mb-4 w-40 h-40 mx-auto aspect-square">
-                  <div className="w-full h-full rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-[#EE334B]/30 transition-all duration-300">
+                {/* Image Section */}
+                {card.image && (
+                  <div className="relative w-full h-48 overflow-hidden bg-gray-50">
                     <img
-                      src={addon.image}
-                      alt={addon.title}
-                      className="w-full h-full object-cover aspect-square transform transition-transform duration-700 group-hover:scale-110"
+                      src={card.image}
+                      alt={card.title || 'Card image'}
+                      className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
                     />
                   </div>
-                  {/* Hover Overlay Gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-full"></div>
-                  {/* Shine Effect - Sweeps across on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-full"></div>
-                </div>
-                <div className='px-2 pb-2'>
-                  <h6 className="font-semibold group-hover:text-[#EE334B] transition-colors duration-300">{addon.title}</h6>
-                  <p className="text-xs text-gray-600 mt-1">{addon.description}</p>
+                )}
+                
+                {/* Content Section */}
+                <div className="p-5 flex-1 flex flex-col">
+                  <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-[#EE334B] transition-colors duration-300">
+                    {card.title}
+                  </h3>
+                  {card.description && (
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      {card.description}
+                    </p>
+                  )}
                 </div>
               </div>
             ))}
@@ -1995,9 +2136,13 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
           categoryName={categoryData?.title || serverData?.title}
         />
       )}
+      
+      {/* Service Selection Cards - Show only if enabled in admin */}
+      {(categoryData?.showServiceSelectionCard || serverData?.showServiceSelectionCard) && (
+        <ServiceSelectionCard items={serviceSelectionData} />
+      )}
+
       <CategoryTestimonials/>
-      {/* Service Selection Cards */}
-      <ServiceSelectionCard items={serviceSelectionData} />
 
       {/* Boxes Brands Section */}
       <BoxesBrands
@@ -2098,7 +2243,43 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
 
       {/* Packaging Features - 6 Items */}
       <PackagingFeatures />
-
+      <div className="bg-white sm:max-w-8xl pt-8 max-w-[95%] mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-5 text-[#213554]">
+            Get the Inserts Your Product Needs
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+            {[
+              { img: insert1, title: 'Foam Inserts' },
+              { img: insert2, title: 'Cardboard Inserts' },
+              { img: insert3, title: 'Clamshell Inserts' },
+              { img: insert4, title: 'Corrugated Inserts' },
+              { img: insert4, title: 'Corrugated Inserts' },
+              { img: insert5, title: 'Eva Foam Inserts' }
+            ].map((item, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-xl text-center border border-gray-100 hover:border-[#EE334B]/20 hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-col items-center p-4 overflow-hidden"
+              >
+                <div className="relative mb-4 w-40 h-40 mx-auto aspect-square">
+                  <div className="w-full h-full rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-[#EE334B]/30 transition-all duration-300">
+                    <img
+                      src={item.img}
+                      alt={item.title}
+                      className="w-full h-full object-cover aspect-square transform transition-transform duration-700 group-hover:scale-110"
+                    />
+                  </div>
+                  {/* Hover Overlay Gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-full"></div>
+                  {/* Shine Effect - Sweeps across on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-full"></div>
+                </div>
+                <div className='px-2 pb-2'>
+                  <h6 className="font-semibold group-hover:text-[#EE334B] transition-colors duration-300">{item.title}</h6>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       {/* Creative Gallery - Dynamic */}
       <section className='py-10'>
         <CreativeGallery
@@ -2144,7 +2325,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
       </section>
 
 
-  {/* Tabs Section */}
+  {/* Tabs Section - tabsData2 with 4 cards per tab */}
   <section className='sm:max-w-8xl max-w-[95%] mx-auto'>
         <div className="mt-10">
           <Tabs className={' bg-white'} defaultTab={"Materials"} tabs={tabsData2} />

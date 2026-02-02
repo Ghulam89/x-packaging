@@ -110,6 +110,10 @@ const midcategorySchema = new Schema({
     type: Boolean,
     default: false,
   },
+  showServiceSelectionCard: {
+    type: Boolean,
+    default: false,
+  },
   qna: [questionAnswerSchema],
   createdAt: {
     type: Date,
