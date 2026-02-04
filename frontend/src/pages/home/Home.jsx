@@ -72,7 +72,7 @@ export const Home = React.memo(({ homePageData }) => {
 
     prefetchPopularProducts();
   }, []); // Run only once on mount
-
+// Run only once on mount
   const metadata = {
     title: "Affordable, High-Quality Custom Packaging Boxes – Wholesale | Umbrella Custom Packaging",
     description: "Get high-quality custom packaging boxes at wholesale prices. We offer affordable packaging for businesses of all sizes. Enjoy bulk discounts, free design support, and fast shipping.",
