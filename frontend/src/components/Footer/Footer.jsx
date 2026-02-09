@@ -20,7 +20,7 @@ const Footer = () => {
     <div  className=''>
      <div  className=' flex sm:flex-row flex-col border-b gap-1.5 border-gray-200 justify-between pb-10 sm:pt-10 pt-0'>
         <div className=' sm:w-4/12 w-12/12'>
-          <img src={logo} alt='' className=' w-[300px]' loading="eager" fetchpriority="high" />
+          <img src={logo} alt='' className=' w-[300px]' loading="eager" fetchPriority="high" />
           <p className=' text-[#213554] pt-1.5'>We offer Packaging Boxes delivered to your door. Secure, professional, and affordable, our custom made packaging boxes are guaranteed to protect and transport your valuable items. Our devoted team is always there to serve you.</p>
           <div className=' flex pt-3 items-center gap-2'>
       <Link to={'#'}>

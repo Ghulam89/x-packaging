@@ -1,4 +1,4 @@
-import React, { useState, useContext, createContext } from "react";
+import React, { useState, useContext, createContext, useCallback, memo } from "react";
 import { Link } from "react-router-dom";
 import { BaseUrl } from "../../utils/BaseUrl";
 import { prefetchProduct } from "../../utils/prefetchUtils";
@@ -6,10 +6,10 @@ import { prefetchProduct } from "../../utils/prefetchUtils";
 // Context for product selection
 const ProductSelectionContext = createContext();
 
-export const ProductSelectionProvider = ({ children }) => {
+export const ProductSelectionProvider = memo(({ children }) => {
   const [selectedProducts, setSelectedProducts] = useState(new Set());
   
-  const toggleProduct = (productId) => {
+  const toggleProduct = useCallback((productId) => {
     setSelectedProducts(prev => {
       const newSet = new Set(prev);
       if (newSet.has(productId)) {
@@ -19,14 +19,14 @@ export const ProductSelectionProvider = ({ children }) => {
       }
       return newSet;
     });
-  };
+  }, []);
 
   return (
     <ProductSelectionContext.Provider value={{ selectedProducts, toggleProduct }}>
       {children}
     </ProductSelectionContext.Provider>
   );
-};
+});
 
 export const useProductSelection = () => {
   const context = useContext(ProductSelectionContext);
@@ -36,25 +36,23 @@ export const useProductSelection = () => {
   return context;
 };
 
-const ProductCard = ({data, disableSelection = false, size = 'default'}) => {
+const ProductCard = memo(({data, disableSelection = false, size = 'default'}) => {
   const { selectedProducts, toggleProduct } = useProductSelection();
   const isSelected = selectedProducts.has(data?._id);
 
-  const handleMouseEnter = () => {
+  const handleMouseEnter = useCallback(() => {
     if (data?.slug) {
       prefetchProduct(data.slug);
     }
-  };
+  }, [data?.slug]);
 
-  // Prefetch product data on mousedown (before click)
-  const handleMouseDown = () => {
+  const handleMouseDown = useCallback(() => {
     if (data?.slug) {
       prefetchProduct(data.slug, true);
     }
-  };
+  }, [data?.slug]);
 
-  const handleProductClick = (e) => {
-    // Only handle selection if not disabled and click is not on the link
+  const handleProductClick = useCallback((e) => {
     if (!disableSelection && !e.target.closest('a')) {
       e.preventDefault();
       e.stopPropagation();
@@ -62,7 +60,7 @@ const ProductCard = ({data, disableSelection = false, size = 'default'}) => {
         toggleProduct(data._id);
       }
     }
-  };
+  }, [disableSelection, data?._id, toggleProduct]);
 
   // Size-based styling
   const isCompact = size === 'compact';
@@ -146,6 +144,7 @@ const ProductCard = ({data, disableSelection = false, size = 'default'}) => {
       )}
     </>
   );
-};
+});
 
+ProductCard.displayName = 'ProductCard';
 export default ProductCard;

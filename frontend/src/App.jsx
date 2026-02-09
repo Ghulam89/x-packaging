@@ -1,45 +1,53 @@
-
 import { useLocation, useRoutes } from 'react-router-dom';
 import WebsiteRoutes from './routes/WebsiteRoutes';
 import { ToastContainer } from 'react-toastify';
 import Footer from './components/Footer/Footer';
-import TopNav from './components/Header/TopNav';
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useEffect, useState, useMemo, memo } from 'react';
 import Navbar from './components/Header/Navbar';
 import WhatsAppFloat from './components/SocialMedia/WhatsAppModal';
 import AnnouncementBanner from './components/AnnouncementBanner';
-function App({ serverData, CategoryProducts, homePageData }) {
+import PageLoader from './components/common/PageLoader';
+
+const App = memo(function App({ serverData, CategoryProducts, homePageData }) {
   const location = useLocation();
   const [currentUrl, setCurrentUrl] = useState('');
- useEffect(() => {
-  window.scrollTo({ top: 0, behavior: "instant" });
-  setCurrentUrl(window.location.origin + location.pathname + location.search);
-}, [location]);
-  const routes = WebsiteRoutes({ serverData, CategoryProducts, homePageData })
+  
+  // Call hook at top level - not inside useMemo
+  const routes = WebsiteRoutes({ serverData, CategoryProducts, homePageData });
+  
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+    if (window.location.hash) {
+      window.history.replaceState(null, '', location.pathname + location.search);
+    }
+    setCurrentUrl(window.location.origin + location.pathname + location.search);
+  }, [location]);
+  
   const element = useRoutes(routes);
+  
+  const whatsappMessage = useMemo(
+    () => `Hello, I am reaching out to inquire about ${currentUrl}`,
+    [currentUrl]
+  );
+
   return (
     <>
-    {/* sd */}
       <ToastContainer />
-          <WhatsAppFloat
-            phone="+17472470456"
-            message={`Hello, I am reaching out to inquire about ${currentUrl}`}
-            tooltip="WhatsApp us"
-            bottomClass="bottom-5"
-            leftClass="left-8"
-          />
-          <AnnouncementBanner />
-          {/* <TopNav /> */}
-          <Navbar />
-          
-          <Suspense fallback={<div id="app"></div>}>
-            {element}
-          </Suspense>
-         
-       <Footer />
+      <WhatsAppFloat
+        phone="+17472470456"
+        message={whatsappMessage}
+        tooltip="WhatsApp us"
+        bottomClass="bottom-5"
+        leftClass="left-8"
+      />
+      <AnnouncementBanner />
+      <Navbar />
+      <Suspense fallback={<PageLoader />}>
+        {element}
+      </Suspense>
+      <Footer />
     </>
   );
-}
-
+});
 
 export default App;

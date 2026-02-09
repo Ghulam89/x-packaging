@@ -21,6 +21,7 @@ import CustomBoxMaterial from '../../components/CustomBoxMaterial/CustomBoxMater
 import Tabs from '../../components/common/Tabs'
 import WorkWithYou from '../../components/WorkWithYou'
 import CustomInserts from '../../components/CustomInserts'
+import AddonsAndInserts from '../../components/AddonsAndInserts'
 import BannerContent from '../../components/BannerContent'
 
 // Lazy load below-the-fold components for better FCP
@@ -30,6 +31,11 @@ const Testimonials = lazy(() => import('../../components/Testimonials'))
 const GetPriceQuote = lazy(() => import('../../components/GetPriceQuote/GetPriceQuote'))
 const Blog = lazy(() => import('../../components/blog/Blog'))
 export const Home = React.memo(({ homePageData }) => {
+  // Scroll to top on component mount
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, []);
+
   useEffect(() => {
     const heroSubCategories = [
       'fashion-apparel-packaging-boxes',
@@ -296,8 +302,7 @@ export const Home = React.memo(({ homePageData }) => {
           </div>
 
         </div>
-        <WorkWithYou/>
-        <CustomInserts/>
+        <AddonsAndInserts/>
         
         
         <CustomPackagingApart />

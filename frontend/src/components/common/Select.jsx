@@ -1,6 +1,6 @@
-import React from "react";
+import React, { memo } from "react";
 
-const Select = ({
+const Select = memo(({
   label,
   name,
   className = "",
@@ -65,7 +65,8 @@ const Select = ({
       </div>
     </div>
   );
-};
+});
 
+Select.displayName = 'Select';
 export default Select;
 

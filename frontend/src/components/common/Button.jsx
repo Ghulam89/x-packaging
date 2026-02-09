@@ -1,6 +1,6 @@
-import React from "react";
+import React, { memo } from "react";
 
-const Button = ({
+const Button = memo(({
   type = "button",
   label,
   disabled = false,
@@ -51,6 +51,7 @@ const Button = ({
       </span>
     </button>
   );
-};
+});
 
+Button.displayName = 'Button';
 export default Button;

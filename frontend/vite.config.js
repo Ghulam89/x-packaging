@@ -54,13 +54,37 @@ export default defineConfig({
 
   build: {
     target: "esnext",
-    sourcemap: false, 
-    chunkSizeWarningLimit: 1500,
+    sourcemap: false,
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
-        manualChunks: {
-          redux: ["react-redux", "@reduxjs/toolkit", "redux-persist"],
-          vendor: ["react-helmet-async", "lottie-react"],
+        manualChunks: (id) => {
+          // Vendor chunks
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('react-dom')) {
+              return 'react-vendor';
+            }
+            if (id.includes('react-router')) {
+              return 'router';
+            }
+            if (id.includes('react-redux') || id.includes('@reduxjs') || id.includes('redux-persist')) {
+              return 'redux';
+            }
+            if (id.includes('react-helmet-async') || id.includes('lottie-react')) {
+              return 'vendor';
+            }
+            if (id.includes('react-icons')) {
+              return 'icons';
+            }
+            return 'vendor';
+          }
         },
       },
     },

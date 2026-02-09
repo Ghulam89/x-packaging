@@ -330,7 +330,7 @@ useEffect(() => {
                     </div>
 
                     {/* Right Column - Sidebar (1/3 width) */}
-                    <div className='lg:w-1/3 lg:sticky lg:top-8 lg:self-start'>
+                    <div className='lg:w-1/3 lg:sticky lg:top-8 lg:self-start lg:h-fit'>
                         <div className='flex flex-col gap-6'>
                             {/* Table of Contents */}
                             {singleBlog?.content && (

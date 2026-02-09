@@ -102,7 +102,7 @@ const Navbar = () => {
                 alt="" 
                 className="w-[100px] sm:w-56 md:w-[200px] lg:w-[250px] h-auto" 
                 loading="eager" 
-                fetchpriority="high" 
+                fetchPriority="high" 
               />
             </Link>
             {/* Search Bar - Hidden on very small screens, visible from sm */}

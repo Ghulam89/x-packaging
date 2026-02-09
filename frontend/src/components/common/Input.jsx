@@ -1,6 +1,6 @@
-import React from "react";
+import React, { memo } from "react";
 
-const Input = ({
+const Input = memo(({
   label,
   placeholder,
   name,
@@ -46,6 +46,7 @@ const Input = ({
       </div>
     </div>
   );
-};
+});
 
+Input.displayName = 'Input';
 export default Input;
