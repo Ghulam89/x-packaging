@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import tailwindcss from "@tailwindcss/vite";
+
 export default defineConfig({
   plugins: [
     tailwindcss(),
@@ -29,6 +30,9 @@ export default defineConfig({
       "@reduxjs/toolkit",
       "lottie-react"
     ],
+    resolve: {
+      conditions: ['node', 'import'],
+    },
   },
 
   optimizeDeps: {

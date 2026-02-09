@@ -157,11 +157,13 @@ if (isProduction) {
   // Development mode - use Vite
   try {
     const { createServer } = await import('vite');
+    const { resolve } = await import('path');
     vite = await createServer({
       server: { middlewareMode: true },
       appType: 'custom',
       base,
       root: path.join(__dirname, '../frontend'),
+      configFile: path.join(__dirname, '../frontend/vite.config.js'),
     });
     app.use(vite.middlewares);
   } catch (error) {
@@ -253,10 +255,12 @@ app.use('*', async (req, res, next) => {
         );
         
         template = await vite.transformIndexHtml(url, template);
-        render = (await vite.ssrLoadModule('../frontend/src/entry-server.jsx')).render;
+        const serverModule = await vite.ssrLoadModule('../frontend/src/entry-server.jsx');
+        render = serverModule?.render;
       } catch (error) {
         console.error('Vite development error:', error);
-        
+        console.error('Error details:', error.message);
+        console.error('Error stack:', error.stack);
       }
     } else if (isProduction && productionTemplate && productionRender) {
       // Production mode
@@ -264,6 +268,21 @@ app.use('*', async (req, res, next) => {
       render = productionRender;
     } else {
      
+    }
+    
+    // Check if render function is available
+    if (!render || typeof render !== 'function') {
+      console.error(`Render function not available for ${url}. Falling back to client-side rendering.`);
+      if (template) {
+        const fallbackHtml = template
+          .replace('<!--app-head-->', '')
+          .replace('<!--app-html-->', '<div id="app"></div>')
+          .replace('<!--server-data-->', '<script>window.__SERVER_DATA__ = null;</script>\n<script>window.__CATEGORY_PRODUCTS__ = null;</script>\n<script>window.__HOME_PAGE_DATA__ = null;</script>');
+        
+        return res.status(200).set({ 'Content-Type': 'text/html' }).send(fallbackHtml);
+      } else {
+        return res.status(500).send('Server configuration error');
+      }
     }
     
     const renderPromise = render(url);
