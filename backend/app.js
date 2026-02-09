@@ -273,25 +273,28 @@ app.use('*', async (req, res, next) => {
     // Check if render function is available
     if (!render || typeof render !== 'function') {
       console.error(`Render function not available for ${url}. Falling back to client-side rendering.`);
-      if (template) {
-        const fallbackHtml = template
-          .replace('<!--app-head-->', '')
-          .replace('<!--app-html-->', '<div id="app"></div>')
-          .replace('<!--server-data-->', '<script>window.__SERVER_DATA__ = null;</script>\n<script>window.__CATEGORY_PRODUCTS__ = null;</script>\n<script>window.__HOME_PAGE_DATA__ = null;</script>');
-        
-        return res.status(200).set({ 'Content-Type': 'text/html' }).send(fallbackHtml);
-      } else {
+      // Commented out PageLoader fallback - return error instead
+      // if (template) {
+      //   const fallbackHtml = template
+      //     .replace('<!--app-head-->', '')
+      //     .replace('<!--app-html-->', '<div id="app"></div>')
+      //     .replace('<!--server-data-->', '<script>window.__SERVER_DATA__ = null;</script>\n<script>window.__CATEGORY_PRODUCTS__ = null;</script>\n<script>window.__HOME_PAGE_DATA__ = null;</script>');
+      //   
+      //   return res.status(200).set({ 'Content-Type': 'text/html' }).send(fallbackHtml);
+      // } else {
         return res.status(500).send('Server configuration error');
-      }
+      // }
     }
     
     const renderPromise = render(url);
-    const timeoutPromise = new Promise((_, reject) => 
-      setTimeout(() => reject(new Error('SSR timeout')), 10000) // Increased to 10 seconds for API calls
-    );
+    // Commented out timeout to prevent PageLoader fallback
+    // const timeoutPromise = new Promise((_, reject) => 
+    //   setTimeout(() => reject(new Error('SSR timeout')), 10000) // Increased to 10 seconds for API calls
+    // );
     
-    // Race between render and timeout
-    rendered = await Promise.race([renderPromise, timeoutPromise]);
+    // Race between render and timeout - Now just wait for render
+    rendered = await renderPromise;
+    // rendered = await Promise.race([renderPromise, timeoutPromise]);
     
     // Debug logging
     console.log(`SSR render result for ${url}:`, {
@@ -352,23 +355,33 @@ app.use('*', async (req, res, next) => {
     console.log(`SSR completed for ${url}: ${Date.now() - startTime}ms`);
     
   } catch (e) {
-    if (e.message === 'SSR timeout') {
-      console.error(`SSR timeout for ${url}: ${Date.now() - startTime}ms`);
-      
+    // Commented out SSR timeout fallback that triggers PageLoader
+    // if (e.message === 'SSR timeout') {
+    //   console.error(`SSR timeout for ${url}: ${Date.now() - startTime}ms`);
+    //   
+    //   if (template) {
+    //     const fallbackHtml = template
+    //       .replace('<!--app-head-->', '')
+    //       .replace('<!--app-html-->', '<div id="app"></div>')
+    //       .replace('<!--server-data-->', '<script>window.__SERVER_DATA__ = null;</script>\n<script>window.__CATEGORY_PRODUCTS__ = null;</script>\n<script>window.__HOME_PAGE_DATA__ = null;</script>');
+    //     
+    //     res.status(200).set({ 'Content-Type': 'text/html' }).send(fallbackHtml);
+    //   } else {
+    //     
+    //   }
+    // } else {
+      console.error('SSR Error:', e.stack);
       if (template) {
-        const fallbackHtml = template
+        const errorHtml = template
           .replace('<!--app-head-->', '')
           .replace('<!--app-html-->', '<div id="app"></div>')
           .replace('<!--server-data-->', '<script>window.__SERVER_DATA__ = null;</script>\n<script>window.__CATEGORY_PRODUCTS__ = null;</script>\n<script>window.__HOME_PAGE_DATA__ = null;</script>');
         
-        res.status(200).set({ 'Content-Type': 'text/html' }).send(fallbackHtml);
+        res.status(200).set({ 'Content-Type': 'text/html' }).send(errorHtml);
       } else {
-        
+        res.status(500).send('Server error');
       }
-    } else {
-      console.error('SSR Error:', e.stack);
-     
-    }
+    // }
   }
 });
 

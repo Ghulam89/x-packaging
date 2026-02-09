@@ -6,7 +6,6 @@ import { Suspense, useEffect, useState, useMemo, memo } from 'react';
 import Navbar from './components/Header/Navbar';
 import WhatsAppFloat from './components/SocialMedia/WhatsAppModal';
 import AnnouncementBanner from './components/AnnouncementBanner';
-import PageLoader from './components/common/PageLoader';
 
 const App = memo(function App({ serverData, CategoryProducts, homePageData }) {
   const location = useLocation();
@@ -42,7 +41,7 @@ const App = memo(function App({ serverData, CategoryProducts, homePageData }) {
       />
       <AnnouncementBanner />
       <Navbar />
-      <Suspense fallback={<PageLoader />}>
+      <Suspense fallback={null}>
         {element}
       </Suspense>
       <Footer />
