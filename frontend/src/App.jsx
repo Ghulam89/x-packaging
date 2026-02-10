@@ -10,10 +10,7 @@ import AnnouncementBanner from './components/AnnouncementBanner';
 const App = memo(function App({ serverData, CategoryProducts, homePageData }) {
   const location = useLocation();
   const [currentUrl, setCurrentUrl] = useState('');
-  
-  // Call hook at top level - not inside useMemo
   const routes = WebsiteRoutes({ serverData, CategoryProducts, homePageData });
-  
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
     if (window.location.hash) {

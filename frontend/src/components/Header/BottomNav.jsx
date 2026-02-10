@@ -86,7 +86,9 @@ const BottomNav = ({ Menu, OpenMenu }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [categories, setCategories] = useState([]);
+  const [portfolioCategories, setPortfolioCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isPortfolioOpen, setIsPortfolioOpen] = useState(false);
 
   // Icon mapping for categories
   const categoryIconMap = {
@@ -208,10 +210,37 @@ const BottomNav = ({ Menu, OpenMenu }) => {
     fetchBrands();
   }, []);
 
-  // Use categories from API, or empty array if loading/failed
+  // Fetch portfolio categories from API
+  useEffect(() => {
+    const fetchPortfolioCategories = async () => {
+      try {
+        const response = await axiosInstance.get(`${BaseUrl}/category/getAll`, {
+          timeout: 20000,
+        });
+
+        if (response.data.status === "success" && Array.isArray(response.data.data)) {
+          setPortfolioCategories(response.data.data);
+        } else {
+          console.warn("Unexpected portfolio categories API response format:", response?.data);
+        }
+      } catch (error) {
+        console.error("Error fetching portfolio categories:", {
+          code: error.code,
+          message: error.message,
+          response: error.response?.data,
+          status: error.response?.status,
+          url: error.config?.url,
+        });
+      }
+    };
+
+    fetchPortfolioCategories();
+  }, []);
+
+  
   const displayCategories = categories.length > 0 ? categories : [];
 
-  // Skeleton loader for categories
+  
   const CategorySkeleton = () => (
     <div className="flex gap-7 items-center">
       {[1, 2, 3, 4].map((i) => (
@@ -235,10 +264,10 @@ const BottomNav = ({ Menu, OpenMenu }) => {
 
   return (
     <div className="relative shadow-md" onMouseLeave={handleCategoryLeave}>
-      {/* Desktop Menu */}
-      <div className="hidden sm:block pb-1  bg-gradient-to-r from-white via-gray-50/30 to-white border-b border-gray-100">
+     
+      <div className="hidden sm:block pb-1 bg-gradient-to-r from-white via-gray-50/30 to-white border-b border-gray-100">
         <div className="flex justify-between items-center sm:max-w-8xl max-w-[95%] mx-auto">
-        <ul className="flex gap-6 items-center">
+        <ul className="flex gap-5 items-center">
           <Link
             to="/"
             className="flex items-center gap-1 px-3 py-2.5 text-sm font-semibold text-[#213554] hover:text-[#EE334B] transition-all duration-300 rounded-lg hover:bg-[#EE334B]/5 relative group"
@@ -247,7 +276,7 @@ const BottomNav = ({ Menu, OpenMenu }) => {
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#EE334B] to-[#213554] group-hover:w-full transition-all duration-300"></span>
           </Link>
           {displayCategories.map((category, index) => {
-            // Check if category name matches "box by industry"
+        
             const isBoxByIndustry = category.category?.toLowerCase().includes('box by industry') || category.category?.toLowerCase().includes('box by industry');
             return (
               <div
@@ -269,6 +298,46 @@ const BottomNav = ({ Menu, OpenMenu }) => {
               </div>
             );
           })}
+          
+          <div
+            className="relative"
+            onMouseEnter={() => setIsPortfolioOpen(true)}
+            onMouseLeave={() => setIsPortfolioOpen(false)}
+          >
+            <button
+              type="button"
+              className="flex relative cursor-pointer group items-center gap-1 px-3 py-2.5 text-sm   font-medium text-[#213554] hover:text-[#EE334B] transition-all duration-300 rounded-lg hover:bg-[#EE334B]/5"
+            >
+              <span className="relative z-10">Portfolio</span>
+              <FaAngleDown className="ml-1 group-hover:rotate-180 transition-transform duration-300" size={14} />
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#EE334B] to-[#213554] group-hover:w-full transition-all duration-300"></span>
+            </button>
+
+            {isPortfolioOpen && (
+              <div className="absolute left-0 mt-2 w-64 bg-white/95 backdrop-blur-lg border border-gray-200 rounded-xl shadow-xl z-50 animate-slideDown">
+                <ul className="max-h-80 overflow-y-auto py-2">
+                  {portfolioCategories.map((category, index) => (
+                    <li key={category._id || category.slug || category.title || index}>
+                      <Link
+                        to={`/category/${category?.slug || category?.title}`}
+                        className="flex items-center justify-between px-4 py-2 text-sm text-[#213554] hover:bg-[#EE334B]/10 hover:text-[#EE334B] transition-all duration-200"
+                      >
+                        <span>{category.title}</span>
+                      </Link>
+                    </li>
+                  ))}
+                  <li className="border-t border-gray-200 mt-1 pt-1">
+                    <Link
+                      to="/shop"
+                      className="block px-4 py-2 text-sm font-semibold text-[#EE334B] hover:!text-white hover:bg-[#EE334B] rounded-b-xl transition-all duration-200 text-center"
+                    >
+                      View all
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            )}
+          </div>
           <Link
             to="#"
             className="flex items-center gap-1 px-3 py-2.5 text-sm font-semibold text-[#213554] hover:text-[#EE334B] transition-all duration-300 rounded-lg hover:bg-[#EE334B]/5 relative group"
@@ -442,13 +511,12 @@ const BottomNav = ({ Menu, OpenMenu }) => {
             </li>
             {displayCategories.map((category, index) => (
               <li key={index}>
-                <Link
-                  to={`/${category?.slug || category?.category}`}
-                  className="block px-4 py-3 font-semibold text-[#213554] hover:text-[#EE334B] hover:bg-[#EE334B]/10 rounded-lg transition-all duration-300"
-                  onClick={OpenMenu}
+                <button
+                  type="button"
+                  className="w-full flex items-center justify-between px-4 py-3 font-semibold text-left text-[#213554] hover:text-[#EE334B] hover:bg-[#EE334B]/10 rounded-lg transition-all duration-300"
                 >
-                  {category.category}
-                </Link>
+                  <span>{category.category}</span>
+                </button>
                 {category.menu?.length > 0 && (
                   <ul className="pl-6 mt-1 space-y-1">
                     {category.menu.map((submenu, subIndex) => (
@@ -466,13 +534,13 @@ const BottomNav = ({ Menu, OpenMenu }) => {
                 )}
               </li>
             ))}
-            <li>
+            <li className="mt-1 pt-1 border-t border-gray-200">
               <Link
                 to="/portfolio"
-                className="block px-4 py-3 font-semibold text-[#213554] hover:text-[#EE334B] hover:bg-[#EE334B]/10 rounded-lg transition-all duration-300"
+                className="block px-4 py-3 font-semibold text-center text-[#EE334B] hover:text-white hover:bg-[#EE334B] rounded-lg transition-all duration-300"
                 onClick={OpenMenu}
               >
-                Portfolio
+                View all
               </Link>
             </li>
             <li>
