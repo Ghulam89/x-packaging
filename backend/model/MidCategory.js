@@ -12,6 +12,25 @@ const questionAnswerSchema = new Schema({
   }
 });
 
+const brandItemSchema = new Schema({
+  title: {
+    type: String,
+    required: true
+  },
+  image: {
+    type: String,
+    required: true
+  },
+  logo: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true
+  }
+});
+
 
 const midcategorySchema = new Schema({
   brandId: {
@@ -115,6 +134,7 @@ const midcategorySchema = new Schema({
     default: false,
   },
   qna: [questionAnswerSchema],
+  brands: [brandItemSchema],
   createdAt: {
     type: Date,
     default: Date.now,

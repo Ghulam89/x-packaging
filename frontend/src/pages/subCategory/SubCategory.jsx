@@ -311,12 +311,13 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
       <CategoryTestimonials />
 
 
-      <BoxesBrands
-        title={`X Custom Packaging X Top ${categoryData?.title || serverData?.title || ''} Brands`}
-        description="We don't just make packaging, we build brand moments! We have helped brands thrive in the market. Read their success stories below!"
-        products={allProducts && allProducts.length > 0 ? allProducts.slice(0, 10) : []}
-
-      />
+      {((categoryData?.brands && categoryData.brands.length > 0) || (serverData?.brands && serverData.brands.length > 0)) && (
+        <BoxesBrands
+          title={`X Custom Packaging X Top ${categoryData?.title || serverData?.title || ''} Brands`}
+          description="We don't just make packaging, we build brand moments! We have helped brands thrive in the market. Read their success stories below!"
+          brands={categoryData?.brands || serverData?.brands || []}
+        />
+      )}
 
       <section className='py-8 bg-white'>
         <div className="sm:max-w-8xl max-w-[95%] mx-auto">

@@ -92,7 +92,7 @@ const Footer = () => {
                 <Link to={'#'} className=' font-semibold'>About Us</Link>
             </li>
             <li>
-                <Link to={'#'} className=' font-semibold'>Terms & Conditions</Link>
+                <Link to={'/terms-and-conditions'} className=' font-semibold'>Terms & Conditions</Link>
             </li>
             <li>
                 <Link to={'#'} className=' font-semibold'>Refund / Cancellation Policy</Link>

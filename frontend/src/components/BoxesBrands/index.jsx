@@ -26,11 +26,24 @@ const BoxesBrands = ({ title, description, products = [], brands = [] }) => {
       </div>
       <CardSlider
         items={itemsToShow?.map((brand, index) => {
-         const brandLogo = brand?.images?.[0]?.url ? `${BaseUrl}/${brand?.images?.[0]?.url}` : brand?.logo;
-         const brandName = brand?.name;
-         const brandImage = brand?.images?.[0]?.url ? `${BaseUrl}/${brand?.images?.[0]?.url}` : brand?.image;
+         // For products (has images array and slug)
+         const isProduct = brand?.images && brand?.slug;
+         
+         // Brand logo - use product image or brand logo field
+         const brandLogo = isProduct 
+           ? `${BaseUrl}/${brand?.images?.[0]?.url}` 
+           : (brand?.logo ? `${BaseUrl}/${brand?.logo}` : null);
+         
+         // Brand name - use product name or brand title
+         const brandName = brand?.name || brand?.title;
+         
+         // Brand image - use product image or brand image field
+         const brandImage = isProduct 
+           ? `${BaseUrl}/${brand?.images?.[0]?.url}` 
+           : (brand?.image ? `${BaseUrl}/${brand?.image}` : null);
+         
          const brandSlug = brand?.slug;
-         const brandDescription = brand?.description || brand?.title || description;
+         const brandDescription = brand?.description || description;
 
           return (
             <div 
@@ -89,7 +102,7 @@ const BoxesBrands = ({ title, description, products = [], brands = [] }) => {
                       {brandName}
                     </h3>
                     <p className="text-white/90 text-sm leading-relaxed break-words whitespace-normal px-2">
-                      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius, fugit! Incidunt sequi, ab commodi corrupti sint est sit officiis. Perferendis eius necessitatibus ullam hic doloremque minus soluta voluptas sapiente ratione?
+                      {brandDescription}
                     </p>
                    
                   </div>

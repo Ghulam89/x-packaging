@@ -84,6 +84,15 @@ export const createCategory = catchAsyncError(async (req, res, next) => {
    }
  }
 
+  let brands = [];
+  if (req.body.brands !== undefined) {
+   try {
+     brands = typeof req.body.brands === 'string' ? JSON.parse(req.body.brands) : req.body.brands;
+   } catch (error) {
+     console.error('Error parsing brands:', error);
+   }
+ }
+
   try {
     const categoryData = {
       title,
@@ -112,6 +121,7 @@ export const createCategory = catchAsyncError(async (req, res, next) => {
       bannerImageFirst: `images/${req.files.bannerImageFirst[0].filename}`.replace(/\\/g, '/'),
       faqImage: req.files?.faqImage ? `images/${req.files.faqImage[0].filename}`.replace(/\\/g, '/') : "",
       qna: qna,
+      brands: brands,
       showBottomHero: showBottomHero === 'true' || showBottomHero === true,
       showTrustBanner: showTrustBanner === 'true' || showTrustBanner === true,
       showServiceSelectionCard: showServiceSelectionCard === 'true' || showServiceSelectionCard === true
@@ -214,6 +224,15 @@ export const updateCategory = catchAsyncError(async (req, res, next) => {
      console.error('Error parsing Q&A:', error);
    }
  }
+
+  let brands = existingCategory.brands;
+  if (req.body.brands !== undefined) {
+   try {
+     brands = typeof req.body.brands === 'string' ? JSON.parse(req.body.brands) : req.body.brands;
+   } catch (error) {
+     console.error('Error parsing brands:', error);
+   }
+ }
   let updateData = {
     title: data.title,
     slug: data.slug,
@@ -237,6 +256,7 @@ export const updateCategory = catchAsyncError(async (req, res, next) => {
       bannerBgColor: data.bannerBgColor,
       faqImageAltText: data.faqImageAltText || "",
       qna: qna,
+      brands: brands,
       showBottomHero: data.showBottomHero !== undefined ? (data.showBottomHero === 'true' || data.showBottomHero === true) : existingCategory.showBottomHero,
       showTrustBanner: data.showTrustBanner !== undefined ? (data.showTrustBanner === 'true' || data.showTrustBanner === true) : existingCategory.showTrustBanner,
       showServiceSelectionCard: data.showServiceSelectionCard !== undefined ? (data.showServiceSelectionCard === 'true' || data.showServiceSelectionCard === true) : existingCategory.showServiceSelectionCard

@@ -5,8 +5,7 @@ import { Home } from "../pages/home/Home";
 import Reviews from "../pages/reviews";
 import ContactUs from "../pages/contactUs/ContactUs";
 import TermsAndConditions from "../pages/TermsAndConditions/TermsAndConditions";
-
-// Lazy load routes for better code splitting and initial bundle size
+import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
 const SingleBlog = lazy(() => import("../pages/blogs/SingleBlog"));
 const Shop = lazy(() => import("../pages/shop"));
 const ProductDetails = lazy(() => import("../pages/productDetails"));
@@ -28,6 +27,7 @@ export default function useWebsiteRoutes(serverData, CategoryProducts, homePageD
     { path: '/cart', element: <Cart key="cart" /> },
     { path: '/checkout', element: <Checkout key="checkout" /> },
     { path: '/terms-and-conditions', element: <TermsAndConditions key="terms-and-conditions" /> },
+    { path: '/privacy-policy', element: <PrivacyPolicy key="privacy-policy" /> },
     { path: '/reviews', element: <Reviews key="reviews" /> },
     { path: '/my-account', element: <MyAccount key="my-account" /> },
     { path: '/:slug', element: <Category key="category" serverData={sharedServer} /> },
