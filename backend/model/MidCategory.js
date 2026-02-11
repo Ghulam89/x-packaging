@@ -133,6 +133,14 @@ const midcategorySchema = new Schema({
     type: Boolean,
     default: false,
   },
+  showTabsSection1: {
+    type: Boolean,
+    default: false,
+  },
+  showTabsSection2: {
+    type: Boolean,
+    default: false,
+  },
   qna: [questionAnswerSchema],
   brands: [brandItemSchema],
   createdAt: {

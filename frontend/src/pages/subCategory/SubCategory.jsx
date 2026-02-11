@@ -485,19 +485,21 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
 
 
 
-      <section className='sm:max-w-8xl max-w-[95%] mx-auto'>
-        <div className="mt-10">
-          <Tabs className={' bg-white'} defaultTab={"Base Materials"} tabs={tabsData} />
-        </div>
-      </section>
+      {(categoryData?.showTabsSection1 || serverData?.showTabsSection1) && (
+        <section className='sm:max-w-8xl max-w-[95%] mx-auto'>
+          <div className="mt-10">
+            <Tabs className={' bg-white'} defaultTab={"Base Materials"} tabs={tabsData} />
+          </div>
+        </section>
+      )}
 
-
-
-      <section className='sm:max-w-8xl max-w-[95%] mx-auto'>
-        <div className="mt-10">
-          <Tabs className={' bg-white'} defaultTab={"Materials"} tabs={tabsData2} />
-        </div>
-      </section>
+      {(categoryData?.showTabsSection2 || serverData?.showTabsSection2) && (
+        <section className='sm:max-w-8xl max-w-[95%] mx-auto'>
+          <div className="mt-10">
+            <Tabs className={' bg-white'} defaultTab={"Materials"} tabs={tabsData2} />
+          </div>
+        </section>
+      )}
       {((categoryData?.qna && categoryData.qna.length > 0) || (serverData?.qna && serverData.qna.length > 0)) && (
         <FAQ
           serverData={categoryData?.qna || serverData?.qna}

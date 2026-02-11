@@ -29,7 +29,9 @@ export const createCategory = catchAsyncError(async (req, res, next) => {
     bannerBgColor,faqImageAltText,
     showBottomHero,
     showTrustBanner,
-    showServiceSelectionCard
+    showServiceSelectionCard,
+    showTabsSection1,
+    showTabsSection2
   } = req.body;
 
   const findName = await MidCategory.findOne({ title });
@@ -124,7 +126,9 @@ export const createCategory = catchAsyncError(async (req, res, next) => {
       brands: brands,
       showBottomHero: showBottomHero === 'true' || showBottomHero === true,
       showTrustBanner: showTrustBanner === 'true' || showTrustBanner === true,
-      showServiceSelectionCard: showServiceSelectionCard === 'true' || showServiceSelectionCard === true
+      showServiceSelectionCard: showServiceSelectionCard === 'true' || showServiceSelectionCard === true,
+      showTabsSection1: showTabsSection1 === 'true' || showTabsSection1 === true,
+      showTabsSection2: showTabsSection2 === 'true' || showTabsSection2 === true
     };
 
     const newCategory = await MidCategory.create(categoryData);
@@ -259,7 +263,9 @@ export const updateCategory = catchAsyncError(async (req, res, next) => {
       brands: brands,
       showBottomHero: data.showBottomHero !== undefined ? (data.showBottomHero === 'true' || data.showBottomHero === true) : existingCategory.showBottomHero,
       showTrustBanner: data.showTrustBanner !== undefined ? (data.showTrustBanner === 'true' || data.showTrustBanner === true) : existingCategory.showTrustBanner,
-      showServiceSelectionCard: data.showServiceSelectionCard !== undefined ? (data.showServiceSelectionCard === 'true' || data.showServiceSelectionCard === true) : existingCategory.showServiceSelectionCard
+      showServiceSelectionCard: data.showServiceSelectionCard !== undefined ? (data.showServiceSelectionCard === 'true' || data.showServiceSelectionCard === true) : existingCategory.showServiceSelectionCard,
+      showTabsSection1: data.showTabsSection1 !== undefined ? (data.showTabsSection1 === 'true' || data.showTabsSection1 === true) : existingCategory.showTabsSection1,
+      showTabsSection2: data.showTabsSection2 !== undefined ? (data.showTabsSection2 === 'true' || data.showTabsSection2 === true) : existingCategory.showTabsSection2
   };
 
   const newFiles = [];
