@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux'
 import { addToCart } from '../../store/productSlice'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import Button from '../common/Button'
 
 const ProductInfo = memo(({ product, images, curr, cartQuantity, setCartQuantity }) => {
     const dispatch = useDispatch()
@@ -31,6 +32,16 @@ const ProductInfo = memo(({ product, images, curr, cartQuantity, setCartQuantity
 
     return (
         <section className='sm:max-w-8xl max-w-[95%] mt-10 mx-auto'>
+            <div className=' text-center'>
+                      {/* Title & Description above Add to Cart */}
+                      <div className="mb-8 sm:max-w-4xl max-w-[95%] mx-auto">
+                        <h2 className="text-lg sm:text-xl font-bold  mb-2">Ready to Order?</h2>
+                        <p className="text-sm text-gray-600">Please note that it is our standard packaging for Automobile Tuck End Boxes. If you want to customize your packaging, please send a custom quote request above. We will respond to you immediately. <Button variant="red" label="Get Quote" />
+
+</p>
+                    </div>
+                </div>
+
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center">
                 {/* Small Product Image Preview - Left Side */}
                 {images && images.length > 0 && (
@@ -47,6 +58,7 @@ const ProductInfo = memo(({ product, images, curr, cartQuantity, setCartQuantity
                 
                 {/* Right Side Content */}
                 <div className="flex-1 w-full">
+                  
                     {/* Quantity Selector and Add to Cart Button */}
                     <div className="mt-6 flex flex-col sm:flex-row gap-3 items-start sm:items-center">
                         {/* Quantity Selector */}

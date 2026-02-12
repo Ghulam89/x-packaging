@@ -29,6 +29,8 @@ import dhlLogo from '../../assets/images/footer/dhl.png'
 import uspsLogo from '../../assets/images/footer/United_States_Postal_Service.png'
 import sky from '../../assets/images/footer/sky.svg'
 import ups from '../../assets/images/footer/ups.svg'
+import chat from '../../assets/images/icon/chat.png'
+import CustomPackagingProduced from '../../components/CustomPackagingProduced'
 
 const ProductDetails = ({
     serverData,
@@ -523,9 +525,18 @@ const ProductDetails = ({
                     </div>
 
                     <div className="lg:w-6/12 w-full">
-                        <div className='flex gap-2 items-center mb-4'>
-                            <div className="w-1 h-11 bg-gradient-to-b from-[#EE334B] to-[#213554] rounded-full"></div>
-                            <h3 className='pb-2 text-xl sm:text-2xl font-bold text-[#213554]'>{product?.name || "Tuck Top Mailer Boxes"}</h3>
+                        <div className='flex flex-row items-center justify-between gap-4 mb-4'>
+                            <div className='flex gap-2 items-center flex-1 min-w-0'>
+                                <div className="w-1 h-11 bg-gradient-to-b from-[#EE334B] to-[#213554] rounded-full flex-shrink-0"></div>
+                                <h3 className='pb-2 text-xl sm:text-2xl font-bold text-[#213554] truncate'>{product?.name || "Tuck Top Mailer Boxes"}</h3>
+                            </div>
+                            <Link
+                                to="/contact-us"
+                                className="flex-shrink-0 flex items-center gap-2 px-4 from-[#EE334B] to-[#213554] py-2 bg-red-50 hover:bg-red-100 border border-red-200/60 rounded-lg transition-colors duration-200 group"
+                            >
+                              <img src={chat} alt="chat" className=' w-8 h-8' />
+                                <span className="text-sm font-semibold text-gray-800 whitespace-nowrap">  <h6 className='text-[10px]'> Chat with </h6>  Packaging Expert</span>
+                            </Link>
                         </div>
                         <QuoteForm product={product} />
                     </div>
@@ -534,11 +545,15 @@ const ProductDetails = ({
             <TrustBanner categoryName={product?.name || serverData?.name} />
 
             <section className=" py-10">
-                <div className="sm:max-w-8xl w-[95%] mx-auto text-center">
-                    <h2 className="text-2xl sm:text-3xl font-bold text-[#213554] mb-2">
-                        {product?.name || "Luxurious Magnetic Closure Boxes!"}
+                <div className="sm:max-w-8xl w-[95%] gap-3 flex flex-row items-center justify-between mx-auto">
+                    <div className=' w-6/12 mx-auto'>
+                    <div className='flex items-center mb-4 gap-2'>
+                    <div className="w-1 h-12 bg-gradient-to-b from-[#EE334B] to-[#213554] rounded-full"></div>
+                    <h2 className="text-2xl sm:text-3xl font-bold text-[#213554] ">
+                        {product?.name}
                     </h2>
-                    <p className="text-gray-600 text-sm sm:text-base max-w-6xl mx-auto">
+                    </div>
+                    <p className="text-gray-600 text-sm sm:text-base max-w-6xl mx-auto  overflow-y-auto h-28 custom-scrollbar">
                         Let magnetic closure box packaging speak volumes about your products and brand with its luxurious
                         appeal and elegance. The built-in magnet in the rigid stock ensures the boxes close and open easily
                         without using tape or adhesive. You can pack all kinds of solid products in magnetic closure boxes,
@@ -548,29 +563,49 @@ const ProductDetails = ({
                     <p className="my-6 font-semibold text-[#213554] text-xs sm:text-sm  tracking-wide">
                         More Than +5000 Satisfied Clients Worldwide
                     </p>
+                    <BottomHero />
+                  <div>
+
+                  </div>
+                    </div>
+                    <div className=' w-6/12 mx-auto'>
+                    {product?.bannerImage && (
+                        <div className=' w-full'>
+                            <img 
+                                src={`${BaseUrl}/${product.bannerImage}`}
+                                className='  shadow-2xl w-full rounded-2xl' 
+                                alt={product?.name || ''} 
+                            />
+                        </div>
+                    )}
+                    </div>
                 </div>
-                <BottomHero />
+                
             </section>
+            <CustomPackagingProduced/>
             <OfferCard
                 title={'Looking For Other Custom Boxes And packaging?'}
                 subTitle={'Chat live with our packaging experts now for a free consultation and insert price quote.'}
                 buttonText={'Contact Us'}
                 buttonIcon={<RiPhoneLine size={18} />}
             />
+           
 
             <section className="sm:max-w-8xl max-w-[95%] mx-auto mt-10 mb-4">
-                <div className="bg-white border border-gray-200 overflow-hidden">
-                    <div className="px-4 sm:px-6 py-4 border-b border-gray-200 bg-gray-50">
-                        <h2 className="text-xl sm:text-2xl font-bold text-[#213554]">
-                            Product Specification
-                        </h2>
+                <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100">
+                    <div className="px-5 sm:px-6 py-4 border-b border-gray-100 bg-gray-50/80">
+                        <div className="flex items-center gap-2">
+                            <div className="w-1 h-8 bg-gradient-to-b from-[#EE334B] to-[#213554] rounded-full"></div>
+                            <h2 className="text-xl sm:text-2xl font-bold text-[#213554]">
+                                Product Specification
+                            </h2>
+                        </div>
                     </div>
                     <div className="flex flex-col sm:flex-row">
-                        {/* Left column - labels */}
-                        <div className="sm:w-1/3 bg-white border-r border-gray-200">
-                            <div className="divide-y divide-gray-200">
+                        <div className="sm:w-1/3 bg-gray-50/50 border-b sm:border-b-0 sm:border-r border-gray-100">
+                            <div className="divide-y divide-gray-100">
                                 {['Box Style', 'Dimension (L + W + H)', 'Quantities', 'Stock', 'Printing', 'Finishing', 'Included Options', 'Additional Options', 'Proof', 'Turnaround'].map((label) => (
-                                    <div key={label} className="px-4 sm:px-6 py-3">
+                                    <div key={label} className="px-5 sm:px-6 py-3.5">
                                         <p className="font-semibold text-sm sm:text-base text-[#213554]">
                                             {label}
                                         </p>
@@ -578,39 +613,15 @@ const ProductDetails = ({
                                 ))}
                             </div>
                         </div>
-                        {/* Right column - values */}
                         <div className="sm:w-2/3 bg-white">
-                            <div className="divide-y divide-gray-200">
-                                <div className="px-4 sm:px-6 py-3 text-sm sm:text-base text-gray-700">
-                                    Rigid Boxes
-                                </div>
-                                <div className="px-4 sm:px-6 py-3 text-sm sm:text-base text-gray-700">
-                                    All Custom Sizes &amp; Shapes
-                                </div>
-                                <div className="px-4 sm:px-6 py-3 text-sm sm:text-base text-gray-700">
-                                    No Minimum Order Required
-                                </div>
-                                <div className="px-4 sm:px-6 py-3 text-sm sm:text-base text-gray-700">
-                                    14 pt, 16 pt, 18 pt, 24 pt and more
-                                </div>
-                                <div className="px-4 sm:px-6 py-3 text-sm sm:text-base text-gray-700">
-                                    Digital (Standard and HD Print), Lithography, CMYK, CMYK + 1 PMS color, CMYK + 2 PMS colors
-                                </div>
-                                <div className="px-4 sm:px-6 py-3 text-sm sm:text-base text-gray-700">
-                                    Gloss Lamination, Matte Lamination, Gloss AQ, Gloss UV, Matte UV, Spot UV, Embossing, Debossing, Foiling
-                                </div>
-                                <div className="px-4 sm:px-6 py-3 text-sm sm:text-base text-gray-700">
-                                    Die Cutting, Gluing, Scored, Perforation
-                                </div>
-                                <div className="px-4 sm:px-6 py-3 text-sm sm:text-base text-gray-700">
-                                    Eco-Friendly, Recycled Boxes, Biodegradable
-                                </div>
-                                <div className="px-4 sm:px-6 py-3 text-sm sm:text-base text-gray-700">
-                                    Flat View, 3D Mock-up, Physical Sampling (On request)
-                                </div>
-                                <div className="px-4 sm:px-6 py-3 text-sm sm:text-base text-gray-700">
-                                    4 – 8 Business Days, RUSH
-                                </div>
+                            <div className="divide-y divide-gray-100">
+                                {['Rigid Boxes', 'All Custom Sizes & Shapes', 'No Minimum Order Required', '14 pt, 16 pt, 18 pt, 24 pt and more', 'Digital (Standard and HD Print), Lithography, CMYK, CMYK + 1 PMS color, CMYK + 2 PMS colors', 'Gloss Lamination, Matte Lamination, Gloss AQ, Gloss UV, Matte UV, Spot UV, Embossing, Debossing, Foiling', 'Die Cutting, Gluing, Scored, Perforation', 'Eco-Friendly, Recycled Boxes, Biodegradable', 'Flat View, 3D Mock-up, Physical Sampling (On request)', '4 – 8 Business Days, RUSH'].map((value, idx) => (
+                                    <div key={idx} className="px-5 sm:px-6 py-3.5">
+                                        <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+                                            {value}
+                                        </p>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>

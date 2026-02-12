@@ -9,7 +9,7 @@ const PageLoader = () => {
           <div className="inline-block relative">
             {/* Animated Spinner */}
             <div className="w-20 h-20 border-4 border-[#213554]/20 border-t-[#213554] rounded-full animate-spin"></div>
-            {/* Center Brand Icon */}
+            {/* Center Brand Icon */} 
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="w-12 h-12 bg-gradient-to-br from-[#213554] to-[#EE334B] rounded-full flex items-center justify-center">
                 <span style={{color: '#fff'}} className="text-white font-bold text-xl">X</span>

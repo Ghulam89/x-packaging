@@ -25,8 +25,8 @@ const ProductGallery = ({
                             key={i}
                             onClick={() => goToSlide(i)}
                             className={`
-                                transition-all w-28 rounded-xl h-28 overflow-hidden bg-white relative cursor-pointer group
-                                ${curr === i ? " w-20 h-20 border-2 border-[#F05367] border-dashed ring-2 ring-[#F05367]/30" : "bg-opacity-50 hover:bg-opacity-100 hover:scale-105"}
+                                transition-all w-28 rounded-xl h-28 border-2 overflow-hidden bg-white relative cursor-pointer group
+                                ${curr === i ? " w-20 h-20  border-[#F05367]  ring-2 ring-[#F05367]/30" : "bg-opacity-50 border-transparent hover:bg-opacity-100 hover:scale-105"}
                             `}
                         >
                             {!thumbnailLoadedImages.has(i) && (

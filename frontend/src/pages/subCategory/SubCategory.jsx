@@ -85,9 +85,15 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
 
   };
 
-  // Scroll to top on component mount and route change
+  // Scroll to top on component mount and route change (helps with lazy-load timing)
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    const timer = setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 100);
+    return () => clearTimeout(timer);
   }, [slug]);
 
   useEffect(() => {
