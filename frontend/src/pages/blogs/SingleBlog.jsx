@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import TableOfContent from './TableOfContent';
 import { BaseUrl } from '../../utils/BaseUrl';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import PageMetadata from '../../components/common/PageMetadata';
 import GetQuoteModal from '../../components/common/GetQuoteModal';
 import BlogCard from '../../components/common/BlogCard';
 import ProductCard from '../../components/common/ProductCard';
-import { FaCalendarAlt, FaClock } from 'react-icons/fa';
+import { FaCalendarAlt, FaClock, FaChevronRight } from 'react-icons/fa';
 
 function SingleBlog({ serverData }) {
     const { slug } = useParams();
@@ -163,70 +163,80 @@ useEffect(() => {
             /> */}
             
 
-            <div className='max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12'>
-                <div className='flex gap-8 flex-col lg:flex-row'>
-                    {/* Left Column - Main Content (2/3 width) */}
-                    <div className='flex-1 lg:w-2/3 flex flex-col gap-8'>
-                        {/* Header Card - Modernized */}
-                        <div className='w-full bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 md:p-8 rounded-2xl flex flex-col gap-6 md:gap-8'>
+            {/* Beige Background */}
+            <div className=' min-h-screen'>
+                <div className='max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8'>
+                    {/* Breadcrumbs */}
+                    <div className='mb-6 md:mb-8'>
+                        <nav className='flex items-center gap-0 text-sm'>
+                            <Link to='/' className='text-gray-600 hover:text-[#213554] transition-colors px-2 py-1'>
+                                Home
+                            </Link>
+                            <span className='text-gray-300 mx-1'>|</span>
+                            <Link to='/blogs' className='text-gray-600 hover:text-[#213554] transition-colors px-2 py-1'>
+                                Blog
+                            </Link>
+                            <span className='text-gray-300 mx-1'>|</span>
+                            <span style={{color:'white'}} className='bg-[#213554] text-white px-4 py-2 rounded-md font-medium'>
+                                {singleBlog?.title || 'Blog Post'}
+                            </span>
+                        </nav>
+                    </div>
+
+                    {/* Hero Section - Two Column Layout */}
+                    <div className='flex flex-col lg:flex-row gap-8 lg:gap-12 mb-8 md:mb-12'>
+                        {/* Left Column - Title and Author Info */}
+                        <div className='lg:w-1/2 flex flex-col justify-center'>
+                            {/* Title */}
+                            <h1 className='text-3xl md:text-4xl lg:text-5xl font-bold text-[#213554] mb-6 leading-tight'>
+                                {singleBlog?.title}
+                            </h1>
                             
+                           
+                        </div>
+
+                        
+                        <div className='lg:w-1/2 relative'>
                             
-                            {/* Image - Modernized */}
-                            <div className='w-full'>
-                                {singleBlog?.image && (
-                                    <div className='relative rounded-2xl overflow-hidden shadow-xl group'>
-                                        <img
-                                            src={`${BaseUrl}/${singleBlog.image}`}
-                                            className='w-full h-auto  object-cover transform group-hover:scale-105 transition-transform duration-700'
-                                            alt={singleBlog?.imageAltText || singleBlog?.title}
-                                        />
-                                        {/* Gradient Overlay on Hover */}
-                                        <div className='absolute inset-0 bg-gradient-to-t from-[#213554]/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300'></div>
-                                    </div>
-                                )}
+                            <div className='absolute inset-0 overflow-hidden pointer-events-none'>
+                              
+                                <div className='absolute -bottom-10 -right-10 w-64 h-64 bg-gradient-to-br from-[#FFB6C1]/30 to-[#FFA07A]/20 rounded-full blur-3xl transform rotate-45'></div>
+                              
+                                <div className='absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-[#FFB6C1]/20 to-[#FFA07A]/10 rounded-full blur-2xl'></div>
                             </div>
-                            <div className='w-full  flex flex-col justify-between'>
-                                <div>
-                                    {/* Badge - Modernized */}
-                                    <span className='inline-block px-4 py-2 bg-gradient-to-r from-[#EE334B] to-[#EE334B]/90 text-white text-xs font-bold rounded-full shadow-md mb-4'>
-                                        Knowledge Base
-                                    </span>
+                            
+                            
+                            {singleBlog?.image && (
+                                <div className='relative rounded-2xl overflow-hidden shadow-xl group'>
+                                    <img
+                                        src={`${BaseUrl}/${singleBlog.image}`}
+                                        className='w-full  object-cover transform group-hover:scale-105 transition-transform duration-700'
+                                        alt={singleBlog?.imageAltText || singleBlog?.title}
+                                    />
                                     
-                                    {/* Title - Modernized */}
-                                    <h1 className='text-3xl md:text-4xl lg:text-5xl font-bold text-[#213554] mb-4 leading-tight'>
-                                        {singleBlog?.title}
-                                    </h1>
-                                    
-                                    {/* Meta Info - Modernized */}
-                                    <div className='flex flex-wrap items-center gap-4 md:gap-6 text-gray-600'>
-                                        {singleBlog?.createdAt && (
-                                            <div className='flex items-center gap-2'>
-                                                <FaCalendarAlt className='text-[#EE334B] text-sm' />
-                                                <span className='text-sm font-medium'>{formatDate(singleBlog.createdAt)}</span>
-                                            </div>
-                                        )}
-                                        <div className='flex items-center gap-2'>
-                                            <FaClock className='text-[#EE334B] text-sm' />
-                                            <span className='text-sm font-medium'>{calculateReadTime(singleBlog?.content)} min read</span>
-                                        </div>
-                                    </div>
+                                 
                                 </div>
+                            )}
+                        </div>
+                    </div>
+
+                   
+                    <div className='flex gap-8 flex-col lg:flex-row'>
+                        
+                        <div className='flex-1 lg:w-2/3 flex flex-col gap-8'>
+                           
+                            <div className='w-full'>
+                                <article className='blog_content bg-white rounded-2xl shadow-lg p-6 md:p-8 lg:p-10'>
+                                    <div
+                                        className="text-gray-700 leading-relaxed text-base md:text-lg [&_h1]:text-3xl [&_h1]:md:text-4xl [&_h1]:font-bold [&_h1]:text-[#213554] [&_h1]:mt-8 [&_h1]:mb-4 [&_h2]:text-2xl [&_h2]:md:text-3xl [&_h2]:font-bold [&_h2]:text-[#213554] [&_h2]:mt-6 [&_h2]:mb-3 [&_h3]:text-xl [&_h3]:md:text-2xl [&_h3]:font-semibold [&_h3]:text-[#213554] [&_h3]:mt-5 [&_h3]:mb-2 [&_p]:mb-4 [&_p]:leading-7 [&_a]:text-[#EE334B] [&_a]:font-medium [&_a]:no-underline [&_a:hover]:underline [&_strong]:text-[#213554] [&_strong]:font-semibold [&_img]:rounded-xl [&_img]:shadow-lg [&_img]:my-6 [&_img]:w-full [&_img]:h-auto [&_blockquote]:border-l-4 [&_blockquote]:border-[#EE334B] [&_blockquote]:pl-4 [&_blockquote]:pr-4 [&_blockquote]:py-2 [&_blockquote]:italic [&_blockquote]:bg-gray-50 [&_blockquote]:my-4 [&_ul]:list-disc [&_ul]:ml-6 [&_ul]:mb-4 [&_ul]:space-y-2 [&_ol]:list-decimal [&_ol]:ml-6 [&_ol]:mb-4 [&_ol]:space-y-2 [&_li]:leading-7"
+                                        dangerouslySetInnerHTML={{ __html: singleBlog?.content }}
+                                    />
+                                </article>
                             </div>
-                        </div>
 
-                        {/* Blog Content - Modernized */}
-                        <div className='w-full'>
-                            <article className='blog_content bg-white rounded-2xl shadow-lg p-6 md:p-8 lg:p-10'>
-                                <div
-                                    className="text-gray-700 leading-relaxed text-base md:text-lg [&_h1]:text-3xl [&_h1]:md:text-4xl [&_h1]:font-bold [&_h1]:text-[#213554] [&_h1]:mt-8 [&_h1]:mb-4 [&_h2]:text-2xl [&_h2]:md:text-3xl [&_h2]:font-bold [&_h2]:text-[#213554] [&_h2]:mt-6 [&_h2]:mb-3 [&_h3]:text-xl [&_h3]:md:text-2xl [&_h3]:font-semibold [&_h3]:text-[#213554] [&_h3]:mt-5 [&_h3]:mb-2 [&_p]:mb-4 [&_p]:leading-7 [&_a]:text-[#EE334B] [&_a]:font-medium [&_a]:no-underline [&_a:hover]:underline [&_strong]:text-[#213554] [&_strong]:font-semibold [&_img]:rounded-xl [&_img]:shadow-lg [&_img]:my-6 [&_img]:w-full [&_img]:h-auto [&_blockquote]:border-l-4 [&_blockquote]:border-[#EE334B] [&_blockquote]:pl-4 [&_blockquote]:pr-4 [&_blockquote]:py-2 [&_blockquote]:italic [&_blockquote]:bg-gray-50 [&_blockquote]:my-4 [&_ul]:list-disc [&_ul]:ml-6 [&_ul]:mb-4 [&_ul]:space-y-2 [&_ol]:list-decimal [&_ol]:ml-6 [&_ol]:mb-4 [&_ol]:space-y-2 [&_li]:leading-7"
-                                    dangerouslySetInnerHTML={{ __html: singleBlog?.content }}
-                                />
-                            </article>
-                        </div>
-
-                    {/* Blog Products Section - Modernized with Slider */}
-                    {blogProducts && blogProducts.length > 0 && (
-                        <div className='w-full mt-6'>
+                          
+                            {blogProducts && blogProducts.length > 0 && (
+                                <div className='w-full mt-6'>
                             <div className='bg-white rounded-2xl shadow-lg p-4 md:p-6'>
                                 <div className='mb-4'>
                                     <h2 className='text-2xl md:text-3xl font-bold text-[#213554] mb-1'>Related Products</h2>
@@ -244,7 +254,7 @@ useEffect(() => {
                                            </div>
                                         ))}
                                     </div>
-                                    {/* Desktop Navigation Arrows */}
+                                    
                                     {blogProducts.length > 2 && (
                                         <div className="md:block hidden">
                                             <button
@@ -283,7 +293,7 @@ useEffect(() => {
                                             </button>
                                         </div>
                                     )}
-                                    {/* Mobile Navigation Arrows */}
+                                   
                                     {blogProducts.length > 2 && (
                                         <div className="md:hidden flex justify-between items-center absolute inset-y-0 left-0 right-0 pointer-events-none px-2">
                                             <button
@@ -324,33 +334,33 @@ useEffect(() => {
                                     )}
                                 </div>
                             </div>
-                        </div>
-                    )}
-
-                    </div>
-
-                    {/* Right Column - Sidebar (1/3 width) */}
-                    <div className='lg:w-1/3 lg:sticky lg:top-8 lg:self-start lg:h-fit'>
-                        <div className='flex flex-col gap-6'>
-                            {/* Table of Contents */}
-                            {singleBlog?.content && (
-                                <TableOfContent content={singleBlog.content} />
-                            )}
-
-                            {/* Latest Articles Section */}
-                            {blogs && blogs.length > 0 && (
-                                <div className='bg-white rounded-2xl shadow-lg p-6 border border-gray-100'>
-                                    <div className='mb-6'>
-                                        <h2 className='text-xl md:text-2xl font-bold text-[#213554] mb-2'>Latest Articles</h2>
-                                        <p className='text-gray-600 text-xs md:text-sm'>Explore more insights and guides</p>
-                                    </div>
-                                    <div className='flex flex-col gap-4'>
-                                        {blogs.slice(0, 5).map((item, index) => (
-                                            <BlogCard key={item._id || index} data={item} />
-                                        ))}
-                                    </div>
                                 </div>
                             )}
+
+                        </div>
+
+                        <div className='lg:w-1/3 lg:sticky lg:top-8 lg:self-start lg:h-fit'>
+                            <div className='flex flex-col gap-6'>
+                             
+                                {singleBlog?.content && (
+                                    <TableOfContent content={singleBlog.content} />
+                                )}
+
+                               
+                                {blogs && blogs.length > 0 && (
+                                    <div className='bg-white rounded-2xl shadow-lg p-4 sm:p-6 border border-gray-100'>
+                                        <div className='mb-4'>
+                                            <h2 className='text-xl md:text-2xl font-bold text-[#213554] mb-1'>Latest Articles</h2>
+                                            <p className='text-gray-600 text-xs md:text-sm'>Explore more insights and guides</p>
+                                        </div>
+                                        <div className='grid grid-cols-2 gap-3 min-w-0'>
+                                            {blogs.slice(0, 4).map((item, index) => (
+                                                <BlogCard key={item._id || index} data={item} disableSelection compact />
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>

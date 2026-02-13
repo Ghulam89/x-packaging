@@ -299,45 +299,14 @@ const BottomNav = ({ Menu, OpenMenu }) => {
             );
           })}
           
-          <div
-            className="relative"
-            onMouseEnter={() => setIsPortfolioOpen(true)}
-            onMouseLeave={() => setIsPortfolioOpen(false)}
+          <Link
+            to="/shop"
+            className="flex items-center gap-1 px-3 py-2.5 text-sm font-semibold text-[#213554] hover:text-[#EE334B] transition-all duration-300 rounded-lg hover:bg-[#EE334B]/5 relative group"
           >
-            <button
-              type="button"
-              className="flex relative cursor-pointer group items-center gap-1 px-3 py-2.5 text-sm   font-medium text-[#213554] hover:text-[#EE334B] transition-all duration-300 rounded-lg hover:bg-[#EE334B]/5"
-            >
-              <span className="relative z-10">Portfolio</span>
-              <FaAngleDown className="ml-1 group-hover:rotate-180 transition-transform duration-300" size={14} />
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#EE334B] to-[#213554] group-hover:w-full transition-all duration-300"></span>
-            </button>
-
-            {isPortfolioOpen && (
-              <div className="absolute left-0 mt-2 w-64 bg-white/95 backdrop-blur-lg border border-gray-200 rounded-xl shadow-xl z-50 animate-slideDown">
-                <ul className="max-h-80 overflow-y-auto py-2">
-                  {portfolioCategories.map((category, index) => (
-                    <li key={category._id || category.slug || category.title || index}>
-                      <Link
-                        to={`/category/${category?.slug || category?.title}`}
-                        className="flex items-center justify-between px-4 py-2 text-sm text-[#213554] hover:bg-[#EE334B]/10 hover:text-[#EE334B] transition-all duration-200"
-                      >
-                        <span>{category.title}</span>
-                      </Link>
-                    </li>
-                  ))}
-                  <li className="border-t border-gray-200 mt-1 pt-1">
-                    <Link
-                      to="/shop"
-                      className="block px-4 py-2 text-sm font-semibold text-[#EE334B] hover:!text-white hover:bg-[#EE334B] rounded-b-xl transition-all duration-200 text-center"
-                    >
-                      View all
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            )}
-          </div>
+            <span className="relative z-10">Portfolio
+</span>
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#EE334B] to-[#213554] group-hover:w-full transition-all duration-300"></span>
+          </Link>
           <Link
             to="#"
             className="flex items-center gap-1 px-3 py-2.5 text-sm font-semibold text-[#213554] hover:text-[#EE334B] transition-all duration-300 rounded-lg hover:bg-[#EE334B]/5 relative group"

@@ -53,7 +53,7 @@ const formatDate = (dateString) => {
   });
 };
 
-const BlogCard = ({ data, disableSelection = false }) => {
+const BlogCard = ({ data, disableSelection = false, compact = false }) => {
   const { selectedBlogs, toggleBlog } = useBlogSelection();
   const isSelected = selectedBlogs.has(data?._id);
 
@@ -67,54 +67,55 @@ const BlogCard = ({ data, disableSelection = false }) => {
       }
     }
   };
+  const previewLength = compact ? 80 : 120;
   const previewText = data?.shortDescription 
-    ? data.shortDescription.slice(0, 120) + "..."
-    : stripHtml(data?.content).slice(0, 120) + "...";
+    ? data.shortDescription.slice(0, previewLength) + "..."
+    : stripHtml(data?.content).slice(0, previewLength) + "...";
 
   const cardContent = (
     <div className={`rounded-2xl overflow-hidden w-full h-full bg-white shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200 hover:border-[#EE334B]/20 flex flex-col transform hover:-translate-y-1 ${isSelected && !disableSelection ? 'ring-2 ring-[#EE334B] shadow-lg' : ''}`}>
           {/* Blog Image */}
-          <div className="w-full h-48 sm:h-56 md:h-64 overflow-hidden relative rounded-t-2xl">
+          <div className={`w-full overflow-hidden relative rounded-t-2xl ${compact ? 'h-32 sm:h-36' : 'h-48 sm:h-56 md:h-64'}`}>
             <img
               src={`${BaseUrl}/${data?.image}`}
               alt={data?.imageAltText || data?.title}
-              className="w-full h-full object-cover  transform group-hover:scale-110 transition-transform duration-700"
+              className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
             />
             {/* Gallery Hover Overlay Gradient */}
             <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-t-2xl"></div>
             {/* Gallery Shine Effect - Sweeps across on hover */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-t-2xl"></div>
             {/* Badge overlay */}
-            <div className="absolute top-2 left-2 sm:top-4 sm:left-4 z-20">
-              <h6 className="inline-block px-2 py-1 sm:px-4 sm:py-1.5 text-xs font-bold text-white bg-[#EE334B] rounded-full shadow-lg backdrop-blur-sm">
+            <div className="absolute top-2 left-2 z-20">
+              <h6 className={`inline-block font-bold text-white bg-[#EE334B] rounded-full shadow-lg backdrop-blur-sm ${compact ? 'px-2 py-0.5 text-[10px]' : 'px-2 py-1 sm:px-4 sm:py-1.5 text-xs'}`}>
                 Knowledge Base
               </h6>
             </div>
           </div>
 
           {/* Blog Content */}
-          <div className="p-4 sm:p-5 md:p-6 text-start flex flex-col flex-grow">
+          <div className={`text-start flex flex-col flex-grow ${compact ? 'p-3' : 'p-4 sm:p-5 md:p-6'}`}>
             {/* Date */}
             {data?.createdAt && (
-              <div className="flex items-center text-gray-500 text-xs mb-2 sm:mb-3">
-                <FaCalendarAlt className="mr-2 text-[#EE334B]" />
+              <div className={`flex items-center text-gray-500 mb-1 ${compact ? 'text-[10px]' : 'text-xs mb-2 sm:mb-3'}`}>
+                <FaCalendarAlt className={`text-[#EE334B] ${compact ? 'mr-1 text-[10px]' : 'mr-2'}`} />
                 <span>{formatDate(data.createdAt)}</span>
               </div>
             )}
 
             {/* Title */}
-            <h3 className="text-lg sm:text-xl font-bold text-[#213554] line-clamp-2 mb-2 sm:mb-3 group-hover:text-[#EE334B] transition-colors duration-300 leading-tight">
+            <h3 className={`font-bold text-[#213554] line-clamp-2 group-hover:text-[#EE334B] transition-colors duration-300 leading-tight ${compact ? 'text-sm mb-1' : 'text-lg sm:text-xl mb-2 sm:mb-3'}`}>
               {data?.title}
             </h3>
 
             {/* Description */}
-            <p className="text-gray-600 line-clamp-3 mb-3 sm:mb-4 text-xs sm:text-sm leading-relaxed flex-grow">
+            <p className={`text-gray-600 line-clamp-3 leading-relaxed flex-grow ${compact ? 'text-[11px] mb-2' : 'mb-3 sm:mb-4 text-xs sm:text-sm'}`}>
               {previewText}
             </p>
 
             {/* Read More Button */}
-            <div className="flex justify-start items-center mt-auto pt-2">
-              <span className="inline-flex items-center text-[#EE334B] font-semibold text-xs sm:text-sm group-hover:gap-2 gap-1 transition-all duration-300">
+            <div className={`flex justify-start items-center mt-auto ${compact ? 'pt-1' : 'pt-2'}`}>
+              <span className={`inline-flex items-center text-[#EE334B] font-semibold group-hover:gap-2 gap-1 transition-all duration-300 ${compact ? 'text-[11px]' : 'text-xs sm:text-sm'}`}>
                 Continue Reading
                 <FaArrowRight className="transform group-hover:translate-x-1 transition-transform duration-300" />
               </span>
