@@ -66,11 +66,7 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // Middleware - Enhanced CORS for iOS Safari compatibility
 app.use(cors({
-  origin: [
-    'http://31.97.14.21:9091',
-    'http://localhost:3000',
-    'http://localhost:9091'
-  ],
+  origin: '*', // Allow all origins (adjust in production)
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Cache-Control', 'Pragma'],
   exposedHeaders: ['Content-Length', 'Content-Type'],
