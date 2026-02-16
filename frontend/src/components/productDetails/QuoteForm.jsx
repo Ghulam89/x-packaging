@@ -298,7 +298,7 @@ const QuoteForm = memo(({ product }) => {
                                 <p className="text-sm text-[#213554] font-semibold mb-0.5 group-hover:text-[#EE334B] transition-colors duration-300">
                                     {formData.image ? formData.image.name : 'Click to upload or drag and drop'}
                                 </p>
-                                <p style={{fontSize: '12px'}} className=" text-gray-500">
+                                <p style={{fontSize: '11px'}} className=" text-gray-500">
                                     Max Size: 5MB | Allowed: PNG, PDF, JPG, JPEG, WEBP
                                 </p>
                                 {formData.image && (

@@ -585,7 +585,7 @@ const ProductDetails = ({
 
                   </div>
                     </div>
-                    <div className=' w-6/12 mx-auto'>
+                    <div className=' w-4/12 mx-auto'>
                     {product?.bannerImage && (
                         <div className=' w-full'>
                             <img 

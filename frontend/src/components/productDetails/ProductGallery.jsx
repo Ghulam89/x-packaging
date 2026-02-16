@@ -19,7 +19,7 @@ const ProductGallery = ({
     return (
         <div className='w-full flex gap-7'>
             <div className="sm:block md:block hidden">
-                <div className="flex flex-col items-center justify-center gap-2">
+                <div className="flex flex-col items-center justify-center gap-3">
                     {images?.map((_, i) => (
                         <div
                             key={i}
