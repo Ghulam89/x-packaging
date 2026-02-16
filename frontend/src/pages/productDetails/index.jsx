@@ -31,6 +31,18 @@ import sky from '../../assets/images/footer/sky.svg'
 import ups from '../../assets/images/footer/ups.svg'
 import chat from '../../assets/images/icon/chat.png'
 import CustomPackagingProduced from '../../components/CustomPackagingProduced'
+import {
+    FaBoxOpen,
+    FaRulerCombined,
+    FaLayerGroup,
+    FaCubes,
+    FaPrint,
+    FaMagic,
+    FaCheckCircle,
+    FaRecycle,
+    FaFileAlt,
+    FaClock,
+  } from "react-icons/fa"
 
 const ProductDetails = ({
     serverData,
@@ -591,42 +603,76 @@ const ProductDetails = ({
             />
            
 
-            <section className="sm:max-w-8xl max-w-[95%] mx-auto mt-10 mb-4">
-                <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100">
-                    <div className="px-5 sm:px-6 py-4 border-b border-gray-100 bg-gray-50/80">
-                        <div className="flex items-center gap-2">
-                            <div className="w-1 h-8 bg-gradient-to-b from-[#EE334B] to-[#213554] rounded-full"></div>
-                            <h2 className="text-xl sm:text-2xl font-bold text-[#213554]">
-                                Product Specification
-                            </h2>
-                        </div>
-                    </div>
-                    <div className="flex flex-col sm:flex-row">
-                        <div className="sm:w-1/3 bg-gray-50/50 border-b sm:border-b-0 sm:border-r border-gray-100">
-                            <div className="divide-y divide-gray-100">
-                                {['Box Style', 'Dimension (L + W + H)', 'Quantities', 'Stock', 'Printing', 'Finishing', 'Included Options', 'Additional Options', 'Proof', 'Turnaround'].map((label) => (
-                                    <div key={label} className="px-5 sm:px-6 py-3.5">
-                                        <p className="font-semibold text-sm sm:text-base text-[#213554]">
-                                            {label}
-                                        </p>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                        <div className="sm:w-2/3 bg-white">
-                            <div className="divide-y divide-gray-100">
-                                {['Rigid Boxes', 'All Custom Sizes & Shapes', 'No Minimum Order Required', '14 pt, 16 pt, 18 pt, 24 pt and more', 'Digital (Standard and HD Print), Lithography, CMYK, CMYK + 1 PMS color, CMYK + 2 PMS colors', 'Gloss Lamination, Matte Lamination, Gloss AQ, Gloss UV, Matte UV, Spot UV, Embossing, Debossing, Foiling', 'Die Cutting, Gluing, Scored, Perforation', 'Eco-Friendly, Recycled Boxes, Biodegradable', 'Flat View, 3D Mock-up, Physical Sampling (On request)', '4 – 8 Business Days, RUSH'].map((value, idx) => (
-                                    <div key={idx} className="px-5 sm:px-6 py-3.5">
-                                        <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
-                                            {value}
-                                        </p>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+          <section className="sm:max-w-8xl max-w-[95%] mx-auto mt-10 mb-6">
+  <div className="bg-white rounded-xl overflow-hidden shadow-md border border-gray-100">
+
+    {/* 🔥 Gradient Top Bar */}
+    <div className="bg-gradient-to-r from-[#EE334B] to-[#213554] px-6 py-4">
+  <h2 className="text-xl sm:text-2xl font-bold text-white">
+    Product Specification
+  </h2>
+</div>
+
+    <div className="flex flex-col sm:flex-row">
+
+      {/* LEFT SIDE LABELS */}
+      <div className="sm:w-1/3 bg-gray-50 border-r border-gray-100">
+        <div className="divide-y divide-gray-100">
+
+          {[
+            { label: "Box Style", icon: <FaBoxOpen color='#EE334B' size={20} /> },
+            { label: "Dimension (L + W + H)", icon: <FaRulerCombined color='#EE334B' size={20} /> },
+            { label: "Quantities", icon: <FaLayerGroup color='#EE334B' size={20} /> },
+            { label: "Stock", icon: <FaCubes color='#EE334B' size={20} /> },
+            { label: "Printing", icon: <FaPrint color='#EE334B' size={20} /> },
+            { label: "Finishing", icon: <FaMagic color='#EE334B' size={20} /> },
+            { label: "Included Options", icon: <FaCheckCircle color='#EE334B' size={20} /> },
+            { label: "Additional Options", icon: <FaRecycle color='#EE334B' size={20} /> },
+            { label: "Proof", icon: <FaFileAlt color='#EE334B' size={20} /> },
+            { label: "Turnaround", icon: <FaClock color='#EE334B' size={20} /> },
+          ].map((item, index) => (
+            <div key={index} className="px-6 py-4 flex items-center gap-3">
+              <span className="text-lg">
+                {item.icon}
+              </span>
+              <p className="font-semibold text-sm sm:text-base text-[#213554]">
+                {item.label}
+              </p>
+            </div>
+          ))}
+
+        </div>
+      </div>
+
+      {/* RIGHT SIDE VALUES */}
+      <div className="sm:w-2/3 bg-white">
+        <div className="divide-y divide-gray-100">
+
+          {[
+            "Rigid Boxes",
+            "All Custom Sizes & Shapes",
+            "No Minimum Order Required",
+            "14 pt, 16 pt, 18 pt, 24 pt and more",
+            "Digital (Standard and HD Print), Lithography, CMYK, CMYK + 1 PMS color, CMYK + 2 PMS colors",
+            "Gloss Lamination, Matte Lamination, Gloss AQ, Gloss UV, Matte UV, Spot UV, Embossing, Debossing, Foiling",
+            "Die Cutting, Gluing, Scored, Perforation",
+            "Eco-Friendly, Recycled Boxes, Biodegradable",
+            "Flat View, 3D Mock-up, Physical Sampling (On request)",
+            "4 – 8 Business Days, RUSH",
+          ].map((value, index) => (
+            <div key={index} className="px-6 py-4">
+              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+                {value}
+              </p>
+            </div>
+          ))}
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
 
             {/* Learn More About Section */}
             {product?.description && (
@@ -702,7 +748,7 @@ const ProductDetails = ({
 
 
             <section className="pt-8 sm:max-w-8xl max-w-[95%] mx-auto">
-                <div className=' flex sm:flex-row flex-col items-center justify-between gap-4'>
+                <div className=' flex sm:flex-row flex-col mb-5 items-center justify-between gap-4'>
                     <div className="flex items-center gap-4">
                         <div className="w-1 h-12 bg-gradient-to-b from-[#EE334B] to-[#213554] rounded-full"></div>
                         <div>
@@ -710,6 +756,8 @@ const ProductDetails = ({
                             <p className='text-gray-600 text-sm mt-1'>Discover packaging tailored for your products</p>
                         </div>
                     </div>
+
+                    
                     <Link to="" className="group">
                         <div className='font-bold text-[#EE334B] flex items-center hover:text-[#213554] transition-colors duration-300 uppercase text-sm px-4 py-2 rounded-lg hover:bg-[#EE334B]/10'>
                             View all <FaAngleRight className="ml-1 group-hover:translate-x-1 transition-transform duration-300" size={15} />
