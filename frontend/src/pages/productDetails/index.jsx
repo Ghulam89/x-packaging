@@ -537,6 +537,8 @@ const ProductDetails = ({
                     </div>
 
                     <div className="lg:w-6/12 w-full">
+                    
+                        <div className=' w-11/12 mx-auto'>
                         <div className='flex flex-row items-center justify-between gap-4 mb-4'>
                             <div className='flex gap-2 items-center flex-1 min-w-0'>
                                 <div className="w-1 h-11 bg-gradient-to-b from-[#EE334B] to-[#213554] rounded-full flex-shrink-0"></div>
@@ -551,6 +553,9 @@ const ProductDetails = ({
                             </Link>
                         </div>
                         <QuoteForm product={product} />
+                        </div>
+                      
+                       
                     </div>
                 </div>
             </section>
