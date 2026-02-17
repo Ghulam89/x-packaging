@@ -31,6 +31,17 @@ import sky from '../../assets/images/footer/sky.svg'
 import ups from '../../assets/images/footer/ups.svg'
 import chat from '../../assets/images/icon/chat.png'
 import CustomPackagingProduced from '../../components/CustomPackagingProduced'
+import specification1 from  '../../assets/images/icon/Dimensions.png';
+import specification2 from  '../../assets/images/icon/Quantity.png';
+import specification3 from  '../../assets/images/icon/Stock.png';
+import specification4 from  '../../assets/images/icon/Printing.png';
+import specification5 from  '../../assets/images/icon/Finishing.png';
+import specification6 from  '../../assets/images/icon/included-options.png';
+import specification7 from  '../../assets/images/icon/Additional-option.png';
+import specification8 from  '../../assets/images/icon/sETTING.png';
+import specification9 from  '../../assets/images/icon/pROOF.png';
+import sATISFIED from  '../../assets/images/icon/sATISFIED-CLIENTS-BAGE.png';
+import BgSpecification from  '../../assets/images/brand/specificationbg.webp';
 import {
     FaBoxOpen,
     FaRulerCombined,
@@ -538,7 +549,7 @@ const ProductDetails = ({
 
                     <div className="lg:w-6/12 w-full">
                     
-                        <div className=' w-11/12 mx-auto'>
+                        <div className=' w-12/12 mx-auto'>
                         <div className='flex flex-row items-center justify-between gap-4 mb-4'>
                             <div className='flex gap-2 items-center flex-1 min-w-0'>
                                 <div className="w-1 h-11 bg-gradient-to-b from-[#EE334B] to-[#213554] rounded-full flex-shrink-0"></div>
@@ -577,10 +588,14 @@ const ProductDetails = ({
                         be they gifts or retail items. Customize them with sleek finishes to improve customers’ tactile and
                         gifting experience!
                     </p>
-                    <p className="my-6 font-semibold text-[#213554] text-xs sm:text-sm  tracking-wide">
+                    <p className="my-5 font-semibold text-[#213554] text-xs sm:text-sm  tracking-wide">
                         More Than +5000 Satisfied Clients Worldwide
                     </p>
                     <BottomHero />
+
+                   <div  className=''>
+                   <img src={sATISFIED} alt="Satisfied Clients" className=' w-24' />
+                   </div>
                   <div>
 
                   </div>
@@ -599,7 +614,7 @@ const ProductDetails = ({
                 </div>
                 
             </section>
-            <CustomPackagingProduced/>
+            {/* <CustomPackagingProduced/> */}
             <OfferCard
                 title={'Looking For Other Custom Boxes And packaging?'}
                 subTitle={'Chat live with our packaging experts now for a free consultation and insert price quote.'}
@@ -608,8 +623,9 @@ const ProductDetails = ({
             />
            
 
-          <section className="sm:max-w-8xl max-w-[95%] mx-auto mt-10 mb-6">
-  <div className="bg-white rounded-xl overflow-hidden shadow-md border border-gray-100">
+          <section className="sm:max-w-8xl   relative max-w-[95%] flex  gap-3 items-center mx-auto mt-10 mb-6">
+ <div className=' w-9/12'>
+ <div className="bg-white rounded-xl overflow-hidden shadow-md border border-gray-100">
 
     {/* 🔥 Gradient Top Bar */}
     <div className="bg-gradient-to-r from-[#EE334B] to-[#213554] px-6 py-4">
@@ -625,16 +641,15 @@ const ProductDetails = ({
         <div className="divide-y divide-gray-100">
 
           {[
-            { label: "Box Style", icon: <FaBoxOpen color='#EE334B' size={20} /> },
-            { label: "Dimension (L + W + H)", icon: <FaRulerCombined color='#EE334B' size={20} /> },
-            { label: "Quantities", icon: <FaLayerGroup color='#EE334B' size={20} /> },
-            { label: "Stock", icon: <FaCubes color='#EE334B' size={20} /> },
-            { label: "Printing", icon: <FaPrint color='#EE334B' size={20} /> },
-            { label: "Finishing", icon: <FaMagic color='#EE334B' size={20} /> },
-            { label: "Included Options", icon: <FaCheckCircle color='#EE334B' size={20} /> },
-            { label: "Additional Options", icon: <FaRecycle color='#EE334B' size={20} /> },
-            { label: "Proof", icon: <FaFileAlt color='#EE334B' size={20} /> },
-            { label: "Turnaround", icon: <FaClock color='#EE334B' size={20} /> },
+            { label: "Box Style", icon:<img src={specification1} alt="Box Style" className='w-6 h-6' />},
+            { label: "Dimension (L + W + H)", icon: <img src={specification2} alt="Dimension (L + W + H)" className='w-6 h-6' /> },
+            { label: "Quantities", icon: <img src={specification3} alt="Quantities" className='w-6 h-6' /> },
+            { label: "Stock", icon: <img src={specification4} alt="Stock" className='w-6 h-6' /> },
+            { label: "Printing", icon: <img src={specification5} alt="Printing" className='w-6 h-6' /> },
+            { label: "Finishing", icon: <img src={specification6} alt="Finishing" className='w-6 h-6' /> },
+            { label: "Included Options", icon: <img src={specification7} alt="Included Options" className='w-6 h-6' /> },
+            { label: "Proof", icon: <img src={specification8} alt="Included Options" className='w-6 h-6' /> },
+            { label: "Proof Turnaorand", icon: <img src={specification9} alt="Included Options" className='w-6 h-6' /> },
           ].map((item, index) => (
             <div key={index} className="px-6 py-4 flex items-center gap-3">
               <span className="text-lg">
@@ -661,9 +676,7 @@ const ProductDetails = ({
             "Digital (Standard and HD Print), Lithography, CMYK, CMYK + 1 PMS color, CMYK + 2 PMS colors",
             "Gloss Lamination, Matte Lamination, Gloss AQ, Gloss UV, Matte UV, Spot UV, Embossing, Debossing, Foiling",
             "Die Cutting, Gluing, Scored, Perforation",
-            "Eco-Friendly, Recycled Boxes, Biodegradable",
-            "Flat View, 3D Mock-up, Physical Sampling (On request)",
-            "4 – 8 Business Days, RUSH",
+            "Flat View, 3D Mock-up, Physical Sampling (On request)  4 – 8 Business Days, RUSH",
           ].map((value, index) => (
             <div key={index} className="px-6 py-4">
               <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
@@ -677,6 +690,23 @@ const ProductDetails = ({
 
     </div>
   </div>
+ </div>
+ <div className=' w-3/12'>
+ <div className="hidden md:flex absolute  z-30 top-0 right-12 items-center justify-start pointer-events-none">
+              <h6
+                className="text-[38px] sm:text-[53px]  lg:text-[70px] font-bold text-[#EE334B] opacity-10 select-none" 
+                style={{ 
+                  fontFamily: 'Arial, sans-serif',
+                  writingMode: 'vertical-rl',
+                  textOrientation: 'mixed',
+                  transform: 'rotate(0deg)',
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                Product {'\u00A0'}Specification 
+              </h6>
+            </div>
+ </div>
 </section>
 
             {/* Learn More About Section */}
@@ -753,8 +783,8 @@ const ProductDetails = ({
 
 
             <section className="pt-8 sm:max-w-8xl max-w-[95%] mx-auto">
-                <div className=' flex sm:flex-row flex-col mb-5 items-center justify-between gap-4'>
-                    <div className="flex items-center gap-4">
+                <div className='flex sm:flex-row flex-col mb-5 items-start justify-between gap-4'>
+                    <div className="flex items-center gap-4 flex-1">
                         <div className="w-1 h-12 bg-gradient-to-b from-[#EE334B] to-[#213554] rounded-full"></div>
                         <div>
                             <h2 className='text-2xl sm:text-3xl font-bold text-[#213554]'>Related Products</h2>
@@ -762,24 +792,71 @@ const ProductDetails = ({
                         </div>
                     </div>
 
-                    
-                    <Link to="" className="group">
-                        <div className='font-bold text-[#EE334B] flex items-center hover:text-[#213554] transition-colors duration-300 uppercase text-sm px-4 py-2 rounded-lg hover:bg-[#EE334B]/10'>
-                            View all <FaAngleRight className="ml-1 group-hover:translate-x-1 transition-transform duration-300" size={15} />
+                    {/* Navigation Arrows - Top Right */}
+                    {relatedProduct?.relatedProducts && relatedProduct.relatedProducts.length > 0 && (
+                        <div className="flex items-center gap-2">
+                            <button
+                                onClick={() => {
+                                    const container = document.getElementById('related-products-slider');
+                                    if (container) {
+                                        const cardWidth = container.firstChild?.clientWidth || 280;
+                                        container.scrollTo({
+                                            left: container.scrollLeft - cardWidth,
+                                            behavior: 'smooth'
+                                        });
+                                    }
+                                }}
+                                className="w-10 h-10 p-[2px] bg-gradient-to-r from-[#EE334B] to-[#213554] rounded hover:opacity-90 transition-opacity duration-300 cursor-pointer"
+                                aria-label="Previous products"
+                            >
+                                <div className="w-full h-full bg-white rounded flex items-center justify-center">
+                                    <FaAngleRight className="rotate-180 text-[#213554]" size={16} />
+                                </div>
+                            </button>
+                            <button
+                                onClick={() => {
+                                    const container = document.getElementById('related-products-slider');
+                                    if (container) {
+                                        const cardWidth = container.firstChild?.clientWidth || 280;
+                                        container.scrollTo({
+                                            left: container.scrollLeft + cardWidth,
+                                            behavior: 'smooth'
+                                        });
+                                    }
+                                }}
+                                className="w-10 h-10 p-[2px] bg-gradient-to-r from-[#EE334B] to-[#213554] rounded hover:opacity-90 transition-opacity duration-300 cursor-pointer"
+                                aria-label="Next products"
+                            >
+                                <div className="w-full h-full bg-white rounded flex items-center justify-center">
+                                    <FaAngleRight className="text-[#213554]" size={16} />
+                                </div>
+                            </button>
                         </div>
-                    </Link>
+                    )}
                 </div>
 
                 {relatedProduct?.relatedProducts && relatedProduct.relatedProducts.length > 0 && (
-                    <div className="relative border-gray-100">
-                        <CardSlider
-                            top={40}
-                            items={relatedProduct.relatedProducts.map((item, index) => (
+                    <div className="relative">
+                        <div
+                            id="related-products-slider"
+                            className="scroll-container sm:pl-0 pl-4 pr-4 sm:pr-0 items-start gap-3 sm:gap-4 flex productOverflow overflow-x-auto overflow-y-hidden whitespace-nowrap custom-scrollbar py-2 snap-x snap-mandatory min-h-[280px] sm:min-h-[380px] md:min-h-[400px]"
+                            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                        >
+                            {relatedProduct.relatedProducts.map((item, index) => (
                                 <div key={item?._id || index} className="w-[280px] flex-shrink-0 h-full">
                                     <ProductCard data={item} disableSelection={true} />
                                 </div>
                             ))}
-                        />
+                        </div>
+                        
+                        {/* View All Link - Bottom Right */}
+                        <div className="flex justify-end">
+                            <Link to="" className="group">
+                                <div className='font-bold text-[#EE334B] flex items-center hover:text-[#213554] transition-colors duration-300 uppercase text-sm'>
+                                    View all <FaAngleRight className="ml-1 group-hover:translate-x-1 transition-transform duration-300" size={15} />
+                                </div>
+                            </Link>
+                        </div>
                     </div>
                 )}
             </section>

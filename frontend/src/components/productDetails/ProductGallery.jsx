@@ -16,16 +16,16 @@ const ProductGallery = ({
     thumbnailLoadedImages,
     setThumbnailLoadedImages
 }) => {
-    return (
-        <div className='w-full flex gap-7'>
+    return (    
+        <div className='w-full  flex gap-10'>
             <div className="sm:block md:block hidden">
-                <div className="flex flex-col items-center justify-center gap-3">
+                <div className="flex flex-col items-center  justify-center gap-3">
                     {images?.map((_, i) => (
                         <div
                             key={i}
                             onClick={() => goToSlide(i)}
                             className={`
-                                transition-all w-28 rounded-xl h-28 border-2 overflow-hidden bg-white relative cursor-pointer group
+                                transition-all w-[115px] rounded-xl h-[115px] border-2 overflow-hidden bg-white relative cursor-pointer group
                                 ${curr === i ? " w-20 h-20  border-[#F05367]  ring-2 ring-[#F05367]/30" : "bg-opacity-50 border-transparent hover:bg-opacity-100 hover:scale-105"}
                             `}
                         >
@@ -37,7 +37,7 @@ const ProductGallery = ({
                             <img
                                 src={_}
                                 alt=""
-                                className={`w-full h-full object-center transition-opacity duration-300 ${
+                                className={`w-full h-full transition-opacity duration-300 ${
                                     thumbnailLoadedImages.has(i) ? 'opacity-100' : 'opacity-0'
                                 }`}
                                 onLoad={() => setThumbnailLoadedImages(prev => new Set([...prev, i]))}
@@ -46,9 +46,9 @@ const ProductGallery = ({
                     ))}
                 </div>
             </div>
-            <div className="overflow-hidden relative rounded-2xl group">
+            <div className="relative w-[500px] rounded-2xl group overflow-hidden">
                 <div
-                    className="flex relative transition-transform ease-in-out duration-500 h-[67vh]"
+                    className="flex transition-transform duration-500 ease-in-out"
                     style={{ transform: `translateX(-${curr * 100}%)` }}
                 >
                     {images?.map((image, i) => {
@@ -57,7 +57,7 @@ const ProductGallery = ({
                         const shouldShowSkeleton = !loadedImages.has(i) && !isFirstImage;
                         
                         return (
-                            <div key={i} className="flex-none w-full h-full rounded-2xl overflow-hidden relative">
+                            <div key={i} className="flex-none w-[500px] h-full relative">
                                 {shouldShowSkeleton && (
                                     <div className="absolute inset-0 bg-gradient-to-br from-gray-100 via-gray-50 to-gray-100 rounded-2xl overflow-hidden z-10">
                                         <div className="absolute inset-0" style={shimmerStyle}></div>
@@ -66,13 +66,13 @@ const ProductGallery = ({
                                         </div>
                                     </div>
                                 )}
-                                <div className="relative w-full h-full overflow-hidden rounded-2xl">
+                                <div className="relative w-full  overflow-hidden rounded-2xl">
                                     <img
                                         onClick={() => openImageViewer(product?.images?.[i] || { url: image }, i)}
                                         src={image}
                                         alt={product?.images?.[i]?.altText || ""}
                                         loading={isFirstImage ? "eager" : "lazy"}
-                                        className={`w-full h-full cursor-pointer object-cover rounded-2xl transition-all duration-500 group-hover:scale-110 ${
+                                        className={` cursor-pointer object-cover rounded-2xl transition-all duration-500 group-hover:scale-110 ${
                                             loadedImages.has(i) || isFirstImage ? 'opacity-100' : 'opacity-0'
                                         }`}
                                         onLoad={() => {

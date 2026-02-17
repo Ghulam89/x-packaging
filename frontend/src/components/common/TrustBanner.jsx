@@ -4,7 +4,7 @@ import Button from './Button';
 import trust from '../../assets/images/footer/trust.png';
 const TrustBanner = ({ categoryName = "Apparel Packaging" }) => {
   return (
-    <section className=' bg-[#F7F7F7] py-3'>
+    <section className=' bg-red-50 py-3'>
      
         <div className=" sm:max-w-8xl max-w-[95%] mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8">

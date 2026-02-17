@@ -271,7 +271,7 @@ const QuoteForm = memo(({ product }) => {
                         <option value={'Windows'}>Windows</option>
                     </Select>
                 </div>
-                <div className="col-span-5 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="col-span-5 grid grid-cols-1 mt-2 md:grid-cols-2 gap-4">
                     <div className="flex flex-col">
                         <label
                             htmlFor="design_upload"
