@@ -31,7 +31,7 @@ import fs from 'node:fs/promises';
 const numCPUs = os.cpus().length;
 const isProduction = process.env.NODE_ENV === 'production';
 
-if (isProduction && cluster.isPrimary) {
+if (cluster.isPrimary) {
   console.log(`Primary ${process.pid} is running`);
   console.log(`Forking server for ${numCPUs} CPUs`);
 
@@ -255,7 +255,7 @@ app.use('*', async (req, res, next) => {
         );
         
         template = await vite.transformIndexHtml(url, template);
-        const serverModule = await vite.ssrLoadModule('/src/entry-server.jsx');
+        const serverModule = await vite.ssrLoadModule('../frontend/src/entry-server.jsx');
         render = serverModule?.render;
       } catch (error) {
         console.error('Vite development error:', error);
@@ -386,7 +386,7 @@ app.use('*', async (req, res, next) => {
 });
 
 // Start server
-const PORT = process.env.PORT || 9090;
+const PORT = process.env.PORT || 8000;
  app.listen(PORT, '0.0.0.0', () => {
     console.log(`Worker ${process.pid} is running on port ${PORT} in ${isProduction ? 'production' : 'development'} mode`);
  });

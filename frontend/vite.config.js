@@ -28,13 +28,18 @@ export default defineConfig({
     hmr: {
       host: "localhost",
       protocol: "ws",
-      clientPort: 9090,
-      port: 24679
     },
   },
 
   ssr: {
-    noExternal: true,
+    noExternal: [
+      "react-helmet-async",
+      "react-dom/server",
+      "react-redux",
+      "redux-persist",
+      "@reduxjs/toolkit",
+      "lottie-react"
+    ],
     resolve: {
       conditions: ['node', 'import'],
     },
