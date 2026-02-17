@@ -1,35 +1,40 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import tailwindcss from "@tailwindcss/vite";
+import { fileURLToPath } from "url";
+import { dirname, resolve as pathResolve } from "path";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   plugins: [
     tailwindcss(),
     react(),
   ],
+  cacheDir: ".vite-cache",
 
   resolve: {
     alias: {
       "redux-persist": "redux-persist/es",
+      react: pathResolve(__dirname, "node_modules/react"),
+      "react-dom": pathResolve(__dirname, "node_modules/react-dom"),
     },
     dedupe: ["react", "react-dom"],
   },
 
   server: {
-    allowedHosts: ["xcustompackaging.com", "www.xcustompackaging.com"],
-    strictPort: true,
-    
+    allowedHosts: ["localhost", "127.0.0.1", "xcustompackaging.com", "www.xcustompackaging.com"],
+    strictPort: false,
+    hmr: {
+      host: "localhost",
+      protocol: "ws",
+      clientPort: 9090,
+      port: 24679
+    },
   },
 
   ssr: {
-    noExternal: [
-      "react-helmet-async",
-      "react-dom/server",
-      "react-redux",
-      "redux-persist",
-      "@reduxjs/toolkit",
-      "lottie-react"
-    ],
+    noExternal: true,
     resolve: {
       conditions: ['node', 'import'],
     },
