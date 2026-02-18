@@ -31,7 +31,7 @@ import fs from 'node:fs/promises';
 const numCPUs = os.cpus().length;
 const isProduction = process.env.NODE_ENV === 'production';
 
-if (cluster.isPrimary) {
+if (isProduction && cluster.isPrimary) {
   console.log(`Primary ${process.pid} is running`);
   console.log(`Forking server for ${numCPUs} CPUs`);
 
@@ -273,17 +273,15 @@ app.use('*', async (req, res, next) => {
     // Check if render function is available
     if (!render || typeof render !== 'function') {
       console.error(`Render function not available for ${url}. Falling back to client-side rendering.`);
-      // Commented out PageLoader fallback - return error instead
-      // if (template) {
-      //   const fallbackHtml = template
-      //     .replace('<!--app-head-->', '')
-      //     .replace('<!--app-html-->', '<div id="app"></div>')
-      //     .replace('<!--server-data-->', '<script>window.__SERVER_DATA__ = null;</script>\n<script>window.__CATEGORY_PRODUCTS__ = null;</script>\n<script>window.__HOME_PAGE_DATA__ = null;</script>');
-      //   
-      //   return res.status(200).set({ 'Content-Type': 'text/html' }).send(fallbackHtml);
-      // } else {
-        return res.status(500).send('Server configuration error');
-      // }
+      if (template) {
+        const fallbackHtml = template
+          .replace('<!--app-head-->', '')
+          .replace('<!--app-html-->', '<div id="app"></div>')
+          .replace('<!--server-data-->', '<script>window.__SERVER_DATA__ = null;</script>\n<script>window.__CATEGORY_PRODUCTS__ = null;</script>\n<script>window.__HOME_PAGE_DATA__ = null;</script>');
+        return res.status(200).set({ 'Content-Type': 'text/html' }).send(fallbackHtml);
+      } else {
+        return res.status(500).send('Server error');
+      }
     }
     
     const renderPromise = render(url);
