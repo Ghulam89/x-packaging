@@ -27,12 +27,15 @@ export default defineConfig({
 
   ssr: {
     noExternal: [
+      "react",
+      "react-dom",
       "react-helmet-async",
       "react-dom/server",
       "react-redux",
       "redux-persist",
       "@reduxjs/toolkit",
-      "lottie-react"
+      "lottie-react",
+      "lucide-react"
     ],
     resolve: {
       conditions: ['node', 'import'],
