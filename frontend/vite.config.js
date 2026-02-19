@@ -27,10 +27,7 @@ export default defineConfig({
 
   ssr: {
     noExternal: [
-      "react",
-      "react-dom",
       "react-helmet-async",
-      "react-dom/server",
       "react-redux",
       "redux-persist",
       "@reduxjs/toolkit",
@@ -40,6 +37,8 @@ export default defineConfig({
     resolve: {
       conditions: ['node', 'import'],
     },
+    // Keep React external for SSR - Node.js will resolve it natively
+    external: ['react', 'react-dom', 'react-dom/server'],
   },
 
   optimizeDeps: {
