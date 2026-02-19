@@ -168,7 +168,7 @@ export const prefetchSubCategory = async (slug, priority = false) => {
 
   // Create new request with optimized timeout
   const requestPromise = axios
-    .get(`${BaseUrl}/redis/category/get?slug=${slug}`, {
+    .get(`${BaseUrl}/category/get?slug=${slug}`, {
       timeout: 10000, // 10 second timeout
       ...(priority && { priority: true }) // Browser hint for priority
     })

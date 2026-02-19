@@ -1,10 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import tailwindcss from "@tailwindcss/vite";
-import { fileURLToPath } from "url";
-import { dirname, resolve as pathResolve } from "path";
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   plugins: [
@@ -16,8 +12,6 @@ export default defineConfig({
   resolve: {
     alias: {
       "redux-persist": "redux-persist/es",
-      react: pathResolve(__dirname, "node_modules/react"),
-      "react-dom": pathResolve(__dirname, "node_modules/react-dom"),
     },
     dedupe: ["react", "react-dom"],
   },

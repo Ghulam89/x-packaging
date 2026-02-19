@@ -87,7 +87,7 @@ export async function render(url) {
       // Handle sub-category route
       const slug = baseUrl.split("/")[2];
       try {
-        const { data } = await axios.get(`${BaseUrl}/redis/category/get?slug=${slug}`);
+        const { data } = await axios.get(`${BaseUrl}/category/get?slug=${slug}`);
         serverData = data?.data;
 
         if (serverData?._id) {

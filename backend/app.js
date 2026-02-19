@@ -20,7 +20,6 @@ import subscribeRouter from "./routes/SubscribeRouter.js";
 import requestQuoteRouter from "./routes/RequestQuote.js";
 import instantQuoteRouter from "./routes/InstantQuote.js";
 import sitemapRouter from "./routes/sitemapRouter.js";
-import { REDIS, redisClient }  from './redis_APIS/redis.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
@@ -76,26 +75,6 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-
-   
-// const redisClient = redis.createClient({
-//         socket: {
-//         host: "31.97.14.21",
-//         port: 6379,
-//     },
-//     username: "umbrella",
-//     password: "umbrella123",
-// });
-
-// redisClient.connect()
-//     .then(() => console.log("Connected to Redis"))
-//     .catch(err => console.error("Redis connection error:", err));
-
-
-
-
-app.use("/redis", REDIS);
 
 
 // Backend API routes

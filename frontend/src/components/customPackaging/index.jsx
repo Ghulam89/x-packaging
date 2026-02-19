@@ -21,7 +21,7 @@ const CustomPackaging =React.memo(() => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `${BaseUrl}/redis/category/getAll?categories=Rigid Boxes,Retail Boxes,Subscription Boxes,Custom Display Boxes​,Apparel and Fashion Boxes,Candle Boxes,Bakery Boxes,Cardboard boxes,CBD Boxes,Chocolate Boxes,Cosmetics and Beauty Boxes,Food Boxes,Gift Boxes,Jewelry Boxes,Kraft Packaging,Magnetic Closure Boxes,Mailer Boxes,Pillow Boxes, `
+        `${BaseUrl}/category/getAll?categories=Rigid Boxes,Retail Boxes,Subscription Boxes,Custom Display Boxes​,Apparel and Fashion Boxes,Candle Boxes,Bakery Boxes,Cardboard boxes,CBD Boxes,Chocolate Boxes,Cosmetics and Beauty Boxes,Food Boxes,Gift Boxes,Jewelry Boxes,Kraft Packaging,Magnetic Closure Boxes,Mailer Boxes,Pillow Boxes, `
       );
       setCategories(response?.data?.data || []);
     } catch (error) {
