@@ -143,6 +143,13 @@ if (isProduction) {
       base,
       root: path.join(__dirname, '../frontend'),
       configFile: path.join(__dirname, '../frontend/vite.config.js'),
+      ssr: {
+        // Ensure React resolves from frontend node_modules
+        resolve: {
+          conditions: ['node', 'import'],
+          external: ['react', 'react-dom', 'react-dom/server'],
+        },
+      },
     });
     app.use(vite.middlewares);
   } catch (error) {
