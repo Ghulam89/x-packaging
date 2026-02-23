@@ -57,10 +57,7 @@ const App = memo(function App({ serverData, CategoryProducts, homePageData }) {
       />
       <AnnouncementBanner />
       <Navbar />
-      {/* <Suspense fallback={null}> */}
         {element}
-        {/*  */}
-      {/* </Suspense> */}
       <Footer />
     </>
   );

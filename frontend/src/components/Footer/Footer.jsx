@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import logo from '../../assets/images/brand/logo.png';
 import { FaFacebookSquare, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 import { RiInstagramLine } from 'react-icons/ri';
@@ -12,6 +11,7 @@ import img4 from '../../assets/images/footer/fedex.png';
 import img5 from '../../assets/images/footer/dhl.png';
 import img6 from '../../assets/images/footer/United_States_Postal_Service.png';
 import { IoCallOutline, IoLocationOutline } from 'react-icons/io5';
+import { logo } from '../../assets';
 const Footer = () => {
   return (
     <div className=''>
