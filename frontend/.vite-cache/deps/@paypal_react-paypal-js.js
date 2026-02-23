@@ -1,11 +1,11 @@
 import {
   require_react
-} from "./chunk-D7B7HWG2.js";
+} from "./chunk-BLTHIKFL.js";
 import {
   __toESM
 } from "./chunk-PR4QN5HX.js";
 
-// ../frontend/node_modules/@paypal/react-paypal-js/dist/esm/react-paypal-js.js
+// ../node_modules/@paypal/react-paypal-js/dist/esm/react-paypal-js.js
 var import_react = __toESM(require_react());
 var SCRIPT_LOADING_STATE;
 (function(SCRIPT_LOADING_STATE2) {
@@ -842,6 +842,8 @@ var FullWidthContainer = function(_a) {
 };
 var PayPalCardFieldsProvider = function(_a) {
   var children = _a.children, props = __rest$1(_a, ["children"]);
+  var proxyInputEvents = useProxyProps(props.inputEvents);
+  var proxyProps = useProxyProps(props);
   var _b = usePayPalScriptReducer()[0], isResolved = _b.isResolved, options = _b.options;
   var _c = usePayPalCardFieldsRegistry(), fields = _c.fields, registerField = _c.registerField, unregisterField = _c.unregisterField;
   var _d = (0, import_react.useState)(null), cardFieldsForm = _d[0], setCardFieldsForm = _d[1];
@@ -853,8 +855,11 @@ var PayPalCardFieldsProvider = function(_a) {
     if (!isResolved) {
       return;
     }
+    if (props.inputEvents) {
+      proxyProps.inputEvents = proxyInputEvents;
+    }
     try {
-      cardFieldsInstance.current = (_c2 = (_b2 = (_a2 = getPayPalWindowNamespace$1(options[SDK_SETTINGS.DATA_NAMESPACE])).CardFields) === null || _b2 === void 0 ? void 0 : _b2.call(_a2, __assign({}, props))) !== null && _c2 !== void 0 ? _c2 : null;
+      cardFieldsInstance.current = (_c2 = (_b2 = (_a2 = getPayPalWindowNamespace$1(options[SDK_SETTINGS.DATA_NAMESPACE])).CardFields) === null || _b2 === void 0 ? void 0 : _b2.call(_a2, __assign({}, proxyProps))) !== null && _c2 !== void 0 ? _c2 : null;
     } catch (error) {
       setError(function() {
         throw new Error("Failed to render <PayPalCardFieldsProvider /> component. Failed to initialize:  ".concat(error));
@@ -893,6 +898,7 @@ var PayPalCardField = function(_a) {
   var className = _a.className, fieldName = _a.fieldName, options = __rest$1(_a, ["className", "fieldName"]);
   var _b = usePayPalCardFields(), cardFieldsForm = _b.cardFieldsForm, registerField = _b.registerField, unregisterField = _b.unregisterField;
   var containerRef = (0, import_react.useRef)(null);
+  var proxyInputEvents = useProxyProps(options.inputEvents);
   var _c = (0, import_react.useState)(null), setError = _c[1];
   function closeComponent() {
     unregisterField(fieldName);
@@ -906,6 +912,9 @@ var PayPalCardField = function(_a) {
     }
     if (!containerRef.current) {
       return closeComponent;
+    }
+    if (options.inputEvents) {
+      options.inputEvents = proxyInputEvents;
     }
     var registeredField = registerField(fieldName, options, cardFieldsForm);
     registeredField === null || registeredField === void 0 ? void 0 : registeredField.render(containerRef.current).catch(function(err) {
@@ -1026,24 +1035,4 @@ export {
   usePayPalScriptReducer,
   useScriptProviderContext
 };
-/*! Bundled license information:
-
-@paypal/react-paypal-js/dist/esm/react-paypal-js.js:
-  (*!
-   * react-paypal-js v8.8.3 (2025-04-11T19:50:46.506Z)
-   * Copyright 2020-present, PayPal, Inc. All rights reserved.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License");
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * https://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   *)
-*/
 //# sourceMappingURL=@paypal_react-paypal-js.js.map

@@ -1,15 +1,39 @@
 import React, { StrictMode, Suspense } from "react";
-import { renderToString } from "react-dom/server";
+import { renderToReadableStream } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";
+
+/** Collect ReadableStream into a single HTML string (for SSR with Suspense/lazy) */
+async function streamToHtml(stream) {
+  const reader = stream.getReader();
+  const chunks = [];
+  while (true) {
+    const { value, done } = await reader.read();
+    if (value) chunks.push(value);
+    if (done) break;
+  }
+  return Buffer.concat(chunks).toString("utf-8");
+}
 import App from "./App";
 import "./index.css";
 import { HelmetProvider } from "react-helmet-async";
 import axios from "axios";
-import { BaseUrl } from "./utils/BaseUrl";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
+
+// Static routes that are not brand/category slugs - skip brand API fetch for these
+const STATIC_ROUTES = new Set([
+  "/about-us", "/contact-us", "/shop", "/cart", "/checkout", "/blogs", "/reviews",
+  "/my-account", "/terms-and-conditions", "/privacy-policy", "/portfolio", "/dielines",
+  "/returns-refunds", "/shipping-policy", "/get-custom-quote", "/target-price"
+]);
+
 export async function render(url) {
-  console.log('SSR render called with URL:', url);
+  // SSR runs in Node: use absolute API URL (backend sets __API_ORIGIN__ before calling render)
+  const apiOrigin = typeof globalThis !== "undefined" && globalThis.__API_ORIGIN__
+    ? String(globalThis.__API_ORIGIN__).replace(/\/$/, "")
+    : `http://localhost:${typeof process !== "undefined" && process.env?.PORT ? process.env.PORT : 9090}`;
+  const BaseUrl = `${apiOrigin}/api`;
+
   const normalizedUrl = url.startsWith("/") ? url : `/${url}`;
   const cleanUrl = normalizedUrl.endsWith("/")
     ? normalizedUrl.slice(0, -1)
@@ -17,28 +41,18 @@ export async function render(url) {
 
   // Remove query parameters
   const baseUrl = cleanUrl.split("?")[0];
-  
-  console.log('SSR URL processing:', {
-    originalUrl: url,
-    normalizedUrl,
-    cleanUrl,
-    baseUrl
-  });
-  
+
   const helmetContext = {};
   let serverData = null;
   let CategoryProducts = null;
   let homePageData = null; // For home page: products, FAQ, banner
+  let isHomePage = false;
 
   try {
     // Handle different routes - check in order of specificity
-    // Check for home page - baseUrl will be "" or "/" after cleaning
-    const isHomePage = baseUrl === "/" || baseUrl === "" || normalizedUrl === "/" || url === "/";
-    console.log('SSR: Is home page?', isHomePage, { baseUrl, normalizedUrl, url });
-    
+    isHomePage = baseUrl === "/" || baseUrl === "" || normalizedUrl === "/" || url === "/";
+
     if (isHomePage) {
-      // Handle home page - fetch multiple data sources
-      console.log('SSR: Fetching home page data...');
       try {
         const [productsRes, faqRes, bannerRes] = await Promise.allSettled([
           axios.get(`${BaseUrl}/products/getAll?page=1&perPage=8`),
@@ -46,13 +60,9 @@ export async function render(url) {
           axios.get(`${BaseUrl}/banner/getAll`)
         ]);
 
-        console.log('SSR: Products result:', productsRes.status, productsRes.status === 'fulfilled' ? productsRes.value?.data?.status : productsRes.reason?.message);
-        console.log('SSR: FAQ result:', faqRes.status, faqRes.status === 'fulfilled' ? faqRes.value?.data?.status : faqRes.reason?.message);
-        console.log('SSR: Banner result:', bannerRes.status, bannerRes.status === 'fulfilled' ? bannerRes.value?.data?.data?.length : bannerRes.reason?.message);
-
         homePageData = {
-          topProducts: productsRes.status === 'fulfilled' && productsRes.value?.data?.status === 'success' 
-            ? productsRes.value.data.data 
+          topProducts: productsRes.status === 'fulfilled' && productsRes.value?.data?.status === 'success'
+            ? productsRes.value.data.data
             : [],
           faqs: faqRes.status === 'fulfilled' && faqRes.value?.data?.status === 'success'
             ? faqRes.value.data.data
@@ -61,13 +71,6 @@ export async function render(url) {
             ? bannerRes.value.data.data[0]
             : null
         };
-        
-        console.log('SSR: Home page data prepared:', {
-          topProducts: homePageData.topProducts?.length || 0,
-          faqs: homePageData.faqs?.length || 0,
-          banner: homePageData.banner ? 'present' : 'null',
-          homePageDataObject: homePageData
-        });
       } catch (homeErr) {
         console.error('SSR: Home page data fetch error:', homeErr.message, homeErr.stack);
       }
@@ -80,11 +83,9 @@ export async function render(url) {
         serverData = data?.data;
       } catch (blogErr) {
         console.error('SSR: Blog fetch error:', blogErr.message);
-        // Continue without serverData
       }
 
     } else if (baseUrl.startsWith("/category/")) {
-      // Handle sub-category route
       const slug = baseUrl.split("/")[2];
       try {
         const { data } = await axios.get(`${BaseUrl}/category/get?slug=${slug}`);
@@ -102,56 +103,52 @@ export async function render(url) {
         }
       } catch (categoryErr) {
         console.error('SSR: Category fetch error:', categoryErr.message);
-        // Continue without serverData
       }
 
     } else if (baseUrl.startsWith("/product/")) {
-      // Handle product route
       const slug = baseUrl.split("/")[2];
       try {
         const { data } = await axios.get(`${BaseUrl}/products/get?slug=${slug}`);
         serverData = data?.data;
       } catch (productErr) {
         console.error('SSR: Product fetch error:', productErr.message);
-        // Continue without serverData
       }
 
-    } else if (baseUrl !== "/" && baseUrl !== "" && baseUrl.split("/").length === 2) {
-      // Handle category/brand route (e.g., /fashion-apparel-packaging-boxes)
+    } else if (
+      baseUrl !== "/" && baseUrl !== "" &&
+      baseUrl.split("/").length === 2 &&
+      !STATIC_ROUTES.has(baseUrl)
+    ) {
       const slug = baseUrl.split("/")[1];
       try {
         const { data } = await axios.get(`${BaseUrl}/brands/get?slug=${slug}`);
         serverData = data?.data;
       } catch (brandErr) {
         console.error('SSR: Brand fetch error:', brandErr.message);
-        // Continue without serverData
       }
     }
   } catch (err) {
-    // On error → noindex meta
     console.error('SSR data fetch error:', err.message);
-    // Don't set helmet on outer catch - let individual routes handle errors
   }
 
-  // Render app with Suspense boundary to handle lazy loaded components
   let appHtml = '';
   try {
-    appHtml = renderToString(
+    const stream = await renderToReadableStream(
       <StrictMode>
         <HelmetProvider context={helmetContext}>
           <Provider store={store}>
             <StaticRouter location={normalizedUrl}>
-            
+              <Suspense fallback={<div id="app" />}>
                 <App serverData={serverData} CategoryProducts={CategoryProducts} homePageData={homePageData} />
-              
+              </Suspense>
             </StaticRouter>
           </Provider>
         </HelmetProvider>
       </StrictMode>
     );
+    appHtml = await streamToHtml(stream);
   } catch (renderError) {
     console.error('SSR render error:', renderError.message);
-    // Fallback HTML if render fails
     appHtml = '<div id="app"></div>';
     helmetContext.helmet = {
       meta: { toString: () => `<meta name="robots" content="noindex nofollow" />` },
@@ -160,13 +157,11 @@ export async function render(url) {
 
   const { helmet } = helmetContext;
 
-  // Ensure homePageData is set for home page even if fetch failed
-  const isHomePage = baseUrl === "/" || baseUrl === "" || normalizedUrl === "/" || url === "/";
   if (isHomePage && !homePageData) {
     homePageData = { topProducts: [], faqs: [], banner: null };
   }
-  
-  const result = {
+
+  return {
     html: appHtml,
     helmet: {
       title: helmet?.title?.toString() || "",
@@ -178,14 +173,4 @@ export async function render(url) {
     CategoryProducts: CategoryProducts || null,
     homePageData: homePageData || null,
   };
-  
-  console.log('SSR: Returning result:', {
-    hasHtml: !!result.html,
-    hasServerData: !!result.serverData,
-    hasCategoryProducts: !!result.CategoryProducts,
-    hasHomePageData: !!result.homePageData,
-    homePageDataKeys: result.homePageData ? Object.keys(result.homePageData) : []
-  });
-  
-  return result;
 }

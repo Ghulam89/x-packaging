@@ -447,6 +447,9 @@ import Banner from '../../components/common/Banner';
 import ProductCard, { ProductSelectionProvider } from '../../components/common/ProductCard';
 import axios from 'axios';
 import { BaseUrl } from '../../utils/BaseUrl';
+
+// Always hit the backend API origin defined in BaseUrl (e.g. http://localhost:9090/api)
+const api = axios.create({ timeout: 15000, baseURL: BaseUrl });
 import Button from '../../components/common/Button';
 import { useSearchParams } from 'react-router-dom';
 
@@ -463,16 +466,17 @@ const Shop = () => {
   const [brands, setBrands] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loadingFilters, setLoadingFilters] = useState(true);
+  const [productsError, setProductsError] = useState(false);
   
   // Get filter values from URL params
   const selectedBrandId = searchParams.get('brandId');
   const selectedCategoryId = searchParams.get('categoryId');
 
-  // Fetch brands
+  // Fetch brands (relative URL = same origin)
   useEffect(() => {
     const fetchBrands = async () => {
       try {
-        const response = await axios.get(`${BaseUrl}/brands/getAll?all=true`);
+        const response = await api.get('/brands/getAll?all=true');
         if (response?.data?.status === 'success' && response?.data?.data) {
           setBrands(response.data.data);
         }
@@ -483,11 +487,11 @@ const Shop = () => {
     fetchBrands();
   }, []);
 
-  // Fetch categories
+  // Fetch categories (relative URL = same origin)
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(`${BaseUrl}/category/getAll?page=1&perPage=100`);
+        const response = await api.get('/category/getAll?page=1&perPage=100');
         if (response?.data?.status === 'success' && response?.data?.data) {
           setCategories(response.data.data);
         }
@@ -508,19 +512,11 @@ const Shop = () => {
     }
 
     try {
-      let url = `${BaseUrl}/products/getAll?page=${page}&perPage=${perPage}`;
-      
-      // Add brand filter if selected
-      if (selectedBrandId) {
-        url += `&brandId=${selectedBrandId}`;
-      }
-      
-      // Add category filter if selected
-      if (selectedCategoryId) {
-        url += `&categoryId=${selectedCategoryId}`;
-      }
+      let url = `/products/getAll?page=${page}&perPage=${perPage}`;
+      if (selectedBrandId) url += `&brandId=${selectedBrandId}`;
+      if (selectedCategoryId) url += `&categoryId=${selectedCategoryId}`;
 
-      const response = await axios.get(url);
+      const response = await api.get(url);
       
       if (response?.data?.status === 'success' && response?.data?.data) {
         if (loadMore) {
@@ -530,9 +526,15 @@ const Shop = () => {
         }
         setCurrentPage(response?.data?.pagination?.page || page);
         setTotalPages(response?.data?.pagination?.totalPages || 1);
+        setProductsError(false);
+      } else {
+        // 200 but not success (e.g. HTML from wrong route) or no data
+        console.warn('Products API response:', response?.status, response?.data);
+        setProductsError(true);
       }
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error('Error fetching products:', error?.message, error?.response?.status, error?.response?.data);
+      setProductsError(true);
     } finally {
       setLoading(false);
       setLoadingMore(false);
@@ -543,6 +545,7 @@ const Shop = () => {
   useEffect(() => {
     setProducts([]);
     setCurrentPage(1);
+    setProductsError(false);
     fetchProducts(1);
   }, [selectedBrandId, selectedCategoryId]);
 
@@ -718,15 +721,23 @@ const Shop = () => {
               </div>
             )}
 
-            {loading && products.length === 0 ? (
+            {loading && products.length === 0 && !productsError ? (
               <div className="text-center py-12">
-                <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#EE334B]"></div>
-                <p className="mt-4 text-gray-600">Loading products...</p>
+                <p className="text-gray-600">Loading products...</p>
               </div>
             ) : products.length === 0 ? (
               <div className="text-center py-12">
-                <p className="text-gray-600 text-lg">No products found</p>
-                {(selectedBrandId || selectedCategoryId) && (
+                <p className="text-gray-600 text-lg">
+                  {productsError ? "Couldn't load products. Check connection or try again." : "No products found"}
+                </p>
+                {productsError ? (
+                  <button
+                    onClick={() => { setProductsError(false); fetchProducts(1); }}
+                    className="mt-4 px-4 py-2 bg-[#EE334B] text-white rounded hover:opacity-90"
+                  >
+                    Retry
+                  </button>
+                ) : (selectedBrandId || selectedCategoryId) && (
                   <button
                     onClick={clearFilters}
                     className="mt-4 text-[#EE334B] hover:underline"

@@ -1,10 +1,10 @@
 import {
   GenIcon
-} from "./chunk-BN7SZ2I5.js";
-import "./chunk-D7B7HWG2.js";
+} from "./chunk-FQNVPKD7.js";
+import "./chunk-BLTHIKFL.js";
 import "./chunk-PR4QN5HX.js";
 
-// ../frontend/node_modules/react-icons/fi/index.mjs
+// ../node_modules/react-icons/fi/index.mjs
 function FiActivity(props) {
   return GenIcon({ "tag": "svg", "attr": { "viewBox": "0 0 24 24", "fill": "none", "stroke": "currentColor", "strokeWidth": "2", "strokeLinecap": "round", "strokeLinejoin": "round" }, "child": [{ "tag": "polyline", "attr": { "points": "22 12 18 12 15 21 9 3 6 12 2 12" }, "child": [] }] })(props);
 }

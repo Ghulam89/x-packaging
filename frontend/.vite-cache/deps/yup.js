@@ -3,9 +3,9 @@ import {
   __toESM
 } from "./chunk-PR4QN5HX.js";
 
-// ../frontend/node_modules/property-expr/index.js
+// ../node_modules/property-expr/index.js
 var require_property_expr = __commonJS({
-  "../frontend/node_modules/property-expr/index.js"(exports, module) {
+  "../node_modules/property-expr/index.js"(exports, module) {
     "use strict";
     function Cache(maxSize) {
       this._maxSize = maxSize;
@@ -112,9 +112,9 @@ var require_property_expr = __commonJS({
   }
 });
 
-// ../frontend/node_modules/tiny-case/index.js
+// ../node_modules/tiny-case/index.js
 var require_tiny_case = __commonJS({
-  "../frontend/node_modules/tiny-case/index.js"(exports, module) {
+  "../node_modules/tiny-case/index.js"(exports, module) {
     var reWords = /[A-Z\xc0-\xd6\xd8-\xde]?[a-z\xdf-\xf6\xf8-\xff]+(?:['’](?:d|ll|m|re|s|t|ve))?(?=[\xac\xb1\xd7\xf7\x00-\x2f\x3a-\x40\x5b-\x60\x7b-\xbf\u2000-\u206f \t\x0b\f\xa0\ufeff\n\r\u2028\u2029\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000]|[A-Z\xc0-\xd6\xd8-\xde]|$)|(?:[A-Z\xc0-\xd6\xd8-\xde]|[^\ud800-\udfff\xac\xb1\xd7\xf7\x00-\x2f\x3a-\x40\x5b-\x60\x7b-\xbf\u2000-\u206f \t\x0b\f\xa0\ufeff\n\r\u2028\u2029\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000\d+\u2700-\u27bfa-z\xdf-\xf6\xf8-\xffA-Z\xc0-\xd6\xd8-\xde])+(?:['’](?:D|LL|M|RE|S|T|VE))?(?=[\xac\xb1\xd7\xf7\x00-\x2f\x3a-\x40\x5b-\x60\x7b-\xbf\u2000-\u206f \t\x0b\f\xa0\ufeff\n\r\u2028\u2029\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000]|[A-Z\xc0-\xd6\xd8-\xde](?:[a-z\xdf-\xf6\xf8-\xff]|[^\ud800-\udfff\xac\xb1\xd7\xf7\x00-\x2f\x3a-\x40\x5b-\x60\x7b-\xbf\u2000-\u206f \t\x0b\f\xa0\ufeff\n\r\u2028\u2029\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000\d+\u2700-\u27bfa-z\xdf-\xf6\xf8-\xffA-Z\xc0-\xd6\xd8-\xde])|$)|[A-Z\xc0-\xd6\xd8-\xde]?(?:[a-z\xdf-\xf6\xf8-\xff]|[^\ud800-\udfff\xac\xb1\xd7\xf7\x00-\x2f\x3a-\x40\x5b-\x60\x7b-\xbf\u2000-\u206f \t\x0b\f\xa0\ufeff\n\r\u2028\u2029\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000\d+\u2700-\u27bfa-z\xdf-\xf6\xf8-\xffA-Z\xc0-\xd6\xd8-\xde])+(?:['’](?:d|ll|m|re|s|t|ve))?|[A-Z\xc0-\xd6\xd8-\xde]+(?:['’](?:D|LL|M|RE|S|T|VE))?|\d*(?:1ST|2ND|3RD|(?![123])\dTH)(?=\b|[a-z_])|\d*(?:1st|2nd|3rd|(?![123])\dth)(?=\b|[A-Z_])|\d+|(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff])[\ufe0e\ufe0f]?(?:[\u0300-\u036f\ufe20-\ufe2f\u20d0-\u20ff]|\ud83c[\udffb-\udfff])?(?:\u200d(?:[^\ud800-\udfff]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff])[\ufe0e\ufe0f]?(?:[\u0300-\u036f\ufe20-\ufe2f\u20d0-\u20ff]|\ud83c[\udffb-\udfff])?)*/g;
     var words = (str) => str.match(reWords) || [];
     var upperFirst = (str) => str[0].toUpperCase() + str.slice(1);
@@ -141,9 +141,9 @@ var require_tiny_case = __commonJS({
   }
 });
 
-// ../frontend/node_modules/toposort/index.js
+// ../node_modules/toposort/index.js
 var require_toposort = __commonJS({
-  "../frontend/node_modules/toposort/index.js"(exports, module) {
+  "../node_modules/toposort/index.js"(exports, module) {
     module.exports = function(edges) {
       return toposort2(uniqueNodes(edges), edges);
     };
@@ -216,7 +216,7 @@ var require_toposort = __commonJS({
   }
 });
 
-// ../frontend/node_modules/yup/index.esm.js
+// ../node_modules/yup/index.esm.js
 var import_property_expr = __toESM(require_property_expr());
 var import_tiny_case = __toESM(require_tiny_case());
 var import_toposort = __toESM(require_toposort());
@@ -533,19 +533,20 @@ function createValidation(config) {
       abortEarly = schema.spec.abortEarly,
       disableStackTrace = schema.spec.disableStackTrace
     } = options;
-    function resolve(item) {
-      return Reference.isRef(item) ? item.getValue(value, parent, context) : item;
-    }
+    const resolveOptions = {
+      value,
+      parent,
+      context
+    };
     function createError(overrides = {}) {
-      const nextParams = Object.assign({
+      const nextParams = resolveParams(Object.assign({
         value,
         originalValue,
         label: schema.spec.label,
         path: overrides.path || path,
         spec: schema.spec,
         disableStackTrace: overrides.disableStackTrace || disableStackTrace
-      }, params, overrides.params);
-      for (const key of Object.keys(nextParams)) nextParams[key] = resolve(nextParams[key]);
+      }, params, overrides.params), resolveOptions);
       const error = new ValidationError(ValidationError.formatError(overrides.message || message, nextParams), value, nextParams.path, overrides.type || name, nextParams.disableStackTrace);
       error.params = nextParams;
       return error;
@@ -557,7 +558,9 @@ function createValidation(config) {
       type: name,
       from: options.from,
       createError,
-      resolve,
+      resolve(item) {
+        return resolveMaybeRef(item, resolveOptions);
+      },
       options,
       originalValue,
       schema
@@ -593,6 +596,16 @@ function createValidation(config) {
   }
   validate.OPTIONS = config;
   return validate;
+}
+function resolveParams(params, options) {
+  if (!params) return params;
+  for (const key of Object.keys(params)) {
+    params[key] = resolveMaybeRef(params[key], options);
+  }
+  return params;
+}
+function resolveMaybeRef(item, options) {
+  return Reference.isRef(item) ? item.getValue(options.value, options.parent, options.context) : item;
 }
 function getIn(schema, path, value, context = value) {
   let parent, lastPart, lastPartDebug;
@@ -692,6 +705,69 @@ function clone(src, seen = /* @__PURE__ */ new Map()) {
     throw Error(`Unable to clone ${src}`);
   }
   return copy;
+}
+function createStandardPath(path) {
+  if (!(path != null && path.length)) {
+    return void 0;
+  }
+  const segments = [];
+  let currentSegment = "";
+  let inBrackets = false;
+  let inQuotes = false;
+  for (let i = 0; i < path.length; i++) {
+    const char = path[i];
+    if (char === "[" && !inQuotes) {
+      if (currentSegment) {
+        segments.push(...currentSegment.split(".").filter(Boolean));
+        currentSegment = "";
+      }
+      inBrackets = true;
+      continue;
+    }
+    if (char === "]" && !inQuotes) {
+      if (currentSegment) {
+        if (/^\d+$/.test(currentSegment)) {
+          segments.push(currentSegment);
+        } else {
+          segments.push(currentSegment.replace(/^"|"$/g, ""));
+        }
+        currentSegment = "";
+      }
+      inBrackets = false;
+      continue;
+    }
+    if (char === '"') {
+      inQuotes = !inQuotes;
+      continue;
+    }
+    if (char === "." && !inBrackets && !inQuotes) {
+      if (currentSegment) {
+        segments.push(currentSegment);
+        currentSegment = "";
+      }
+      continue;
+    }
+    currentSegment += char;
+  }
+  if (currentSegment) {
+    segments.push(...currentSegment.split(".").filter(Boolean));
+  }
+  return segments;
+}
+function createStandardIssues(error, parentPath) {
+  const path = parentPath ? `${parentPath}.${error.path}` : error.path;
+  return error.errors.map((err) => ({
+    message: err,
+    path: createStandardPath(path)
+  }));
+}
+function issuesFromValidationError(error, parentPath) {
+  var _error$inner;
+  if (!((_error$inner = error.inner) != null && _error$inner.length) && error.errors.length) {
+    return createStandardIssues(error, parentPath);
+  }
+  const path = parentPath ? `${parentPath}.${error.path}` : error.path;
+  return error.inner.flatMap((err) => issuesFromValidationError(err, path));
 }
 var Schema = class {
   constructor(options) {
@@ -822,9 +898,11 @@ var Schema = class {
    * Run the configured transform pipeline over an input value.
    */
   cast(value, options = {}) {
-    let resolvedSchema = this.resolve(Object.assign({
+    let resolvedSchema = this.resolve(Object.assign({}, options, {
       value
-    }, options));
+      // parent: options.parent,
+      // context: options.context,
+    }));
     let allowOptionality = options.assert === "ignore-optionality";
     let result = resolvedSchema._cast(value, options);
     if (options.assert !== false && !resolvedSchema.isType(result)) {
@@ -841,7 +919,7 @@ attempted value: ${formattedValue}
     return result;
   }
   _cast(rawValue, options) {
-    let value = rawValue === void 0 ? rawValue : this.transforms.reduce((prevValue, fn) => fn.call(this, prevValue, rawValue, this), rawValue);
+    let value = rawValue === void 0 ? rawValue : this.transforms.reduce((prevValue, fn) => fn.call(this, prevValue, rawValue, this, options), rawValue);
     if (value === void 0) {
       value = this.getDefault(options);
     }
@@ -1236,12 +1314,40 @@ attempted value: ${formattedValue}
       type: next.type,
       oneOf: next._whitelist.describe(),
       notOneOf: next._blacklist.describe(),
-      tests: next.tests.map((fn) => ({
-        name: fn.OPTIONS.name,
-        params: fn.OPTIONS.params
-      })).filter((n, idx, list) => list.findIndex((c) => c.name === n.name) === idx)
+      tests: next.tests.filter((n, idx, list) => list.findIndex((c) => c.OPTIONS.name === n.OPTIONS.name) === idx).map((fn) => {
+        const params = fn.OPTIONS.params && options ? resolveParams(Object.assign({}, fn.OPTIONS.params), options) : fn.OPTIONS.params;
+        return {
+          name: fn.OPTIONS.name,
+          params
+        };
+      })
     };
     return description;
+  }
+  get ["~standard"]() {
+    const schema = this;
+    const standard = {
+      version: 1,
+      vendor: "yup",
+      async validate(value) {
+        try {
+          const result = await schema.validate(value, {
+            abortEarly: false
+          });
+          return {
+            value: result
+          };
+        } catch (err) {
+          if (err instanceof ValidationError) {
+            return {
+              issues: issuesFromValidationError(err)
+            };
+          }
+          throw err;
+        }
+      }
+    };
+    return standard;
   }
 };
 Schema.prototype.__isYupSchema__ = true;
@@ -1287,8 +1393,8 @@ var BooleanSchema = class extends Schema {
       }
     });
     this.withMutation(() => {
-      this.transform((value, _raw, ctx) => {
-        if (ctx.spec.coerce && !ctx.isType(value)) {
+      this.transform((value, _raw) => {
+        if (this.spec.coerce && !this.isType(value)) {
           if (/^(true|1)$/i.test(String(value))) return true;
           if (/^(false|0)$/i.test(String(value))) return false;
         }
@@ -1415,8 +1521,8 @@ var StringSchema = class extends Schema {
       }
     });
     this.withMutation(() => {
-      this.transform((value, _raw, ctx) => {
-        if (!ctx.spec.coerce || ctx.isType(value)) return value;
+      this.transform((value, _raw) => {
+        if (!this.spec.coerce || this.isType(value)) return value;
         if (Array.isArray(value)) return value;
         const strValue = value != null && value.toString ? value.toString() : value;
         if (strValue === objStringTag) return value;
@@ -1618,15 +1724,15 @@ var NumberSchema = class extends Schema {
       }
     });
     this.withMutation(() => {
-      this.transform((value, _raw, ctx) => {
-        if (!ctx.spec.coerce) return value;
+      this.transform((value, _raw) => {
+        if (!this.spec.coerce) return value;
         let parsed = value;
         if (typeof parsed === "string") {
           parsed = parsed.replace(/\s/g, "");
           if (parsed === "") return NaN;
           parsed = +parsed;
         }
-        if (ctx.isType(parsed) || parsed === null) return parsed;
+        if (this.isType(parsed) || parsed === null) return parsed;
         return parseFloat(parsed);
       });
     });
@@ -1728,8 +1834,8 @@ var DateSchema = class _DateSchema extends Schema {
       }
     });
     this.withMutation(() => {
-      this.transform((value, _raw, ctx) => {
-        if (!ctx.spec.coerce || ctx.isType(value) || value === null) return value;
+      this.transform((value, _raw) => {
+        if (!this.spec.coerce || this.isType(value) || value === null) return value;
         value = parseIsoDate(value);
         return !isNaN(value) ? new Date(value) : _DateSchema.INVALID_DATE;
       });
@@ -1813,7 +1919,7 @@ function sortByKeyOrder(keys) {
     return findIndex(keys, a) - findIndex(keys, b);
   };
 }
-var parseJson = (value, _, ctx) => {
+var parseJson = (value, _, schema) => {
   if (typeof value !== "string") {
     return value;
   }
@@ -1822,7 +1928,7 @@ var parseJson = (value, _, ctx) => {
     parsed = JSON.parse(value);
   } catch (err) {
   }
-  return ctx.isType(parsed) ? parsed : value;
+  return schema.isType(parsed) ? parsed : value;
 };
 function deepPartial(schema) {
   if ("fields" in schema) {
@@ -1898,9 +2004,9 @@ var ObjectSchema = class extends Schema {
     for (const prop of props) {
       let field = fields[prop];
       let exists = prop in value;
+      let inputValue = value[prop];
       if (field) {
         let fieldValue;
-        let inputValue = value[prop];
         innerOptions.path = (options.path ? `${options.path}.` : "") + prop;
         field = field.resolve({
           value: inputValue,
@@ -1913,17 +2019,14 @@ var ObjectSchema = class extends Schema {
           isChanged = isChanged || prop in value;
           continue;
         }
-        fieldValue = !options.__validating || !strict ? (
-          // TODO: use _cast, this is double resolving
-          field.cast(value[prop], innerOptions)
-        ) : value[prop];
+        fieldValue = !options.__validating || !strict ? field.cast(inputValue, innerOptions) : inputValue;
         if (fieldValue !== void 0) {
           intermediateValue[prop] = fieldValue;
         }
       } else if (exists && !strip) {
-        intermediateValue[prop] = value[prop];
+        intermediateValue[prop] = inputValue;
       }
-      if (exists !== prop in intermediateValue || intermediateValue[prop] !== value[prop]) {
+      if (exists !== prop in intermediateValue || intermediateValue[prop] !== inputValue) {
         isChanged = true;
       }
     }
@@ -2184,7 +2287,11 @@ var ArraySchema = class extends Schema {
     let isChanged = false;
     const castArray = value.map((v, idx) => {
       const castElement = this.innerType.cast(v, Object.assign({}, _opts, {
-        path: `${_opts.path || ""}[${idx}]`
+        path: `${_opts.path || ""}[${idx}]`,
+        parent: value,
+        originalValue: v,
+        value: v,
+        index: idx
       }));
       if (castElement !== v) {
         isChanged = true;
@@ -2354,7 +2461,11 @@ var TupleSchema = class extends Schema {
     let isChanged = false;
     const castArray = types.map((type, idx) => {
       const castElement = type.cast(value[idx], Object.assign({}, options, {
-        path: `${options.path || ""}[${idx}]`
+        path: `${options.path || ""}[${idx}]`,
+        parent: value,
+        originalValue: value[idx],
+        value: value[idx],
+        index: idx
       }));
       if (castElement !== value[idx]) isChanged = true;
       return castElement;
@@ -2504,6 +2615,31 @@ var Lazy = class _Lazy {
     let next = this.clone();
     next.spec.meta = Object.assign(next.spec.meta || {}, args[0]);
     return next;
+  }
+  get ["~standard"]() {
+    const schema = this;
+    const standard = {
+      version: 1,
+      vendor: "yup",
+      async validate(value) {
+        try {
+          const result = await schema.validate(value, {
+            abortEarly: false
+          });
+          return {
+            value: result
+          };
+        } catch (err) {
+          if (ValidationError.isError(err)) {
+            return {
+              issues: issuesFromValidationError(err)
+            };
+          }
+          throw err;
+        }
+      }
+    };
+    return standard;
   }
 };
 function setLocale(custom) {

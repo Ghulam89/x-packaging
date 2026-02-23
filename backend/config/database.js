@@ -12,8 +12,8 @@ export const connectDB = async () => {
         });
         console.log('Database Connected');
     } catch (err) {
-        console.error(err.message);
-        process.exit(1);
+        console.error('Database connection failed:', err.message);
+        console.error('Server will continue but API may not work. Check MONGO_URI in .env');
     }
 };
 

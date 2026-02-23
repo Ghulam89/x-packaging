@@ -1,211 +1,205 @@
 {
-  "hash": "d8039975",
-  "configHash": "7c2477d9",
-  "lockfileHash": "9ca9328b",
-  "browserHash": "80d3f0ae",
+  "hash": "16376294",
+  "configHash": "fdfe32a0",
+  "lockfileHash": "c04f036b",
+  "browserHash": "accbb91e",
   "optimized": {
     "react": {
-      "src": "../../node_modules/react/index.js",
+      "src": "../../../node_modules/react/index.js",
       "file": "react.js",
-      "fileHash": "9f223d35",
+      "fileHash": "f1cf4269",
       "needsInterop": true
     },
     "react-dom": {
-      "src": "../../node_modules/react-dom/index.js",
+      "src": "../../../node_modules/react-dom/index.js",
       "file": "react-dom.js",
-      "fileHash": "fb0b0d02",
+      "fileHash": "3d78f7b3",
       "needsInterop": true
     },
     "react-helmet-async": {
-      "src": "../../node_modules/react-helmet-async/lib/index.esm.js",
+      "src": "../../../node_modules/react-helmet-async/lib/index.esm.js",
       "file": "react-helmet-async.js",
-      "fileHash": "5d12d063",
+      "fileHash": "ee34d44f",
       "needsInterop": false
     },
     "react-redux": {
-      "src": "../../node_modules/react-redux/dist/react-redux.mjs",
+      "src": "../../../node_modules/react-redux/dist/react-redux.mjs",
       "file": "react-redux.js",
-      "fileHash": "2ddfce31",
+      "fileHash": "1b0168e3",
       "needsInterop": false
     },
     "@reduxjs/toolkit": {
-      "src": "../../node_modules/@reduxjs/toolkit/dist/redux-toolkit.modern.mjs",
+      "src": "../../../node_modules/@reduxjs/toolkit/dist/redux-toolkit.modern.mjs",
       "file": "@reduxjs_toolkit.js",
-      "fileHash": "e227c095",
+      "fileHash": "afd51365",
       "needsInterop": false
     },
     "lottie-react": {
-      "src": "../../node_modules/lottie-react/build/index.es.js",
+      "src": "../../../node_modules/lottie-react/build/index.es.js",
       "file": "lottie-react.js",
-      "fileHash": "4234c2de",
+      "fileHash": "6ec00016",
       "needsInterop": false
     },
     "react/jsx-dev-runtime": {
-      "src": "../../node_modules/react/jsx-dev-runtime.js",
+      "src": "../../../node_modules/react/jsx-dev-runtime.js",
       "file": "react_jsx-dev-runtime.js",
-      "fileHash": "b3161318",
+      "fileHash": "a9f61ed3",
       "needsInterop": true
     },
     "@paypal/react-paypal-js": {
-      "src": "../../node_modules/@paypal/react-paypal-js/dist/esm/react-paypal-js.js",
+      "src": "../../../node_modules/@paypal/react-paypal-js/dist/esm/react-paypal-js.js",
       "file": "@paypal_react-paypal-js.js",
-      "fileHash": "7d966725",
+      "fileHash": "07a638d4",
       "needsInterop": false
     },
     "axios": {
-      "src": "../../node_modules/axios/index.js",
+      "src": "../../../node_modules/axios/index.js",
       "file": "axios.js",
-      "fileHash": "9b2a1c28",
+      "fileHash": "62191bfe",
       "needsInterop": false
     },
     "formik": {
-      "src": "../../node_modules/formik/dist/formik.esm.js",
+      "src": "../../../node_modules/formik/dist/formik.esm.js",
       "file": "formik.js",
-      "fileHash": "207b886f",
+      "fileHash": "9d5554da",
       "needsInterop": false
     },
     "localforage": {
-      "src": "../../node_modules/localforage/dist/localforage.js",
+      "src": "../../../node_modules/localforage/dist/localforage.js",
       "file": "localforage.js",
-      "fileHash": "0680189d",
+      "fileHash": "7980737b",
       "needsInterop": true
     },
     "lucide-react": {
       "src": "../../../node_modules/lucide-react/dist/esm/lucide-react.js",
       "file": "lucide-react.js",
-      "fileHash": "812b0ab7",
+      "fileHash": "8c9e61be",
       "needsInterop": false
     },
     "react-dom/client": {
-      "src": "../../node_modules/react-dom/client.js",
+      "src": "../../../node_modules/react-dom/client.js",
       "file": "react-dom_client.js",
-      "fileHash": "d4c48718",
+      "fileHash": "cc569c9d",
       "needsInterop": true
     },
     "react-icons/fa": {
-      "src": "../../node_modules/react-icons/fa/index.mjs",
+      "src": "../../../node_modules/react-icons/fa/index.mjs",
       "file": "react-icons_fa.js",
-      "fileHash": "768c0d86",
+      "fileHash": "98771754",
       "needsInterop": false
     },
     "react-icons/fa6": {
-      "src": "../../node_modules/react-icons/fa6/index.mjs",
+      "src": "../../../node_modules/react-icons/fa6/index.mjs",
       "file": "react-icons_fa6.js",
-      "fileHash": "0a1691de",
+      "fileHash": "925e820c",
       "needsInterop": false
     },
     "react-icons/fi": {
-      "src": "../../node_modules/react-icons/fi/index.mjs",
+      "src": "../../../node_modules/react-icons/fi/index.mjs",
       "file": "react-icons_fi.js",
-      "fileHash": "e49c084e",
+      "fileHash": "9bb7b1bc",
       "needsInterop": false
     },
     "react-icons/hi": {
-      "src": "../../node_modules/react-icons/hi/index.mjs",
+      "src": "../../../node_modules/react-icons/hi/index.mjs",
       "file": "react-icons_hi.js",
-      "fileHash": "f5efa977",
+      "fileHash": "150220b4",
       "needsInterop": false
     },
     "react-icons/io": {
-      "src": "../../node_modules/react-icons/io/index.mjs",
+      "src": "../../../node_modules/react-icons/io/index.mjs",
       "file": "react-icons_io.js",
-      "fileHash": "bf7b5aa4",
+      "fileHash": "9ee81942",
       "needsInterop": false
     },
     "react-icons/io5": {
-      "src": "../../node_modules/react-icons/io5/index.mjs",
+      "src": "../../../node_modules/react-icons/io5/index.mjs",
       "file": "react-icons_io5.js",
-      "fileHash": "6f2c8799",
+      "fileHash": "8b127103",
       "needsInterop": false
     },
     "react-icons/lia": {
-      "src": "../../node_modules/react-icons/lia/index.mjs",
+      "src": "../../../node_modules/react-icons/lia/index.mjs",
       "file": "react-icons_lia.js",
-      "fileHash": "c97d6060",
+      "fileHash": "bc90a1e0",
       "needsInterop": false
     },
     "react-icons/md": {
-      "src": "../../node_modules/react-icons/md/index.mjs",
+      "src": "../../../node_modules/react-icons/md/index.mjs",
       "file": "react-icons_md.js",
-      "fileHash": "4247ee7a",
+      "fileHash": "d3aa0ec9",
       "needsInterop": false
     },
     "react-icons/ri": {
-      "src": "../../node_modules/react-icons/ri/index.mjs",
+      "src": "../../../node_modules/react-icons/ri/index.mjs",
       "file": "react-icons_ri.js",
-      "fileHash": "77e8e8c6",
+      "fileHash": "5fc6a224",
       "needsInterop": false
     },
     "react-icons/tb": {
-      "src": "../../node_modules/react-icons/tb/index.mjs",
+      "src": "../../../node_modules/react-icons/tb/index.mjs",
       "file": "react-icons_tb.js",
-      "fileHash": "9b583944",
+      "fileHash": "06940c1f",
       "needsInterop": false
     },
     "react-icons/tfi": {
-      "src": "../../node_modules/react-icons/tfi/index.mjs",
+      "src": "../../../node_modules/react-icons/tfi/index.mjs",
       "file": "react-icons_tfi.js",
-      "fileHash": "b146eeb6",
+      "fileHash": "00051763",
       "needsInterop": false
     },
     "react-router-dom": {
-      "src": "../../node_modules/react-router-dom/dist/index.js",
+      "src": "../../../node_modules/react-router-dom/dist/index.js",
       "file": "react-router-dom.js",
-      "fileHash": "39a435a6",
+      "fileHash": "c4c048c5",
       "needsInterop": false
     },
     "react-toastify": {
-      "src": "../../node_modules/react-toastify/dist/index.mjs",
+      "src": "../../../node_modules/react-toastify/dist/index.mjs",
       "file": "react-toastify.js",
-      "fileHash": "9984cd32",
+      "fileHash": "1070d057",
       "needsInterop": false
     },
-    "react/jsx-runtime": {
-      "src": "../../node_modules/react/jsx-runtime.js",
-      "file": "react_jsx-runtime.js",
-      "fileHash": "00a27c22",
-      "needsInterop": true
-    },
     "redux-persist": {
-      "src": "../../node_modules/redux-persist/es/index.js",
+      "src": "../../../node_modules/redux-persist/es/index.js",
       "file": "redux-persist.js",
-      "fileHash": "bab19895",
+      "fileHash": "5d6185a8",
       "needsInterop": false
     },
     "swiper/modules": {
-      "src": "../../node_modules/swiper/modules/index.mjs",
+      "src": "../../../node_modules/swiper/modules/index.mjs",
       "file": "swiper_modules.js",
-      "fileHash": "46a5c626",
+      "fileHash": "c07d89dc",
       "needsInterop": false
     },
     "swiper/react": {
-      "src": "../../node_modules/swiper/swiper-react.mjs",
+      "src": "../../../node_modules/swiper/swiper-react.mjs",
       "file": "swiper_react.js",
-      "fileHash": "ba7940aa",
+      "fileHash": "9f36a281",
       "needsInterop": false
     },
     "yup": {
-      "src": "../../node_modules/yup/index.esm.js",
+      "src": "../../../node_modules/yup/index.esm.js",
       "file": "yup.js",
-      "fileHash": "90f8e05c",
+      "fileHash": "174055fe",
       "needsInterop": false
     }
   },
   "chunks": {
-    "chunk-UWHQCNBA": {
-      "file": "chunk-UWHQCNBA.js"
+    "chunk-EDGW54JH": {
+      "file": "chunk-EDGW54JH.js"
     },
-    "chunk-BN7SZ2I5": {
-      "file": "chunk-BN7SZ2I5.js"
+    "chunk-FQNVPKD7": {
+      "file": "chunk-FQNVPKD7.js"
     },
-    "chunk-BAL6T6NU": {
-      "file": "chunk-BAL6T6NU.js"
+    "chunk-KR2ZDRCO": {
+      "file": "chunk-KR2ZDRCO.js"
     },
-    "chunk-4LWEB44B": {
-      "file": "chunk-4LWEB44B.js"
+    "chunk-T6YBOJ7M": {
+      "file": "chunk-T6YBOJ7M.js"
     },
-    "chunk-D7B7HWG2": {
-      "file": "chunk-D7B7HWG2.js"
+    "chunk-BLTHIKFL": {
+      "file": "chunk-BLTHIKFL.js"
     },
     "chunk-PR4QN5HX": {
       "file": "chunk-PR4QN5HX.js"

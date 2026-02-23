@@ -1,14 +1,14 @@
 import {
   require_react
-} from "./chunk-D7B7HWG2.js";
+} from "./chunk-BLTHIKFL.js";
 import {
   __commonJS,
   __toESM
 } from "./chunk-PR4QN5HX.js";
 
-// ../frontend/node_modules/react-helmet-async/node_modules/react-fast-compare/index.js
+// ../node_modules/react-helmet-async/node_modules/react-fast-compare/index.js
 var require_react_fast_compare = __commonJS({
-  "../frontend/node_modules/react-helmet-async/node_modules/react-fast-compare/index.js"(exports, module) {
+  "../node_modules/react-helmet-async/node_modules/react-fast-compare/index.js"(exports, module) {
     var hasElementType = typeof Element !== "undefined";
     var hasMap = typeof Map === "function";
     var hasSet = typeof Set === "function";
@@ -83,9 +83,9 @@ var require_react_fast_compare = __commonJS({
   }
 });
 
-// ../frontend/node_modules/invariant/browser.js
+// ../node_modules/invariant/browser.js
 var require_browser = __commonJS({
-  "../frontend/node_modules/invariant/browser.js"(exports, module) {
+  "../node_modules/invariant/browser.js"(exports, module) {
     "use strict";
     var invariant2 = function(condition, format, a, b, c, d, e, f) {
       if (true) {
@@ -117,9 +117,9 @@ var require_browser = __commonJS({
   }
 });
 
-// ../frontend/node_modules/shallowequal/index.js
+// ../node_modules/shallowequal/index.js
 var require_shallowequal = __commonJS({
-  "../frontend/node_modules/shallowequal/index.js"(exports, module) {
+  "../node_modules/shallowequal/index.js"(exports, module) {
     module.exports = function shallowEqual2(objA, objB, compare, compareContext) {
       var ret = compare ? compare.call(compareContext, objA, objB) : void 0;
       if (ret !== void 0) {
@@ -154,7 +154,7 @@ var require_shallowequal = __commonJS({
   }
 });
 
-// ../frontend/node_modules/react-helmet-async/lib/index.esm.js
+// ../node_modules/react-helmet-async/lib/index.esm.js
 var import_react = __toESM(require_react());
 var import_react_fast_compare = __toESM(require_react_fast_compare());
 var import_invariant = __toESM(require_browser());

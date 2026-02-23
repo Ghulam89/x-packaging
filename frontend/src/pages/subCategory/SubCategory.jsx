@@ -6,7 +6,6 @@ import { FaAngleRight } from 'react-icons/fa'
 import { IoHomeOutline } from 'react-icons/io5'
 import { LiaAngleRightSolid } from 'react-icons/lia'
 import axios from 'axios';
-import { BaseUrl } from '../../utils/BaseUrl';
 import { prefetchProductsBatch, prefetchSubCategory, getCachedSubCategory } from '../../utils/prefetchUtils';
 import PageMetadata from '../../components/common/PageMetadata';
 import InstantQuoteModal from '../../components/common/InstantQuoteModal';
@@ -28,6 +27,7 @@ import { getInsertsSlides } from '../../constants/slideData';
 import { serviceSelectionData } from '../../utils/serviceData';
 import { galleryVideo } from '../../utils/galleryData';
 import { generateTabsData, generateTabsData1, generateTabsData2 } from '../../utils/tabData';
+import { BaseUrl } from '../../utils/BaseUrl'
 const SubCategory = ({ serverData, CategoryProducts }) => {
   const { slug } = useParams();
   const [categoryData, setCategoryData] = useState(serverData || null)

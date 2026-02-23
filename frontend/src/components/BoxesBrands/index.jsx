@@ -1,4 +1,3 @@
-import { Star } from 'lucide-react'
 import React from 'react'
 import CardSlider from '../common/CardSlider';
 import { BaseUrl } from '../../utils/BaseUrl';

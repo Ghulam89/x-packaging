@@ -1,4 +1,6 @@
 {
+  "private": true,
+  "workspaces": ["backend", "frontend"],
   "scripts": {
     "dev": "npm run dev:backend",
     "dev:backend": "cd backend && npm run dev",

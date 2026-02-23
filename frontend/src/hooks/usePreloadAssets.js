@@ -411,18 +411,70 @@ const ALL_IMAGES = [
 
 const CRITICAL_VIDEOS = [heroVideo];
 
+/** Collect backend image URLs from SSR data (serverData, homePageData, CategoryProducts) */
+function collectBackendImageUrls(serverData, CategoryProducts, homePageData) {
+  const out = [];
+  const add = (pathOrUrl) => {
+    if (!pathOrUrl || typeof pathOrUrl !== 'string') return;
+    const url = pathOrUrl.startsWith('http') ? pathOrUrl : `${BaseUrl}/${pathOrUrl.replace(/^\//, '')}`;
+    out.push(url);
+  };
+  if (homePageData) {
+    if (homePageData.banner) {
+      add(homePageData.banner.image);
+      add(homePageData.banner.bannerImage);
+    }
+    (homePageData.topProducts || []).forEach((p) => {
+      add(p.bannerImage);
+      add(p.image);
+      (p.images || []).forEach((img) => add(img?.url));
+    });
+  }
+  if (serverData) {
+    add(serverData.image);
+    add(serverData.bannerImage);
+    (serverData.images || []).forEach((img) => add(img?.url));
+  }
+  if (Array.isArray(CategoryProducts)) {
+    CategoryProducts.forEach((p) => {
+      add(p?.bannerImage);
+      add(p?.image);
+      (p?.images || []).forEach((img) => add(img?.url));
+    });
+  } else if (CategoryProducts?.images) {
+    CategoryProducts.images.forEach((img) => add(img?.url));
+  }
+  return out;
+}
+
 /**
- * Preloads all static images and critical videos before paint using useLayoutEffect.
- * Reduces layout shift and speeds up perceived load across the website.
+ * Preloads all static + backend images and critical videos in useLayoutEffect.
+ * Layout completes only after all images are loaded (assetsReady).
  */
-export function usePreloadAssets() {
+export function usePreloadAssets(serverData, CategoryProducts, homePageData) {
+  const [assetsReady, setAssetsReady] = useState(false);
+
   useLayoutEffect(() => {
     if (typeof window === 'undefined') return;
 
-    const uniqueUrls = [...new Set(ALL_IMAGES.filter(Boolean))];
+    const backendUrls = collectBackendImageUrls(serverData, CategoryProducts, homePageData);
+    const allUrls = [...new Set([...ALL_IMAGES.filter(Boolean), ...backendUrls])];
 
-    uniqueUrls.forEach((src) => {
+    if (allUrls.length === 0) {
+      setAssetsReady(true);
+      return;
+    }
+
+    let loaded = 0;
+    const checkDone = () => {
+      loaded++;
+      if (loaded >= allUrls.length) setAssetsReady(true);
+    };
+
+    allUrls.forEach((src) => {
       const img = new Image();
+      img.onload = checkDone;
+      img.onerror = checkDone;
       img.src = src;
     });
 
@@ -435,7 +487,9 @@ export function usePreloadAssets() {
       link.type = 'video/mp4';
       document.head.appendChild(link);
     });
-  }, []);
+  }, [serverData, CategoryProducts, homePageData]);
+
+  return { assetsReady };
 }
 
 export { ALL_IMAGES, CRITICAL_VIDEOS };

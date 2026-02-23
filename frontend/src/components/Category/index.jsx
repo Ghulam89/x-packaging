@@ -9,7 +9,7 @@ import { useIntersectionObserver } from '../../utils/useIntersectionObserver';
 
 const Category = ({ serverData }) => {
   const [products, setProducts] = useState(serverData || []);
-  const [loading, setLoading] = useState(!serverData);
+  const [loading, setLoading] = useState(!(serverData && serverData.length > 0));
   const [elementRef, isIntersecting] = useIntersectionObserver({
     threshold: 0.1,
     rootMargin: '100px',
@@ -17,27 +17,26 @@ const Category = ({ serverData }) => {
   });
 
   useEffect(() => {
-    
     if (serverData && serverData.length > 0) {
       setProducts(serverData);
       setLoading(false);
       return;
     }
 
-   
-    if (!isIntersecting) return;
-
     const fetchProducts = async () => {
       try {
         setLoading(true);
-       
-        const response = await axios.get(`${BaseUrl}/products/getAll?page=1&perPage=8`);
-        
+        const base = typeof window !== 'undefined' && window.location?.origin
+          ? window.location.origin + '/api'
+          : BaseUrl;
+        const response = await axios.get(`${base}/products/getAll?page=1&perPage=8`);
         if (response?.data?.status === 'success' && response?.data?.data) {
           setProducts(response.data.data);
+        } else {
+          setProducts([]);
         }
       } catch (error) {
-        console.error('Error fetching products:', error);
+        console.error('Category products fetch error:', error?.message || error);
         setProducts([]);
       } finally {
         setLoading(false);
@@ -45,7 +44,7 @@ const Category = ({ serverData }) => {
     };
 
     fetchProducts();
-  }, [isIntersecting, serverData]);
+  }, [serverData]);
 
   return (
     <div ref={elementRef} className=' bg-[#f7f7f7] pt-10'>

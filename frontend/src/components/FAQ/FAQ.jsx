@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Accordion from '../common/Accordion';
-import { BaseUrl } from '../../utils/BaseUrl';
 import faqImage from '../../assets/images/faq.webp';
 import Button from '../common/Button';
 import { FaArrowDown, FaArrowRight } from 'react-icons/fa';
+import { BaseUrl } from '../../utils/BaseUrl';
 
 const FAQ = ({ serverData, faqImageUrl, faqImageAltText }) => {
   const stripHtml = (html) => {

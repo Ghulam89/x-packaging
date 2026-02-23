@@ -16,7 +16,8 @@ const BannerContent = React.memo(({ serverData }) => {
   const fetchBanner = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${BaseUrl}/banner/getAll`);
+      const base = typeof window !== 'undefined' && window.location?.origin ? window.location.origin + '/api' : BaseUrl;
+      const response = await axios.get(`${base}/banner/getAll`);
       const data = response?.data?.data?.[0] || null;
       setBanner(data);
       setError(null);

@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from "express";
 import cluster from "cluster";
 import os from "os";
@@ -21,7 +22,7 @@ import requestQuoteRouter from "./routes/RequestQuote.js";
 import instantQuoteRouter from "./routes/InstantQuote.js";
 import sitemapRouter from "./routes/sitemapRouter.js";
 import path from 'path';
-import { fileURLToPath } from 'url';
+import { fileURLToPath, pathToFileURL } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 // SSR/Frontend imports
@@ -76,24 +77,28 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Health check – confirm /api/* is reachable
+app.get("/api/health", (req, res) => {
+  res.json({ ok: true, message: "API is running" });
+});
 
-// Backend API routes
-app.use("/brands", brandRouter);
-app.use("/user", userRoute);
-app.use("/banner", bannerRouter);
-app.use("/contactus", ContactusRouter);
-app.use("/blog", blogRouter);
-app.use("/blog-product", blogProductRouter);
-app.use("/faq", FaqRouter);
-app.use("/admin", adminRoute);
-app.use("/category", categoryRouter);
-app.use("/subcategory", categoryRouter); // Alias for subcategory routes
-app.use("/products", productRouter);
-app.use("/checkout", checkoutRouter);
-app.use("/rating", ratingRoute);
-app.use("/subscribe", subscribeRouter);
-app.use("/requestQuote", requestQuoteRouter);
-app.use("/instantQuote", instantQuoteRouter);
+// Backend API routes (under /api so SSR catch-all skips them)
+app.use("/api/brands", brandRouter);
+app.use("/api/user", userRoute);
+app.use("/api/banner", bannerRouter);
+app.use("/api/contactus", ContactusRouter);
+app.use("/api/blog", blogRouter);
+app.use("/api/blog-product", blogProductRouter);
+app.use("/api/faq", FaqRouter);
+app.use("/api/admin", adminRoute);
+app.use("/api/category", categoryRouter);
+app.use("/api/subcategory", categoryRouter);
+app.use("/api/products", productRouter);
+app.use("/api/checkout", checkoutRouter);
+app.use("/api/rating", ratingRoute);
+app.use("/api/subscribe", subscribeRouter);
+app.use("/api/requestQuote", requestQuoteRouter);
+app.use("/api/instantQuote", instantQuoteRouter);
 app.use("/", sitemapRouter);
 
 // Simple API test route
@@ -117,11 +122,11 @@ if (isProduction) {
   try {
     const templatePath = path.join(__dirname, '../frontend/dist/client/index.html');
     const serverEntryPath = path.join(__dirname, '../frontend/dist/server/entry-server.js');
-    
+    const serverEntryUrl = pathToFileURL(serverEntryPath).href;
     // Load assets in parallel
     const [template, serverModule] = await Promise.all([
       fs.readFile(templatePath, 'utf-8'),
-      import(serverEntryPath)
+      import(serverEntryUrl)
     ]);
     
     productionTemplate = template;
@@ -133,27 +138,58 @@ if (isProduction) {
     // Don't crash the server, but log the error
   }
 } else {
-  // Development mode - use Vite
+  // Development: serve frontend build if dist exists, else use Vite
+  const distIndexPath = path.join(__dirname, '../frontend/dist/client/index.html');
+  let distExists = false;
   try {
-    const { createServer } = await import('vite');
-    const { resolve } = await import('path');
-    vite = await createServer({
-      server: { middlewareMode: true },
-      appType: 'custom',
-      base,
-      root: path.join(__dirname, '../frontend'),
-      configFile: path.join(__dirname, '../frontend/vite.config.js'),
-      ssr: {
-        // Ensure React resolves from frontend node_modules
-        resolve: {
-          conditions: ['node', 'import'],
-          external: ['react', 'react-dom', 'react-dom/server'],
+    await fs.access(distIndexPath);
+    distExists = true;
+  } catch (_) {}
+
+  if (distExists) {
+    try {
+      const templatePath = path.join(__dirname, '../frontend/dist/client/index.html');
+      const serverEntryPath = path.join(__dirname, '../frontend/dist/server/entry-server.js');
+      const serverEntryUrl = pathToFileURL(serverEntryPath).href;
+      const [template, serverModule] = await Promise.all([
+        fs.readFile(templatePath, 'utf-8'),
+        import(serverEntryUrl)
+      ]);
+      productionTemplate = template;
+      productionRender = serverModule.render;
+      const compression = (await import('compression')).default;
+      const sirv = (await import('sirv')).default;
+      app.use(compression());
+      app.use(base, sirv(path.join(__dirname, '../frontend/dist/client'), {
+        extensions: [],
+        maxAge: 31536000,
+        immutable: true
+      }));
+      console.log('Serving frontend build (dist) – no Vite, build only');
+    } catch (e) {
+      console.error('Failed to load frontend build:', e);
+    }
+  } else {
+    try {
+      const { createServer } = await import('vite');
+      vite = await createServer({
+        server: { middlewareMode: true },
+        appType: 'custom',
+        base,
+        root: path.join(__dirname, '../frontend'),
+        configFile: path.join(__dirname, '../frontend/vite.config.js'),
+        ssr: {
+          resolve: {
+            conditions: ['node', 'import'],
+            external: ['react', 'react-dom', 'react-dom/server'],
+          },
         },
-      },
-    });
-    app.use(vite.middlewares);
-  } catch (error) {
-    console.error('Failed to start Vite:', error);
+      });
+      app.use(vite.middlewares);
+      console.log('Vite dev server (run "npm run build" for build-only mode)');
+    } catch (error) {
+      console.error('Failed to start Vite:', error);
+    }
   }
 }
 
@@ -241,15 +277,15 @@ app.use('*', async (req, res, next) => {
         );
         
         template = await vite.transformIndexHtml(url, template);
-        const serverModule = await vite.ssrLoadModule('../frontend/src/entry-server.jsx');
+        const serverModule = await vite.ssrLoadModule('src/entry-server.jsx');
         render = serverModule?.render;
       } catch (error) {
         console.error('Vite development error:', error);
         console.error('Error details:', error.message);
         console.error('Error stack:', error.stack);
       }
-    } else if (isProduction && productionTemplate && productionRender) {
-      // Production mode
+    } else if (productionTemplate && productionRender) {
+      // Production build (or dev serving from dist)
       template = productionTemplate;
       render = productionRender;
     } else {
@@ -269,6 +305,10 @@ app.use('*', async (req, res, next) => {
         return res.status(500).send('Server error');
       }
     }
+
+    // So SSR (entry-server) can call same-origin APIs
+    const apiOrigin = process.env.BASEURL || `http://localhost:${process.env.PORT || 9090}`;
+    globalThis.__API_ORIGIN__ = apiOrigin;
     
     const renderPromise = render(url);
     // Commented out timeout to prevent PageLoader fallback
@@ -370,7 +410,7 @@ app.use('*', async (req, res, next) => {
 });
 
 // Start server
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 9090;
  app.listen(PORT, '0.0.0.0', () => {
     console.log(`Worker ${process.pid} is running on port ${PORT} in ${isProduction ? 'production' : 'development'} mode`);
  });

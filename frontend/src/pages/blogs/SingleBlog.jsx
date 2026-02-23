@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
 import TableOfContent from './TableOfContent';
-import { BaseUrl } from '../../utils/BaseUrl';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import PageMetadata from '../../components/common/PageMetadata';
@@ -8,6 +7,7 @@ import GetQuoteModal from '../../components/common/GetQuoteModal';
 import BlogCard from '../../components/common/BlogCard';
 import ProductCard from '../../components/common/ProductCard';
 import { FaCalendarAlt, FaClock, FaChevronRight } from 'react-icons/fa';
+import { BaseUrl } from '../../utils/BaseUrl';
 
 function SingleBlog({ serverData }) {
     const { slug } = useParams();
