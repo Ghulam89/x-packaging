@@ -6,10 +6,15 @@ import { useEffect, useState, useMemo, memo } from 'react';
 import Navbar from './components/Header/Navbar';
 import WhatsAppFloat from './components/SocialMedia/WhatsAppModal';
 import AnnouncementBanner from './components/AnnouncementBanner';
+import { usePreloadAssets } from './hooks/usePreloadAssets';
+
 const App = memo(function App({ serverData, CategoryProducts, homePageData }) {
   const location = useLocation();
   const [currentUrl, setCurrentUrl] = useState('');
   const routes = WebsiteRoutes({ serverData, CategoryProducts, homePageData });
+
+  // Preload critical static images/videos before paint (useLayoutEffect)
+  usePreloadAssets();
 
   useEffect(() => {
     if ('scrollRestoration' in history) {
@@ -52,10 +57,13 @@ const App = memo(function App({ serverData, CategoryProducts, homePageData }) {
       />
       <AnnouncementBanner />
       <Navbar />
-      {element}
+      {/* <Suspense fallback={null}> */}
+        {element}
+        {/*  */}
+      {/* </Suspense> */}
       <Footer />
     </>
   );
 });
 
-export default App;   
+export default App;

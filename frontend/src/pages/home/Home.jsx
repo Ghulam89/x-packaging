@@ -241,15 +241,15 @@ export const Home = React.memo(({ homePageData }) => {
            
             <div className="flex-1 w-full min-w-0 mt-6 md:mt-0">
               {activeTab === "material" && (
-                <Suspense fallback={<LoadingFallback />}>
+                // <Suspense fallback={<LoadingFallback />}>
                   <CustomBoxMaterial />
-                </Suspense>
+                // </Suspense>
               )}
 
               {activeTab === "special" && (
-                <Suspense fallback={<LoadingFallback />}>
+                // <Suspense fallback={<LoadingFallback />}>
                   <SpecialPackaging />
-                </Suspense>
+                // </Suspense>
               )}
             </div>
           </div>
@@ -257,9 +257,9 @@ export const Home = React.memo(({ homePageData }) => {
         <CustomPackagingProduced />
        
         <div className=' pt-5'>
-          <Suspense fallback={<LoadingFallback height="h-64" />}>
+          {/* <Suspense fallback={<LoadingFallback height="h-64" />}> */}
             <GetPriceQuote />
-          </Suspense>
+          {/* </Suspense> */}
         </div>
         <div className='flex flex-col gap-8 my-12 bg-[#F6F6F6]'>
           <div>
@@ -296,9 +296,9 @@ export const Home = React.memo(({ homePageData }) => {
           </div>
           <div>
             {/* Below the fold - lazy loaded with Suspense */}
-            <Suspense fallback={<LoadingFallback height="h-96" />}>
+            {/* <Suspense fallback={<LoadingFallback height="h-96" />}> */}
               <Testimonials />
-            </Suspense>
+            {/* </Suspense> */}
           </div>
 
         </div>
@@ -319,21 +319,21 @@ export const Home = React.memo(({ homePageData }) => {
         <WeFulfil />
 
 
-        <Suspense fallback={<LoadingFallback height="h-96" />}>
+        {/* <Suspense fallback={<LoadingFallback height="h-96" />}> */}
           <InspirationPackaging />
-        </Suspense>
+        {/* </Suspense> */}
        
-        <Suspense fallback={<LoadingFallback height="h-96" />}>
+        {/* <Suspense fallback={<LoadingFallback height="h-96" />}> */}
           <PersonalTestimonial />
-        </Suspense>
+        {/* </Suspense> */}
         <BannerContent serverData={homePageData?.banner} />
        
-        <Suspense fallback={<LoadingFallback height="h-96" />}>
+        {/* <Suspense fallback={<LoadingFallback height="h-96" />}> */}
           <FAQ serverData={homePageData?.faqs} />
-        </Suspense>
-        <Suspense fallback={<LoadingFallback height="h-96" />}>
+        {/* </Suspense> */}
+        {/* <Suspense fallback={<LoadingFallback height="h-96" />}> */}
           <Blog />
-        </Suspense>
+        {/* </Suspense> */}
 
       </main>
     </>

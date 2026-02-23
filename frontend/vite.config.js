@@ -31,7 +31,8 @@ export default defineConfig({
       "react-redux",
       "redux-persist",
       "@reduxjs/toolkit",
-      "lottie-react"
+      "lottie-react",
+      "lucide-react"
     ],
     resolve: {
       conditions: ['node', 'import'],

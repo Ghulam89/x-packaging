@@ -166,7 +166,10 @@ const BottomNav = ({ Menu, OpenMenu }) => {
 
       // Then fetch fresh data from API in background
       try {
-        const response = await axiosInstance.get(`${BaseUrl}/brands/getAll`);
+        console.log('Fetching brands from API...');
+        const response = await axiosInstance.get(`${BaseUrl}/brands/getAll`, {
+          timeout: 20000, // Increased timeout for iOS Safari
+        });
         
         console.log('Brands API Response:', {
           status: response?.status,
