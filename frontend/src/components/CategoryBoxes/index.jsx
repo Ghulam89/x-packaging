@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import axiosInstance from '../../utils/axiosConfig';
-import { BaseUrl } from '../../utils/BaseUrl';
-import { Link } from 'react-router-dom';
-import { FaAngleRight } from 'react-icons/fa';
-import Button from '../common/Button';
-import GetQuoteModal from '../common/GetQuoteModal';
+import React, { useState, useEffect, useCallback, memo } from "react";
+import axiosInstance from "../../utils/axiosConfig";
+import { BaseUrl } from "../../utils/BaseUrl";
+import { Link } from "react-router-dom";
+import Button from "../common/Button";
+import GetQuoteModal from "../common/GetQuoteModal";
+import { FaAngleRight } from "../../components/Icon";
 
 const CategoryBoxes = () => {
   const [categories, setCategories] = useState([]);
@@ -12,153 +12,121 @@ const CategoryBoxes = () => {
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      let retryCount = 0;
-      const maxRetries = 2;
+  const fetchCategories = useCallback(async () => {
+    let retryCount = 0;
+    const maxRetries = 2;
 
-      const attemptFetch = async (attemptNumber = 1) => {
-        try {
-          setLoading(true);
-          console.log(`Fetching categories (attempt ${attemptNumber})...`);
+    const attemptFetch = async (attemptNumber = 1) => {
+      try {
+        setLoading(true);
 
-          // Fetch top categories from API with iOS Safari compatible configuration
-          const response = await axiosInstance.get(`${BaseUrl}/category/getAll?page=1&perPage=5`, {
-            timeout: 20000, // 20 second timeout for iOS Safari
-          });
+        const response = await axiosInstance.get(
+          `${BaseUrl}/category/getAll?page=1&perPage=5`,
+          { timeout: 20000 }
+        );
 
-          console.log('API Response received:', {
-            status: response?.status,
-            dataStatus: response?.data?.status,
-            hasData: !!response?.data?.data,
-            dataLength: response?.data?.data?.length
-          });
-
-          if (response?.data?.status === 'success' && response?.data?.data) {
-            setCategories(response.data.data);
-            console.log(`Successfully loaded ${response.data.data.length} categories`);
-            return true;
-          } else {
-            // Handle unexpected response format
-            console.warn('Unexpected API response format:', {
-              status: response?.status,
-              data: response?.data
-            });
-            return false;
-          }
-        } catch (error) {
-          console.error(`Error fetching categories (attempt ${attemptNumber}):`, {
-            code: error.code,
-            message: error.message,
-            response: error.response?.data,
-            status: error.response?.status,
-            url: error.config?.url
-          });
-
-          // Retry logic for network issues
-          if (attemptNumber < maxRetries && (error.code === 'ECONNABORTED' || !error.response || error.response?.status >= 500)) {
-            console.log(`Retrying... (${attemptNumber + 1}/${maxRetries})`);
-            await new Promise(resolve => setTimeout(resolve, 1000 * attemptNumber)); // Exponential backoff
-            return await attemptFetch(attemptNumber + 1);
-          }
-
-          return false;
+        if (response?.data?.status === "success" && response?.data?.data) {
+          setCategories(response.data.data);
+          return true;
         }
-      };
 
-      const success = await attemptFetch();
-      if (!success) {
-        setCategories([]);
-        console.error('Failed to fetch categories after all retries');
+        return false;
+      } catch (error) {
+        if (
+          attemptNumber < maxRetries &&
+          (error.code === "ECONNABORTED" ||
+            !error.response ||
+            error.response?.status >= 500)
+        ) {
+          await new Promise((resolve) =>
+            setTimeout(resolve, 1000 * attemptNumber)
+          );
+          return attemptFetch(attemptNumber + 1);
+        }
+
+        return false;
       }
-      setLoading(false);
     };
 
-    fetchCategories();
+    const success = await attemptFetch();
+    if (!success) setCategories([]);
+    setLoading(false);
   }, []);
 
-  const handleRequestQuote = (category) => {
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
+
+  const handleRequestQuote = useCallback((category) => {
     setSelectedCategory(category);
     setIsQuoteModalOpen(true);
-  };
+  }, []);
 
   return (
     <>
       <div className="py-10 bg-white">
         <div className="sm:max-w-8xl w-[95%] mx-auto">
-          {/* Header Section - Always visible */}
-          <div className="text-center mb-10">
+          
+          {/* Header */}
+          <div className="text-left mb-10">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">
               Customized Packaging for Every Industry
             </h2>
-            <p className="text-gray-600 text-base sm:text-lg">
-              We recognize that each industry has distinct packaging requirements. That’s why X Custom Packaging offers custom packaging solutions designed for retail, apparel, e-commerce, food and beverage, cosmetics, electronics, and beyond. We ensure the quality, feel, and durability of your packaging so that your every box stands out well on the store shelves.
 
+            <p className="text-gray-600 text-base sm:text-lg">
+              We recognize that each industry has distinct packaging requirements.
               <Link
-                to=""
-                className="ml-2 uppercase font-bold text-[#EE334B] inline-flex items-center align-baseline hover:opacity-80 transition-opacity"
+                to="/categories"
+                className="ml-2 uppercase font-bold text-[#EE334B] inline-flex items-center hover:opacity-80 transition"
               >
                 View all
                 <FaAngleRight className="ml-1" size={15} />
               </Link>
             </p>
-
           </div>
 
-          {/* Categories Grid - Loading or Content */}
           {loading ? (
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
-              {[1, 2, 3, 4, 5].map((i) => (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
+              {[...Array(5)].map((_, i) => (
                 <div key={i} className="animate-pulse">
-                  <div className="bg-gray-200 rounded-2xl h-64 mb-4"></div>
-                  <div className="bg-gray-200 h-6 rounded mb-2"></div>
-                  <div className="bg-gray-200 h-4 rounded w-2/3"></div>
+                  <div className="bg-gray-200 rounded-2xl h-64 mb-4" />
+                  <div className="bg-gray-200 h-6 rounded mb-2" />
+                  <div className="bg-gray-200 h-4 rounded w-2/3" />
                 </div>
               ))}
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
+            
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
                 {categories.map((category) => (
                   <div
                     key={category._id}
                     className="group flex flex-col items-center text-center"
                   >
-                    {/* Category Image */}
-                    <div className="relative w-full rounded-2xl overflow-hidden mb-4 bg-gray-50 group-hover:shadow-lg transition-shadow duration-300">
-                      <Link to={`/category/${category.slug}`}>
-                        <div className="relative w-full sm:h-64 h-44 rounded-2xl overflow-hidden">
-                          <img
-                            src={category.image ? `${BaseUrl}/${category.image}` : `${BaseUrl}/images/placeholder.jpg`}
-                            alt={category.imageAltText || category.title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 rounded-2xl"
-                            loading="lazy"
-                          />
-                          {/* Gallery Hover Overlay Gradient */}
-                          <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-2xl"></div>
-                          {/* Gallery Shine Effect - Sweeps across on hover */}
-                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-2xl"></div>
-                        </div>
-                      </Link>
-                    </div>
+                    <Link to={`/category/${category.slug}`}>
+                      <div className="relative w-full sm:h-64 h-44 rounded-2xl overflow-hidden mb-4 bg-gray-50 group-hover:shadow-lg transition duration-300">
+                        <img
+                          src={
+                            category.image
+                              ? `${BaseUrl}/${category.image}`
+                              : `${BaseUrl}/images/placeholder.jpg`
+                          }
+                          alt={category.imageAltText || category.title}
+                          loading="lazy"
+                          className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                        />
+                      </div>
+                    </Link>
 
-                    {/* Category Title */}
                     <h6 className="font-bold text-lg text-gray-800 mb-3">
                       {category.title}
                     </h6>
 
-                    {/* Request Quote Link */}
-                    {/* <button
-                      onClick={() => handleRequestQuote(category)}
-                      className="text-[#EE334B] font-semibold hover:underline transition-colors"
-                    >
-                      Request a Quote
-                    </button> */}
                   </div>
                 ))}
               </div>
 
-              {/* Bottom Request A Quote Button */}
               <div className="flex justify-center mt-6">
                 <Button
                   className="bg-[#800020] text-white hover:bg-[#800020]/90 rounded-lg text-base font-semibold"
@@ -171,7 +139,7 @@ const CategoryBoxes = () => {
         </div>
       </div>
 
-      {/* Request Quote Modal */}
+      {/* Modal */}
       <GetQuoteModal
         isModalOpen={isQuoteModalOpen}
         setIsModalOpen={setIsQuoteModalOpen}
@@ -182,5 +150,4 @@ const CategoryBoxes = () => {
   );
 };
 
-export default CategoryBoxes;
-
+export default memo(CategoryBoxes);

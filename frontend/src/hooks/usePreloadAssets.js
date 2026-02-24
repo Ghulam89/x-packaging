@@ -72,8 +72,6 @@ import {
 // ─── Videos ───
 import heroVideo from '../assets/videos/hero.mp4';
 import heroImage from '../assets/images/banner-slider-image.webp';
-
-// ─── Footer / Trust / Navbar / BottomNav ───
 import trust from '../assets/images/footer/trust.png';
 import img1 from '../assets/images/footer/google-reviws-logo.webp';
 import img2 from '../assets/images/footer/Trustpilot_logo.png';

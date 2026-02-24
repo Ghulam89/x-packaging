@@ -10,8 +10,6 @@ import ProductCard, { ProductSelectionProvider } from "../common/ProductCard";
 import GetQuoteModal from "../common/GetQuoteModal";
 import { FiPhone } from "react-icons/fi";
 import { FaSearch } from "react-icons/fa";
-import portfolio from "../../assets/images/brand/portfolio.png";
-import custom from "../../assets/images/brand/custom-pricing.png";
 import { HiOutlineSearch } from "react-icons/hi";
 const Navbar = () => {
   const [menu, setMenu] = useState(false);

@@ -1,5 +1,4 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { memo, useMemo } from "react";
 import brand1 from "../../assets/images/brand/1.png";
 import brand2 from "../../assets/images/brand/2.png";
 import brand3 from "../../assets/images/brand/3.png";
@@ -17,7 +16,8 @@ import brand14 from "../../assets/images/brand/14.png";
 import brand15 from "../../assets/images/brand/15.png";
 
 const BottomHero = () => {
-  const brands = [
+
+  const brands = useMemo(() => [
     { id: 1, image: brand1, alt: "Adidas" },
     { id: 2, image: brand2, alt: "Good Vibe CBD" },
     { id: 3, image: brand3, alt: "Nike" },
@@ -29,63 +29,55 @@ const BottomHero = () => {
     { id: 9, image: brand9, alt: "Brand 4" },
     { id: 10, image: brand10, alt: "Brand 5" },
     { id: 11, image: brand11, alt: "Brand 6" },
-    { id: 12, image: brand12, alt: "Brand 5" },
-    { id: 13, image: brand13, alt: "Brand 5" },
-    { id: 14, image: brand14, alt: "Brand 5" },
-    { id: 15, image: brand15, alt: "Brand 5" },
-  ];
+    { id: 12, image: brand12, alt: "Brand 7" },
+    { id: 13, image: brand13, alt: "Brand 8" },
+    { id: 14, image: brand14, alt: "Brand 9" },
+    { id: 15, image: brand15, alt: "Brand 10" },
+  ], []);
 
-  // Duplicate brands for seamless loop
-  const duplicatedBrands = [...brands, ...brands, ...brands];
+  const duplicatedBrands = useMemo(() => {
+    return [...brands, ...brands, ...brands];
+  }, [brands]);
+
   const animationDuration = brands.length * 3;
 
   return (
-    <>
-      <style>
-        {`
-          @keyframes scroll-brands {
-            0% {
-              transform: translateX(0);
-            }
-            100% {
-              transform: translateX(-33.333%);
-            }
-          }
-          .brands-scroll {
-            animation: scroll-brands ${animationDuration}s linear infinite;
-          }
-          .brands-scroll:hover {
-            animation-play-state: paused;
-          }
-        `}
-      </style>
-      <div className="py-3.5 bg-[#F7F7F7]">
-        <div className="sm:max-w-7xl w-[95%] mx-auto">
-         
-          
-          {/* Scrolling Brands Section */}
-          <div className="relative overflow-hidden w-full">
-            <div className="flex brands-scroll whitespace-nowrap gap-8 items-center">
-              {duplicatedBrands.map((brand, index) => (
-                <div
-                  key={`${brand.id}-${index}`}
-                  className="inline-flex items-center justify-center flex-shrink-0"
-                  style={{  height: '40px' }}
-                >
-                  <img 
-                    src={brand.image} 
-                    alt={brand.alt} 
-                    className="max-w-full max-h-full object-contain grayscale hover:grayscale-0 transition-all opacity-70 hover:opacity-100"
-                    style={{ filter: 'grayscale(100%)' }}
-                  />
-                </div>
-              ))}
-            </div>
+    <div className="py-3.5 bg-[#F7F7F7]">
+      <div className="sm:max-w-7xl w-[95%] mx-auto">
+        <div className="relative overflow-hidden w-full">
+          <div
+            className="flex whitespace-nowrap gap-8 items-center"
+            style={{
+              animation: `scroll-brands ${animationDuration}s linear infinite`
+            }}
+          >
+            {duplicatedBrands.map((brand, index) => (
+              <div
+                key={`${brand.id}-${index}`}
+                className="inline-flex items-center justify-center flex-shrink-0 h-[40px]"
+              >
+                <img
+                  src={brand.image}
+                  alt={brand.alt}
+                  loading="lazy"
+                  className="max-w-full max-h-full object-contain grayscale hover:grayscale-0 transition-all opacity-70 hover:opacity-100"
+                />
+              </div>
+            ))}
           </div>
         </div>
       </div>
-    </>
+
+      <style>
+        {`
+          @keyframes scroll-brands {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-33.333%); }
+          }
+        `}
+      </style>
+    </div>
   );
 };
 
-export default BottomHero;
+export default memo(BottomHero);

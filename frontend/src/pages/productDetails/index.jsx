@@ -41,7 +41,7 @@ import specification7 from  '../../assets/images/icon/Additional-option.png';
 import specification8 from  '../../assets/images/icon/sETTING.png';
 import specification9 from  '../../assets/images/icon/pROOF.png';
 import sATISFIED from  '../../assets/images/icon/sATISFIED-CLIENTS-BAGE.png';
-import BgSpecification from  '../../assets/images/brand/specificationbg.webp';
+import BgSpecification from  '../../assets/images/product-specification.png';
 import {
     FaBoxOpen,
     FaRulerCombined,
@@ -54,6 +54,7 @@ import {
     FaFileAlt,
     FaClock,
   } from "react-icons/fa"
+import Button from '../../components/common/Button'
 
 const ProductDetails = ({
     serverData,
@@ -557,7 +558,7 @@ const ProductDetails = ({
                             </div>
                             <Link
                                 to="/contact-us"
-                                className="flex-shrink-0 flex items-center gap-2 px-4 from-[#EE334B] to-[#213554] py-2 bg-red-50 hover:bg-red-100 border border-red-200/60 rounded-lg transition-colors duration-200 group"
+                                className="flex-shrink-0 flex items-center gap-2 px-4 from-[#F7F7F7] to-[#F7F7F7] py-2 bg-[#F7F7F7] hover:bg-red-100 border border-gray-200/60 rounded-lg transition-colors duration-200 group"
                             >
                               <img src={chat} alt="chat" className=' w-8 h-8' />
                                 <span className="text-sm font-semibold text-gray-800 whitespace-nowrap">  <h6 className='text-[10px]'> Chat with </h6>  Packaging Expert</span>
@@ -615,29 +616,38 @@ const ProductDetails = ({
                 
             </section>
             {/* <CustomPackagingProduced/> */}
-            <OfferCard
-                title={'Looking For Other Custom Boxes And packaging?'}
-                subTitle={'Chat live with our packaging experts now for a free consultation and insert price quote.'}
-                buttonText={'Contact Us'}
-                buttonIcon={<RiPhoneLine size={18} />}
-            />
-           
+            
 
-          <section className="sm:max-w-8xl   relative max-w-[95%] flex  gap-3 items-center mx-auto mt-10 mb-6">
- <div className=' w-9/12'>
+          <section className="sm:max-w-8xl   relative max-w-[95%] flex  items-center mx-auto mt-10 mb-6">
+ 
+ <div className=' w-6/12'>
+ <div className=" items-center justify-start pointer-events-none relative">
+              <img src={BgSpecification} alt="Product Specification" className=' w-full h-full' />
+              <Link to={'/contact-us'} className=' absolute z-20 top-[60%] left-[35%] w-full h-full'>
+            <Button  className=" cursor-pointer w-44" variant="red" label="Contact Us" alt="Contact Us" />
+              </Link>
+            </div>
+ </div>
+ <div className=' w-6/12'>
  <div className="bg-white rounded-xl overflow-hidden shadow-md border border-gray-100">
 
     {/* 🔥 Gradient Top Bar */}
-    <div className="bg-gradient-to-r from-[#EE334B] to-[#213554] px-6 py-4">
-  <h2 className="text-xl sm:text-2xl font-bold text-white">
-    Product Specification
-  </h2>
+    <div className=" px-6 py-4">
+  
+
+  <div className='flex items-center mb-4 gap-2'>
+                    <div className="w-1 h-12 bg-gradient-to-b from-[#EE334B] to-[#213554] rounded-full"></div>
+                    <h2 className="text-2xl sm:text-3xl font-bold text-[#213554] ">
+                    Product Specification
+                    </h2>
+                    </div>
+
 </div>
 
     <div className="flex flex-col sm:flex-row">
 
       {/* LEFT SIDE LABELS */}
-      <div className="sm:w-1/3 bg-gray-50 border-r border-gray-100">
+      <div className="6/12 bg-gray-50 border-r border-gray-100">
         <div className="divide-y divide-gray-100">
 
           {[
@@ -665,7 +675,7 @@ const ProductDetails = ({
       </div>
 
       {/* RIGHT SIDE VALUES */}
-      <div className="sm:w-2/3 bg-white">
+      <div className="6/12 bg-white">
         <div className="divide-y divide-gray-100">
 
           {[
@@ -691,23 +701,15 @@ const ProductDetails = ({
     </div>
   </div>
  </div>
- <div className=' w-3/12'>
- <div className="hidden md:flex absolute  z-30 top-0 right-12 items-center justify-start pointer-events-none">
-              <h6
-                className="text-[38px] sm:text-[53px]  lg:text-[70px] font-bold text-[#EE334B] opacity-10 select-none" 
-                style={{ 
-                  fontFamily: 'Arial, sans-serif',
-                  writingMode: 'vertical-rl',
-                  textOrientation: 'mixed',
-                  transform: 'rotate(0deg)',
-                  whiteSpace: 'nowrap'
-                }}
-              >
-                Product {'\u00A0'}Specification 
-              </h6>
-            </div>
- </div>
 </section>
+
+<OfferCard
+                title={'Looking For Other Custom Boxes And packaging?'}
+                subTitle={'Chat live with our packaging experts now for a free consultation and insert price quote.'}
+                buttonText={'Contact Us'}
+                buttonIcon={<RiPhoneLine size={18} />}
+            />
+           
 
             {/* Learn More About Section */}
             {product?.description && (
