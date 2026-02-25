@@ -1,11 +1,11 @@
 import React, { useMemo, lazy } from "react";
-import Cart from "../pages/cart/Cart";
-import Checkout from "../pages/checkout/Checkout";
 import { Home } from "../pages/home/Home";
-import Reviews from "../pages/reviews";
-import ContactUs from "../pages/contactUs/ContactUs";
-import TermsAndConditions from "../pages/TermsAndConditions/TermsAndConditions";
-import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
+const Cart = lazy(() => import("../pages/cart/Cart"));
+const Checkout = lazy(() => import("../pages/checkout/Checkout"));
+const Reviews = lazy(() => import("../pages/reviews"));
+const ContactUs = lazy(() => import("../pages/contactUs/ContactUs"));
+const TermsAndConditions = lazy(() => import("../pages/TermsAndConditions/TermsAndConditions"));
+const PrivacyPolicy = lazy(() => import("../pages/PrivacyPolicy/PrivacyPolicy"));
 const SingleBlog = lazy(() => import("../pages/blogs/SingleBlog"));
 const Shop = lazy(() => import("../pages/shop"));
 const ProductDetails = lazy(() => import("../pages/productDetails"));

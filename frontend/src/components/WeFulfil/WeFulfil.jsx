@@ -62,9 +62,11 @@ function WeFulfil() {
         <div className='flex items-center justify-center'>
           <img 
             src={IndustryStandard} 
-            className=' w-full h-auto  rounded-xl object-cover' 
+            className='w-full h-auto rounded-xl object-cover' 
             alt='Industry Standard Packaging' 
             loading='lazy'
+            width={640}
+            height={400}
           />
         </div>
       </div>

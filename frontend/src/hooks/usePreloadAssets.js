@@ -1,4 +1,5 @@
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { BaseUrl } from '../utils/BaseUrl';
 
 // ─── Central assets (from assets/index.js) ───
 import {
@@ -407,6 +408,14 @@ const ALL_IMAGES = [
   p33,
 ];
 
+// Minimal set of above-the-fold static images we actually preload
+const CRITICAL_STATIC_IMAGES = [
+  heroImage,
+  banner,
+  logo,
+  trust,
+];
+
 const CRITICAL_VIDEOS = [heroVideo];
 
 /** Collect backend image URLs from SSR data (serverData, homePageData, CategoryProducts) */
@@ -452,11 +461,16 @@ function collectBackendImageUrls(serverData, CategoryProducts, homePageData) {
 export function usePreloadAssets(serverData, CategoryProducts, homePageData) {
   const [assetsReady, setAssetsReady] = useState(false);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    const backendUrls = collectBackendImageUrls(serverData, CategoryProducts, homePageData);
-    const allUrls = [...new Set([...ALL_IMAGES.filter(Boolean), ...backendUrls])];
+    const backendUrls = collectBackendImageUrls(
+      serverData,
+      CategoryProducts,
+      homePageData
+    );
+    const staticCritical = CRITICAL_STATIC_IMAGES.filter(Boolean);
+    const allUrls = [...new Set([...staticCritical, ...backendUrls])];
 
     if (allUrls.length === 0) {
       setAssetsReady(true);

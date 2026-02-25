@@ -130,12 +130,14 @@ const FAQ = ({ serverData, faqImageUrl, faqImageAltText }) => {
           <div className="flex sm:flex-row  pb-5 flex-col justify-between sm:gap-8 gap-6 items-center">
             {/* Left Side - Image */}
             <div className="sm:w-5/12 mx-auto w-full flex justify-center items-center relative">
-              <div className="relative w-full  pt-3">
+              <div className="relative w-full pt-3">
                 <img 
                   src={faqImageUrl ? `${BaseUrl}/${faqImageUrl}` : faqImage} 
                   alt={faqImageAltText || "FAQ"} 
                   className="w-full h-auto object-contain"
                   loading="lazy"
+                  width={600}
+                  height={400}
                 />
               </div>
             </div>

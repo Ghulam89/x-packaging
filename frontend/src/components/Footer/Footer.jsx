@@ -189,13 +189,34 @@ const Footer = () => {
          <h5 className=' uppercase font-bold'>WHERE WE'RE TRUSTED</h5>
           <ul className=' flex items-center gap-5'>
             <li>
-            <img  src={img1} alt='' className=' w-24' loading="lazy" />
+              <img
+                src={img1}
+                alt=""
+                className="w-24"
+                width={96}
+                height={32}
+                loading="lazy"
+              />
             </li>
             <li>
-            <img  src={img2} alt='' className=' w-32' loading="lazy" />
+              <img
+                src={img2}
+                alt=""
+                className="w-32"
+                width={128}
+                height={40}
+                loading="lazy"
+              />
             </li>
             <li>
-            <img  src={img3} alt='' className=' w-32' loading="lazy" />
+              <img
+                src={img3}
+                alt=""
+                className="w-32"
+                width={128}
+                height={40}
+                loading="lazy"
+              />
             </li>
           </ul>
         </div>
@@ -203,15 +224,36 @@ const Footer = () => {
             <div>
             <h5 className=' uppercase font-bold'>Our Logistics Partners</h5>
             <ul className=' flex  items-center gap-2 pt-2'>
-                <li>
-                    <img  src={img4} className=' w-32' alt='' loading="lazy" />
-                </li>
-                <li>
-                    <img  src={img5} className=' w-32' alt='' loading="lazy" />
-                </li>
-                <li>
-                    <img  src={img6} className=' w-32' alt='' loading="lazy" />
-                </li>
+              <li>
+                <img
+                  src={img4}
+                  className="w-32"
+                  alt=""
+                  loading="lazy"
+                  width={128}
+                  height={40}
+                />
+              </li>
+              <li>
+                <img
+                  src={img5}
+                  className="w-32"
+                  alt=""
+                  loading="lazy"
+                  width={128}
+                  height={40}
+                />
+              </li>
+              <li>
+                <img
+                  src={img6}
+                  className="w-32"
+                  alt=""
+                  loading="lazy"
+                  width={128}
+                  height={40}
+                />
+              </li>
             </ul>
             </div>
         </div>

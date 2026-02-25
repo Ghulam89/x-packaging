@@ -2,7 +2,7 @@ import { useLocation, useRoutes } from 'react-router-dom';
 import WebsiteRoutes from './routes/WebsiteRoutes';
 import { ToastContainer } from 'react-toastify';
 import Footer from './components/Footer/Footer';
-import { useEffect, useState, useMemo, memo } from 'react';
+import { Suspense, useEffect, useState, useMemo, memo } from 'react';
 import Navbar from './components/Header/Navbar';
 import WhatsAppFloat from './components/SocialMedia/WhatsAppModal';
 import AnnouncementBanner from './components/AnnouncementBanner';
@@ -13,8 +13,8 @@ const App = memo(function App({ serverData, CategoryProducts, homePageData }) {
   const [currentUrl, setCurrentUrl] = useState('');
   const routes = WebsiteRoutes({ serverData, CategoryProducts, homePageData });
 
-  // Preload critical static images/videos before paint (useLayoutEffect)
-  usePreloadAssets();
+  // Preload critical static images/videos + key backend images
+  usePreloadAssets(serverData, CategoryProducts, homePageData);
 
   useEffect(() => {
     if ('scrollRestoration' in history) {
@@ -57,7 +57,9 @@ const App = memo(function App({ serverData, CategoryProducts, homePageData }) {
       />
       <AnnouncementBanner />
       <Navbar />
+      {/* <Suspense fallback={null}> */}
         {element}
+      {/* </Suspense> */}
       <Footer />
     </>
   );

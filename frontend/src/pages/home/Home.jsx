@@ -9,20 +9,21 @@ import kraftPackagingBanner from '../../assets/images/goScreen.webp';
 import Category from '../../components/Category'
 import CategoryBoxes from '../../components/CategoryBoxes'
 import PageMetadata from '../../components/common/PageMetadata'
-import SpecialPackaging from '../../components/SpecialPackaging/SpecialPackaging'
-import WeFulfil from '../../components/WeFulfil/WeFulfil'
 import CustomPackagingProduced from '../../components/CustomPackagingProduced'
-import PackagingBanner from '../../components/common/PackagingBanner'
-import CustomPackagingApart from '../../components/CustomPackagingApart/CustomPackagingApart'
-import PersonalTestimonial from '../../components/PersonalTestimnonial/PersonalTestimonial'
-import CustomBoxMaterial from '../../components/CustomBoxMaterial/CustomBoxMaterial'
 import AddonsAndInserts from '../../components/AddonsAndInserts'
 import BannerContent from '../../components/BannerContent'
-const FAQ = lazy(() => import('../../components/FAQ/FAQ'))
-const InspirationPackaging = lazy(() => import('../../components/InspirationPackaging'))
-const Testimonials = lazy(() => import('../../components/Testimonials'))
-const GetPriceQuote = lazy(() => import('../../components/GetPriceQuote/GetPriceQuote'))
-const Blog = lazy(() => import('../../components/blog/Blog'))
+
+const CustomBoxMaterial = lazy(() => import('../../components/CustomBoxMaterial/CustomBoxMaterial'));
+const SpecialPackaging = lazy(() => import('../../components/SpecialPackaging/SpecialPackaging'));
+const WeFulfil = lazy(() => import('../../components/WeFulfil/WeFulfil'));
+const PackagingBanner = lazy(() => import('../../components/common/PackagingBanner'));
+const CustomPackagingApart = lazy(() => import('../../components/CustomPackagingApart/CustomPackagingApart'));
+const PersonalTestimonial = lazy(() => import('../../components/PersonalTestimnonial/PersonalTestimonial'));
+const FAQ = lazy(() => import('../../components/FAQ/FAQ'));
+const InspirationPackaging = lazy(() => import('../../components/InspirationPackaging'));
+const Testimonials = lazy(() => import('../../components/Testimonials'));
+const GetPriceQuote = lazy(() => import('../../components/GetPriceQuote/GetPriceQuote'));
+const Blog = lazy(() => import('../../components/blog/Blog'));
 export const Home = React.memo(({ homePageData }) => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
@@ -157,24 +158,6 @@ export const Home = React.memo(({ homePageData }) => {
   const LoadingFallback = ({ height = 'h-64' }) => (
     <div className={`${height} w-full bg-gray-100 animate-pulse rounded-lg`} />
   )
-  const packagingTabs = [
-    {
-      title: "Custom Box Material",
-      content: (
-        <Suspense fallback={<LoadingFallback height="h-96" />}>
-          <CustomBoxMaterial />
-        </Suspense>
-      )
-    },
-    {
-      title: "Special Packaging",
-      content: (
-        <Suspense fallback={<LoadingFallback height="h-96" />}>
-          <SpecialPackaging />
-        </Suspense>
-      )
-    }
-  ];
   return (
     <>
       <PageMetadata {...metadata} />
@@ -189,18 +172,17 @@ export const Home = React.memo(({ homePageData }) => {
         
         <div className="w-full max-w-[95%] sm:max-w-8xl mx-auto mt-10 px-2 sm:px-4">
           <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
-           
             <div className="flex-1 w-full min-w-0 mt-6 md:mt-0">
               {activeTab === "material" && (
-               
+                <Suspense fallback={<LoadingFallback height="h-96" />}>
                   <CustomBoxMaterial />
-                
+                </Suspense>
               )}
 
               {activeTab === "special" && (
-             
+                <Suspense fallback={<LoadingFallback height="h-96" />}>
                   <SpecialPackaging />
-              
+                </Suspense>
               )}
             </div>
           </div>
@@ -208,8 +190,9 @@ export const Home = React.memo(({ homePageData }) => {
         <CustomPackagingProduced />
        
         <div className=' pt-5'>
-        
+          <Suspense fallback={<LoadingFallback />}>
             <GetPriceQuote />
+          </Suspense>
         </div>
         {/* <div className='flex flex-col gap-8 my-12 bg-[#F6F6F6]'>
           <div>
@@ -242,19 +225,40 @@ export const Home = React.memo(({ homePageData }) => {
         </div> */}
         <AddonsAndInserts/>
         
+        <Suspense fallback={<LoadingFallback />}>
+          <CustomPackagingApart />
+        </Suspense>
         
-        <CustomPackagingApart />
-       
-        
-        <PackagingBanner title={'Go green with Kraft packaging.'} bgImage={kraftPackagingBanner} subTitle={'X Custom Packaging Cares About Its Environment'} url={'/shop'} />
+        <Suspense fallback={<LoadingFallback height="h-72" />}>
+          <PackagingBanner
+            title={'Go green with Kraft packaging.'}
+            bgImage={kraftPackagingBanner}
+            subTitle={'X Custom Packaging Cares About Its Environment'}
+            url={'/shop'}
+          />
+        </Suspense>
 
-        <WeFulfil />
+        <Suspense fallback={null}>
+          <WeFulfil />
+        </Suspense>
+
+        <Suspense fallback={null}>
           <InspirationPackaging />
+        </Suspense>
+
+        <Suspense fallback={null}>
           <PersonalTestimonial />
+        </Suspense>
+
         <BannerContent serverData={homePageData?.banner} />
+
+        <Suspense fallback={<LoadingFallback />}>
           <FAQ serverData={homePageData?.faqs} />
+        </Suspense>
        
+        <Suspense fallback={null}>
           <Blog />
+        </Suspense>
         
 
       </main>
