@@ -10,10 +10,8 @@ import { usePreloadAssets } from './hooks/usePreloadAssets';
 
 const App = memo(function App({ serverData, CategoryProducts, homePageData }) {
   const location = useLocation();
-  const [currentUrl, setCurrentUrl] = useState('');
-  const routes = WebsiteRoutes({ serverData, CategoryProducts, homePageData });
+  const routes = WebsiteRoutes(serverData, CategoryProducts, homePageData);
 
-  // Preload critical static images/videos + key backend images
   usePreloadAssets(serverData, CategoryProducts, homePageData);
 
   useEffect(() => {
@@ -23,27 +21,23 @@ const App = memo(function App({ serverData, CategoryProducts, homePageData }) {
   }, []);
 
   useEffect(() => {
-    const scrollToTop = () => {
-      window.scrollTo(0, 0);
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-    };
-    scrollToTop();
-    requestAnimationFrame(() => scrollToTop());
-    const timer = setTimeout(scrollToTop, 0);
+    window.scrollTo({ top: 0, left: 0 });
+
     if (window.location.hash) {
       window.history.replaceState(null, '', location.pathname + location.search);
     }
-    setCurrentUrl(window.location.origin + location.pathname + location.search);
-    return () => clearTimeout(timer);
   }, [location]);
-  
-  const element = useRoutes(routes);
-  
+
+  const currentUrl = useMemo(() => {
+    return window.location.origin + location.pathname + location.search;
+  }, [location]);
+
   const whatsappMessage = useMemo(
     () => `Hello, I am reaching out to inquire about ${currentUrl}`,
     [currentUrl]
   );
+
+  const element = useRoutes(routes);
 
   return (
     <>
@@ -57,9 +51,7 @@ const App = memo(function App({ serverData, CategoryProducts, homePageData }) {
       />
       <AnnouncementBanner />
       <Navbar />
-      {/* <Suspense fallback={null}> */}
-        {element}
-      {/* </Suspense> */}
+      {element}
       <Footer />
     </>
   );
