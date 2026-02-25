@@ -22,6 +22,7 @@ import instantQuoteRouter from "./routes/InstantQuote.js";
 import sitemapRouter from "./routes/sitemapRouter.js";
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { cacheMiddleware } from "./middleware/cache.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 // SSR/Frontend imports
@@ -75,6 +76,24 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// ================= API response cache (dynamic data) =================
+// Central per-path cache configuration (only GETs are cached)
+const apiCacheConfig = {
+  "/products": 60 * 5,      // 5 minutes
+  "/faq": 60 * 10,          // 10 minutes
+  "/banner": 60 * 10,       // 10 minutes
+  "/blog": 60 * 10,         // 10 minutes
+  "/blog-product": 60 * 10, // 10 minutes
+  "/brands": 60 * 10,       // 10 minutes
+  "/category": 60 * 10,     // 10 minutes
+  "/subcategory": 60 * 10,  // 10 minutes
+  "/sitemap": 60 * 60,      // 1 hour
+};
+
+Object.entries(apiCacheConfig).forEach(([pathPrefix, ttl]) => {
+  app.use(pathPrefix, cacheMiddleware(ttl));
+});
 
 
 // Backend API routes
