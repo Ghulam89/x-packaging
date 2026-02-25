@@ -231,8 +231,25 @@ if (isProduction) {
 
 // Cache for rendered pages with LRU strategy
 const ssrCache = new Map();
-const CACHE_TTL = 1000 * 60 * 5; // 5 minutes cache
-const MAX_CACHE_SIZE = 100; // Limit cache size to prevent memory issues
+// More aggressive SSR caching:
+// - Home page: 15 minutes
+// - Other pages: 10 minutes
+const SSR_CACHE_TTL_DEFAULT = 1000 * 60 * 10;
+const SSR_CACHE_TTL_HOME = 1000 * 60 * 15;
+const MAX_CACHE_SIZE = 200; // Allow more pages before eviction
+
+// Lightweight logging helpers to avoid noisy logs in production
+const ssrLogDebug = (...args) => {
+  if (!isProduction) {
+    console.log(...args);
+  }
+};
+
+const ssrLogError = (...args) => {
+  if (!isProduction) {
+    console.error(...args);
+  }
+};
 
 // Function to generate cache key from request
 function getCacheKey(req) {
@@ -280,7 +297,7 @@ app.use('*', async (req, res, next) => {
   
   if (cached && cached.expiry > Date.now()) {
     res.set(cached.headers).status(200).send(cached.html);
-    console.log(`SSR Cache hit for ${url}: ${Date.now() - startTime}ms`);
+    ssrLogDebug(`SSR Cache hit for ${url}: ${Date.now() - startTime}ms`);
     return;
   }
   
@@ -300,9 +317,9 @@ app.use('*', async (req, res, next) => {
         const serverModule = await vite.ssrLoadModule('../frontend/src/entry-server.jsx');
         render = serverModule?.render;
       } catch (error) {
-        console.error('Vite development error:', error);
-        console.error('Error details:', error.message);
-        console.error('Error stack:', error.stack);
+        ssrLogError('Vite development error:', error);
+        ssrLogError('Error details:', error.message);
+        ssrLogError('Error stack:', error.stack);
       }
     } else if (isProduction && productionTemplate && productionRender) {
       // Production mode
@@ -337,7 +354,7 @@ app.use('*', async (req, res, next) => {
     // rendered = await Promise.race([renderPromise, timeoutPromise]);
     
     // Debug logging
-    console.log(`SSR render result for ${url}:`, {
+    ssrLogDebug(`SSR render result for ${url}:`, {
       hasHtml: !!rendered.html,
       hasServerData: !!rendered.serverData,
       hasCategoryProducts: !!rendered.CategoryProducts,
@@ -358,7 +375,7 @@ app.use('*', async (req, res, next) => {
       ? `<script>window.__HOME_PAGE_DATA__ = ${JSON.stringify(rendered.homePageData)};</script>`
       : '<script>window.__HOME_PAGE_DATA__ = null;</script>';
     
-    console.log(`SSR scripts prepared for ${url}:`, {
+    ssrLogDebug(`SSR scripts prepared for ${url}:`, {
       serverData: rendered.serverData ? 'present' : 'null',
       categoryProducts: rendered.CategoryProducts ? 'present' : 'null',
       homePageData: rendered.homePageData ? 'present' : 'null'
@@ -366,9 +383,18 @@ app.use('*', async (req, res, next) => {
     
     // Check if HTML content contains data (for SEO/view-source visibility)
     if (rendered.serverData) {
-      const hasDataInHtml = rendered.html.includes(rendered.serverData.name || rendered.serverData.title || rendered.serverData.slug || '');
-      console.log(`SSR: Data visible in HTML for ${url}:`, hasDataInHtml, {
-        dataKey: rendered.serverData.name || rendered.serverData.title || rendered.serverData.slug || 'N/A'
+      const hasDataInHtml = rendered.html.includes(
+        rendered.serverData.name ||
+        rendered.serverData.title ||
+        rendered.serverData.slug ||
+        ''
+      );
+      ssrLogDebug(`SSR: Data visible in HTML for ${url}:`, hasDataInHtml, {
+        dataKey:
+          rendered.serverData.name ||
+          rendered.serverData.title ||
+          rendered.serverData.slug ||
+          'N/A',
       });
     }
 
@@ -382,17 +408,25 @@ app.use('*', async (req, res, next) => {
         '<!--server-data-->', 
         `${serverDataScript}\n${categoryProductsScript}\n${homePageDataScript}`
       );
-    
+
     if (isProduction && res.statusCode === 200) {
+      const isHomePageRequest =
+        url === '/' ||
+        url === '' ||
+        url.startsWith('/?');
+      const ttl = isHomePageRequest
+        ? SSR_CACHE_TTL_HOME
+        : SSR_CACHE_TTL_DEFAULT;
+
       ssrCache.set(cacheKey, {
         html,
         headers: { 'Content-Type': 'text/html' },
-        expiry: Date.now() + CACHE_TTL
+        expiry: Date.now() + ttl
       });
     }
     
     res.status(200).set({ 'Content-Type': 'text/html' }).send(html);
-    console.log(`SSR completed for ${url}: ${Date.now() - startTime}ms`);
+    ssrLogDebug(`SSR completed for ${url}: ${Date.now() - startTime}ms`);
     
   } catch (e) {
     // Commented out SSR timeout fallback that triggers PageLoader
@@ -410,7 +444,7 @@ app.use('*', async (req, res, next) => {
     //     
     //   }
     // } else {
-      console.error('SSR Error:', e.stack);
+      ssrLogError('SSR Error:', e.stack);
       if (template) {
         const errorHtml = template
           .replace('<!--app-head-->', '')
