@@ -2,7 +2,7 @@ import React, { memo, useMemo } from "react";
 import Button from "../../components/common/Button";
 import { Link } from "react-router-dom";
 // import { CRITICAL_VIDEOS } from "../../hooks/usePreloadAssets";
-// import heroImage from '../../assets/videos/hero.mp4';
+import heroImage from '../../assets/videos/hero.mp4';
 const Hero = () => {
   // const videoSrc = useMemo(() => CRITICAL_VIDEOS, []);
   return (
@@ -19,7 +19,7 @@ const Hero = () => {
         preload="metadata"
         className="absolute inset-0 w-full h-full object-cover"
       >
-        <source src={'https://xcustompackaging.com/images/hero.mp4'} type="video/mp4" />
+        <source src={heroImage} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
 
