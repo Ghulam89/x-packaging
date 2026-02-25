@@ -22,7 +22,7 @@ import instantQuoteRouter from "./routes/InstantQuote.js";
 import sitemapRouter from "./routes/sitemapRouter.js";
 import path from 'path';
 import { fileURLToPath } from 'url';
-import NodeCache from "node-cache";
+import { cacheMiddleware } from "./middleware/cache.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 // SSR/Frontend imports
@@ -30,45 +30,6 @@ import fs from 'node:fs/promises';
 
 const numCPUs = os.cpus().length;
 const isProduction = process.env.NODE_ENV === 'production';
-
-// ================= API response cache (dynamic data) =================
-// In-memory cache for JSON API responses (e.g. products, FAQs, banners)
-const apiCache = new NodeCache({
-  stdTTL: 60 * 5, // 5 minutes default TTL
-  checkperiod: 60,
-  useClones: false,
-});
-
-function apiCacheMiddleware(ttlSeconds = 60 * 5) {
-  return (req, res, next) => {
-    if (req.method !== 'GET') {
-      return next();
-    }
-
-    const cacheKey = req.originalUrl;
-    const cached = apiCache.get(cacheKey);
-
-    if (cached) {
-      return res.status(200).json(cached);
-    }
-
-    const originalJson = res.json.bind(res);
-
-    res.json = (body) => {
-      try {
-        // Only cache successful responses with a standard shape
-        if (res.statusCode === 200 && body) {
-          apiCache.set(cacheKey, body, ttlSeconds);
-        }
-      } catch {
-        // Fail silently on cache errors
-      }
-      return originalJson(body);
-    };
-
-    next();
-  };
-}
 
 if (isProduction && cluster.isPrimary) {
   console.log(`Primary ${process.pid} is running`);
@@ -116,21 +77,23 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Apply API cache only for read-heavy, mostly-static resources
-app.use(
-  [
-    "/products",
-    "/faq",
-    "/banner",
-    "/blog",
-    "/blog-product",
-    "/brands",
-    "/category",
-    "/subcategory",
-    "/sitemap",
-  ],
-  apiCacheMiddleware(60 * 5)
-);
+// ================= API response cache (dynamic data) =================
+// Central per-path cache configuration (only GETs are cached)
+const apiCacheConfig = {
+  "/products": 60 * 5,      // 5 minutes
+  "/faq": 60 * 10,          // 10 minutes
+  "/banner": 60 * 10,       // 10 minutes
+  "/blog": 60 * 10,         // 10 minutes
+  "/blog-product": 60 * 10, // 10 minutes
+  "/brands": 60 * 10,       // 10 minutes
+  "/category": 60 * 10,     // 10 minutes
+  "/subcategory": 60 * 10,  // 10 minutes
+  "/sitemap": 60 * 60,      // 1 hour
+};
+
+Object.entries(apiCacheConfig).forEach(([pathPrefix, ttl]) => {
+  app.use(pathPrefix, cacheMiddleware(ttl));
+});
 
 
 // Backend API routes

@@ -54,12 +54,14 @@ const BottomHero = () => {
             {duplicatedBrands.map((brand, index) => (
               <div
                 key={`${brand.id}-${index}`}
-                className="inline-flex items-center justify-center flex-shrink-0 h-[40px]"
+                className="inline-flex items-center justify-center flex-shrink-0 h-[40px] w-[140px]"
               >
                 <img
                   src={brand.image}
                   alt={brand.alt}
                   loading="lazy"
+                  width={140}
+                  height={40}
                   className="max-w-full max-h-full object-contain grayscale hover:grayscale-0 transition-all opacity-70 hover:opacity-100"
                 />
               </div>
