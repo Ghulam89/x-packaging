@@ -22,6 +22,9 @@ export function cacheMiddleware(ttlSeconds = 60 * 5) {
       return next();
     }
 
+    res.setHeader("Cache-Control", `public, max-age=${ttlSeconds}`);
+    res.setHeader("Vary", "Accept-Encoding");
+
     const cacheKey = `${req.method}:${req.originalUrl}`;
     const cached = apiCache.get(cacheKey);
 

@@ -2,7 +2,7 @@ import React, { StrictMode } from "react";
 import { renderToString } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";
 import App from "./App";
-import "./index.css";
+import "./App.css";
 import { HelmetProvider } from "react-helmet-async";
 import axios from "axios";
 import { BaseUrl } from "./utils/BaseUrl";
@@ -23,9 +23,14 @@ const ssrError = (...args) => {
   }
 };
 
+const internalApiBaseUrl =
+  process.env.INTERNAL_API_BASE_URL ||
+  (isProduction ? `http://127.0.0.1:${process.env.PORT || 5000}` : null) ||
+  BaseUrl;
+
 // Dedicated axios client for SSR with sensible timeout
 const ssrClient = axios.create({
-  baseURL: BaseUrl,
+  baseURL: internalApiBaseUrl,
   timeout: 8000, // 8s timeout to avoid hanging SSR
 });
 

@@ -3,6 +3,7 @@ import { MidCategory } from "../model/MidCategory.js";
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { clearAllCache } from "../middleware/cache.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -138,6 +139,7 @@ export const createCategory = catchAsyncError(async (req, res, next) => {
       message: "New Category created successfully!",
       data: newCategory,
     });
+    try { clearAllCache(); } catch {}
 
   } catch (error) {
    
@@ -336,6 +338,7 @@ export const updateCategory = catchAsyncError(async (req, res, next) => {
       data: updatedCategory,
       message: "Category updated successfully!",
     });
+    try { clearAllCache(); } catch {}
 
   } catch (error) {
   
@@ -432,6 +435,7 @@ export const deleteCategoryById = async (req, res, next) => {
       status: "success",
       message: "Category deleted successfully!",
     });
+    try { clearAllCache(); } catch {}
   } catch (error) {
     console.log(error);
     next(error);

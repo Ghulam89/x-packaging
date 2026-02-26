@@ -61,8 +61,16 @@ if (isProduction && cluster.isPrimary) {
 // Connect to database
 connectDB();
 const app = express();
-app.use(express.static("static"));
-app.use('/images', express.static(path.join(__dirname, 'images')));
+if (isProduction) {
+  try {
+    const compression = (await import("compression")).default;
+    app.use(compression());
+  } catch (error) {
+    console.error("Failed to enable compression:", error);
+  }
+}
+app.use(express.static("static", { maxAge: "365d" }));
+app.use("/images", express.static(path.join(__dirname, "images"), { maxAge: "365d" }));
 
 // Middleware - Enhanced CORS for iOS Safari compatibility
 app.use(cors({
@@ -85,8 +93,9 @@ const apiCacheConfig = {
   "/banner": 60 * 10,       // 10 minutes
   "/blog": 60 * 10,         // 10 minutes
   "/blog-product": 60 * 10, // 10 minutes
-  "/brands": 60 * 10,       // 10 minutes
-  "/category": 60 * 10,     // 10 minutes
+  // BottomNav critical data: cache aggressively (6 hours)
+  "/brands": 60 * 60 * 6,
+  "/category": 60 * 60 * 6,
   "/subcategory": 60 * 10,  // 10 minutes
   "/sitemap": 60 * 60,      // 1 hour
 };
@@ -131,6 +140,40 @@ let productionTemplate = '';
 let productionRender = null;
 let vite = null;
 
+function moveModuleScriptsAfterStylesheets(html) {
+  if (!html || typeof html !== 'string') return html;
+  const headOpenIndex = html.indexOf('<head');
+  const headCloseIndex = html.indexOf('</head>');
+  if (headOpenIndex === -1 || headCloseIndex === -1) return html;
+
+  const headStart = html.indexOf('>', headOpenIndex);
+  if (headStart === -1) return html;
+
+  const headInner = html.slice(headStart + 1, headCloseIndex);
+  const moduleScriptRegex =
+    /<script\b[^>]*type=["']module["'][^>]*>\s*<\/script>\s*/gi;
+
+  const scripts = headInner.match(moduleScriptRegex) || [];
+  if (scripts.length === 0) return html;
+
+  const headWithoutScripts = headInner.replace(moduleScriptRegex, '');
+
+  const lastStylesheetIndex = headWithoutScripts.lastIndexOf('rel="stylesheet"');
+  if (lastStylesheetIndex === -1) return html;
+
+  const insertAfterIndex = headWithoutScripts.indexOf('>', lastStylesheetIndex);
+  if (insertAfterIndex === -1) return html;
+
+  const newHeadInner =
+    headWithoutScripts.slice(0, insertAfterIndex + 1) +
+    '\n    ' +
+    scripts.join('').trim() +
+    '\n' +
+    headWithoutScripts.slice(insertAfterIndex + 1);
+
+  return html.slice(0, headStart + 1) + newHeadInner + html.slice(headCloseIndex);
+}
+
 // Preload production assets in production mode
 if (isProduction) {
   try {
@@ -143,7 +186,7 @@ if (isProduction) {
       import(serverEntryPath)
     ]);
     
-    productionTemplate = template;
+    productionTemplate = moveModuleScriptsAfterStylesheets(template);
     productionRender = serverModule.render;
     
     console.log('Production assets preloaded successfully');
@@ -179,9 +222,7 @@ if (isProduction) {
 // In production, serve static files with caching headers
 if (isProduction) {
   try {
-    const compression = (await import('compression')).default;
     const sirv = (await import('sirv')).default;
-    app.use(compression());
     app.use(base, sirv(path.join(__dirname, '../frontend/dist/client'), {
       extensions: [],
       maxAge: 31536000, // 1 year
@@ -277,6 +318,12 @@ app.use('*', async (req, res, next) => {
         );
         
         template = await vite.transformIndexHtml(url, template);
+        if (!template.includes('href="/src/App.css"') && !template.includes("href='/src/App.css'")) {
+          template = template.replace(
+            "</head>",
+            `    <link href="/src/App.css" rel="stylesheet" />\n  </head>`
+          );
+        }
         const serverModule = await vite.ssrLoadModule('../frontend/src/entry-server.jsx');
         render = serverModule?.render;
       } catch (error) {
@@ -298,7 +345,7 @@ app.use('*', async (req, res, next) => {
       if (template) {
         const fallbackHtml = template
           .replace('<!--app-head-->', '')
-          .replace('<!--app-html-->', '<div id="app"></div>')
+          .replace('<!--app-html-->', '<div id="root"></div>')
           .replace('<!--server-data-->', '<script>window.__SERVER_DATA__ = null;</script>\n<script>window.__CATEGORY_PRODUCTS__ = null;</script>\n<script>window.__HOME_PAGE_DATA__ = null;</script>');
         return res.status(200).set({ 'Content-Type': 'text/html' }).send(fallbackHtml);
       } else {

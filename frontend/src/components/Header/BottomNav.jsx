@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback, memo } from "react";
 import { FaAngleDown, FaAngleRight, FaBed, FaFacebookF, FaInstagram, FaLinkedinIn, FaPinterest, FaYoutube } from "react-icons/fa";
 import { MdOutdoorGrill } from "react-icons/md";
 import { TbToolsKitchen3 } from "react-icons/tb";
@@ -49,7 +49,7 @@ if (typeof document !== 'undefined' && !document.getElementById('bottomnav-anima
 // Cache for brands data
 const BRANDS_CACHE_KEY = 'brands_cache';
 const BRANDS_CACHE_TIMESTAMP = 'brands_cache_timestamp';
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes cache
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes cache (frontend local)
 
 // Get cached brands data
 const getCachedBrands = () => {
@@ -82,46 +82,50 @@ const saveBrandsToCache = (data) => {
   }
 };
 
+// Map category names to icons (case-insensitive)
+const CATEGORY_ICON_MAP = Object.freeze({
+  "box by industry": <FaBed />,
+  "shapes & styles": <MdOutdoorGrill />,
+  "materials": <TbToolsKitchen3 />,
+  "boxes by material": <TbToolsKitchen3 />,
+  "sticker labels & others": <TbToolsKitchen3 />,
+});
+
+const getCategoryIcon = (categoryName = "") => {
+  const key = String(categoryName).toLowerCase();
+  return CATEGORY_ICON_MAP[key] || <FaBed />;
+};
+
+const transformBrandsData = (brandsData) => {
+  if (!Array.isArray(brandsData)) return [];
+  return brandsData.map((brand) => ({
+    category: brand?.name || "",
+    slug: brand?.slug || "",
+    icon: getCategoryIcon(brand?.name),
+    menu:
+      Array.isArray(brand?.midcategories)
+        ? brand.midcategories.map((midcat) => ({
+            title: midcat?.title || "",
+            icon:
+              typeof midcat?.icon === "string" && midcat.icon.startsWith("http")
+                ? midcat.icon
+                : `${BaseUrl}/${String(midcat?.icon || "").replace(/^\//, "")}`,
+            slug: midcat?.slug || "",
+          }))
+        : [],
+  }));
+};
+
 const BottomNav = ({ Menu, OpenMenu }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [categories, setCategories] = useState([]);
-  const [portfolioCategories, setPortfolioCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isPortfolioOpen, setIsPortfolioOpen] = useState(false);
 
-  // Icon mapping for categories
-  const categoryIconMap = {
-    "box by industry": <FaBed />,
-    "Box by industry": <FaBed />,
-    "Shapes & Styles": <MdOutdoorGrill />,
-    "Shapes & styles": <MdOutdoorGrill />,
-    "Materials": <TbToolsKitchen3 />,
-    "Boxes By Material": <TbToolsKitchen3 />,
-    "Sticker labels & others": <TbToolsKitchen3 />,
-    "Sticker Labels & Others": <TbToolsKitchen3 />,
-  };
-
-  // Default icon if category not found in map
-  const getCategoryIcon = (categoryName) => {
-    return categoryIconMap[categoryName] || <FaBed />;
-  };
-
-  // Transform API data to component structure
-  const transformBrandsData = (brandsData) => {
-    return brandsData.map((brand) => ({
-      category: brand.name,
-      slug: brand.slug,
-      icon: getCategoryIcon(brand.name),
-      menu: brand.midcategories?.map((midcat) => ({
-        title: midcat.title,
-        icon: midcat.icon?.startsWith('http') 
-          ? midcat.icon 
-          : `${BaseUrl}/${midcat.icon}`,
-        slug: midcat.slug,
-      })) || [],
-    }));
-  };
+  const displayCategories = useMemo(
+    () => (Array.isArray(categories) && categories.length > 0 ? categories : []),
+    [categories]
+  );
 
   // Disable body scroll when mobile menu is open
   useEffect(() => {
@@ -154,31 +158,27 @@ const BottomNav = ({ Menu, OpenMenu }) => {
     };
   }, [Menu]);
 
-  // Fetch brands from API
+  // Fetch brands from API (with cancel)
   useEffect(() => {
+    let cancelled = false;
+    const controller = new AbortController();
     const fetchBrands = async () => {
       // First, try to load from cache for instant display
       const cachedData = getCachedBrands();
       if (cachedData) {
-        setCategories(transformBrandsData(cachedData));
-        setLoading(false);
+        if (!cancelled) {
+          setCategories(transformBrandsData(cachedData));
+          setLoading(false);
+        }
       }
 
       // Then fetch fresh data from API in background
       try {
-        console.log('Fetching brands from API...');
         const response = await axiosInstance.get(`${BaseUrl}/brands/getAll`, {
           timeout: 20000, // Increased timeout for iOS Safari
+          signal: controller.signal,
         });
-        
-        console.log('Brands API Response:', {
-          status: response?.status,
-          dataStatus: response?.data?.status,
-          hasData: !!response?.data?.data,
-          dataLength: response?.data?.data?.length
-        });
-        
-        if (response.data.status === "success" && response.data.data) {
+        if (!cancelled && response?.data?.status === "success" && response?.data?.data) {
           const transformedCategories = transformBrandsData(response.data.data);
           
           // Save to cache
@@ -186,61 +186,34 @@ const BottomNav = ({ Menu, OpenMenu }) => {
           
           // Update state with fresh data
           setCategories(transformedCategories);
-          console.log(`Successfully loaded ${response.data.data.length} brands`);
-        } else {
-          console.warn('Unexpected brands API response format:', response?.data);
         }
       } catch (error) {
-        console.error("Error fetching brands:", {
-          code: error.code,
-          message: error.message,
-          response: error.response?.data,
-          status: error.response?.status,
-          url: error.config?.url
-        });
         // If no cached data and API fails, keep empty array
         if (!cachedData) {
-          setCategories([]);
+          if (!cancelled) setCategories([]);
         }
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
 
     fetchBrands();
-  }, []);
-
-  // Fetch portfolio categories from API
-  useEffect(() => {
-    const fetchPortfolioCategories = async () => {
-      try {
-        const response = await axiosInstance.get(`${BaseUrl}/category/getAll`, {
-          timeout: 20000,
-        });
-
-        if (response.data.status === "success" && Array.isArray(response.data.data)) {
-          setPortfolioCategories(response.data.data);
-        } else {
-          console.warn("Unexpected portfolio categories API response format:", response?.data);
-        }
-      } catch (error) {
-        console.error("Error fetching portfolio categories:", {
-          code: error.code,
-          message: error.message,
-          response: error.response?.data,
-          status: error.response?.status,
-          url: error.config?.url,
-        });
-      }
+    return () => {
+      cancelled = true;
+      try { controller.abort(); } catch {}
     };
-
-    fetchPortfolioCategories();
   }, []);
 
-  
-  const displayCategories = categories.length > 0 ? categories : [];
+  const handleCategoryHover = useCallback((category) => {
+    setHoveredCategory(category);
+    setSelectedCategory(category?.menu || null);
+  }, []);
 
-  
+  const handleCategoryLeave = useCallback(() => {
+    setHoveredCategory(null);
+    setSelectedCategory(null);
+  }, []);
+
   const CategorySkeleton = () => (
     <div className="flex gap-7 items-center">
       {[1, 2, 3, 4].map((i) => (
@@ -251,16 +224,6 @@ const BottomNav = ({ Menu, OpenMenu }) => {
       ))}
     </div>
   );
-
-  const handleCategoryHover = (category) => {
-    setHoveredCategory(category);
-    setSelectedCategory(category.menu);
-  };
-
-  const handleCategoryLeave = () => {
-    setHoveredCategory(null);
-    setSelectedCategory(null);
-  };
 
   return (
     <div className="relative shadow-md" onMouseLeave={handleCategoryLeave}>
@@ -280,7 +243,7 @@ const BottomNav = ({ Menu, OpenMenu }) => {
             const isBoxByIndustry = category.category?.toLowerCase().includes('box by industry') || category.category?.toLowerCase().includes('box by industry');
             return (
               <div
-                key={index}
+                key={category?.slug || category?.category || index}
                 className="relative"
                 onMouseEnter={() => handleCategoryHover(category)}
                 onMouseLeave={category.menu?.length > 0 ? undefined : handleCategoryLeave}
@@ -354,13 +317,13 @@ const BottomNav = ({ Menu, OpenMenu }) => {
         <div className="flex items-center space-x-2 text-sm">
           <span className="text-gray-700 font-medium">Local Globally:</span>
           <div className="flex items-center space-x-0.5">
-            <img src={usa} alt="USA" className="w-7 h-7 object-center" />
+            <img src={usa} alt="USA" width="28" height="28" loading="lazy" decoding="async" className="w-7 h-7 object-center" />
            
-            <img src={uk} alt="UK" className="w-7 h-7 object-center" />
-            <img src={canada} alt="canada" className="w-7 h-7 object-center" />
-            <img src={australia} alt="canada" className="w-7 h-7 object-center" />
-            <img src={uae} alt="canada" className="w-7 h-7 object-center" />
-            <img src={chaina} alt="canada" className="w-7 h-7 object-center" />
+            <img src={uk} alt="UK" width="28" height="28" loading="lazy" decoding="async" className="w-7 h-7 object-center" />
+            <img src={canada} alt="Canada" width="28" height="28" loading="lazy" decoding="async" className="w-7 h-7 object-center" />
+            <img src={australia} alt="Australia" width="28" height="28" loading="lazy" decoding="async" className="w-7 h-7 object-center" />
+            <img src={uae} alt="UAE" width="28" height="28" loading="lazy" decoding="async" className="w-7 h-7 object-center" />
+            <img src={chaina} alt="China" width="28" height="28" loading="lazy" decoding="async" className="w-7 h-7 object-center" />
            
           </div>
         </div>
@@ -381,7 +344,7 @@ const BottomNav = ({ Menu, OpenMenu }) => {
                 <div className="w-9/12 grid grid-cols-5 gap-4">
                   {selectedCategory.map((submenu, index) => (
                     <Link
-                      key={index}
+                      key={submenu?.slug || submenu?.title || index}
                       to={`/category/${submenu.slug || submenu.title}`}
                       className="text-gray-700 flex font-bold flex-col gap-2 items-center transition-all duration-300 group hover:scale-105"
                     >
@@ -389,6 +352,10 @@ const BottomNav = ({ Menu, OpenMenu }) => {
                         <img
                           src={submenu?.icon}
                           alt={submenu.title}
+                          loading="lazy"
+                          decoding="async"
+                          width="400"
+                          height="224"
                           className="w-full h-full object-cover rounded-2xl group-hover:scale-110 transition-transform duration-500"
                         />
                        
@@ -410,7 +377,7 @@ const BottomNav = ({ Menu, OpenMenu }) => {
                     {selectedCategory?.map((item, index) => (
                       <Link
                         to={`/category/${item?.slug || item?.title}`}
-                        key={index}
+                        key={item?.slug || item?.title || index}
                         className="font-semibold flex items-center justify-between py-2 px-3 rounded-lg text-[#213554] hover:bg-[#EE334B]/10 hover:text-[#EE334B] transition-all duration-300 group"
                       >
                         <span>{item?.title}</span>
@@ -479,7 +446,7 @@ const BottomNav = ({ Menu, OpenMenu }) => {
               </Link>
             </li>
             {displayCategories.map((category, index) => (
-              <li key={index}>
+              <li key={category?.slug || category?.category || index}>
                 <button
                   type="button"
                   className="w-full flex items-center justify-between px-4 py-3 font-semibold text-left text-[#213554] hover:text-[#EE334B] hover:bg-[#EE334B]/10 rounded-lg transition-all duration-300"
@@ -489,7 +456,7 @@ const BottomNav = ({ Menu, OpenMenu }) => {
                 {category.menu?.length > 0 && (
                   <ul className="pl-6 mt-1 space-y-1">
                     {category.menu.map((submenu, subIndex) => (
-                      <li key={subIndex}>
+                      <li key={submenu?.slug || submenu?.title || subIndex}>
                         <Link
                           to={`/category/${submenu.slug || submenu.title}`}
                           className="block px-4 py-2 text-gray-700 hover:text-[#EE334B] hover:bg-[#EE334B]/5 rounded-lg transition-all duration-300 text-sm"
@@ -546,4 +513,4 @@ const BottomNav = ({ Menu, OpenMenu }) => {
   );
 };
 
-export default BottomNav;
+export default memo(BottomNav);

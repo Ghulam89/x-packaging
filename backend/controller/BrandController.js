@@ -3,6 +3,7 @@ import { Brands } from "../model/Brand.js";
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { clearAllCache } from "../middleware/cache.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -73,6 +74,7 @@ export const createBrand = catchAsyncError(async (req, res, next) => {
       message: "Category created successfully!",
       data: newBrand,
     });
+    try { clearAllCache(); } catch {}
   } catch (error) {
     if (req.files?.image) {
       fs.unlinkSync(path.join(__dirname, '..', req.files.image[0].path));
@@ -181,6 +183,7 @@ export const updateBrand = catchAsyncError(async (req, res, next) => {
       data: updatedBrand,
       message: "Brand updated successfully!",
     });
+    try { clearAllCache(); } catch {}
 
   } catch (error) {
 
@@ -302,6 +305,7 @@ export const deleteBrandById = async (req, res, next) => {
       status: "success",
       message: "Category deleted successfully!",
     });
+    try { clearAllCache(); } catch {}
   } catch (error) {
     console.log(error);
     next(error);
