@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { BaseUrl } from '../../utils/BaseUrl';
+import { ApiBaseUrl } from '../../utils/BaseUrl';
 import Button from '../common/Button';
 import { FaArrowDown } from 'react-icons/fa';
 
@@ -16,13 +16,14 @@ const BannerContent = React.memo(({ serverData }) => {
   const fetchBanner = async () => {
     try {
       setLoading(true);
-      const base = typeof window !== 'undefined' && window.location?.origin ? window.location.origin + '/api' : BaseUrl;
-      const response = await axios.get(`${base}/banner/getAll`);
+      const response = await axios.get(`${ApiBaseUrl}/banner/getAll`);
       const data = response?.data?.data?.[0] || null;
       setBanner(data);
       setError(null);
     } catch (error) {
-      console.error('Error fetching banner:', error);
+      if (!error?.response || error.response.status !== 404) {
+        console.error('Error fetching banner:', error);
+      }
       setError('Failed to load banner content');
     } finally {
       setLoading(false);
@@ -88,7 +89,26 @@ const BannerContent = React.memo(({ serverData }) => {
   }
 
   if (error || !banner) {
-    return null; // Don't show anything if there's an error or no banner
+    return (
+      <div ref={bannerSectionRef} className="py-5 sm:py-8 bg-white">
+        <div className=" mx-auto px-4 sm:px-6 sm:max-w-8xl w-[95%]">
+          <div className="banner-content-wrapper">
+            <h2 className="sm:text-[38px] text-[25px] leading-[42px] pb-2 font-sans font-[600] text-[#333333]">
+              Custom Packaging Solutions
+            </h2>
+            <p className="text-sm leading-6 mb-6">
+              Premium custom boxes tailored to your brand. Get a quick quote and start your project.
+            </p>
+            <Button
+              label="Get Custom Quote"
+              variant="red"
+              size="md"
+              className=" uppercase text-white"
+            />
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (

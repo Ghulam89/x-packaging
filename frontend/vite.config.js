@@ -60,7 +60,7 @@ export default defineConfig({
 
   build: {
     target: "esnext",
-    sourcemap: false,
+    sourcemap: true,
     minify: 'esbuild', // Use esbuild instead of terser (faster and built-in)
     chunkSizeWarningLimit: 1000,
     rollupOptions: {

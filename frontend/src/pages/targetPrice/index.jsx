@@ -289,13 +289,13 @@ function TargetPrice() {
                 <div className="w-full">
 
                   <label
-                    htmlFor="Unit"
+                    htmlFor="unit"
                     className="  pb-1 flex  text-[#333333] text-sm font-medium   text-textColor"
                   >
                     Unit
                     <h5 className=" text-red-600 m-0 pl-1">*</h5>
                   </label>
-                  <select name="unit" value={formData.unit}
+                  <select id="unit" name="unit" value={formData.unit}
                     onChange={handleChange} className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
                     required
                   >
@@ -322,13 +322,13 @@ function TargetPrice() {
                 <div className="w-full">
 
                   <label
-                    htmlFor="Stock"
+                    htmlFor="stock"
                     className="  pb-1 flex  text-[#333333] text-sm font-medium   text-textColor"
                   >
                     Stock
                     <h5 className=" text-red-600 m-0 pl-1">*</h5>
                   </label>
-                  <select name="stock" value={formData.stock}
+                  <select id="stock" name="stock" value={formData.stock}
                     onChange={handleChange} className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
                     required
                   >
@@ -353,13 +353,13 @@ function TargetPrice() {
                 <div className="w-full">
 
                   <label
-                    htmlFor="Colors"
+                    htmlFor="colors"
                     className="  pb-1 flex  text-[#333333] text-sm font-medium   text-textColor"
                   >
                     Colors
                     <h5 className=" text-red-600 m-0 pl-1">*</h5>
                   </label>
-                  <select name="colors" value={formData.colors}
+                  <select id="colors" name="colors" value={formData.colors}
                     onChange={handleChange} className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
                     required
                   >
@@ -382,13 +382,13 @@ function TargetPrice() {
                 <div className="w-full">
 
                   <label
-                    htmlFor="Printing Sides"
+                    htmlFor="printingSides"
                     className="  pb-1 flex  text-[#333333] text-sm font-medium   text-textColor"
                   >
                     Printing Sides
                     <h5 className=" text-red-600 m-0 pl-1">*</h5>
                   </label>
-                  <select name="printingSides" value={formData.printingSides}
+                  <select id="printingSides" name="printingSides" value={formData.printingSides}
                     onChange={handleChange} className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
                     required
                   >
@@ -418,17 +418,17 @@ function TargetPrice() {
                 <div className="w-full">
 
                   <label
-                    htmlFor="Add-Ons"
+                    htmlFor="addOns"
                     className="  pb-1 flex  text-[#333333] text-sm font-medium   text-textColor"
                   >
                     Add-Ons
                     <h5 className=" text-red-600 m-0 pl-1">*</h5>
                   </label>
-                  <select name="addOns" value={formData.addOns}
+                  <select id="addOns" name="addOns" value={formData.addOns}
                     onChange={handleChange} className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
                     required
                   >
-                    <option selected></option>
+                    <option value=""></option>
                     <option value={'Foiling'}>Foiling</option>
                     <option value={'Spot UV'}>Spot UV</option>
                     <option value={'Embossing'}>Embossing</option>

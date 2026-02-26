@@ -17,6 +17,7 @@ const Hero = () => {
         muted
         playsInline
         preload="metadata"
+        aria-hidden="true"
         className="absolute inset-0 w-full h-full object-cover"
       >
         <source src={heroImage} type="video/mp4" />

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BaseUrl } from './BaseUrl';
+import { ApiBaseUrl } from './BaseUrl';
 
 // In-memory cache for prefetched product data - increased size for better caching
 const productCache = new Map();
@@ -32,7 +32,7 @@ export const prefetchProduct = async (slug, priority = false) => {
 
   // Create new request with optimized timeout
   const requestPromise = axios
-    .get(`${BaseUrl}/products/get?slug=${slug}`, {
+    .get(`${ApiBaseUrl}/products/get?slug=${slug}`, {
       timeout: 10000, // 10 second timeout
       ...(priority && { priority: true }) // Browser hint for priority
     })
@@ -59,7 +59,7 @@ export const prefetchProduct = async (slug, priority = false) => {
       // Remove from pending requests on error
       pendingRequests.delete(slug);
       // Silently fail for prefetch - don't spam console
-      if (error.code !== 'ECONNABORTED') {
+      if (error.code !== 'ECONNABORTED' && error?.response?.status !== 404) {
         console.error('Prefetch error:', error.message);
       }
       return null;
@@ -168,7 +168,7 @@ export const prefetchSubCategory = async (slug, priority = false) => {
 
   // Create new request with optimized timeout
   const requestPromise = axios
-    .get(`${BaseUrl}/category/get?slug=${slug}`, {
+    .get(`${ApiBaseUrl}/category/get?slug=${slug}`, {
       timeout: 10000, // 10 second timeout
       ...(priority && { priority: true }) // Browser hint for priority
     })
@@ -188,8 +188,8 @@ export const prefetchSubCategory = async (slug, priority = false) => {
         // Prefetch products for this subcategory if we have the category ID
         if (subCategoryData._id) {
           // Prefetch first page of products for this subcategory
-          axios
-            .get(`${BaseUrl}/products/categoryProducts/${subCategoryData._id}?page=1`, {
+      axios
+            .get(`${ApiBaseUrl}/products/categoryProducts/${subCategoryData._id}?page=1`, {
               timeout: 10000,
               ...(priority && { priority: true })
             })
@@ -220,7 +220,7 @@ export const prefetchSubCategory = async (slug, priority = false) => {
       // Remove from pending requests on error
       pendingSubCategoryRequests.delete(slug);
       // Silently fail for prefetch - don't spam console
-      if (error.code !== 'ECONNABORTED') {
+      if (error.code !== 'ECONNABORTED' && error?.response?.status !== 404) {
         console.error('SubCategory prefetch error:', error.message);
       }
       return null;

@@ -42,6 +42,7 @@ const CardSlider = ({ items, top }) => {
           className="arrow arrow-left absolute left-2 cursor-pointer rounded-full flex justify-center items-center bg-white/90 backdrop-blur-sm border border-gray-200 hover:bg-gradient-to-r hover:from-[#213554] hover:to-[#213554]/90 hover:border-[#213554] hover:shadow-xl w-12 h-12 hover:text-white transition-all duration-300 group z-10"
           style={{ top: top ? `${top}%` : "50%", transform: "translateY(-50%)" }}
           onClick={scrollLeft}
+          aria-label="Scroll left"
         >
           <LiaAngleLeftSolid size={24} className="text-[#213554] group-hover:text-white transition-colors duration-300" />
         </button>
@@ -49,6 +50,7 @@ const CardSlider = ({ items, top }) => {
           className="arrow arrow-right absolute right-2 cursor-pointer rounded-full flex justify-center items-center bg-white/90 backdrop-blur-sm border border-gray-200 hover:bg-gradient-to-r hover:from-[#213554] hover:to-[#213554]/90 hover:border-[#213554] hover:shadow-xl w-12 h-12 hover:text-white transition-all duration-300 group z-10"
           style={{ top: top ? `${top}%` : "50%", transform: "translateY(-50%)" }}
           onClick={scrollRight}
+          aria-label="Scroll right"
         >
           <LiaAngleRightSolid size={24} className="text-[#213554] group-hover:text-white transition-colors duration-300" />
         </button>

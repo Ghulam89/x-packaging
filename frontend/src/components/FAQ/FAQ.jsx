@@ -4,7 +4,7 @@ import Accordion from '../common/Accordion';
 import faqImage from '../../assets/images/faq.webp';
 import Button from '../common/Button';
 import { FaArrowDown, FaArrowRight } from 'react-icons/fa';
-import { BaseUrl } from '../../utils/BaseUrl';
+import { ApiBaseUrl, BaseUrl } from '../../utils/BaseUrl';
 
 const FAQ = ({ serverData, faqImageUrl, faqImageAltText }) => {
   const stripHtml = (html) => {
@@ -42,13 +42,15 @@ const FAQ = ({ serverData, faqImageUrl, faqImageAltText }) => {
     const fetchFAQs = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`${BaseUrl}/faq/getAll`);
+        const response = await axios.get(`${ApiBaseUrl}/faq/getAll`);
         
         if (response.data.status === 'success' && response.data.data) {
           setAccordions(processFAQs(response.data.data));
         }
       } catch (error) {
-        console.error('Error fetching FAQs:', error);
+        if (!error?.response || error.response.status !== 404) {
+          console.error('Error fetching FAQs:', error);
+        }
       } finally {
         setLoading(false);
       }

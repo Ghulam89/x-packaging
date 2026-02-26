@@ -46,7 +46,13 @@ const InspirationPackaging = () => {
         "Elegent gift box with ribbon closure",
         "Modern tech product packaging with sleek design",
         "Vintage-inspired packaging with nostalgic elements",
-        "Creative product container with unique shape"
+        "Creative product container with unique shape",
+        "Premium packaging display with bold gradients",
+        "Artisanal box design with textured finish",
+        "High-contrast product showcase with clean lines",
+        "Stylish retail packaging with layered visuals",
+        "Contemporary packaging with dynamic composition",
+        "Elegant product photography with soft lighting"
     ];
 
     const images = [
@@ -134,14 +140,16 @@ const InspirationPackaging = () => {
             const swiper = swiperRef.current;
             // Wait for DOM and images to be ready
             const timer = setTimeout(() => {
-                swiper.update();
-                swiper.updateSlides();
-                swiper.updateSlidesClasses();
-                // Center to middle slide so both sides are visible
+                if (swiper && Array.isArray(swiper.slides) && swiper.slides.length > 0) {
+                    swiper.update();
+                    swiper.updateSlides();
+                    swiper.updateSlidesClasses();
+                }
                 const middleIndex = Math.floor(images.length / 2);
-                swiper.slideTo(middleIndex, 0);
-                // Start autoplay after initialization
-                if (swiper.autoplay) {
+                if (typeof swiper.slideTo === 'function') {
+                    swiper.slideTo(middleIndex, 0);
+                }
+                if (swiper.autoplay && typeof swiper.autoplay.start === 'function') {
                     swiper.autoplay.start();
                 }
             }, 400);
@@ -250,9 +258,11 @@ const InspirationPackaging = () => {
                   swiperRef.current = swiper;
                   // Update Swiper after initialization
                   setTimeout(() => {
-                    swiper.update();
-                    swiper.updateSlides();
-                    swiper.updateSlidesClasses();
+                    if (swiper && Array.isArray(swiper.slides) && swiper.slides.length > 0) {
+                      swiper.update();
+                      swiper.updateSlides();
+                      swiper.updateSlidesClasses();
+                    }
                     // Ensure autoplay starts
                     if (swiper.autoplay) {
                       swiper.autoplay.start();
@@ -279,9 +289,12 @@ const InspirationPackaging = () => {
                             // Update Swiper when image loads to ensure all slides are visible
                             if (swiperRef.current) {
                               setTimeout(() => {
-                                swiperRef.current.update();
-                                swiperRef.current.updateSlides();
-                                swiperRef.current.updateSlidesClasses();
+                                const s = swiperRef.current;
+                                if (s && Array.isArray(s.slides) && s.slides.length > 0) {
+                                  s.update();
+                                  s.updateSlides();
+                                  s.updateSlidesClasses();
+                                }
                               }, 50);
                             }
                           }}

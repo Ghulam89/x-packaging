@@ -1,11 +1,12 @@
 import React, { StrictMode } from "react";
-import { renderToString } from "react-dom/server";
+import { renderToPipeableStream } from "react-dom/server";
+import { PassThrough } from "stream";
 import { StaticRouter } from "react-router-dom/server";
 import App from "./App";
 import "./App.css";
 import { HelmetProvider } from "react-helmet-async";
 import axios from "axios";
-import { BaseUrl } from "./utils/BaseUrl";
+import { ApiBaseUrl } from "./utils/BaseUrl";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 
@@ -24,9 +25,7 @@ const ssrError = (...args) => {
 };
 
 const internalApiBaseUrl =
-  process.env.INTERNAL_API_BASE_URL ||
-  (isProduction ? `http://127.0.0.1:${process.env.PORT || 5000}` : null) ||
-  BaseUrl;
+  process.env.INTERNAL_API_BASE_URL || ApiBaseUrl;
 
 // Dedicated axios client for SSR with sensible timeout
 const ssrClient = axios.create({
@@ -190,25 +189,49 @@ export async function render(url) {
     // Don't set helmet on outer catch - let individual routes handle errors
   }
 
-  // Render app with Suspense boundary to handle lazy loaded components
+  // Render app with Suspense support using renderToPipeableStream
   let appHtml = '';
   try {
-    appHtml = renderToString(
-      <StrictMode>
-        <HelmetProvider context={helmetContext}>
-          <Provider store={store}>
-            <StaticRouter location={normalizedUrl}>
-            
+    await new Promise((resolve, reject) => {
+      const stream = new PassThrough();
+      const chunks = [];
+      stream.on('data', (chunk) => chunks.push(Buffer.from(chunk)));
+      stream.on('end', () => {
+        appHtml = Buffer.concat(chunks).toString('utf-8');
+        resolve();
+      });
+      stream.on('error', (err) => {
+        ssrError("SSR stream error:", err.message);
+        reject(err);
+      });
+
+      const { pipe, abort } = renderToPipeableStream(
+        <StrictMode>
+          <HelmetProvider context={helmetContext}>
+            <Provider store={store}>
+              <StaticRouter location={normalizedUrl}>
                 <App serverData={serverData} CategoryProducts={CategoryProducts} homePageData={homePageData} />
-              
-            </StaticRouter>
-          </Provider>
-        </HelmetProvider>
-      </StrictMode>
-    );
+              </StaticRouter>
+            </Provider>
+          </HelmetProvider>
+        </StrictMode>,
+        {
+          onAllReady() {
+            pipe(stream);
+          },
+          onError(err) {
+            ssrError("SSR render error:", err.message);
+          },
+        }
+      );
+
+      setTimeout(() => {
+        abort();
+        reject(new Error("SSR render timeout"));
+      }, 8000);
+    });
   } catch (renderError) {
     ssrError("SSR render error:", renderError.message);
-    // Fallback HTML if render fails
     appHtml = '<div id="app"></div>';
     helmetContext.helmet = {
       meta: { toString: () => `<meta name="robots" content="noindex nofollow" />` },
