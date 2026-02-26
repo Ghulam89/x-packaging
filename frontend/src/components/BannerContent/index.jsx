@@ -73,43 +73,6 @@ const BannerContent = React.memo(({ serverData }) => {
     }
   };
 
-  if (loading) {
-    return (
-      <div className=" bg-[#f7f7f7] py-10">
-        <div className=" mx-auto px-4 sm:px-6 md:max-w-8xl w-[95%]">
-          <div className="flex justify-center items-center h-64">
-            <div className="text-center">
-              <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#EE334B]"></div>
-              <p className="mt-4 text-gray-600">Loading content...</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error || !banner) {
-    return (
-      <div ref={bannerSectionRef} className="py-5 sm:py-8 bg-white">
-        <div className=" mx-auto px-4 sm:px-6 sm:max-w-8xl w-[95%]">
-          <div className="banner-content-wrapper">
-            <h2 className="sm:text-[38px] text-[25px] leading-[42px] pb-2 font-sans font-[600] text-[#333333]">
-              Custom Packaging Solutions
-            </h2>
-            <p className="text-sm leading-6 mb-6">
-              Premium custom boxes tailored to your brand. Get a quick quote and start your project.
-            </p>
-            <Button
-              label="Get Custom Quote"
-              variant="red"
-              size="md"
-              className=" uppercase text-white"
-            />
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div ref={bannerSectionRef} className="py-5 sm:py-8 bg-white">

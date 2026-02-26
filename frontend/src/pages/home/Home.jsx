@@ -152,31 +152,6 @@ export const Home = React.memo(({ homePageData }) => {
   };
 
   const [activeTab, setActiveTab] = useState("material");
-
-  const LazyOnIdle = ({ children, minDelay = 600, height = 'h-72' }) => {
-    const [ready, setReady] = useState(false);
-    useEffect(() => {
-      let idleId;
-      if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
-        idleId = window.requestIdleCallback(() => setReady(true), { timeout: minDelay });
-      } else {
-        idleId = setTimeout(() => setReady(true), minDelay);
-      }
-      return () => {
-        if (typeof idleId === 'number') {
-          clearTimeout(idleId);
-        } else if (idleId && typeof window !== 'undefined' && 'cancelIdleCallback' in window) {
-          window.cancelIdleCallback(idleId);
-        }
-      };
-    }, [minDelay]);
-    return ready ? children : <LoadingFallback height={height} />;
-  };
-
-  // Simple loading fallback component
-  const LoadingFallback = ({ height = 'h-64' }) => (
-    <div className={`${height} w-full bg-gray-100 animate-pulse rounded-lg`} />
-  )
   return (
     <>
       <PageMetadata {...metadata} />
@@ -185,33 +160,32 @@ export const Home = React.memo(({ homePageData }) => {
         <Hero />
         <BottomHero />
         <CategoryBoxes />
-    
+
         <OfferCard discount={'Get 40%'} title={'Saving on Buying the Bulk'} />
         <Category serverData={homePageData?.topProducts} />
-        
+
         <div className="w-full max-w-[95%] sm:max-w-8xl mx-auto mt-10 px-2 sm:px-4">
           <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
             <div className="flex-1 w-full min-w-0 mt-6 md:mt-0">
               {activeTab === "material" && (
-                <Suspense fallback={<LoadingFallback height="h-96" />}>
-                  <CustomBoxMaterial />
-                </Suspense>
+
+                <CustomBoxMaterial />
+
               )}
 
               {activeTab === "special" && (
-                <Suspense fallback={<LoadingFallback height="h-96" />}>
-                  <SpecialPackaging />
-                </Suspense>
+
+                <SpecialPackaging />
+
               )}
             </div>
           </div>
         </div>
         <CustomPackagingProduced />
-       
+
         <div className=' pt-5'>
-          <Suspense fallback={<LoadingFallback />}>
-            <GetPriceQuote />
-          </Suspense>
+          <GetPriceQuote />
+
         </div>
         {/* <div className='flex flex-col gap-8 my-12 bg-[#F6F6F6]'>
           <div>
@@ -242,57 +216,32 @@ export const Home = React.memo(({ homePageData }) => {
           </div>
 
         </div> */}
-        <LazyOnIdle height="h-[460px]">
-          <AddonsAndInserts/>
-        </LazyOnIdle>
-        
-        <LazyOnIdle height="h-80">
-          <Suspense fallback={<LoadingFallback />}>
-            <CustomPackagingApart />
-          </Suspense>
-        </LazyOnIdle>
-        
-        <Suspense fallback={<LoadingFallback height="h-72" />}>
-          <PackagingBanner
-            title={'Go green with Kraft packaging.'}
-            bgImage={kraftPackagingBanner}
-            subTitle={'X Custom Packaging Cares About Its Environment'}
-            url={'/shop'}
-          />
-        </Suspense>
+        <AddonsAndInserts />
+        <CustomPackagingApart />
+        <PackagingBanner
+          title={'Go green with Kraft packaging.'}
+          bgImage={kraftPackagingBanner}
+          subTitle={'X Custom Packaging Cares About Its Environment'}
+          url={'/shop'}
+        />
 
-        <LazyOnIdle height="h-80">
-          <Suspense fallback={<LoadingFallback height="h-80" />}>
-            <WeFulfil />
-          </Suspense>
-        </LazyOnIdle>
 
-        <LazyOnIdle height="h-[500px]">
-          <Suspense fallback={<LoadingFallback height="h-[500px]" />}>
-            <InspirationPackaging />
-          </Suspense>
-        </LazyOnIdle>
 
-        <LazyOnIdle height="h-72">
-          <Suspense fallback={<LoadingFallback height="h-72" />}>
-            <PersonalTestimonial />
-          </Suspense>
-        </LazyOnIdle>
+        <WeFulfil />
+
+        <InspirationPackaging />
+
+
+
+        <PersonalTestimonial />
+
 
         <BannerContent serverData={homePageData?.banner} />
+        <FAQ serverData={homePageData?.faqs} />
 
-        <LazyOnIdle height="h-72">
-          <Suspense fallback={<LoadingFallback />}>
-            <FAQ serverData={homePageData?.faqs} />
-          </Suspense>
-        </LazyOnIdle>
-       
-        <LazyOnIdle height="h-72">
-          <Suspense fallback={<LoadingFallback height="h-72" />}>
-            <Blog />
-          </Suspense>
-        </LazyOnIdle>
-        
+        <Blog />
+
+
 
       </main>
     </>

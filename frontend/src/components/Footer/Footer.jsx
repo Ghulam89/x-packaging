@@ -70,13 +70,14 @@ const Footer = () => {
                         <p className=' text-lg'>sales@x-packaging.com</p>
                     </li>
                 </ul>
-                <li className=' flex  gap-2 justify-center pt-2.5 items-center'>
-                    <Link className=' flex gap-1.5'>
-                    <IoLocationOutline size={25} />
-                        <p className=' text-lg'>9854 National Blvd # 1042 Los Angeles, CA 90034 USA</p>
+                <ul className='flex justify-center pt-2.5 items-center'>
+                  <li className='flex gap-2 items-center'>
+                    <Link className='flex gap-1.5'>
+                      <IoLocationOutline size={25} />
+                      <p className='text-lg'>9854 National Blvd # 1042 Los Angeles, CA 90034 USA</p>
                     </Link>
-                
-                    </li>
+                  </li>
+                </ul>
             </div>
 
         </div>

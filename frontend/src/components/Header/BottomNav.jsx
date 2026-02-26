@@ -231,18 +231,20 @@ const BottomNav = ({ Menu, OpenMenu }) => {
       <div className="hidden sm:block pb-1 bg-gradient-to-r from-white via-gray-50/30 to-white border-b border-gray-100">
         <div className="flex justify-between items-center sm:max-w-8xl max-w-[95%] mx-auto">
         <ul className="flex gap-5 items-center">
-          <Link
-            to="/"
-            className="flex items-center gap-1 px-3 py-2.5 text-sm font-semibold text-[#213554] hover:text-[#EE334B] transition-all duration-300 rounded-lg hover:bg-[#EE334B]/5 relative group"
-          >
-            <span className="relative z-10">Home</span>
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#EE334B] to-[#213554] group-hover:w-full transition-all duration-300"></span>
-          </Link>
+          <li>
+            <Link
+              to="/"
+              className="flex items-center gap-1 px-3 py-2.5 text-sm font-semibold text-[#213554] hover:text-[#EE334B] transition-all duration-300 rounded-lg hover:bg-[#EE334B]/5 relative group"
+            >
+              <span className="relative z-10">Home</span>
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#EE334B] to-[#213554] group-hover:w-full transition-all duration-300"></span>
+            </Link>
+          </li>
           {displayCategories.map((category, index) => {
         
             const isBoxByIndustry = category.category?.toLowerCase().includes('box by industry') || category.category?.toLowerCase().includes('box by industry');
             return (
-              <div
+              <li
                 key={category?.slug || category?.category || index}
                 className="relative"
                 onMouseEnter={() => handleCategoryHover(category)}
@@ -258,32 +260,37 @@ const BottomNav = ({ Menu, OpenMenu }) => {
                   )}
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#EE334B] to-[#213554] group-hover:w-full transition-all duration-300"></span>
                 </Link>
-              </div>
+              </li>
             );
           })}
           
-          <Link
-            to="/shop"
-            className="flex items-center gap-1 px-3 py-2.5 text-sm font-semibold text-[#213554] hover:text-[#EE334B] transition-all duration-300 rounded-lg hover:bg-[#EE334B]/5 relative group"
-          >
-            <span className="relative z-10">Portfolio
-</span>
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#EE334B] to-[#213554] group-hover:w-full transition-all duration-300"></span>
-          </Link>
-          <Link
-            to="#"
-            className="flex items-center gap-1 px-3 py-2.5 text-sm font-semibold text-[#213554] hover:text-[#EE334B] transition-all duration-300 rounded-lg hover:bg-[#EE334B]/5 relative group"
-          >
-            <span className="relative z-10">Client Spotlights</span>
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#EE334B] to-[#213554] group-hover:w-full transition-all duration-300"></span>
-          </Link>
-          <Link
-            to="/about-us"
-            className="flex items-center gap-1 px-3 py-2.5 text-sm font-semibold text-[#213554] hover:text-[#EE334B] transition-all duration-300 rounded-lg hover:bg-[#EE334B]/5 relative group"
-          >
-            <span className="relative z-10">About Us</span>
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#EE334B] to-[#213554] group-hover:w-full transition-all duration-300"></span>
-          </Link>
+          <li>
+            <Link
+              to="/shop"
+              className="flex items-center gap-1 px-3 py-2.5 text-sm font-semibold text-[#213554] hover:text-[#EE334B] transition-all duration-300 rounded-lg hover:bg-[#EE334B]/5 relative group"
+            >
+              <span className="relative z-10">Portfolio</span>
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#EE334B] to-[#213554] group-hover:w-full transition-all duration-300"></span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="#"
+              className="flex items-center gap-1 px-3 py-2.5 text-sm font-semibold text-[#213554] hover:text-[#EE334B] transition-all duration-300 rounded-lg hover:bg-[#EE334B]/5 relative group"
+            >
+              <span className="relative z-10">Client Spotlights</span>
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#EE334B] to-[#213554] group-hover:w-full transition-all duration-300"></span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/about-us"
+              className="flex items-center gap-1 px-3 py-2.5 text-sm font-semibold text-[#213554] hover:text-[#EE334B] transition-all duration-300 rounded-lg hover:bg-[#EE334B]/5 relative group"
+            >
+              <span className="relative z-10">About Us</span>
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#EE334B] to-[#213554] group-hover:w-full transition-all duration-300"></span>
+            </Link>
+          </li>
         </ul>
          <div className=" flex gap-2 items-center">
           {/* Left Side: Social Media Icons with About US */}
@@ -375,26 +382,28 @@ const BottomNav = ({ Menu, OpenMenu }) => {
                   </div>
                   <ul className="flex flex-col ">
                     {selectedCategory?.map((item, index) => (
-                      <Link
-                        to={`/category/${item?.slug || item?.title}`}
-                        key={item?.slug || item?.title || index}
-                        className="font-semibold flex items-center justify-between py-2 px-3 rounded-lg text-[#213554] hover:bg-[#EE334B]/10 hover:text-[#EE334B] transition-all duration-300 group"
-                      >
-                        <span>{item?.title}</span>
-                        <LiaAngleRightSolid size={16} className="text-[#EE334B] group-hover:translate-x-1 transition-transform duration-300" />
-                      </Link>
+                      <li key={item?.slug || item?.title || index}>
+                        <Link
+                          to={`/category/${item?.slug || item?.title}`}
+                          className="font-semibold flex items-center justify-between py-2 px-3 rounded-lg text-[#213554] hover:bg-[#EE334B]/10 hover:text-[#EE334B] transition-all duration-300 group"
+                        >
+                          <span>{item?.title}</span>
+                          <LiaAngleRightSolid size={16} className="text-[#EE334B] group-hover:translate-x-1 transition-transform duration-300" />
+                        </Link>
+                      </li>
                     ))}
 
                     {hoveredCategory && (
-                      <Link 
-                        to={`/${hoveredCategory?.slug || hoveredCategory?.category}`}
-                        className="mt-4"
-                      >
-                        <Button
-                          className="bg-gradient-to-r from-[#213554] to-[#213554]/90 hover:from-[#EE334B] hover:to-[#EE334B]/90 text-white w-full"
-                          label={`View all ${hoveredCategory?.category || 'Categories'}`}
-                        />
-                      </Link>
+                      <li className="mt-4">
+                        <Link 
+                          to={`/${hoveredCategory?.slug || hoveredCategory?.category}`}
+                        >
+                          <Button
+                            className="bg-gradient-to-r from-[#213554] to-[#213554]/90 hover:from-[#EE334B] hover:to-[#EE334B]/90 text-white w-full"
+                            label={`View all ${hoveredCategory?.category || 'Categories'}`}
+                          />
+                        </Link>
+                      </li>
                     )}
                   </ul>
                 </div>
