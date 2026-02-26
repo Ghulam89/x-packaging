@@ -137,8 +137,8 @@ const GetPriceQuote = () => {
         {/* Left Side - Leave Your Message Section */}
         <div className="   p-4 sm:p-6 lg:p-8 flex flex-col justify-center relative overflow-hidden">
           {/* Watermark Background - Left Side */}
-          <div className="hidden md:flex absolute -top-32 sm:-top-28 bottom-0 -left-8 sm:-left-16 items-center justify-start pl-4 sm:pl-8 pointer-events-none">
-            <h6
+          <div className="hidden md:flex absolute -top-32 sm:-top-28 bottom-0 -left-8 sm:-left-16 items-center justify-start pl-4 sm:pl-8 pointer-events-none" aria-hidden="true" role="presentation">
+            <div
               className="text-[40px] sm:text-[60px] lg:text-[100px] font-bold text-[#EE334B] opacity-10 select-none" 
               style={{ 
                 fontFamily: 'Arial, sans-serif',
@@ -148,7 +148,7 @@ const GetPriceQuote = () => {
               }}
             >
               Custom Quote
-            </h6>
+            </div>
           </div>
           
           <div className="relative sm:w-10/12 w-full  ml-auto z-10">

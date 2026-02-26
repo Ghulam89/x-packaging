@@ -119,9 +119,9 @@ const CategoryBoxes = () => {
                       </div>
                     </Link>
 
-                    <h6 className="font-bold text-lg text-gray-800 mb-3">
+                    <h3 className="font-bold text-lg text-gray-800 mb-3">
                       {category.title}
-                    </h6>
+                    </h3>
 
                   </div>
                 ))}

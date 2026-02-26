@@ -204,7 +204,7 @@ const CustomBoxMaterial = () => {
                   <div className="relative w-full  sm:h-64 h-auto aspect-square overflow-hidden">
                     <img
                       src={box.image}
-                      alt={box.title}
+                      alt={`${box.title} material example`}
                       className={`w-full h-full  object-cover transition-transform duration-700 ${
                         isActive ? '' : ''
                       }`}
@@ -274,7 +274,7 @@ const CustomBoxMaterial = () => {
                             }`}>
                               <img
                                 src={box.image}
-                                alt={box.title}
+                                alt={`${box.title} material example`}
                                 className={`w-full h-full object-cover transition-transform duration-300 ${
                                   isActive ? 'scale-110' : 'group-hover:scale-105'
                                 }`}

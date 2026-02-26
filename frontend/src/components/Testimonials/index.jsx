@@ -79,9 +79,9 @@ const Testimonials = () => {
                         {!testimonial.profile_photo_url && initials}
                       </div>
                       <div>
-                        <h4 className="font-bold text-[#213554] text-lg leading-none mb-1">
+                        <p className="font-bold text-[#213554] text-lg leading-none mb-1">
                           {testimonial.author_name}
-                        </h4>
+                        </p>
                         <div className="flex text-yellow-500 text-xs gap-0.5">
                           {[...Array(5)].map((_, i) => (
                             <FaStar key={i} className={i < Math.floor(testimonial.rating) ? "fill-current" : "text-slate-200"} />
