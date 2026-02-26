@@ -288,22 +288,22 @@ const BottomNav = ({ Menu, OpenMenu }) => {
          <div className=" flex gap-2 items-center">
           {/* Left Side: Social Media Icons with About US */}
          <div className="flex items-center space-x-2">
-            <a href="#" className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-[#EE334B] group transition-colors">
+            <a href="#" aria-label="Facebook" className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-[#EE334B] group transition-colors">
               <FaFacebookF size={14} className="text-gray-600 group-hover:text-white transition-colors" />
             </a>
-            <a href="#" className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-[#EE334B] group transition-colors">
+            <a href="#" aria-label="Twitter" className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-[#EE334B] group transition-colors">
               <FaXTwitter size={14} className="text-gray-600 group-hover:text-white transition-colors" />
             </a>
-            <a href="#" className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-[#EE334B] group transition-colors">
+            <a href="#" aria-label="Instagram" className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-[#EE334B] group transition-colors">
               <FaInstagram size={14} className="text-gray-600 group-hover:text-white transition-colors" />
             </a>
-            <a href="#" className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-[#EE334B] group transition-colors">
+            <a href="#" aria-label="Pinterest" className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-[#EE334B] group transition-colors">
               <FaPinterest size={14} className="text-gray-600 group-hover:text-white transition-colors" />
             </a>
-            <a href="#" className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-[#EE334B] group transition-colors">
+            <a href="#" aria-label="YouTube" className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-[#EE334B] group transition-colors">
               <FaYoutube size={14} className="text-gray-600 group-hover:text-white transition-colors" />
             </a>
-            <a href="#" className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-[#EE334B] group transition-colors">
+            <a href="#" aria-label="LinkedIn" className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-[#EE334B] group transition-colors">
               <FaLinkedinIn size={14} className="text-gray-600 group-hover:text-white transition-colors" />
             </a>
             {/* Red Separator */}

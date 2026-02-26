@@ -20,7 +20,7 @@ function AboutBanner() {
       <div className=" max-w-xl">
         <div>
              <div className=' flex gap-2 items-center text-white'>
-       <Link to={'/'}><IoHomeOutline color='#fff'/></Link> <LiaAngleRightSolid color='#fff' />
+       <Link to={'/'} aria-label="Home"><IoHomeOutline color='#fff'/></Link> <LiaAngleRightSolid color='#fff' />
             <p>About us</p>
         </div>
             

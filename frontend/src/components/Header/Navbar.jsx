@@ -94,10 +94,10 @@ const Navbar = () => {
         <div className="flex w-full justify-between h-auto sm:h-20 items-center gap-2 sm:gap-4 py-2 sm:py-0">
           {/* Logo and Search Bar Container */}
           <div className="flex items-center sm:w-5/12 lg:w-6/12 gap-2 sm:gap-3 flex-shrink-0">
-            <Link to={'/'} className="flex-shrink-0">
+            <Link to={'/'} className="flex-shrink-0" aria-label="Go to homepage">
               <img 
                 src={logo} 
-                alt="" 
+                alt="Umbrella Packaging logo" 
                 className="w-[100px] sm:w-56 md:w-[200px] lg:w-[250px] h-auto" 
                 loading="eager" 
                 fetchPriority="high" 
@@ -147,7 +147,7 @@ const Navbar = () => {
           </div>
 
           {/* Right Side Buttons - Hidden on mobile */}
-          <div className="hidden md:flex items-center justify-end gap-1 lg:gap-1.5">
+          <div className="hidden md:flex items-center justify-end gap-1 lg:gap-1.5 md:min-w-[360px]">
             {/* Our Portfolio Button */}
             <Link 
               to="/portfolio" 

@@ -153,6 +153,25 @@ export const Home = React.memo(({ homePageData }) => {
 
   const [activeTab, setActiveTab] = useState("material");
 
+  const LazyOnIdle = ({ children, minDelay = 600, height = 'h-72' }) => {
+    const [ready, setReady] = useState(false);
+    useEffect(() => {
+      let idleId;
+      if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+        idleId = window.requestIdleCallback(() => setReady(true), { timeout: minDelay });
+      } else {
+        idleId = setTimeout(() => setReady(true), minDelay);
+      }
+      return () => {
+        if (typeof idleId === 'number') {
+          clearTimeout(idleId);
+        } else if (idleId && typeof window !== 'undefined' && 'cancelIdleCallback' in window) {
+          window.cancelIdleCallback(idleId);
+        }
+      };
+    }, [minDelay]);
+    return ready ? children : <LoadingFallback height={height} />;
+  };
 
   // Simple loading fallback component
   const LoadingFallback = ({ height = 'h-64' }) => (
@@ -223,11 +242,15 @@ export const Home = React.memo(({ homePageData }) => {
           </div>
 
         </div> */}
-        <AddonsAndInserts/>
+        <LazyOnIdle height="h-[460px]">
+          <AddonsAndInserts/>
+        </LazyOnIdle>
         
-        <Suspense fallback={<LoadingFallback />}>
-          <CustomPackagingApart />
-        </Suspense>
+        <LazyOnIdle height="h-80">
+          <Suspense fallback={<LoadingFallback />}>
+            <CustomPackagingApart />
+          </Suspense>
+        </LazyOnIdle>
         
         <Suspense fallback={<LoadingFallback height="h-72" />}>
           <PackagingBanner
@@ -238,27 +261,37 @@ export const Home = React.memo(({ homePageData }) => {
           />
         </Suspense>
 
-        <Suspense fallback={null}>
-          <WeFulfil />
-        </Suspense>
+        <LazyOnIdle height="h-80">
+          <Suspense fallback={<LoadingFallback height="h-80" />}>
+            <WeFulfil />
+          </Suspense>
+        </LazyOnIdle>
 
-        <Suspense fallback={null}>
-          <InspirationPackaging />
-        </Suspense>
+        <LazyOnIdle height="h-[500px]">
+          <Suspense fallback={<LoadingFallback height="h-[500px]" />}>
+            <InspirationPackaging />
+          </Suspense>
+        </LazyOnIdle>
 
-        <Suspense fallback={null}>
-          <PersonalTestimonial />
-        </Suspense>
+        <LazyOnIdle height="h-72">
+          <Suspense fallback={<LoadingFallback height="h-72" />}>
+            <PersonalTestimonial />
+          </Suspense>
+        </LazyOnIdle>
 
         <BannerContent serverData={homePageData?.banner} />
 
-        <Suspense fallback={<LoadingFallback />}>
-          <FAQ serverData={homePageData?.faqs} />
-        </Suspense>
+        <LazyOnIdle height="h-72">
+          <Suspense fallback={<LoadingFallback />}>
+            <FAQ serverData={homePageData?.faqs} />
+          </Suspense>
+        </LazyOnIdle>
        
-        <Suspense fallback={null}>
-          <Blog />
-        </Suspense>
+        <LazyOnIdle height="h-72">
+          <Suspense fallback={<LoadingFallback height="h-72" />}>
+            <Blog />
+          </Suspense>
+        </LazyOnIdle>
         
 
       </main>

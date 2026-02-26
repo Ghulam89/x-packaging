@@ -289,6 +289,7 @@ function TargetPrice() {
                 <div className="w-full">
 
                   <label
+                    id="label-unit"
                     htmlFor="unit"
                     className="  pb-1 flex  text-[#333333] text-sm font-medium   text-textColor"
                   >
@@ -296,6 +297,7 @@ function TargetPrice() {
                     <h5 className=" text-red-600 m-0 pl-1">*</h5>
                   </label>
                   <select id="unit" name="unit" value={formData.unit}
+                    aria-labelledby="label-unit"
                     onChange={handleChange} className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
                     required
                   >
@@ -322,6 +324,7 @@ function TargetPrice() {
                 <div className="w-full">
 
                   <label
+                    id="label-stock"
                     htmlFor="stock"
                     className="  pb-1 flex  text-[#333333] text-sm font-medium   text-textColor"
                   >
@@ -329,6 +332,7 @@ function TargetPrice() {
                     <h5 className=" text-red-600 m-0 pl-1">*</h5>
                   </label>
                   <select id="stock" name="stock" value={formData.stock}
+                    aria-labelledby="label-stock"
                     onChange={handleChange} className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
                     required
                   >
@@ -353,6 +357,7 @@ function TargetPrice() {
                 <div className="w-full">
 
                   <label
+                    id="label-colors"
                     htmlFor="colors"
                     className="  pb-1 flex  text-[#333333] text-sm font-medium   text-textColor"
                   >
@@ -360,6 +365,7 @@ function TargetPrice() {
                     <h5 className=" text-red-600 m-0 pl-1">*</h5>
                   </label>
                   <select id="colors" name="colors" value={formData.colors}
+                    aria-labelledby="label-colors"
                     onChange={handleChange} className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
                     required
                   >
@@ -382,6 +388,7 @@ function TargetPrice() {
                 <div className="w-full">
 
                   <label
+                    id="label-printingSides"
                     htmlFor="printingSides"
                     className="  pb-1 flex  text-[#333333] text-sm font-medium   text-textColor"
                   >
@@ -389,6 +396,7 @@ function TargetPrice() {
                     <h5 className=" text-red-600 m-0 pl-1">*</h5>
                   </label>
                   <select id="printingSides" name="printingSides" value={formData.printingSides}
+                    aria-labelledby="label-printingSides"
                     onChange={handleChange} className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
                     required
                   >
@@ -418,6 +426,7 @@ function TargetPrice() {
                 <div className="w-full">
 
                   <label
+                    id="label-addOns"
                     htmlFor="addOns"
                     className="  pb-1 flex  text-[#333333] text-sm font-medium   text-textColor"
                   >
@@ -425,6 +434,7 @@ function TargetPrice() {
                     <h5 className=" text-red-600 m-0 pl-1">*</h5>
                   </label>
                   <select id="addOns" name="addOns" value={formData.addOns}
+                    aria-labelledby="label-addOns"
                     onChange={handleChange} className="w-full border border-[#333333] bg-white text-xs md:text-sm p-2.5 rounded-lg"
                     required
                   >
