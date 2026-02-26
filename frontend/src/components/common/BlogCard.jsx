@@ -79,6 +79,10 @@ const BlogCard = ({ data, disableSelection = false, compact = false }) => {
             <img
               src={`${BaseUrl}/${data?.image}`}
               alt={data?.imageAltText || data?.title}
+              width="640"
+              height="360"
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
             />
             {/* Gallery Hover Overlay Gradient */}

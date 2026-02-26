@@ -25,7 +25,7 @@ const TrustBanner = ({ categoryName = "Apparel Packaging" }) => {
                 </p>
   
                   <div className=" gap-1">
-                   <img src={trust} alt="trust" className=' w-44' />
+                   <img src={trust} alt="trust" width="176" height="44" loading="lazy" decoding="async" className=' w-44 h-auto' />
                   </div>
                   
                   

@@ -83,6 +83,10 @@ export default function About() {
             <img
               src={xpackaging}
               alt="Fashion showcase"
+              width="1000"
+              height="800"
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover"
             />
           </div>
@@ -181,6 +185,10 @@ export default function About() {
                   <img 
                     src={brand.logo} 
                     alt={brand.name} 
+                    width="512"
+                    height="384"
+                    loading="lazy"
+                    decoding="async"
                     className="max-w-full h-auto object-contain max-h-96 transition-transform duration-500 group-hover:scale-105"
                   />
                </div>

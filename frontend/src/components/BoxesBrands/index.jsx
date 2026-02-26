@@ -61,6 +61,10 @@ const BoxesBrands = ({ title, description, products = [], brands = [] }) => {
                             <img
                               src={brandImage}
                               alt={`${brandName} packaging`}
+                              width="320"
+                              height="400"
+                              loading="lazy"
+                              decoding="async"
                               className="w-full h-full object-cover"
                               onError={(e) => {
                                 e.target.src = "https://via.placeholder.com/320x400";
@@ -73,6 +77,10 @@ const BoxesBrands = ({ title, description, products = [], brands = [] }) => {
                           <img
                             src={brandImage}
                             alt={`${brandName} packaging`}
+                            width="320"
+                            height="400"
+                            loading="lazy"
+                            decoding="async"
                             className="w-full h-full object-cover"
                             onError={(e) => {
                               e.target.src = "https://via.placeholder.com/320x400";
@@ -90,6 +98,10 @@ const BoxesBrands = ({ title, description, products = [], brands = [] }) => {
                       <img 
                         src={brandLogo} 
                         alt={brandName} 
+                        width="80"
+                        height="80"
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-contain p-2" 
                         onError={(e) => {
                           e.target.src = "https://via.placeholder.com/80";
