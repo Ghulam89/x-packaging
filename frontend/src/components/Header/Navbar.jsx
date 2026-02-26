@@ -147,7 +147,7 @@ const Navbar = () => {
           </div>
 
           {/* Right Side Buttons - Hidden on mobile */}
-          <div className="hidden md:flex items-center justify-end gap-1 lg:gap-1.5 md:min-w-[360px]">
+          <div className="hidden md:flex items-center justify-end gap-1 lg:gap-1.5 md:w-[420px] lg:w-[460px] flex-shrink-0 whitespace-nowrap">
             {/* Our Portfolio Button */}
             <Link 
               to="/portfolio" 
@@ -374,7 +374,7 @@ const Navbar = () => {
             
             {/* Phone Button */}
             <Button
-              className="bg-[#EE334B] text-white hover:bg-[#EE334B]/90  rounded-lg px-3 lg:px-4 py-1.5 lg:py-2 text-xs lg:text-sm"
+              className="bg-[#EE334B] text-white hover:bg-[#EE334B]/90  rounded-lg px-3 lg:px-4 py-1.5 lg:py-2 text-xs lg:text-sm w-[140px]"
               label="888-276-1239"
               Icons={<FiPhone size={16} className="lg:w-[18px] lg:h-[18px]" />}
             />
