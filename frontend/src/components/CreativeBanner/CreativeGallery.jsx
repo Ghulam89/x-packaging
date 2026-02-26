@@ -41,7 +41,7 @@ const CreativeGallery = ({ products = [], title, description }) => {
   }
 
   return (
-    <section className="bg-white py-10 px-6" id="brand-details-section">
+    <section className="bg-white py-10 px-6" >
       <div className="max-w-8xl mx-auto">
          <div className="text-center mb-8">
             <div className="inline-block mb-4">

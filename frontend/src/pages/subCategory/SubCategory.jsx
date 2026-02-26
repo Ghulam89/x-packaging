@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useLayoutEffect } from 'react'
 import Button from '../../components/common/Button'
 import ProductCard, { ProductSelectionProvider } from '../../components/common/ProductCard'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useLocation } from 'react-router-dom'
 import { FaAngleRight } from 'react-icons/fa'
 import { IoHomeOutline } from 'react-icons/io5'
 import { LiaAngleRightSolid } from 'react-icons/lia'
@@ -30,6 +30,7 @@ import { generateTabsData, generateTabsData1, generateTabsData2 } from '../../ut
 import { BaseUrl } from '../../utils/BaseUrl'
 const SubCategory = ({ serverData, CategoryProducts }) => {
   const { slug } = useParams();
+  const location = useLocation();
   const [categoryData, setCategoryData] = useState(serverData || null)
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -85,16 +86,29 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
 
   };
 
-  // Scroll to top on component mount and route change (helps with lazy-load timing)
-  useEffect(() => {
+  useLayoutEffect(() => {
+    const prevBehavior = document.documentElement.style.scrollBehavior;
+    document.documentElement.style.scrollBehavior = 'auto';
+    if (window.history && 'scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+    if (window.location.hash) {
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
     window.scrollTo(0, 0);
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
-    const timer = setTimeout(() => {
+    const t = setTimeout(() => {
       window.scrollTo(0, 0);
-    }, 100);
-    return () => clearTimeout(timer);
-  }, [slug]);
+    }, 120);
+    return () => {
+      clearTimeout(t);
+      document.documentElement.style.scrollBehavior = prevBehavior || '';
+      if (window.history && 'scrollRestoration' in window.history) {
+        window.history.scrollRestoration = 'auto';
+      }
+    };
+  }, [slug, location?.key]);
 
   useEffect(() => {
     if (slug) {
@@ -132,6 +146,14 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
       });
     }
   }, [allProducts]);
+
+  useEffect(() => {
+    if (allProducts && allProducts.length > 0) {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }
+  }, [allProducts?.length]);
 
   const loadMoreProducts = () => {
     const nextPage = currentPage + 1;
