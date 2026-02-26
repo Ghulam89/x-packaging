@@ -240,6 +240,7 @@ const GetPriceQuote = () => {
                   className="bg-gray-100 rounded-lg border-gray-300"
                 />
                 <Select
+                  label="Unit"
                   name="unit"
                   value={formData.unit}
                   onChange={handleChange}
@@ -260,6 +261,7 @@ const GetPriceQuote = () => {
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
                 <Select
+                  label="Stock"
                   name="stock"
                   value={formData.stock}
                   onChange={handleChange}
@@ -278,6 +280,7 @@ const GetPriceQuote = () => {
                   <option>Linen</option>
                 </Select>
                 <Select
+                  label="Printing"
                   name="printing"
                   value={formData.printing}
                   onChange={handleChange}
