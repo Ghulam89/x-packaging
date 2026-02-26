@@ -13,7 +13,7 @@ const BoxesBrands = ({ title, description, products = [], brands = [] }) => {
   }
   
   return (
-    <section className="py-12 px-4 sm:max-w-8xl w-[95%] mx-auto">
+    <section className="py-12 px-4 sm:max-w-8xl w-[95%] mx-auto" style={{ overflowAnchor: 'none' }}>
       {/* Header Text */}
       <div className="text-center mb-10">
         <h2 className='text-3xl sm:text-4xl font-bold text-[#213554] mb-2'>
