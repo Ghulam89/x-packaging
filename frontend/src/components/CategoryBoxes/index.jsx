@@ -109,7 +109,7 @@ const CategoryBoxes = () => {
                         <img
                           src={
                             category.image
-                              ? `${BaseUrl}/${category.image}`
+                              ? `${BaseUrl}/${category.icon}`
                               : `${BaseUrl}/images/placeholder.jpg`
                           }
                           alt={category.imageAltText || category.title}

@@ -147,13 +147,13 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
     }
   }, [allProducts]);
 
-  useEffect(() => {
-    if (allProducts && allProducts.length > 0) {
-      window.scrollTo(0, 0);
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-    }
-  }, [allProducts?.length]);
+  // useEffect(() => {
+  //   if (allProducts && allProducts.length > 0) {
+  //     window.scrollTo(0, 0);
+  //     document.documentElement.scrollTop = 0;
+  //     document.body.scrollTop = 0;
+  //   }
+  // }, [allProducts?.length]);
 
   const loadMoreProducts = () => {
     const nextPage = currentPage + 1;
@@ -252,8 +252,8 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
           <div className='flex gap-2 pb-4 items-center'>
             <IoHomeOutline size={20} className="text-gray-600" />
             <LiaAngleRightSolid className="text-gray-500" />
-            <h6 className='flex items-center gap-2'>
-              <Link to={'/'} className='text-[#213554] hover:text-[#EE334B] transition-colors duration-200'>
+            <h6 className='flex items-center flex-wrap gap-2'>
+              <Link to={'/'} className='text-[#213554] whitespace-nowrap hover:text-[#EE334B] transition-colors duration-200'>
                 Home
               </Link>
               {(categoryData?.brandId?.name || serverData?.brandId?.name) && (
@@ -261,7 +261,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
                   <LiaAngleRightSolid className="text-gray-500" />
                   <Link
                     to={`/${categoryData?.brandId?.slug || serverData?.brandId?.slug}`}
-                    className='text-[#213554] hover:text-[#EE334B] transition-colors duration-200 capitalize'
+                    className='text-[#213554] whitespace-nowrap hover:text-[#EE334B] transition-colors duration-200 capitalize'
                   >
                     {categoryData?.brandId?.name || serverData?.brandId?.name}
                   </Link>
@@ -270,7 +270,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
               {(categoryData?.title || serverData?.title) && (
                 <>
                   <LiaAngleRightSolid className="text-gray-500" />
-                  <span className='text-gray-600 capitalize'>
+                  <span className='text-gray-600 capitalize whitespace-nowrap'>
                     {categoryData?.title || serverData?.title}
                   </span>
                 </>
@@ -309,7 +309,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
                   <img
                     src={`${BaseUrl}/${categoryData?.image || serverData?.image}`}
                     alt={categoryData?.imageAltText || serverData?.imageAltText || categoryData?.title || serverData?.title}
-                    className=" mx-auto rounded-xl object-cover"
+                    className="w-full  mx-auto rounded-xl object-cover"
                     loading="eager"
                   />
                 </div>
@@ -379,7 +379,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
 
           <div className=" sm:max-w-8xl w-full mx-auto">
             <ProductSelectionProvider>
-              <div className="grid  gap-6 grid-cols-5">
+              <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
 
                 {loading && loadingProducts.length > 0 && loadingProducts.map((_, index) => (
                   <div className=' w-full' key={`loading-${index}`}>
