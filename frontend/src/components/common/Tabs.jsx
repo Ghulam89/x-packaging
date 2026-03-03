@@ -84,11 +84,16 @@ const Tabs = ({ tabs, defaultTab, className }) => {
       return;
     }
     
-    // Scroll active tab into view on mobile (only when user changes tabs)
+    // Horizontal scroll to active tab (avoid any vertical adjustments)
     if (scrollContainerRef.current) {
-      const activeButton = scrollContainerRef.current.querySelector(`[data-tab="${activeTab}"]`);
+      const container = scrollContainerRef.current;
+      const activeButton = container.querySelector(`[data-tab="${activeTab}"]`);
       if (activeButton) {
-        activeButton.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        const buttonRect = activeButton.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+        const currentScrollLeft = container.scrollLeft;
+        const targetLeft = currentScrollLeft + (buttonRect.left - containerRect.left) - (container.clientWidth / 2) + (buttonRect.width / 2);
+        container.scrollTo({ left: Math.max(0, targetLeft), behavior: 'smooth' });
       }
     }
   }, [activeTab]);
