@@ -4,6 +4,7 @@ import os from "os";
 import { connectDB } from "./config/database.js";
 import ErrorMiddleware from "./middleware/Error.js";
 import cors from "cors";
+import compression from "compression";
 import bannerRouter from "./routes/bannerRoute.js";
 import ContactusRouter from "./routes/contactusrouter.js";
 import blogRouter from "./routes/blogRouter.js";
@@ -61,14 +62,7 @@ if (isProduction && cluster.isPrimary) {
 // Connect to database
 connectDB();
 const app = express();
-if (isProduction) {
-  try {
-    const compression = (await import("compression")).default;
-    app.use(compression());
-  } catch (error) {
-    console.error("Failed to enable compression:", error);
-  }
-}
+app.use(compression());
 app.use(express.static("static", { maxAge: "365d" }));
 app.use("/images", express.static(path.join(__dirname, "images"), { maxAge: "365d" }));
 
