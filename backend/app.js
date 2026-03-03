@@ -52,10 +52,10 @@ if (isProduction && cluster.isPrimary) {
   cluster.on('online', (worker) => {
     console.log(`Worker ${worker.process.pid} is online`);
   });
-
+   // Worker process - this is where your Express app runs
 } else {
 
-   // Worker process - this is where your Express app runs
+
   console.log(`Worker ${process.pid} started`);
 
 
@@ -66,9 +66,9 @@ app.use(compression());
 app.use(express.static("static", { maxAge: "365d" }));
 app.use("/images", express.static(path.join(__dirname, "images"), { maxAge: "365d" }));
 
-// Middleware - Enhanced CORS for iOS Safari compatibility
+// Middleware - Enhanc// Allow all origins (adjust in production)ed CORS for iOS Safari compatibility
 app.use(cors({
-  origin: '*', // Allow all origins (adjust in production)
+  origin: '*', 
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Cache-Control', 'Pragma'],
   exposedHeaders: ['Content-Length', 'Content-Type'],
