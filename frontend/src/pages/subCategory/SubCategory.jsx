@@ -362,7 +362,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
               </div>
             </div>
             <Link to="" className="group">
-              <p className='font-bold text-[#EE334B] flex items-center hover:text-[#213554] transition-colors duration-300 uppercase text-sm'>
+              <p className='font-bold text-[#213554] flex items-center hover:text-[#EE334B] transition-colors duration-300 uppercase text-sm'>
                 View all <FaAngleRight className="ml-1 group-hover:translate-x-1 transition-transform duration-300" size={15} />
               </p>
             </Link>
@@ -469,7 +469,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-full"></div>
               </div>
               <div className='px-2 pb-2'>
-                <h6 className="font-semibold group-hover:text-[#EE334B] transition-colors duration-300">{item.title}</h6>
+                <h3 className="font-semibold group-hover:text-[#EE334B] transition-colors duration-300 text-base">{item.title}</h3>
               </div>
             </div>
           ))}

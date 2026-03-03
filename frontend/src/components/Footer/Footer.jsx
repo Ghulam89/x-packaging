@@ -87,7 +87,7 @@ const Footer = () => {
     </div>   
     <div className=' sm:py-8  py-4 grid md:grid-cols-5 grid-cols-2'>
      <div className=''>
-        <h6 className=' uppercase text-lg text-[#EE334B]'>Company</h6>
+        <h3 style={{fontSize:'20px'}} className=' uppercase text-lg text-[#EE334B]'>Company</h3>
         <ul className=' pt-1.5'>
             <li>
                 <Link to={'#'} className=' font-semibold'>About Us</Link>
@@ -107,7 +107,7 @@ const Footer = () => {
         </ul>
     </div>
     <div className=''>
-        <h6  className=' uppercase text-lg text-[#EE334B]'>Products Packaging</h6>
+        <h3 style={{fontSize:'20px'}}  className=' uppercase text-lg text-[#EE334B]'>Products Packaging</h3>
         <ul  className=' pt-1.5'>
             <li>
                 <Link to={'#'} className=' font-semibold'>Mailer Boxes</Link>
@@ -131,7 +131,7 @@ const Footer = () => {
     </div>  
 
     <div className=''>
-        <h6  className=' uppercase text-lg text-[#EE334B]'>Packaging Styles</h6>
+        <h3 style={{fontSize:'20px'}}  className=' uppercase text-lg text-[#EE334B]'>Packaging Styles</h3>
         <ul className=' pt-1.5'>
             <li>
                 <Link to={'#'} className=' font-semibold'>Sleeve and Tray</Link>
@@ -154,7 +154,7 @@ const Footer = () => {
         </ul>
     </div>  
     <div className=''>
-        <h6  className=' uppercase text-lg text-[#EE334B]'>Inspiration</h6>
+        <h3 style={{fontSize:'20px'}}  className=' uppercase text-lg text-[#EE334B]'>Inspiration</h3>
         <ul className=' pt-1.5'>
             <li>
                 <Link to={'/blogs'} className=' font-semibold'>Blog</Link>
@@ -169,7 +169,7 @@ const Footer = () => {
         </ul>
     </div> 
     <div className=''>
-        <h6  className=' uppercase text-lg text-[#EE334B]'>Contact Us</h6>
+        <h3 style={{fontSize:'20px'}}   className=' uppercase text-lg text-[#EE334B]'>Contact Us</h3>
         <ul className=' pt-1.5'>
             <li>
                 <Link to={'#'} className=' font-semibold'>866-255-2112</Link>
