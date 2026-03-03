@@ -16,7 +16,7 @@ const Hero = () => {
         loop
         muted
         playsInline
-        preload="metadata"
+        preload="none"
         aria-hidden="true"
         className="absolute inset-0 w-full h-full object-cover"
       >
