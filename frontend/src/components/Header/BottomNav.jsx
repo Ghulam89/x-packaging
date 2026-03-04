@@ -253,6 +253,7 @@ const BottomNav = ({ Menu, OpenMenu }) => {
                 <Link
                   to={`/${category?.slug || category?.category}`}
                   className="flex relative cursor-pointer group items-center gap-1 px-3 py-2.5 text-sm font-semibold text-[#213554] hover:text-[#EE334B] transition-all duration-300 rounded-lg hover:bg-[#EE334B]/5"
+                  onClick={handleCategoryLeave}
                 >
                   <span className="relative z-10">{isBoxByIndustry ? 'box by industry' : category.category}</span>
                   {category.menu?.length > 0 && (
@@ -354,6 +355,7 @@ const BottomNav = ({ Menu, OpenMenu }) => {
                       key={submenu?.slug || submenu?.title || index}
                       to={`/category/${submenu.slug || submenu.title}`}
                       className="text-gray-700 flex font-bold flex-col gap-2 items-center transition-all duration-300 group hover:scale-105"
+                      onClick={handleCategoryLeave}
                     >
                       <div className="h-56 w-full bg-gradient-to-br from-gray-50 to-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group-hover:border-[#213554]/30 relative">
                         <img
@@ -386,6 +388,7 @@ const BottomNav = ({ Menu, OpenMenu }) => {
                         <Link
                           to={`/category/${item?.slug || item?.title}`}
                           className="font-semibold flex items-center justify-between py-2 px-3 rounded-lg text-[#213554] hover:bg-[#EE334B]/10 hover:text-[#EE334B] transition-all duration-300 group"
+                          onClick={handleCategoryLeave}
                         >
                           <span>{item?.title}</span>
                           <LiaAngleRightSolid size={16} className="text-[#EE334B] group-hover:translate-x-1 transition-transform duration-300" />
@@ -397,6 +400,7 @@ const BottomNav = ({ Menu, OpenMenu }) => {
                       <li className="mt-4">
                         <Link 
                           to={`/${hoveredCategory?.slug || hoveredCategory?.category}`}
+                          onClick={handleCategoryLeave}
                         >
                           <Button
                             className="bg-gradient-to-r from-[#213554] to-[#213554]/90 hover:from-[#EE334B] hover:to-[#EE334B]/90 text-white w-full"
