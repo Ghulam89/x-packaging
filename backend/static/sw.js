@@ -25,6 +25,14 @@ function isHomeRequest(request) {
   return request.mode === 'navigate' && (url.pathname === '/' || url.pathname === '');
 }
 
+function isProductOrCategoryRequest(request) {
+  const url = new URL(request.url);
+  return request.mode === 'navigate' && (
+    url.pathname.startsWith('/product/') ||
+    url.pathname.startsWith('/category/')
+  );
+}
+
 function isApiRequest(request) {
   const url = new URL(request.url);
   return (
@@ -32,7 +40,9 @@ function isApiRequest(request) {
     (
       url.pathname.startsWith('/products') ||
       url.pathname.startsWith('/faq') ||
-      url.pathname.startsWith('/banner')
+      url.pathname.startsWith('/banner') ||
+      url.pathname.startsWith('/category') ||
+      url.pathname.startsWith('/brands')
     )
   );
 }
@@ -42,6 +52,29 @@ self.addEventListener('fetch', (event) => {
 
   // Network-first for home HTML, fallback to cache for guaranteed display
   if (isHomeRequest(request)) {
+    event.respondWith(
+      (async () => {
+        const cache = await caches.open(HTML_CACHE);
+        try {
+          const response = await fetch(request);
+          if (response && response.ok) {
+            cache.put(request, response.clone());
+          }
+          return response;
+        } catch (_) {
+          const cached = await cache.match(request);
+          if (cached) return cached;
+          return new Response('<!doctype html><html><body><div id="root"></div></body></html>', {
+            headers: { 'Content-Type': 'text/html' }
+          });
+        }
+      })()
+    );
+    return;
+  }
+
+  // Network-first for product/category HTML, fallback to cached
+  if (isProductOrCategoryRequest(request)) {
     event.respondWith(
       (async () => {
         const cache = await caches.open(HTML_CACHE);
