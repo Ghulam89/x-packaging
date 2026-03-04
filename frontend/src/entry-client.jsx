@@ -50,6 +50,17 @@ const app = (
   </StrictMode>
 );
 
+// Register Service Worker for home + API caching (production, secure)
+try {
+  if ('serviceWorker' in navigator) {
+    const isLocalhost = ['localhost', '127.0.0.1'].includes(location.hostname);
+    const isSecure = location.protocol === 'https:' || isLocalhost;
+    if (isSecure) {
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
+    }
+  }
+} catch {}
+
 if (rootElement && rootElement.hasChildNodes()) {
   hydrateRoot(rootElement, app);
 } else if (rootElement) {

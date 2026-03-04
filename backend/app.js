@@ -421,15 +421,27 @@ app.use('*', async (req, res, next) => {
       const ttl = isHomePageRequest
         ? SSR_CACHE_TTL_HOME
         : SSR_CACHE_TTL_DEFAULT;
+      const headers = {
+        'Content-Type': 'text/html',
+        'Cache-Control': isHomePageRequest
+          ? 'public, max-age=300, stale-while-revalidate=900'
+          : 'public, max-age=60, stale-while-revalidate=300'
+      };
 
       ssrCache.set(cacheKey, {
         html,
-        headers: { 'Content-Type': 'text/html' },
+        headers,
         expiry: Date.now() + ttl
       });
+      res.set(headers);
     }
     
-    res.status(200).set({ 'Content-Type': 'text/html' }).send(html);
+    if (!isProduction) {
+      res.status(200).set({ 'Content-Type': 'text/html' }).send(html);
+    } else {
+      // Headers already set above for production
+      res.status(200).send(html);
+    }
     ssrLogDebug(`SSR completed for ${url}: ${Date.now() - startTime}ms`);
     
   } catch (e) {
