@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import TableOfContent from './TableOfContent';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import useFetch from '../../hooks/useFetch';
 import PageMetadata from '../../components/common/PageMetadata';
 import GetQuoteModal from '../../components/common/GetQuoteModal';
 import BlogCard from '../../components/common/BlogCard';
@@ -18,53 +18,29 @@ function SingleBlog({ serverData }) {
     const blogProductsScrollRef = useRef(null);
     
     
-    const fetchBlogs = async () => {
-        try {
-            const response = await axios.get(`${BaseUrl}/blog/get?slug=${slug}`);
-            if (!response?.data?.data) {
-                // Blog not found, redirect to 404
-                navigate('/404')
-                return
-            }
-            setSingleBlog(response?.data?.data);
-            // Fetch blog products after blog is loaded
-            if (response?.data?.data?._id) {
-                fetchBlogProducts(response.data.data._id);
-            }
-        } catch (error) {
-            // If there's an error or blog not found, redirect to 404
-            navigate('/404')
-        }
-    };
-
-    const fetchBlogProducts = async (blogId) => {
-        try {
-            const response = await axios.get(`${BaseUrl}/blog-product/blog/${blogId}`);
-            if (response?.data?.data) {
-                // Extract products from blog products array
-                const products = response.data.data
-                    .map(bp => bp.productId)
-                    .filter(product => product !== null && product !== undefined);
-                setBlogProducts(products);
-            }
-        } catch (error) {
-            // Silently handle error - products are optional
-        }
-    };
-
-    const fetchAllBlogs = async () => {
-        try {
-            const response = await axios.get(`${BaseUrl}/blog/getAll`);
-            setBlogs(response?.data?.data);
-        } catch (error) {
-
-        }
-    };
-
+    const { data: blogRes, error: blogErr } = useFetch(`${BaseUrl}/blog/get`, { config: { params: { slug } }, cacheKey: `blog_${slug}`, ttl: 600000, retries: 1, initialData: null }, [slug]);
     useEffect(() => {
-        fetchBlogs();
-        fetchAllBlogs();
-    }, [slug]);
+        if (blogRes?.data?.data) {
+            setSingleBlog(blogRes.data.data);
+        } else if (blogRes && !blogRes?.data?.data && blogErr) {
+            navigate('/404');
+        }
+    }, [blogRes, blogErr, navigate]);
+    const blogId = blogRes?.data?.data?._id || singleBlog?._id || null;
+    const productsUrl = blogId ? `${BaseUrl}/blog-product/blog/${blogId}` : null;
+    const { data: prodRes } = useFetch(productsUrl, { cacheKey: `blog_products_${blogId}`, ttl: 600000, retries: 1, initialData: null }, [blogId]);
+    useEffect(() => {
+        if (prodRes?.data?.data) {
+            const products = prodRes.data.data.map(bp => bp.productId).filter(product => product !== null && product !== undefined);
+            setBlogProducts(products);
+        }
+    }, [prodRes]);
+    const { data: allRes } = useFetch(`${BaseUrl}/blog/getAll`, { cacheKey: `blogs_all`, ttl: 600000, retries: 1, initialData: null }, []);
+    useEffect(() => {
+        if (allRes?.data?.data) {
+            setBlogs(allRes.data.data);
+        }
+    }, [allRes]);
 
 // ✅ Add this block here
 useEffect(() => {

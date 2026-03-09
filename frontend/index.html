@@ -14,11 +14,13 @@
     <link rel="preload" as="font" href="/src/assets/fonts/Inter-Regular.otf" type="font/otf" crossorigin>
     <link rel="preload" as="font" href="/src/assets/fonts/Inter-SemiBold.otf" type="font/otf" crossorigin>
     <link rel="preload" as="font" href="/src/assets/fonts/Inter-Bold.otf" type="font/otf" crossorigin>
+    <link rel="modulepreload" href="/src/entry-client.jsx" />
     <!--app-head-->
+    <script type="module" src="/src/entry-client.jsx"></script>
   </head>
   <body>
     <div id="root"><!--app-html--></div>
     <!--server-data-->
-    <script type="module" src="/src/entry-client.jsx"></script>
+    <!-- Moved to head for faster hydration -->
   </body>
 </html>

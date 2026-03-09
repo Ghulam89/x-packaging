@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import BlogCard from '../../components/common/BlogCard'
 import CustomPackagingProduced from '../../components/CustomPackagingProduced';
 import { BaseUrl } from '../../utils/BaseUrl';
-import axios from 'axios';
 import { Helmet } from 'react-helmet-async';
 import PageMetadata from '../../components/common/PageMetadata';
 import Banner from '../../components/common/Banner';
+import useFetch from '../../hooks/useFetch';
 
 const Blogs = () => {
     const [blog, setBlog] = useState([])
@@ -13,22 +13,17 @@ const Blogs = () => {
     const [totalPages, setTotalPages] = useState(1)
     const [loading, setLoading] = useState(false)
 
-    const fetchBlogs = async () => {
-        setLoading(true)
-        try {
-            const response = await axios.get(`${BaseUrl}/blog/getAll?page=${page}`)
-            if (page === 1) {
-                setBlog(response?.data?.data)
-            } else {
-                setBlog(prev => [...prev, ...response?.data?.data])
-            }
-            setTotalPages(response?.data?.pagination?.totalPages)
-        } catch (error) {
-            console.error("Error fetching blogs:", error)
-        } finally {
-            setLoading(false)
-        }
-    }
+    const { data: response, loading: hookLoading, error } = useFetch(
+        `${BaseUrl}/blog/getAll`,
+        {
+            config: { params: { page } },
+            cacheKey: `blogs_${page}`,
+            ttl: 600000,
+            retries: 1,
+            initialData: null
+        },
+        [page]
+    );
 
     const loadMore = () => {
         if (page < totalPages) {
@@ -37,8 +32,16 @@ const Blogs = () => {
     }
 
     useEffect(() => {
-        fetchBlogs()
-    }, [page])
+        setLoading(hookLoading);
+        if (response?.data?.data) {
+            if (page === 1) {
+                setBlog(response.data.data);
+            } else {
+                setBlog(prev => [...prev, ...response.data.data]);
+            }
+            setTotalPages(response?.data?.pagination?.totalPages || 1);
+        }
+    }, [response, hookLoading, page])
  const metadata = {
                 title: "Blog - Umbrella Custom Packaging",
                 description: "Our Blogs Simple Steps to get the Custom Packaging Produced Following are few steps which provide the complete Guide. Price Quote Payment Design Approval Production Shipping Reorders Get Price Quote Submit a request for free custom quote first through our website or calling our customer service representative. You will have the prices in 30 minutes. [&hellip;]",

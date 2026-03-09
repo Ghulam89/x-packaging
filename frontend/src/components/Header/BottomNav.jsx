@@ -15,6 +15,7 @@ import uae from '../../assets/images/flag/uae.svg';
 import chaina from '../../assets/images/flag/chaina.svg';
 import { canada } from "../../assets";
 import { FaXTwitter } from "react-icons/fa6";
+import useFetch from "../../hooks/useFetch";
 
 // Add animations to document head
 if (typeof document !== 'undefined' && !document.getElementById('bottomnav-animations')) {
@@ -49,22 +50,14 @@ if (typeof document !== 'undefined' && !document.getElementById('bottomnav-anima
 // Cache for brands data
 const BRANDS_CACHE_KEY = 'brands_cache';
 const BRANDS_CACHE_TIMESTAMP = 'brands_cache_timestamp';
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes cache (frontend local)
+const CACHE_DURATION = 30 * 60 * 1000;
 
 // Get cached brands data
 const getCachedBrands = () => {
   try {
     const cached = localStorage.getItem(BRANDS_CACHE_KEY);
-    const timestamp = localStorage.getItem(BRANDS_CACHE_TIMESTAMP);
-    
-    if (cached && timestamp) {
-      const now = Date.now();
-      const cacheTime = parseInt(timestamp, 10);
-      
-      // Return cached data if still valid
-      if (now - cacheTime < CACHE_DURATION) {
-        return JSON.parse(cached);
-      }
+    if (cached) {
+      return JSON.parse(cached);
     }
   } catch (error) {
     console.error('Error reading cache:', error);
@@ -121,6 +114,7 @@ const BottomNav = ({ Menu, OpenMenu }) => {
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { data: brandsRes, loading: brandsLoading } = useFetch(`${BaseUrl}/brands/getAll`, { cacheKey: 'brands_all', ttl: 1800000, retries: 1, initialData: null }, []);
 
   const displayCategories = useMemo(
     () => (Array.isArray(categories) && categories.length > 0 ? categories : []),
@@ -158,51 +152,23 @@ const BottomNav = ({ Menu, OpenMenu }) => {
     };
   }, [Menu]);
 
-  // Fetch brands from API (with cancel)
   useEffect(() => {
-    let cancelled = false;
-    const controller = new AbortController();
-    const fetchBrands = async () => {
-      // First, try to load from cache for instant display
-      const cachedData = getCachedBrands();
-      if (cachedData) {
-        if (!cancelled) {
-          setCategories(transformBrandsData(cachedData));
-          setLoading(false);
-        }
-      }
-
-      // Then fetch fresh data from API in background
-      try {
-        const response = await axiosInstance.get(`${BaseUrl}/brands/getAll`, {
-          timeout: 20000, // Increased timeout for iOS Safari
-          signal: controller.signal,
-        });
-        if (!cancelled && response?.data?.status === "success" && response?.data?.data) {
-          const transformedCategories = transformBrandsData(response.data.data);
-          
-          // Save to cache
-          saveBrandsToCache(response.data.data);
-          
-          // Update state with fresh data
-          setCategories(transformedCategories);
-        }
-      } catch (error) {
-        // If no cached data and API fails, keep empty array
-        if (!cachedData) {
-          if (!cancelled) setCategories([]);
-        }
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    };
-
-    fetchBrands();
-    return () => {
-      cancelled = true;
-      try { controller.abort(); } catch {}
-    };
-  }, []);
+    const cachedData = getCachedBrands();
+    if (cachedData) {
+      setCategories(transformBrandsData(cachedData));
+      setLoading(false);
+    } else {
+      setLoading(brandsLoading);
+    }
+  }, [brandsLoading]);
+  useEffect(() => {
+    if (brandsRes?.data?.data) {
+      saveBrandsToCache(brandsRes.data.data);
+      const transformedCategories = transformBrandsData(brandsRes.data.data);
+      setCategories(transformedCategories);
+      setLoading(false);
+    }
+  }, [brandsRes]);
 
   const handleCategoryHover = useCallback((category) => {
     setHoveredCategory(category);

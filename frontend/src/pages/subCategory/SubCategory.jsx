@@ -5,7 +5,7 @@ import { Link, useParams, useLocation } from 'react-router-dom'
 import { FaAngleRight } from 'react-icons/fa'
 import { IoHomeOutline } from 'react-icons/io5'
 import { LiaAngleRightSolid } from 'react-icons/lia'
-import axios from 'axios';
+import useApi from '../../hooks/useApi';
 import { prefetchProductsBatch, prefetchSubCategory, getCachedSubCategory } from '../../utils/prefetchUtils';
 import PageMetadata from '../../components/common/PageMetadata';
 import InstantQuoteModal from '../../components/common/InstantQuoteModal';
@@ -40,6 +40,7 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
   const [loadingProducts, setLoadingProducts] = useState([]); 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const api = useApi({ ttl: 600000, retries: 1 });
   const fetchProduct = async (page = 1) => {
 
     if (page === 1) {
@@ -51,13 +52,10 @@ const SubCategory = ({ serverData, CategoryProducts }) => {
     }
 
     try {
-      const response = await axios.get(`${BaseUrl}/category/get?slug=${slug}`);
-
+      const response = await api.get(`${BaseUrl}/category/get`, { params: { slug } }, { cacheKey: `category_${slug}` });
       setCategoryData(response?.data?.data);
-
-      const response2 = await axios.get(
-        `${BaseUrl}/products/categoryProducts/${response?.data?.data?._id}?page=${page}`
-      );
+      const id = response?.data?.data?._id;
+      const response2 = await api.get(`${BaseUrl}/products/categoryProducts/${id}`, { params: { page } }, { cacheKey: `category_products_${id}_${page}` });
       if (page === 1) {
         setAllProducts(response2?.data?.data);
         setLoadingProducts([]);

@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import { FaAngleRight } from 'react-icons/fa'
-import axios from 'axios'
 import { BaseUrl } from '../../utils/BaseUrl'
 import Banner from '../../components/common/Banner'
 import FAQ from '../../components/FAQ/FAQ'
@@ -11,6 +10,7 @@ import CardSlider from '../../components/common/CardSlider'
 import BlogCard from '../../components/common/BlogCard'
 import Blog from '../../components/blog/Blog'
 import PageMetadata from '../../components/common/PageMetadata'
+import useFetch from '../../hooks/useFetch'
 
 const Category = ({ serverData }) => {
   const { slug } = useParams();
@@ -21,37 +21,24 @@ const Category = ({ serverData }) => {
   const [categoryProduct, setCategoryProduct] = useState([]);
   const [loading, setLoading] = useState(!serverData);
 
-  const FetchCategory = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get(`${BaseUrl}/brands/get?slug=${slug}`);
-      if (!response?.data?.data) {
-        navigate('/404')
-        return
-      }
-      setCategoryData(response?.data?.data);
-
-      const response2 = await axios.get(
-        `${BaseUrl}/products/categoryProducts/${response?.data?.data._id}/products-by-category`
-      );
-      setCategoryProduct(response2?.data?.data?.categories || []);
-    } catch (err) {
-      console.error("Error fetching category:", err);
-      // navigate('/404')
-    } finally {
-      setLoading(false);
-    }
-  };
+  const brandUrl = !serverData || serverData.slug !== slug ? `${BaseUrl}/brands/get` : null;
+  const { data: brandRes, loading: brandLoading } = useFetch(brandUrl, { config: { params: { slug } }, cacheKey: `brand_${slug}`, ttl: 600000, retries: 1, initialData: null }, [slug]);
 
   useEffect(() => {
-    // Only fetch if serverData is not available or slug changed
-    if (slug && (!serverData || serverData.slug !== slug)) {
-      FetchCategory();
-    } else if (serverData && serverData.slug === slug) {
+    if (serverData && serverData.slug === slug) {
       setCategoryData(serverData);
       setLoading(false);
+      return;
     }
-  }, [slug]); // Remove categoryData from dependencies to avoid infinite loop
+    if (brandRes?.data?.data) {
+      setCategoryData(brandRes.data.data);
+      setLoading(false);
+    } else if (brandRes && !brandLoading && (!brandRes?.data || !brandRes?.data?.data)) {
+      navigate('/404');
+    } else {
+      setLoading(brandLoading);
+    }
+  }, [slug, serverData, brandRes, brandLoading, navigate]);
 
   useEffect(() => {
     return () => {
@@ -60,35 +47,24 @@ const Category = ({ serverData }) => {
     };
   }, [slug]);
 
+  const brandId = categoryData?._id || null;
+  const productsUrl = brandId ? `${BaseUrl}/products/categoryProducts/${brandId}/products-by-category` : null;
+  const { data: productsRes, loading: productsLoading } = useFetch(productsUrl, { cacheKey: `brand_products_${brandId}`, ttl: 600000, retries: 1, initialData: null }, [brandId]);
   useEffect(() => {
-    const fetchAllCategories = async () => {
-      // Only fetch if categoryData (brand) is available
-      if (!categoryData?._id) {
-        return;
-      }
-
-      setLoadingCategories(true);
-      try {
-        // Fetch categories filtered by brandId
-        const response = await axios.get(`${BaseUrl}/category/getAll?page=1&perPage=100&brandId=${categoryData._id}`);
-        
-        if (response?.data?.status === 'success' && response?.data?.data) {
-          // Filter categories by brandId on client side if API doesn't support it
-          const filteredCategories = Array.isArray(response.data.data) 
-            ? response.data.data.filter(category => category.brandId?._id === categoryData._id || category.brandId === categoryData._id)
-            : [];
-          setAllCategories(filteredCategories);
-        }
-      } catch (error) {
-        console.error('Error fetching categories:', error);
-        
-      } finally {
-        setLoadingCategories(false);
-      }
-    };
-
-    fetchAllCategories();
-  }, [categoryData?._id]);
+    if (productsRes?.data?.data?.categories) {
+      setCategoryProduct(productsRes.data.data.categories);
+      setLoading(false);
+    }
+  }, [productsRes]);
+  const categoriesUrl = brandId ? `${BaseUrl}/category/getAll` : null;
+  const { data: catsRes, loading: catsLoading } = useFetch(categoriesUrl, { config: { params: { page: 1, perPage: 100, brandId: brandId } }, cacheKey: `categories_brand_${brandId}`, ttl: 600000, retries: 1, initialData: null }, [brandId]);
+  useEffect(() => {
+    setLoadingCategories(catsLoading);
+    if (catsRes?.data?.data) {
+      const list = Array.isArray(catsRes.data.data) ? catsRes.data.data.filter(category => category.brandId?._id === brandId || category.brandId === brandId) : [];
+      setAllCategories(list);
+    }
+  }, [catsRes, catsLoading, brandId]);
 
   const breadcrumbSchema = {
     "@context": "https://schema.org",
