@@ -3,6 +3,7 @@ import Button from "../../components/common/Button";
 import { Link } from "react-router-dom";
 // import { CRITICAL_VIDEOS } from "../../hooks/usePreloadAssets";
 import heroImage from '../../assets/videos/hero.mp4';
+import heroImg from '../../assets/images/banner-slider-image.webp';
 const Hero = () => {
   // const videoSrc = useMemo(() => CRITICAL_VIDEOS, []);
   return (
@@ -11,7 +12,7 @@ const Hero = () => {
       aria-label="Custom Packaging Hero Section"
     >
       
-      <video
+      {/* <video
         autoPlay
         loop
         muted
@@ -22,10 +23,16 @@ const Hero = () => {
       >
         <source src={heroImage} type="video/mp4" />
         Your browser does not support the video tag.
-      </video>
+      </video> */}
+
+      <img
+        src={heroImg}
+        alt="Hero Banner"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
 
      
-      <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/75 to-black/40 z-10" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/40 to-black/5 z-10" />
 
       
       <div className="relative w-full h-full flex items-center z-20">
