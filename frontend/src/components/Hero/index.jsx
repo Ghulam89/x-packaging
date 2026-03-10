@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from "react";
+import React, { memo, useMemo, useEffect, useRef } from "react";
 import Button from "../../components/common/Button";
 import { Link } from "react-router-dom";
 // import { CRITICAL_VIDEOS } from "../../hooks/usePreloadAssets";
@@ -6,33 +6,47 @@ import heroImage from '../../assets/videos/hero.mp4';
 import heroImg from '../../assets/images/banner-slider-image.webp';
 const Hero = () => {
   // const videoSrc = useMemo(() => CRITICAL_VIDEOS, []);
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    const tryPlay = () => {
+      const p = v.play();
+      if (p && typeof p.then === 'function') {
+        p.catch(() => {});
+      }
+    };
+    v.addEventListener('loadeddata', tryPlay, { once: true });
+    tryPlay();
+    return () => {
+      v.removeEventListener('loadeddata', tryPlay);
+    };
+  }, []);
   return (
     <section
       className="w-full lg:h-[75vh] h-[55vh] relative overflow-hidden"
       aria-label="Custom Packaging Hero Section"
     >
       
-      {/* <video
+      <video
         autoPlay
         loop
         muted
         playsInline
-        preload="none"
+        preload="auto"
+        crossOrigin="anonymous"
+        ref={videoRef}
         aria-hidden="true"
         className="absolute inset-0 w-full h-full object-cover"
+        width={1920}
+        height={900}
       >
         <source src={heroImage} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video> */}
-
-      <img
-        src={heroImg}
-        alt="Hero Banner"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
+      </video>
 
      
-      <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/40 to-black/5 z-10" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/60 to-black/30 z-10" />
 
       
       <div className="relative w-full h-full flex items-center z-20">

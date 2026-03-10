@@ -1,7 +1,32 @@
-
-import React from 'react';
-
+ 
+import React, { useEffect } from 'react';
+ 
 const Modal = ({ isOpen, onClose, children,className }) => {
+  useEffect(() => {
+    if (isOpen) {
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+      document.body.style.overflow = 'hidden';
+      return () => {
+        const prevTop = document.body.style.top;
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        document.body.style.overflow = '';
+        if (prevTop) {
+          window.scrollTo(0, parseInt(prevTop || '0') * -1);
+        }
+      };
+    } else {
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflow = '';
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
   
   return (
