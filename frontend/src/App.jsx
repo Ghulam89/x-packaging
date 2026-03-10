@@ -56,7 +56,7 @@ const App = memo(function App({ serverData, CategoryProducts, homePageData }) {
         leftClass="left-8"
       />
       <AnnouncementBanner />
-      <Navbar />
+      <Navbar homePageData={homePageData} />
       {/* <Suspense fallback={null}> */}
         <main id="main" role="main">
           {element}

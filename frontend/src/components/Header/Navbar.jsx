@@ -11,7 +11,7 @@ import GetQuoteModal from "../common/GetQuoteModal";
 import { FiPhone } from "react-icons/fi";
 import { FaSearch } from "react-icons/fa";
 import { HiOutlineSearch } from "react-icons/hi";
-const Navbar = () => {
+const Navbar = ({ homePageData }) => {
   const [menu, setMenu] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -436,7 +436,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      <BottomNav Menu={menu} OpenMenu={OpenMenu} />
+      <BottomNav Menu={menu} OpenMenu={OpenMenu} initialBrands={homePageData?.brands} />
       
       {/* Request Quote Modal */}
       <GetQuoteModal 

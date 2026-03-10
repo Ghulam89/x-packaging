@@ -57,7 +57,7 @@ export async function render(url) {
   const helmetContext = {};
   let serverData = null;
   let CategoryProducts = null;
-  let homePageData = null; // For home page: products, FAQ, banner
+  let homePageData = null; // For home page: products, FAQ, banner, brands
 
   try {
     // Handle different routes - check in order of specificity
@@ -68,6 +68,15 @@ export async function render(url) {
       url,
     });
     
+    // Fetch brands for header/navigation (used across pages)
+    let brandsData = null;
+    try {
+      const brandsRes = await ssrClient.get("/brands/getAll");
+      brandsData = Array.isArray(brandsRes?.data?.data) ? brandsRes.data.data : null;
+    } catch (brandsErr) {
+      ssrError("SSR: Brands fetch error:", brandsErr.message);
+    }
+
     if (isHomePage) {
       // Handle home page - fetch multiple data sources
       ssrLog("SSR: Fetching home page data...");
@@ -109,7 +118,8 @@ export async function render(url) {
             : [],
           banner: bannerRes.status === 'fulfilled' && bannerRes.value?.data?.data?.[0]
             ? bannerRes.value.data.data[0]
-            : null
+            : null,
+          brands: brandsData || null
         };
         
         ssrLog("SSR: Home page data prepared:", {
@@ -242,7 +252,7 @@ export async function render(url) {
 
   // Ensure homePageData is set for home page even if fetch failed
   if (isHomePage && !homePageData) {
-    homePageData = { topProducts: [], faqs: [], banner: null };
+    homePageData = { topProducts: [], faqs: [], banner: null, brands: null };
   }
   
   const result = {

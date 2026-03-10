@@ -109,7 +109,7 @@ const transformBrandsData = (brandsData) => {
   }));
 };
 
-const BottomNav = ({ Menu, OpenMenu }) => {
+const BottomNav = ({ Menu, OpenMenu, initialBrands }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [categories, setCategories] = useState([]);
@@ -120,6 +120,15 @@ const BottomNav = ({ Menu, OpenMenu }) => {
     () => (Array.isArray(categories) && categories.length > 0 ? categories : []),
     [categories]
   );
+
+  // Use SSR-provided brands for first paint
+  useEffect(() => {
+    if (Array.isArray(initialBrands) && initialBrands.length > 0) {
+      saveBrandsToCache(initialBrands);
+      setCategories(transformBrandsData(initialBrands));
+      setLoading(false);
+    }
+  }, [initialBrands]);
 
   // Disable body scroll when mobile menu is open
   useEffect(() => {
