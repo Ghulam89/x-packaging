@@ -19,6 +19,10 @@ const ServiceSelectionCard = ({ items = [] }) => {
                         src={item.icon} 
                         alt={item.title || 'Service icon'} 
                         className='w-9 h-9 sm:w-10 sm:h-10 opacity-80'
+                        
+                        decoding="async"
+                        width={40}
+                        height={40}
                         style={{ filter: 'saturate(100%) invert(0%)' }}
                       />
                     ) : (
