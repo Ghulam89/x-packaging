@@ -22,7 +22,7 @@ import requestQuoteRouter from "./routes/RequestQuote.js";
 import instantQuoteRouter from "./routes/InstantQuote.js";
 import sitemapRouter from "./routes/sitemapRouter.js";
 import path from 'path';
-import { fileURLToPath } from 'url';
+import { fileURLToPath, pathToFileURL } from 'url';
 import { cacheMiddleware } from "./middleware/cache.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -32,7 +32,7 @@ const projectRoot = path.resolve(backendDir, "..");
 import fs from 'node:fs/promises';
 
 const numCPUs = os.cpus().length;
-const isProduction = process.env.NODE_ENV === 'production';
+const isProduction = process.env.NODE_ENV === 'production' || path.basename(__dirname) === 'dist';
 
 if (isProduction && cluster.isPrimary) {
   console.log(`Primary ${process.pid} is running`);
@@ -179,7 +179,7 @@ if (isProduction) {
     // Load assets in parallel
     const [template, serverModule] = await Promise.all([
       fs.readFile(templatePath, 'utf-8'),
-      import(serverEntryPath)
+      import(pathToFileURL(serverEntryPath).href)
     ]);
     
     productionTemplate = moveModuleScriptsAfterStylesheets(template);
