@@ -26,6 +26,8 @@ import { fileURLToPath } from 'url';
 import { cacheMiddleware } from "./middleware/cache.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const backendDir = path.resolve(__dirname, path.basename(__dirname) === "dist" ? ".." : ".");
+const projectRoot = path.resolve(backendDir, "..");
 // SSR/Frontend imports
 import fs from 'node:fs/promises';
 
@@ -63,8 +65,8 @@ if (isProduction && cluster.isPrimary) {
 connectDB();
 const app = express();
 app.use(compression());
-app.use(express.static("static", { maxAge: "365d" }));
-app.use("/images", express.static(path.join(__dirname, "images"), { maxAge: "365d" }));
+app.use(express.static(path.join(backendDir, "static"), { maxAge: "365d" }));
+app.use("/images", express.static(path.join(backendDir, "images"), { maxAge: "365d" }));
 
 // Middleware - Enhanc// Allow all origins (adjust in production)ed CORS for iOS Safari compatibility
 app.use(cors({
@@ -171,8 +173,8 @@ function moveModuleScriptsAfterStylesheets(html) {
 // Preload production assets in production mode
 if (isProduction) {
   try {
-    const templatePath = path.join(__dirname, '../frontend/dist/client/index.html');
-    const serverEntryPath = path.join(__dirname, '../frontend/dist/server/entry-server.js');
+    const templatePath = path.join(projectRoot, 'frontend/dist/client/index.html');
+    const serverEntryPath = path.join(projectRoot, 'frontend/dist/server/entry-server.js');
     
     // Load assets in parallel
     const [template, serverModule] = await Promise.all([
@@ -197,8 +199,8 @@ if (isProduction) {
       server: { middlewareMode: true },
       appType: 'custom',
       base,
-      root: path.join(__dirname, '../frontend'),
-      configFile: path.join(__dirname, '../frontend/vite.config.js'),
+      root: path.join(projectRoot, 'frontend'),
+      configFile: path.join(projectRoot, 'frontend/vite.config.js'),
       ssr: {
         // Ensure React resolves from frontend node_modules
         resolve: {
@@ -217,7 +219,7 @@ if (isProduction) {
 if (isProduction) {
   try {
     const sirv = (await import('sirv')).default;
-    app.use(base, sirv(path.join(__dirname, '../frontend/dist/client'), {
+    app.use(base, sirv(path.join(projectRoot, 'frontend/dist/client'), {
       extensions: [],
       maxAge: 31536000, // 1 year
       immutable: true
@@ -307,7 +309,7 @@ app.use('*', async (req, res, next) => {
       // Development mode
       try {
         template = await fs.readFile(
-          path.join(__dirname, '../frontend/index.html'), 
+          path.join(projectRoot, 'frontend/index.html'), 
           'utf-8'
         );
         
@@ -318,7 +320,7 @@ app.use('*', async (req, res, next) => {
             `    <link href="/src/App.css" rel="stylesheet" />\n  </head>`
           );
         }
-        const serverModule = await vite.ssrLoadModule('../frontend/src/entry-server.jsx');
+        const serverModule = await vite.ssrLoadModule('/src/entry-server.jsx');
         render = serverModule?.render;
       } catch (error) {
         ssrLogError('Vite development error:', error);
