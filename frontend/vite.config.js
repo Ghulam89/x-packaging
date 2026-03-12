@@ -32,13 +32,15 @@ export default defineConfig({
       "redux-persist",
       "@reduxjs/toolkit",
       "lottie-react",
-      "lucide-react"
+      "lucide-react",
+      "react/jsx-runtime",
+      "react/jsx-dev-runtime"
     ],
     resolve: {
       conditions: ['node', 'import'],
     },
-    // Keep React external for SSR - Node.js will resolve it natively
-    external: ['react', 'react-dom', 'react-dom/server'],
+    // Do not externalize React runtimes to avoid CJS named import issues
+    external: [],
   },
 
   optimizeDeps: {

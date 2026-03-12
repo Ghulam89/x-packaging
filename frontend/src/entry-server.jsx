@@ -24,8 +24,7 @@ const ssrError = (...args) => {
   }
 };
 
-const internalApiBaseUrl =
-  process.env.INTERNAL_API_BASE_URL || ApiBaseUrl;
+const internalApiBaseUrl = ApiBaseUrl;
 
 // Dedicated axios client for SSR with sensible timeout
 const ssrClient = axios.create({

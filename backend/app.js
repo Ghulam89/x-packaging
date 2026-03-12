@@ -183,7 +183,16 @@ if (isProduction) {
     ]);
     
     productionTemplate = moveModuleScriptsAfterStylesheets(template);
-    productionRender = serverModule.render;
+    const serverRender =
+      (serverModule && serverModule.render) ||
+      (serverModule && serverModule.default && serverModule.default.render) ||
+      (serverModule && serverModule.default);
+    if (typeof serverRender === 'function') {
+      productionRender = serverRender;
+    } else {
+      console.error('SSR server module does not export a function "render". Received:', typeof serverRender);
+      productionRender = null;
+    }
     
     console.log('Production assets preloaded successfully');
   } catch (error) {
@@ -321,7 +330,10 @@ app.use('*', async (req, res, next) => {
           );
         }
         const serverModule = await vite.ssrLoadModule('/src/entry-server.jsx');
-        render = serverModule?.render;
+        render =
+          (serverModule && serverModule.render) ||
+          (serverModule && serverModule.default && serverModule.default.render) ||
+          (serverModule && serverModule.default);
       } catch (error) {
         ssrLogError('Vite development error:', error);
         ssrLogError('Error details:', error.message);
@@ -331,8 +343,24 @@ app.use('*', async (req, res, next) => {
       // Production mode
       template = productionTemplate;
       render = productionRender;
+    } else if (isProduction) {
+      // Attempt dynamic import fallback in production if preload failed
+      try {
+        const serverEntryPath = path.join(projectRoot, 'frontend/dist/server/entry-server.js');
+        const serverModule = await import(pathToFileURL(serverEntryPath).href);
+        const serverRender =
+          (serverModule && serverModule.render) ||
+          (serverModule && serverModule.default && serverModule.default.render) ||
+          (serverModule && serverModule.default);
+        if (typeof serverRender === 'function') {
+          render = serverRender;
+          template = productionTemplate || '';
+        }
+      } catch (err) {
+        ssrLogError('Dynamic import of SSR server failed:', err);
+      }
     } else {
-     
+      // Non-production without vite – no-op
     }
     
     // Check if render function is available

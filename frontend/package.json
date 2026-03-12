@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "npm run build:client && npm run build:server",
-    "build:client": "vite build --outDir dist/client",
-    "build:server": "vite build --ssr src/entry-server.jsx --outDir dist/server",
+    "build:client": "vite build --mode production --outDir dist/client",
+    "build:server": "vite build --mode production --ssr src/entry-server.jsx --outDir dist/server",
     "preview": "cross-env NODE_ENV=production node server",
     "optimize-images": "node scripts/optimizeExistingImages.js"
   },

@@ -109,6 +109,15 @@ const transformBrandsData = (brandsData) => {
   }));
 };
 
+const normalizeBrands = (res) => {
+  if (!res) return null;
+  const a = res.data ?? res;
+  if (Array.isArray(a)) return a;
+  if (a && Array.isArray(a.data)) return a.data;
+  if (a && a.data && Array.isArray(a.data.data)) return a.data.data;
+  return null;
+};
+
 const BottomNav = ({ Menu, OpenMenu, initialBrands }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [hoveredCategory, setHoveredCategory] = useState(null);
@@ -171,9 +180,10 @@ const BottomNav = ({ Menu, OpenMenu, initialBrands }) => {
     }
   }, [brandsLoading]);
   useEffect(() => {
-    if (brandsRes?.data?.data) {
-      saveBrandsToCache(brandsRes.data.data);
-      const transformedCategories = transformBrandsData(brandsRes.data.data);
+    const raw = normalizeBrands(brandsRes);
+    if (Array.isArray(raw)) {
+      saveBrandsToCache(raw);
+      const transformedCategories = transformBrandsData(raw);
       setCategories(transformedCategories);
       setLoading(false);
     }
