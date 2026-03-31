@@ -7,8 +7,6 @@
   "scripts": {
     "start": "node app.js",
     "dev": "node app.js",
-    "build": "esbuild app.js --bundle --platform=node --format=esm --outdir=dist --packages=external",
-    "start:dist": "node dist/app.js",
     "generate-sitemap": "node utils/generateSitemap.js",
     "optimize-images": "node scripts/optimizeExistingImages.js"
   },
