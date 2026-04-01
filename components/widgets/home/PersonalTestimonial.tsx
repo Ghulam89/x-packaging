@@ -57,10 +57,10 @@ const PersonalTestimonial = () => {
     useEffect(() => {
         const fetchTestimonials = async () => {
             try {
-                const response = await fetch('https://xcustompackaging.com/Rating/getAll');
+                const response = await fetch("/api/rating/getAll", { cache: "no-store" });
+                if (!response.ok) return;
                 const result = await response.json();
-                
-                // Based on your JSON: result.status === "success" and data is in result.data
+
                 if (result.status === "success" && Array.isArray(result.data)) {
                     setTestimonials(result.data);
                 }
