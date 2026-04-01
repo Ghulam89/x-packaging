@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "standalone",
+  // Custom server is `tsx server.ts`, not `next start` or `.next/standalone/server.js`.
+  // Keeping `output: "standalone"` triggers Next’s warning and encourages incomplete deploys (missing chunks).
   typedRoutes: true,
   serverExternalPackages: ["mongoose", "bcrypt"],
   experimental: {
