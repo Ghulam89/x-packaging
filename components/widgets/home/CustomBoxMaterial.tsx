@@ -83,7 +83,7 @@ export default function CustomBoxMaterial() {
   const goNext = () => setCurrent((p) => (p === boxes.length - 1 ? 0 : p + 1));
 
   return (
-    <section className="mx-auto w-[95%] sm:max-w-8xl py-10">
+    <section className="mx-auto w-full max-w-8xl px-4 sm:w-[95%] sm:px-0 py-8 sm:py-10 overflow-x-hidden">
       <style jsx global>{`
         @keyframes fadeInUp {
           0% {
@@ -99,44 +99,45 @@ export default function CustomBoxMaterial() {
           animation: fadeInUp 0.4s ease-out;
         }
       `}</style>
-      <div className="text-center mb-6">
-        <h2 className="sm:text-[35px] text-[25px] font-sans font-[600] text-[#333333]">
+      <div className="text-center mb-6 max-w-full">
+        <h2 className="text-[22px] leading-tight sm:text-[28px] md:text-[35px] font-sans font-[600] text-[#333333] px-1">
           Choose the Perfect Material for Your Custom Box
         </h2>
-        <p className="pt-3 pb-6 text-sm max-w-7xl mx-auto text-gray-700">
+        <p className="pt-3 pb-6 text-sm sm:text-base max-w-7xl mx-auto text-gray-700 px-1 text-pretty">
           We help you choose the right material for your packaging as it is key to balancing protection, presentation, and cost.{" "}
           <b>This guide breaks down your options</b>, from durable corrugated mailers to luxury rigid boxes and from eco-friendly kraft boxes and bags to budget-friendly retail cardboard boxes, helping you make the smartest choice for your product.{" "}
           <b>box your packaging with X Custom Packaging!</b>
         </p>
       </div>
       {!imagesLoaded ? (
-        <div className="my-10 min-h-[400px] flex items-center justify-center">
-          <div className="animate-pulse bg-gray-200 rounded-lg w-full h-full max-h-[400px]" />
+        <div className="my-6 sm:my-10 min-h-[280px] sm:min-h-[400px] flex items-center justify-center">
+          <div className="animate-pulse bg-gray-200 rounded-lg w-full min-h-[280px] sm:min-h-[400px] max-h-[400px]" />
         </div>
-      ) : null}
-      <div className="grid lg:grid-cols-2 gap-6 items-center">
-        <div className="relative">
-          <div className="grid grid-cols-2 gap-4 relative z-10">
+      ) : (
+      <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 items-start lg:items-center min-w-0">
+        <div className="relative min-w-0 ">
+          <div className="grid grid-cols-2 gap-2 sm:gap-4 relative z-10 min-w-0">
             {visible.map((b, i) => {
               const idx = boxes.findIndex((x) => x.id === b.id);
               const active = idx === current;
               return (
                 <button
+                  type="button"
                   key={b.id}
                   onClick={() => setCurrent(idx)}
-                  className={`relative group rounded-lg overflow-hidden border-[2px] transition-all duration-300 transform ${
+                  className={`relative group rounded-lg overflow-hidden border-[2px] transition-all duration-300 transform min-w-0 w-full text-left ${
                     active
                       ? "border-[#EE334B] shadow-lg"
                       : "border-gray-200 hover:border-[#EE334B]/50 hover:shadow-md"
                   }`}
                 >
-                  <div className="relative w-full sm:h-64 h-auto aspect-square overflow-hidden">
+                  <div className="relative w-full aspect-[4/3] min-h-[120px] sm:aspect-square sm:min-h-[10rem] sm:h-64 overflow-hidden">
                     <NextImage
                       src={b.image}
                       alt={b.title}
                       fill
                       className={`object-cover transition-transform duration-700 ${active ? "" : ""} group-hover:scale-110`}
-                      sizes="(max-width: 640px) 100vw, 50vw"
+                      sizes="(max-width: 640px) 45vw, 25vw"
                     />
                     <div
                       className={`absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent transition-opacity duration-300 ${
@@ -145,11 +146,11 @@ export default function CustomBoxMaterial() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none" />
                   </div>
-                  <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 via-black/60 to-transparent">
-                    <p className="text-white font-semibold text-sm text-center">{b.title}</p>
+                  <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3 bg-gradient-to-t from-black/80 via-black/60 to-transparent">
+                    <p className="text-white font-semibold text-xs sm:text-sm text-center leading-snug">{b.title}</p>
                   </div>
                   {active ? (
-                    <div className="absolute top-2 right-2 w-6 h-6 bg-[#EE334B] rounded-full flex items-center justify-center shadow-lg">
+                    <div className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 w-5 h-5 sm:w-6 sm:h-6 bg-[#EE334B] rounded-full flex items-center justify-center shadow-lg">
                       <div className="w-2 h-2 bg-white rounded-full" />
                     </div>
                   ) : null}
@@ -158,78 +159,87 @@ export default function CustomBoxMaterial() {
             })}
           </div>
         </div>
-        <div className="relative">
-          <div className="relative">
-            <div className="z-10 animate-fadeInUp md:pr-20 pr-0">
-              <div className="p-2 rounded-md w-full min-w-0">
-                <div className="flex w-full sm:flex-row justify-between flex-col items-center">
-                  <div className="sm:w-12/12 w-full min-w-0">
-                    <div className="sm:p-5 p-3">
-                      <h2 className="sm:text-[35px] text-[25px] font-sans font-[600] text-[#333333] break-words">
+        <div className="relative min-w-0 ">
+          <div className="relative min-w-0">
+            <div className="z-10 animate-fadeInUp md:pr-16 lg:pr-20 pr-0">
+              <div className="p-0 sm:p-2 rounded-md w-full min-w-0">
+                <div className="flex w-full flex-col items-stretch">
+                  <div className="w-full min-w-0">
+                    <div className="py-2 sm:p-5 px-0 sm:px-3 text-center lg:text-left">
+                      <h2 className="text-[22px] sm:text-[28px] md:text-[35px] font-sans font-[600] text-[#333333] break-words">
                         {boxes[current].title}
                       </h2>
-                      <h3 className="pt-4 sm:text-2xl text-xl break-words">
+                      <h3 className="pt-3 sm:pt-4 text-lg sm:text-xl md:text-2xl break-words">
                         <strong>{boxes[current].subTitle}</strong>
                       </h3>
-                      <p className="pt-2.5 break-words text-gray-600">{boxes[current].description}</p>
+                      <p className="pt-2.5 break-words text-gray-600 text-sm sm:text-base">{boxes[current].description}</p>
                       <Button
                         onClick={() => setIsModalOpen(true)}
                         label={"Get Quote"}
-                        className="bg-[#4440E6] text-white mt-2 opacity-90"
+                        className="bg-[#4440E6] text-white mt-3 sm:mt-2 opacity-90 w-full max-w-xs sm:w-auto mx-auto lg:mx-0"
                       />
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-3">
-                <div className="flex flex-col items-center gap-3">
-                  <div className="flex items-center justify-center gap-2 mb-2">
-                    <button
-                      onClick={goPrev}
-                      className="flex items-center justify-center w-8 h-8 rounded-full bg-white border-2 border-[#EE334B] text-[#EE334B] hover:bg-[#EE334B] hover:text-white transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-110"
-                      aria-label="Previous box"
-                    >
-                      <FaAngleLeft size={14} />
-                    </button>
-                    <div className="flex items-center justify-center gap-2 sm:gap-3 px-2">
+              <div className="mt-4 w-full min-w-0 px-0 sm:px-2">
+                <div className="flex w-full min-w-0 items-center gap-1.5 sm:gap-2">
+                  <button
+                    type="button"
+                    onClick={goPrev}
+                    className="flex size-9 shrink-0 items-center justify-center rounded-full border-2 border-[#EE334B] bg-white text-[#EE334B] shadow-md transition-all duration-300 hover:scale-110 hover:bg-[#EE334B] hover:text-white hover:shadow-lg sm:size-8"
+                    aria-label="Previous box"
+                  >
+                    <FaAngleLeft size={14} />
+                  </button>
+                  <div className="min-w-0 flex-1 overflow-x-auto overscroll-x-contain py-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    <div className="mx-auto flex w-max items-center justify-center gap-2 px-1 sm:gap-3">
                       {boxes.slice(0, 4).map((b, index) => {
                         const active = index === current;
                         return (
                           <button
+                            type="button"
                             key={b.id}
                             onClick={() => setCurrent(index)}
-                            className={`relative group transition-all duration-300 ${
+                            className={`relative shrink-0 transition-all duration-300 group ${
                               active ? "scale-110" : "hover:scale-105"
                             }`}
                             aria-label={`Go to ${b.title}`}
                           >
                             <div
-                              className={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden border-2 transition-all duration-300 shadow-md ${
+                              className={`relative size-14 rounded-lg border-2 shadow-md transition-all duration-300 sm:size-16 md:size-20 ${
                                 active
                                   ? "border-[#EE334B] shadow-lg ring-2 ring-[#EE334B]/30"
                                   : "border-gray-200 hover:border-[#EE334B]/50"
-                              }`}
+                              } overflow-hidden`}
                             >
-                              <NextImage src={b.image} alt={b.title} fill className="object-cover" sizes="80px" />
+                              <NextImage
+                                src={b.image}
+                                alt={b.title}
+                                fill
+                                className="object-cover"
+                                sizes="(max-width:640px) 56px, 80px"
+                              />
                               {active ? <div className="absolute inset-0 bg-[#EE334B]/20" /> : null}
                             </div>
                           </button>
                         );
                       })}
                     </div>
-                    <button
-                      onClick={goNext}
-                      className="flex items-center justify-center w-8 h-8 rounded-full bg-white border-2 border-[#EE334B] text-[#EE334B] hover:bg-[#EE334B] hover:text-white transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-110"
-                      aria-label="Next box"
-                    >
-                      <FaAngleRight size={14} />
-                    </button>
                   </div>
+                  <button
+                    type="button"
+                    onClick={goNext}
+                    className="flex size-9 shrink-0 items-center justify-center rounded-full border-2 border-[#EE334B] bg-white text-[#EE334B] shadow-md transition-all duration-300 hover:scale-110 hover:bg-[#EE334B] hover:text-white hover:shadow-lg sm:size-8"
+                    aria-label="Next box"
+                  >
+                    <FaAngleRight size={14} />
+                  </button>
                 </div>
               </div>
             </div>
-            <div className="hidden md:flex absolute z-30 -bottom-18 right-0 items-center justify-start pointer-events-none">
+            <div className="pointer-events-none absolute right-0 z-30 hidden items-center justify-start md:flex md:-bottom-18">
               <h6
                 className="text-[40px] sm:text-[60px] lg:text-[77px] font-bold text-[#EE334B] opacity-10 select-none"
                 style={{
@@ -246,6 +256,7 @@ export default function CustomBoxMaterial() {
           </div>
         </div>
       </div>
+      )}
       <GetQuoteModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} category={null} />
     </section>
   );

@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { ASSETS } from "@/lib/assets";
+import Button from "@/components/shared/ui/Button";
 const Hero = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
@@ -59,9 +60,9 @@ const Hero = () => {
 
           <Link
             href="/shop"
-            className="inline-block bg-[#EE334B] text-white px-5 py-3 rounded-lg font-semibold"
+            className="inline-block  rounded-lg font-semibold"
           >
-            Browse Our Catalogue
+            <Button variant="red" label="Browse Our Catalogue" />
           </Link>
 
         </div>

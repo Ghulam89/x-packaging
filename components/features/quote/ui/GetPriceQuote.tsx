@@ -223,7 +223,7 @@ const GetPriceQuote = () => {
 
 
                   <Select
-                    // label="Unit"
+                    label="Unit"
                     name="unit"
                     value={formData.unit}
                     onChange={handleChange}
@@ -247,7 +247,7 @@ const GetPriceQuote = () => {
 
 
                   <Select
-                    // label="Stock"
+                    label="Stock"
                     name="stock"
                     value={formData.stock}
                     onChange={handleChange}
@@ -266,7 +266,7 @@ const GetPriceQuote = () => {
                     <option>Linen</option>
                   </Select>
                   <Select
-                    // label="Printing"
+                    label="Printing"
                     name="printing"
                     value={formData.printing}
                     onChange={handleChange}

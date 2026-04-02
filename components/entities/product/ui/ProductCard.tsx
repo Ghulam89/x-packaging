@@ -32,7 +32,11 @@ const ProductCard = memo(function ProductCard({
   const isCarousel = variant === "carousel";
   const isCompact = variant === "compact";
 
-  const imageHeightClass = isCarousel ? "h-[230px]" : isCompact ? "h-32" : "h-40";
+  const imageHeightClass = isCarousel
+    ? "h-[9.25rem] min-[400px]:h-44 sm:h-52 md:h-[230px]"
+    : isCompact
+      ? "h-32"
+      : "h-40";
   const outerRadiusClass = isCarousel ? "rounded-2xl sm:rounded-3xl" : "rounded-2xl";
   const imageRadiusClass = isCarousel ? "rounded-xl sm:rounded-2xl" : "rounded-xl";
   const paddingClass = isCarousel ? "p-2 sm:p-3 md:p-4" : "p-3";

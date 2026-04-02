@@ -67,7 +67,7 @@ export default function Blog({ initialBlogs = [] }: Props) {
             You can also find here the recent trends in packaging.
             <Link
               href="/blog"
-              className="ml-2 uppercase font-bold text-[#EE334B] inline-flex items-center align-baseline hover:opacity-80 transition-opacity"
+              className="ml-2 uppercase font-bold text-[#B71C3C] inline-flex items-center align-baseline hover:opacity-90 underline-offset-2 hover:underline transition-opacity"
             >
               View all
               <FaAngleRight className="ml-1" size={15} />
@@ -143,9 +143,9 @@ export default function Blog({ initialBlogs = [] }: Props) {
                               <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-t-2xl" />
                               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-t-2xl" />
                               <div className="absolute top-2 left-2 z-20">
-                                <h6 className="inline-block font-bold text-white bg-[#EE334B] rounded-full shadow-lg backdrop-blur-sm px-4 py-1.5 text-xs">
+                                <span className="inline-block font-bold text-white bg-[#B71C3C] rounded-full shadow-lg backdrop-blur-sm px-4 py-1.5 text-xs">
                                   Knowledge Base
-                                </h6>
+                                </span>
                               </div>
                             </div>
 
@@ -157,7 +157,7 @@ export default function Blog({ initialBlogs = [] }: Props) {
                                 </div>
                               ) : null}
 
-                              <h3 className="font-bold text-[#213554] line-clamp-2 group-hover:text-[#EE334B] transition-colors duration-300 leading-tight text-lg sm:text-xl mb-2 sm:mb-3">
+                              <h3 className="font-bold text-[#213554] line-clamp-2 group-hover:text-[#B71C3C] transition-colors duration-300 leading-tight text-lg sm:text-xl mb-2 sm:mb-3">
                                 {b.title}
                               </h3>
 
@@ -166,7 +166,7 @@ export default function Blog({ initialBlogs = [] }: Props) {
                               </p>
 
                               <div className="flex justify-start items-center mt-auto pt-2">
-                                <span className="inline-flex items-center text-[#EE334B] font-semibold group-hover:gap-2 gap-1 transition-all duration-300 text-xs sm:text-sm">
+                                <span className="inline-flex items-center text-[#B71C3C] font-semibold group-hover:gap-2 gap-1 transition-all duration-300 text-xs sm:text-sm">
                                   Continue Reading
                                   <FaArrowRight className="transform group-hover:translate-x-1 transition-transform duration-300" />
                                 </span>

@@ -7,6 +7,8 @@ import { apiBase, siteOrigin } from "@/lib/api";
  import type { SearchProduct } from "@/types";
 import { HiOutlineSearch } from "react-icons/hi";
 import GetQuoteModal from "@/components/features/quote/ui/GetQuoteModal";
+import Button from "@/components/shared/ui/Button";
+import { FiPhone } from "react-icons/fi";
  
 type Props = {
   menuOpen?: boolean;
@@ -95,10 +97,8 @@ export default function Navbar({ menuOpen = false, onMenuToggle }: Props) {
                    name="q"
                    placeholder="What are you looking for today?"
                    autoComplete="off"
-                   aria-label="Search products"
-                   aria-controls={showResults ? "header-search-results" : undefined}
-                   aria-expanded={showResults}
-                   className="rounded-full p-2.5 text-black sm:p-3 w-full border bg-white border-gray-300 shadow-xs pr-9 sm:pr-10 text-sm"
+                  aria-label="Search products"
+                  className="rounded-full p-2.5 text-black sm:p-3 w-full border bg-white border-gray-300 shadow-xs pr-9 sm:pr-10 text-sm"
                    value={searchQuery}
                    onChange={handleSearch}
                  />
@@ -111,6 +111,7 @@ export default function Navbar({ menuOpen = false, onMenuToggle }: Props) {
                    id="header-search-results"
                    role="region"
                    aria-label="Search results"
+                   aria-live="polite"
                    className="absolute z-50 mt-12 left-0 w-full sm:max-w-lg md:max-w-2xl bg-white border border-gray-300 rounded-lg shadow-lg max-h-96 overflow-y-auto"
                  >
                    {isSearchLoading ? (
@@ -377,9 +378,9 @@ export default function Navbar({ menuOpen = false, onMenuToggle }: Props) {
                       {/* Phone */}
                       <Link
                         href="tel:+18882761239"
-                        className="inline-flex items-center justify-center bg-[#EE334B] text-white hover:bg-[#EE334B]/90 rounded-lg px-3 lg:px-4 py-1.5 lg:py-2 text-xs lg:text-sm min-w-[140px] min-h-[44px] font-semibold transition-colors"
+                        className="inline-flex items-center justify-end  font-semibold transition-colors"
                       >
-                        888-276-1239
+                       <Button variant="red" label="888-276-1239" Icons={<FiPhone size={16} className="lg:w-[18px] lg:h-[18px]" />} />
                       </Link>
                     </div>
 

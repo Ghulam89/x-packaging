@@ -41,25 +41,25 @@ const CreativeGallery = ({ products = [], title, description }: Props) => {
   const currentItem = images.find((img) => img.url === activeImage) || images[0];
 
   return (
-    <section className="bg-white py-10 px-6">
-      <div className="sm:max-w-8xl max-w-[95%] mx-auto">
-        <div className="text-center mb-8">
-          <div className="inline-block mb-4">
-            <div className="w-20 h-1 bg-gradient-to-r from-[#EE334B] to-[#213554] mx-auto rounded-full"></div>
+    <section className="bg-white min-w-0 overflow-x-hidden py-8 sm:py-10 px-3 min-[400px]:px-4 sm:px-5 md:px-6">
+      <div className="sm:max-w-8xl max-w-full w-full min-w-0 mx-auto">
+        <div className="text-center mb-6 sm:mb-8">
+          <div className="inline-block mb-3 sm:mb-4">
+            <div className="w-16 sm:w-20 h-1 bg-gradient-to-r from-[#EE334B] to-[#213554] mx-auto rounded-full"></div>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#213554] mb-2  tracking-tight">
+          <h2 className="text-xl min-[360px]:text-2xl sm:text-3xl md:text-4xl font-bold text-[#213554] mb-2 sm:mb-3 px-1 leading-tight text-balance">
             {"Your Packaging Journey Starts Here!"}
           </h2>
-          <p className="text-gray-600 text-lg max-w-4xl mx-auto">
+          <p className="text-gray-600 text-xs min-[360px]:text-sm sm:text-base md:text-lg max-w-4xl mx-auto leading-relaxed px-1">
             {description ||
               "Discover how quality packaging makes all the difference! Experience real client experiences, expert tips, and innovative packaging solutions that enhance brands."}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6 mb-8 sm:mb-10 min-w-0">
           {/* Main Featured Image */}
-          <div className="md:col-span-8 group relative overflow-hidden rounded-[2.5rem] bg-white p-3 shadow-xl shadow-slate-200/50 border border-gray-100">
-            <div className="overflow-hidden rounded-[2rem] h-[400px] sm:h-[450px] md:h-[500px] relative">
+          <div className="md:col-span-8 group relative overflow-hidden rounded-2xl sm:rounded-[2rem] md:rounded-[2.5rem] bg-white p-2 sm:p-3 shadow-xl shadow-slate-200/50 border border-gray-100 min-w-0">
+            <div className="overflow-hidden rounded-xl sm:rounded-[1.75rem] md:rounded-[2rem] h-[min(52vh,22rem)] min-[400px]:h-[min(56vh,24rem)] sm:h-[min(62vh,28rem)] md:h-[500px] relative min-w-0">
               <Image
                 src={activeImage || images[0].url}
                 alt={currentItem?.title || "Featured Packaging"}
@@ -78,9 +78,9 @@ const CreativeGallery = ({ products = [], title, description }: Props) => {
           </div>
 
           {/* Side Grid */}
-          <div className="md:col-span-4 flex flex-col gap-4 sm:gap-6">
+          <div className="md:col-span-4 flex flex-col gap-3 sm:gap-4 md:gap-6 min-w-0">
             {images[1] && (
-              <div className="h-[180px] sm:h-[220px] md:h-[240px] group relative overflow-hidden rounded-[2rem] bg-white p-3 shadow-lg border border-gray-100 relative">
+              <div className="h-[min(40vw,11rem)] min-h-[140px] sm:h-[220px] md:h-[240px] group overflow-hidden rounded-xl sm:rounded-2xl md:rounded-[2rem] bg-white p-2 sm:p-3 shadow-lg border border-gray-100 relative min-w-0">
                 <Image
                   src={images[1].url}
                   alt={images[1].title || "Detail"}
@@ -96,9 +96,9 @@ const CreativeGallery = ({ products = [], title, description }: Props) => {
                 )}
               </div>
             )}
-            <div className="grid grid-cols-2 gap-3 sm:gap-4 flex-1">
+            <div className="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4 flex-1 min-w-0">
               {images[2] && (
-                <div className="h-full min-h-[180px] rounded-[1.5rem] overflow-hidden border-2 border-gray-100 p-1 bg-white relative group">
+                <div className="h-full min-h-[140px] sm:min-h-[180px] rounded-xl sm:rounded-[1.5rem] overflow-hidden border-2 border-gray-100 p-1 bg-white relative group min-w-0">
                   <Image
                     src={images[2].url}
                     alt={images[2].title || "Detail 2"}
@@ -115,7 +115,7 @@ const CreativeGallery = ({ products = [], title, description }: Props) => {
                 </div>
               )}
               {images[3] && (
-                <div className="h-full min-h-[180px] rounded-[1.5rem] overflow-hidden border-2 border-gray-100 p-1 bg-white relative group">
+                <div className="h-full min-h-[140px] sm:min-h-[180px] rounded-xl sm:rounded-[1.5rem] overflow-hidden border-2 border-gray-100 p-1 bg-white relative group min-w-0">
                   <Image
                     src={images[3].url}
                     alt={images[3].title || "Detail 3"}
@@ -136,13 +136,14 @@ const CreativeGallery = ({ products = [], title, description }: Props) => {
         </div>
 
         {/* Thumbnails */}
-        <div className="relative group">
-          <div className="flex items-center gap-4 overflow-x-auto pb-4 scroll-smooth no-scrollbar">
+        <div className="relative group min-w-0 -mx-1 px-1">
+          <div className="flex items-center gap-2 sm:gap-4 overflow-x-auto overscroll-x-contain pb-4 scroll-smooth no-scrollbar min-w-0 touch-pan-x">
             {images.map((img) => (
               <button
                 key={img.id}
                 onClick={() => setActiveImage(img.url)}
-                className={`flex-shrink-0 w-32 h-20 rounded-2xl overflow-hidden border-4 transition-all duration-300 relative ${
+                type="button"
+                className={`shrink-0 w-24 h-16 sm:w-32 sm:h-20 rounded-xl sm:rounded-2xl overflow-hidden border-2 sm:border-4 transition-all duration-300 relative ${
                   activeImage === img.url
                     ? "border-[#EE334B] scale-105 shadow-lg"
                     : "border-transparent opacity-60 hover:opacity-100"
