@@ -28,7 +28,11 @@ export default function AnnouncementBanner() {
         `}
       </style>
       <div className="h-px w-full" style={{ backgroundColor: "#213554", boxShadow: "0 1px 2px rgba(33,53,84,0.2)" }} />
-      <div className="bg-[#213554] relative overflow-hidden w-full z-30">
+      <div
+        className="bg-[#213554] relative overflow-hidden w-full z-30"
+        role="region"
+        aria-label="Promotions and announcements"
+      >
         <div className="relative w-full py-1 sm:py-1">
           <div className="flex announcement-scroll whitespace-nowrap">
             {duplicated.map((a, index) => (
@@ -40,6 +44,7 @@ export default function AnnouncementBanner() {
                     width={24}
                     height={24}
                     className="flex-shrink-0 object-contain"
+                    aria-hidden
                   />
                 ) : null}
                 <span className="text-xs sm:text-sm md:text-base font-bold whitespace-nowrap underline" style={{ color: "#ffffff" }}>

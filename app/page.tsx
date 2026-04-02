@@ -1,5 +1,5 @@
-import { getProductsAll, getFaqAll, getBannerAll, getBrandsAll, getBlogsForHome } from "@/lib/api";
-import type { Blog as BlogPost, Product } from "@/types";
+import { getProductsAll, getFaqAll, getBannerAll, getBrandsAll, getBlogsForHome, getCategoriesForHome } from "@/lib/api";
+import type { Blog as BlogPost, Category as CategoryEntity, Product } from "@/types";
 import Hero from "@/components/widgets/home/Hero";
 import BottomHero from "@/components/widgets/home/BottomHero";
 import CategoryBoxes from "@/components/widgets/home/CategoryBoxes";
@@ -20,24 +20,28 @@ import PersonalTestimonial from "@/components/widgets/home/PersonalTestimonial";
 import Blog from "@/components/widgets/home/Blog";
 import type { Metadata } from "next";
 
+export const dynamic = "force-dynamic";
+
 type HomePayload = {
   topProducts: Product[];
   faqs: any[];
   banner: any;
   brands: any[] | null;
   homeBlogs: BlogPost[];
+  homeCategoryBoxes: CategoryEntity[];
 };
 
 async function loadHome(): Promise<HomePayload> {
-  const [products, faqs, bannerList, brands, homeBlogs] = await Promise.all([
+  const [products, faqs, bannerList, brands, homeBlogs, homeCategoryBoxes] = await Promise.all([
     getProductsAll(1, 8, 600),
     getFaqAll(3600),
     getBannerAll(600),
     getBrandsAll(3600),
     getBlogsForHome(6, 600),
+    getCategoriesForHome(5, 600),
   ]);
   const banner = Array.isArray(bannerList) && bannerList[0] ? bannerList[0] : null;
-  return { topProducts: products, faqs, banner, brands, homeBlogs };
+  return { topProducts: products, faqs, banner, brands, homeBlogs, homeCategoryBoxes };
 }
 
 export default async function Home() {
@@ -46,7 +50,7 @@ export default async function Home() {
     <main className="min-h-screen">
       <Hero />
       <BottomHero />
-      <CategoryBoxes />
+      <CategoryBoxes initialCategories={data.homeCategoryBoxes} />
       <OfferCard discount={"Get 40%"} title={"Saving on Buying the Bulk"} subTitle={"Limited time offer"} />
       <Category serverData={data.topProducts as Product[]} />
       <CustomBoxMaterial />

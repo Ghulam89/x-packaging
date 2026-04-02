@@ -9,29 +9,31 @@ import { ASSETS } from '@/lib/assets';
 import { IoCallOutline, IoLocationOutline } from 'react-icons/io5';
 const Footer = () => {
   return (
-    <div className=''>
+    <footer className=''>
 
     <div className=' sm:max-w-8xl max-w-[95%] mx-auto'>
     <div  className=''>
      <div  className=' flex sm:flex-row flex-col border-b gap-1.5 border-gray-200 justify-between pb-10 sm:pt-10 pt-0'>
         <div className=' sm:w-4/12 w-12/12'>
-          <Image src={ASSETS.logo} alt='' className=' w-[300px] h-auto' width={300} height={80} priority />
+          <Link href="/" aria-label="X Custom Packaging home">
+            <Image src={ASSETS.logo} alt="X Custom Packaging" className=' w-[300px] h-auto' width={300} height={80} priority />
+          </Link>
           <p className=' text-[#213554] pt-1.5'>We offer Packaging Boxes delivered to your door. Secure, professional, and affordable, our custom made packaging boxes are guaranteed to protect and transport your valuable items. Our devoted team is always there to serve you.</p>
-          <div className=' flex pt-3 items-center gap-2'>
-      <Link href={'#'}>
-      <FaFacebookSquare className=' text-gray-400' size={20} />
+          <div className=' flex pt-3 items-center gap-1 flex-wrap'>
+      <Link href={'#'} className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md" aria-label="X Custom Packaging on Facebook">
+      <FaFacebookSquare className=' text-gray-400' size={20} aria-hidden />
       </Link>
-      <Link href={'#'}>
-      <FaXTwitter   className=' text-gray-400' size={20} />
+      <Link href={'#'} className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md" aria-label="X Custom Packaging on X (Twitter)">
+      <FaXTwitter   className=' text-gray-400' size={20} aria-hidden />
       </Link>
-      <Link href={'#'}>
-      <RiInstagramLine  className=' text-gray-400' size={20} />
+      <Link href={'#'} className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md" aria-label="X Custom Packaging on Instagram">
+      <RiInstagramLine  className=' text-gray-400' size={20} aria-hidden />
       </Link>
-      <Link href={'#'}>
-      <FaLinkedin  className=' text-gray-400' size={20} />
+      <Link href={'#'} className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md" aria-label="X Custom Packaging on LinkedIn">
+      <FaLinkedin  className=' text-gray-400' size={20} aria-hidden />
       </Link>
-      <Link href={'#'}>
-      <IoLogoYoutube  className=' text-gray-400' size={25} />
+      <Link href={'#'} className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md" aria-label="X Custom Packaging on YouTube">
+      <IoLogoYoutube  className=' text-gray-400' size={25} aria-hidden />
       </Link>
     
    </div>
@@ -39,9 +41,9 @@ const Footer = () => {
         
         <div className=' sm:w-7/12 w-full text-center'>
            <h2 className=''>Need Quick Assistance? Get In Touch</h2>
-           <Link href={'tel:7472470456'} className='text-black flex  pt-2.5 items-center justify-center'>
-           <IoCallOutline size={40} className='' /> 
-                <h2>747-247-0456</h2>
+           <Link href={'tel:7472470456'} className='text-black flex pt-2.5 items-center justify-center gap-2'>
+           <IoCallOutline size={40} className=' shrink-0' aria-hidden />
+                <span className="text-2xl sm:text-3xl md:text-4xl font-semibold text-black">747-247-0456</span>
             </Link>
             <div className=' pt-5'>
                 <ul className=' flex flex-wrap gap-4 items-center justify-center '>
@@ -61,7 +63,7 @@ const Footer = () => {
                     </li>
                     <li className='text-black flex  gap-2 items-center'>
 
-                    <svg width={25} xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 122.88 81.51"><path className="cls-1" d="M122.88,58.27l-23,23.24V69.93c-14.54-3-26,.31-34.76,11.37,1.51-22.75,17.06-33.73,34.76-34.46V35l23,23.23ZM6.68,0h93.6a6.54,6.54,0,0,1,2.54.51A6.72,6.72,0,0,1,105,2a6.65,6.65,0,0,1,2,4.72V26.4a.62.62,0,0,1-.62.62.66.66,0,0,1-.48-.22,9.31,9.31,0,0,0-2-1.61,9.77,9.77,0,0,0-2.36-1,.63.63,0,0,1-.45-.59V9.86L70.92,35.55l5.49,5.76a.63.63,0,0,1,0,.87l-.16.1c-.68.37-1.36.75-2,1.15s-1.32.82-2,1.26a.61.61,0,0,1-.82-.12l-5-5.21-10.21,8.7a2.92,2.92,0,0,1-3.76,0L41.72,39.34,9.35,71.8H52.93a.61.61,0,0,1,.62.61l0,.19c-.17.74-.33,1.48-.47,2.22v0c-.14.73-.27,1.51-.39,2.32a.62.62,0,0,1-.61.52H6.68a6.59,6.59,0,0,1-2.55-.51A6.83,6.83,0,0,1,2,75.72,6.72,6.72,0,0,1,.51,73.55v0A6.57,6.57,0,0,1,0,71V6.68A6.63,6.63,0,0,1,.51,4.13,6.83,6.83,0,0,1,2,2,6.94,6.94,0,0,1,4.13.51,6.59,6.59,0,0,1,6.68,0ZM5.89,67,37.15,35.61,5.89,10.12V67ZM10,5.89,54.29,42,96.69,5.89Z"></path></svg>
+                    <svg width={25} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 81.51" aria-hidden><path className="cls-1" d="M122.88,58.27l-23,23.24V69.93c-14.54-3-26,.31-34.76,11.37,1.51-22.75,17.06-33.73,34.76-34.46V35l23,23.23ZM6.68,0h93.6a6.54,6.54,0,0,1,2.54.51A6.72,6.72,0,0,1,105,2a6.65,6.65,0,0,1,2,4.72V26.4a.62.62,0,0,1-.62.62.66.66,0,0,1-.48-.22,9.31,9.31,0,0,0-2-1.61,9.77,9.77,0,0,0-2.36-1,.63.63,0,0,1-.45-.59V9.86L70.92,35.55l5.49,5.76a.63.63,0,0,1,0,.87l-.16.1c-.68.37-1.36.75-2,1.15s-1.32.82-2,1.26a.61.61,0,0,1-.82-.12l-5-5.21-10.21,8.7a2.92,2.92,0,0,1-3.76,0L41.72,39.34,9.35,71.8H52.93a.61.61,0,0,1,.62.61l0,.19c-.17.74-.33,1.48-.47,2.22v0c-.14.73-.27,1.51-.39,2.32a.62.62,0,0,1-.61.52H6.68a6.59,6.59,0,0,1-2.55-.51A6.83,6.83,0,0,1,2,75.72,6.72,6.72,0,0,1,.51,73.55v0A6.57,6.57,0,0,1,0,71V6.68A6.63,6.63,0,0,1,.51,4.13,6.83,6.83,0,0,1,2,2,6.94,6.94,0,0,1,4.13.51,6.59,6.59,0,0,1,6.68,0ZM5.89,67,37.15,35.61,5.89,10.12V67ZM10,5.89,54.29,42,96.69,5.89Z"></path></svg>
                         <p className=' text-lg'>sales@x-packaging.com</p>
                     </li>
                 </ul>
@@ -152,7 +154,7 @@ const Footer = () => {
         <h3 style={{fontSize:'20px'}}  className=' uppercase text-lg text-[#EE334B]'>Inspiration</h3>
         <ul className=' pt-1.5 text-black'>
             <li>
-                <Link href={'/blogs'} className=' font-semibold'>Blog</Link>
+                <Link href={'/blog'} className=' font-semibold'>Blog</Link>
             </li>
             <li>
                 <Link href={'/reviews'} className=' font-semibold'>Reviews</Link>
@@ -185,13 +187,13 @@ const Footer = () => {
          <h5 className=' uppercase font-bold'>WHERE WE'RE TRUSTED</h5>
           <ul className=' flex items-center gap-5'>
             <li>
-              <Image src={ASSETS.footer.googleReviews} alt="" className="w-24 h-auto" width={96} height={32} />
+              <Image src={ASSETS.footer.googleReviews} alt="Google Reviews" className="w-24 h-auto" width={96} height={32} />
             </li>
             <li>
-              <Image src={ASSETS.footer.trustpilot} alt="" className="w-32 h-auto" width={128} height={40} />
+              <Image src={ASSETS.footer.trustpilot} alt="Trustpilot" className="w-32 h-auto" width={128} height={40} />
             </li>
             <li>
-              <Image src={ASSETS.footer.reviewsIO} alt="" className="w-32 h-auto" width={128} height={40} />
+              <Image src={ASSETS.footer.reviewsIO} alt="Reviews.io" className="w-32 h-auto" width={128} height={40} />
             </li>
           </ul>
         </div>
@@ -200,13 +202,13 @@ const Footer = () => {
             <h5 className=' uppercase font-bold'>Our Logistics Partners</h5>
             <ul className=' flex  items-center gap-2 pt-2'>
               <li>
-                <Image src={ASSETS.footer.fedex} className="w-32 h-auto" alt="" width={128} height={40} />
+                <Image src={ASSETS.footer.fedex} className="w-32 h-auto" alt="FedEx" width={128} height={40} />
               </li>
               <li>
-                <Image src={ASSETS.footer.dhl} className="w-32 h-auto" alt="" width={128} height={40} />
+                <Image src={ASSETS.footer.dhl} className="w-32 h-auto" alt="DHL" width={128} height={40} />
               </li>
               <li>
-                <Image src={ASSETS.footer.usps} className="w-32 h-auto" alt="" width={128} height={40} />
+                <Image src={ASSETS.footer.usps} className="w-32 h-auto" alt="USPS" width={128} height={40} />
               </li>
             </ul>
             </div>
@@ -246,7 +248,7 @@ const Footer = () => {
      
     </div>
      
-    </div>
+    </footer>
   )
 }
 

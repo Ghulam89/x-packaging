@@ -22,6 +22,9 @@ export type Category = {
   _id: string;
   title?: string;
   slug: string;
+  /** Mid-category tile image (API); falls back to `image` in UI when set */
+  icon?: string;
+  iconAltText?: string;
   image?: string;
   imageAltText?: string;
   bannerBgColor?: string;

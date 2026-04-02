@@ -67,6 +67,22 @@ export async function getCategoriesAll(
   return Array.isArray(r?.data) ? r.data : [];
 }
 
+/** Home “Every Industry” grid: first page with bounded count, ISR-friendly. */
+export async function getCategoriesForHome(
+  perPage: number = 5,
+  revalidate: number = 600
+): Promise<Category[]> {
+  const r = await fetchJson<ApiResponse<Category[] | { data?: Category[] }>>(
+    `/category/getAll?page=1&perPage=${perPage}`,
+    { revalidate }
+  );
+  if (Array.isArray(r?.data)) return r.data;
+  if (r?.data && typeof r.data === "object" && Array.isArray((r.data as { data?: Category[] }).data)) {
+    return (r.data as { data: Category[] }).data;
+  }
+  return [];
+}
+
 export async function getCategoriesByBrandId(
   brandId: string,
   page: number = 1,

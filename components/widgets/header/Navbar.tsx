@@ -5,9 +5,7 @@
  import { ASSETS } from "@/lib/assets";
 import { apiBase, siteOrigin } from "@/lib/api";
  import type { SearchProduct } from "@/types";
- import { FiPhone } from "react-icons/fi";
- import { HiOutlineSearch } from "react-icons/hi";
-import Button from "@/components/shared/ui/Button";
+import { HiOutlineSearch } from "react-icons/hi";
 import GetQuoteModal from "@/components/features/quote/ui/GetQuoteModal";
  
 type Props = {
@@ -78,7 +76,7 @@ export default function Navbar({ menuOpen = false, onMenuToggle }: Props) {
      <div
       className={`${
         isScrolled ? "bg-white/90 backdrop-blur-lg shadow-md" : "bg-gradient-to-r from-white via-gray-50/30"
-      } ${menuOpen ? "" : "sticky"} top-0 z-50 transition-all`}
+      } sticky top-0 z-50 transition-all`}
      >
        <div className="sm:max-w-8xl max-w-[95%] mx-auto px-2 sm:px-0">
           <div className="flex w-full justify-between h-auto sm:h-20 items-center gap-2 sm:gap-4 py-2 sm:py-0">
@@ -88,18 +86,33 @@ export default function Navbar({ menuOpen = false, onMenuToggle }: Props) {
              </Link>
              <div className="hidden sm:flex flex-1 max-w-lg relative" ref={searchRef}>
                <div className="relative w-full">
+                 <label htmlFor="header-site-search" className="sr-only">
+                   Search products
+                 </label>
                  <input
+                   id="header-site-search"
+                   type="search"
+                   name="q"
                    placeholder="What are you looking for today?"
+                   autoComplete="off"
+                   aria-label="Search products"
+                   aria-controls={showResults ? "header-search-results" : undefined}
+                   aria-expanded={showResults}
                    className="rounded-full p-2.5 text-black sm:p-3 w-full border bg-white border-gray-300 shadow-xs pr-9 sm:pr-10 text-sm"
                    value={searchQuery}
                    onChange={handleSearch}
                  />
-                 <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[#EE334B]">
+                 <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[#EE334B] pointer-events-none" aria-hidden>
                    <HiOutlineSearch size={20} />
                  </span>
                </div>
-               {showResults && (
-                 <div className="absolute z-50 mt-12 left-0 w-full sm:max-w-lg md:max-w-2xl bg-white border border-gray-300 rounded-lg shadow-lg max-h-96 overflow-y-auto">
+                     {showResults && (
+                 <div
+                   id="header-search-results"
+                   role="region"
+                   aria-label="Search results"
+                   className="absolute z-50 mt-12 left-0 w-full sm:max-w-lg md:max-w-2xl bg-white border border-gray-300 rounded-lg shadow-lg max-h-96 overflow-y-auto"
+                 >
                    {isSearchLoading ? (
                      <div className="flex justify-center items-center py-4">
                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#213554]"></div>
@@ -143,7 +156,6 @@ export default function Navbar({ menuOpen = false, onMenuToggle }: Props) {
                     <div className="w-12 h-12">
                     <svg
             version="1.1"
-            id="Layer_1"
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
             x="0px"
@@ -152,6 +164,7 @@ export default function Navbar({ menuOpen = false, onMenuToggle }: Props) {
             style={{ background: "new 0 0 32 32" }}
             xmlSpace="preserve"
             className="transition-colors duration-300"
+            aria-hidden
           >
             <style
               type="text/css"
@@ -249,13 +262,14 @@ export default function Navbar({ menuOpen = false, onMenuToggle }: Props) {
                       
                       {/* Custom Pricing Button */}
                       <button
+                        type="button"
+                        aria-label="Open custom pricing quote request"
                         onClick={() => setIsQuoteModalOpen(true)}
                         className="group flex items-center gap-1  rounded-lg px-1 lg:px-3 py-1 lg:py-2 transition-all cursor-pointer"
                       >
                          <div className="w-12 h-12">
                          <svg
             version="1.1"
-            id="Layer_1"
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
             x="0px"
@@ -264,6 +278,7 @@ export default function Navbar({ menuOpen = false, onMenuToggle }: Props) {
             style={{ background: "new 0 0 32 32" }}
             xmlSpace="preserve"
             className="transition-colors duration-300"
+            aria-hidden
           >
             <style
               type="text/css"
@@ -359,12 +374,13 @@ export default function Navbar({ menuOpen = false, onMenuToggle }: Props) {
                         </div>
                       </button>
                       
-                      {/* Phone Button */}
-                      <Button
-                      label="888-276-1239"
-                        className="bg-[#EE334B] text-white hover:bg-[#EE334B]/90  rounded-lg px-3 lg:px-4 py-1.5 lg:py-2 text-xs lg:text-sm w-[140px]"
-                        
-                      />
+                      {/* Phone */}
+                      <Link
+                        href="tel:+18882761239"
+                        className="inline-flex items-center justify-center bg-[#EE334B] text-white hover:bg-[#EE334B]/90 rounded-lg px-3 lg:px-4 py-1.5 lg:py-2 text-xs lg:text-sm min-w-[140px] min-h-[44px] font-semibold transition-colors"
+                      >
+                        888-276-1239
+                      </Link>
                     </div>
 
           <div className="sm:hidden flex items-center justify-end flex-shrink-0">

@@ -19,11 +19,11 @@ export default function HeaderClient({ initialBrands }: Props) {
   }, [pathname]);
 
   return (
-    <>
+    <header>
       <AnnouncementBanner />
       <Navbar menuOpen={menuOpen} onMenuToggle={() => setMenuOpen((v) => !v)} />
       <BottomNav Menu={menuOpen} OpenMenu={(open) => setMenuOpen(Boolean(open))} initialBrands={initialBrands} />
-    </>
+    </header>
   );
 }
 

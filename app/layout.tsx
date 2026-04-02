@@ -55,9 +55,17 @@ export default function RootLayout({
       <body
         suppressHydrationWarning={true}
         className="antialiased"
-      > 
+      >
+        <a
+          href="#main-content"
+          className="skip-link"
+        >
+          Skip to main content
+        </a>
         <Header />
-        {children}
+        <div id="main-content" tabIndex={-1}>
+          {children}
+        </div>
         <Footer />
       </body>
     </html>
