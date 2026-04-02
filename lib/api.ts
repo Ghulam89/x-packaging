@@ -130,6 +130,18 @@ export async function getBlogsAll(
   return Array.isArray(r?.data) ? r.data : [];
 }
 
+/** Home carousel: bounded page size, ISR-friendly. Uses `limit` (backend also accepts `perPage`). */
+export async function getBlogsForHome(
+  limit: number = 6,
+  revalidate: number = 600
+): Promise<Blog[]> {
+  const r = await fetchJson<ApiResponse<Blog[]>>(
+    `/blog/getAll?page=1&limit=${limit}`,
+    { revalidate }
+  );
+  return Array.isArray(r?.data) ? r.data : [];
+}
+
 export async function getBlogBySlug(
   slug: string,
   revalidate: number = 600

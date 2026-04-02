@@ -49,9 +49,9 @@ const BottomHero = () => {
                 <Image
                   src={brand.image}
                   alt={brand.alt}
-                  loading="lazy"
                   width={140}
                   height={40}
+                  sizes="140px"
                   className="max-w-full max-h-full object-contain grayscale hover:grayscale-0 transition-all opacity-70 hover:opacity-100"
                 />
               </div>

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -10,13 +10,17 @@ import "swiper/css/pagination";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { FaAngleRight, FaArrowRight, FaCalendarAlt } from "react-icons/fa";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { apiBase, siteOrigin } from "@/lib/api";
+import { siteOrigin } from "@/lib/api";
 import type { Blog } from "@/types";
 
 type BlogItem = Blog & {
   createdAt?: string;
   shortDescription?: string;
   imageAltText?: string;
+};
+
+type Props = {
+  initialBlogs?: BlogItem[];
 };
 
 function stripHtml(html?: string) {
@@ -34,85 +38,8 @@ function formatDate(dateString?: string) {
   });
 }
 
-function BlogCardSkeleton() {
-  return (
-    <div className="group relative py-4 h-full">
-      <div className="rounded-2xl overflow-hidden h-full bg-white shadow-md border border-gray-200 flex flex-col animate-pulse">
-        <div className="w-full h-64 overflow-hidden relative rounded-t-2xl bg-gray-200" />
-        <div className="p-6 text-start flex flex-col flex-grow">
-          <div className="flex items-center mb-3">
-            <div className="h-3 w-24 bg-gray-200 rounded" />
-          </div>
-          <div className="mb-3">
-            <div className="h-6 bg-gray-200 rounded w-full mb-2" />
-            <div className="h-6 bg-gray-200 rounded w-3/4" />
-          </div>
-          <div className="mb-4 flex-grow">
-            <div className="h-4 bg-gray-200 rounded w-full mb-2" />
-            <div className="h-4 bg-gray-200 rounded w-full mb-2" />
-            <div className="h-4 bg-gray-200 rounded w-2/3" />
-          </div>
-          <div className="flex justify-start items-center mt-auto pt-2">
-            <div className="h-4 w-32 bg-gray-200 rounded" />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export default function Blog() {
-  const [blogs, setBlogs] = useState<BlogItem[]>([]);
-  const [loadingBlogs, setLoadingBlogs] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-  const elementRef = useRef<HTMLElement | null>(null);
-  const hasLoadedRef = useRef(false);
-
-  useEffect(() => {
-    const el = elementRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const first = entries[0];
-        if (first?.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1, rootMargin: "200px" }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!isVisible || hasLoadedRef.current) return;
-    hasLoadedRef.current = true;
-
-    const ac = new AbortController();
-    setLoadingBlogs(true);
-    (async () => {
-      try {
-        const res = await fetch(`${apiBase}/blog/getAll?page=1&perPage=6`, {
-          signal: ac.signal,
-          cache: "no-store",
-        });
-        const json: any = await res.json().catch(() => null);
-        const data = Array.isArray(json?.data)
-          ? json.data
-          : Array.isArray(json?.data?.data)
-          ? json.data.data
-          : [];
-        setBlogs(Array.isArray(data) ? data : []);
-      } catch {
-        setBlogs([]);
-      } finally {
-        setLoadingBlogs(false);
-      }
-    })();
-
-    return () => ac.abort();
-  }, [isVisible]);
+export default function Blog({ initialBlogs = [] }: Props) {
+  const blogs = initialBlogs;
 
   const previewTextById = useMemo(() => {
     const map = new Map<string, string>();
@@ -127,7 +54,7 @@ export default function Blog() {
   }, [blogs]);
 
   return (
-    <section ref={elementRef} className="bg-[#F7F7F7] py-10">
+    <section className="bg-[#F7F7F7] py-10">
       <div className="sm:max-w-8xl w-[95%] mx-auto">
         <div className="text-center mb-8">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">
@@ -148,26 +75,7 @@ export default function Blog() {
           </p>
         </div>
 
-        {loadingBlogs ? (
-          <div className="relative py-2">
-            <Swiper
-              modules={[Navigation, Pagination]}
-              slidesPerView="auto"
-              spaceBetween={16}
-              navigation={{
-                prevEl: ".blog-swiper-prev",
-                nextEl: ".blog-swiper-next",
-              }}
-              pagination={{ clickable: true }}
-            >
-              {Array.from({ length: 6 }).map((_, index) => (
-                <SwiperSlide key={index} className="!w-[320px] sm:!w-[365px] px-2">
-                  <BlogCardSkeleton />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-        ) : blogs.length > 0 ? (
+        {blogs.length > 0 ? (
           <div className="relative py-2">
             <button
               type="button"
@@ -202,7 +110,9 @@ export default function Blog() {
               >
                 {blogs.map((b, index) => {
                   const img = b.image
-                    ? `${siteOrigin}/${String(b.image).replace(/^\//, "")}`
+                    ? b.image.startsWith("http")
+                      ? b.image
+                      : `${siteOrigin}/${String(b.image).replace(/^\//, "")}`
                     : "";
                   const previewText = b._id
                     ? previewTextById.get(b._id) || ""
@@ -222,7 +132,9 @@ export default function Blog() {
                                   alt={b.imageAltText || b.title || ""}
                                   width={640}
                                   height={360}
-                                  loading={index < 3 ? "eager" : "lazy"}
+                                  sizes="(max-width: 640px) 320px, 365px"
+                                  loading="eager"
+                                  priority={index === 0}
                                   className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                                 />
                               ) : (

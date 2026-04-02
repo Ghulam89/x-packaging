@@ -1,5 +1,5 @@
-import { getProductsAll, getFaqAll, getBannerAll, getBrandsAll } from "@/lib/api";
-import type { Product } from "@/types";
+import { getProductsAll, getFaqAll, getBannerAll, getBrandsAll, getBlogsForHome } from "@/lib/api";
+import type { Blog, Product } from "@/types";
 import Hero from "@/components/widgets/home/Hero";
 import BottomHero from "@/components/widgets/home/BottomHero";
 import CategoryBoxes from "@/components/widgets/home/CategoryBoxes";
@@ -19,23 +19,26 @@ import InspirationPackaging from "@/components/widgets/home/InspirationPackaging
 import PersonalTestimonial from "@/components/widgets/home/PersonalTestimonial";
 import Blog from "@/components/widgets/home/Blog";
 import type { Metadata } from "next";
+import Blog from "@/components/widgets/home/Blog";
 
 type HomePayload = {
   topProducts: Product[];
   faqs: any[];
   banner: any;
   brands: any[] | null;
+  homeBlogs: Blog[];
 };
 
 async function loadHome(): Promise<HomePayload> {
-  const [products, faqs, bannerList, brands] = await Promise.all([
+  const [products, faqs, bannerList, brands, homeBlogs] = await Promise.all([
     getProductsAll(1, 8, 600),
     getFaqAll(3600),
     getBannerAll(600),
     getBrandsAll(3600),
+    getBlogsForHome(6, 600),
   ]);
   const banner = Array.isArray(bannerList) && bannerList[0] ? bannerList[0] : null;
-  return { topProducts: products, faqs, banner, brands };
+  return { topProducts: products, faqs, banner, brands, homeBlogs };
 }
 
 export default async function Home() {
@@ -58,7 +61,7 @@ export default async function Home() {
       <PersonalTestimonial />
       <BannerContent banner={data.banner} />
       <FAQ items={data.faqs} />
-      <Blog />
+      <Blog initialBlogs={data.homeBlogs} />
     </main>
   );
 }

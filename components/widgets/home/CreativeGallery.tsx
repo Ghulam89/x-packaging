@@ -64,6 +64,7 @@ const CreativeGallery = ({ products = [], title, description }: Props) => {
                 src={activeImage || images[0].url}
                 alt={currentItem?.title || "Featured Packaging"}
                 fill
+                sizes="(max-width: 768px) 100vw, 58vw"
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
                 priority
               />
@@ -84,6 +85,7 @@ const CreativeGallery = ({ products = [], title, description }: Props) => {
                   src={images[1].url}
                   alt={images[1].title || "Detail"}
                   fill
+                  sizes="(max-width: 768px) 100vw, 34vw"
                   className="object-cover rounded-[1.5rem] p-3"
                 />
                 {images[1].slug && (
@@ -101,6 +103,7 @@ const CreativeGallery = ({ products = [], title, description }: Props) => {
                     src={images[2].url}
                     alt={images[2].title || "Detail 2"}
                     fill
+                    sizes="(max-width: 768px) 45vw, 17vw"
                     className="object-cover rounded-[1.2rem] p-1"
                   />
                   {images[2].slug && (
@@ -117,6 +120,7 @@ const CreativeGallery = ({ products = [], title, description }: Props) => {
                     src={images[3].url}
                     alt={images[3].title || "Detail 3"}
                     fill
+                    sizes="(max-width: 768px) 45vw, 17vw"
                     className="object-cover rounded-[1.2rem] p-1"
                   />
                   {images[3].slug && (
@@ -147,6 +151,7 @@ const CreativeGallery = ({ products = [], title, description }: Props) => {
                 <Image
                   src={img.url}
                   fill
+                  sizes="128px"
                   className="object-cover"
                   alt={img.title}
                 />

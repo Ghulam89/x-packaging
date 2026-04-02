@@ -279,8 +279,9 @@ export const updateBlog = catchAsyncError(async (req, res, next) => {
 // Get all blogs with pagination and URL handling
 export const getAllBlogs = catchAsyncError(async (req, res, next) => {
   try {
-    const page = parseInt(req.query.page, 5) || 1;
-    const limit = parseInt(req.query.limit, 5) || 5;
+    const page = parseInt(String(req.query.page), 10) || 1;
+    const limitRaw = req.query.limit ?? req.query.perPage;
+    const limit = parseInt(String(limitRaw), 10) || 5;
     const skip = (page - 1) * limit;
      const searchQuery = req.query.search || '';
 
