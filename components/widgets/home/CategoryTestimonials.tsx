@@ -86,8 +86,8 @@ const CategoryTestimonials = () => {
         <div className="flex sm:flex-row flex-col items-center gap-8 lg:gap-12">
           {/* Left Section - Text Content */}
           <div className="sm:w-6/12 w-full">
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#333333] mb-2 uppercase tracking-tight">
-              CLIENT TESTIMONIAL
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#333333] mb-2  tracking-tight">
+              Client Testimonials
             </h2>
             <p className="text-[#333333] text-sm sm:text-base mb-6 font-medium">
               GET TO KNOW ALL ABOUT OUR SERVICE THROUGH VARIOUS BUSINESS CLIENTS.

@@ -5,6 +5,12 @@ import ErrorMiddleware from "./middleware/Error";
 import { registerApiRoutes } from "./register-api-routes";
 
 const BODY_LIMIT = "32mb";
+const ALLOWED_ORIGINS = new Set([
+  "http://localhost:3000",
+  "https://xcustompackaging.com",
+  "http://31.97.14.21:9091",
+  "http://31.97.14.21:9090",
+]);
 
 /**
  * In-process Express app used only via `app/api/[[...path]]` (supertest bridge).
@@ -20,7 +26,10 @@ export function getLegacyApiExpressApp(): express.Express {
     app.use(compression({ threshold: 1024 }));
     app.use(
       cors({
-        origin: "*",
+        origin(origin, cb) {
+          if (!origin) return cb(null, true); // non-browser clients (curl/postman) or same-origin
+          return cb(null, ALLOWED_ORIGINS.has(origin));
+        },
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
         allowedHeaders: ["Content-Type", "Authorization", "Accept", "Cache-Control", "Pragma"],
         exposedHeaders: ["Content-Length", "Content-Type"],

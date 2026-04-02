@@ -14,11 +14,17 @@ export type Brand = {
 };
 
 export type Category = {
+  showBottomHero?: boolean;
+  showServiceSelectionCard?: boolean;
+  showTrustBanner?: boolean;
+  showTabsSection1?: boolean;
+  showTabsSection2?: boolean;
   _id: string;
   title?: string;
   slug: string;
   image?: string;
   imageAltText?: string;
+  bannerBgColor?: string;
   metaTitle?: string;
   metaDescription?: string;
   keywords?: string;

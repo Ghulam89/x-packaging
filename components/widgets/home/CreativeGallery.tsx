@@ -47,8 +47,8 @@ const CreativeGallery = ({ products = [], title, description }: Props) => {
           <div className="inline-block mb-4">
             <div className="w-20 h-1 bg-gradient-to-r from-[#EE334B] to-[#213554] mx-auto rounded-full"></div>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#213554] mb-2 uppercase tracking-tight">
-            {title || "Your Packaging Journey Starts Here!"}
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#213554] mb-2  tracking-tight">
+            {"Your Packaging Journey Starts Here!"}
           </h2>
           <p className="text-gray-600 text-lg max-w-4xl mx-auto">
             {description ||
