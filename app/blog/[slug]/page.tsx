@@ -7,6 +7,7 @@ import TableOfContent from "@/components/entities/blog/ui/TableOfContent";
 import BlogCard from "@/components/entities/blog/ui/BlogCard";
 import ProductCard from "@/components/entities/product/ui/ProductCard";
 import { FaCalendarAlt, FaClock, FaChevronRight } from "react-icons/fa";
+import BottomHero from "@/components/widgets/home/BottomHero";
 
 export default async function BlogPage({
   params,
@@ -59,31 +60,31 @@ export default async function BlogPage({
 
   return (
     <main className="bg-white min-h-screen">
-      {/* Hero Section */}
-      <div className="bg-gray-50 border-b border-gray-100 py-5 md:py-12 relative overflow-hidden">
+      {/* Hero: mobile = auto height (no clipping); lg+ = min viewport-height hero */}
+      <div className="bg-gray-50 border-b border-gray-100 relative z-0 max-lg:overflow-x-hidden lg:overflow-hidden  lg:flex lg:items-center py-6 sm:py-3 md:py-8">
         {/* Background blobs */}
-        <div className="absolute -bottom-20 -right-20 w-96 h-96 bg-gradient-to-br from-[#EE334B]/5 to-transparent rounded-full blur-3xl -z-10" />
-        <div className="absolute -top-20 -left-20 w-96 h-96 bg-gradient-to-br from-[#213554]/5 to-transparent rounded-full blur-3xl -z-10" />
+        <div className="pointer-events-none absolute -bottom-20 -right-20 w-64 h-64 sm:w-96 sm:h-96 bg-gradient-to-br from-[#EE334B]/5 to-transparent rounded-full blur-3xl z-0" />
+        <div className="pointer-events-none absolute -top-20 -left-20 w-64 h-64 sm:w-96 sm:h-96 bg-gradient-to-br from-[#213554]/5 to-transparent rounded-full blur-3xl z-0" />
 
-        <div className="sm:max-w-8xl max-w-[95%] mx-auto">
+        <div className="relative z-10 w-full max-w-[95%] sm:max-w-8xl mx-auto px-1 sm:px-0">
           {/* Breadcrumbs */}
-          <nav className="flex items-center gap-2 text-sm font-medium mb-10 overflow-x-auto whitespace-nowrap scrollbar-hide">
-            <Link href="/" className="text-gray-400 hover:text-[#213554] transition-colors">Home</Link>
-            <FaChevronRight className="text-gray-300 text-[10px]" />
-            <Link href="/blog" className="text-gray-400 hover:text-[#213554] transition-colors">Blog</Link>
-            <FaChevronRight className="text-gray-300 text-[10px]" />
-            <span className="text-[#213554] bg-[#213554]/5 px-3 py-1 rounded-full">{blog.title}</span>
+          <nav className="flex items-center gap-2 text-sm font-medium  overflow-x-auto whitespace-nowrap scrollbar-hide pb-1 -mx-1 px-1">
+            <Link href="/" className="text-gray-400 hover:text-[#213554] transition-colors shrink-0">Home</Link>
+            <FaChevronRight className="text-gray-300 text-[10px] shrink-0" />
+            <Link href="/blog" className="text-gray-400 hover:text-[#213554] transition-colors shrink-0">Blog</Link>
+            <FaChevronRight className="text-gray-300 text-[10px] shrink-0" />
+            <span className="text-[#213554] bg-[#213554]/5 px-3 py-1 rounded-full max-w-[min(70vw,18rem)] sm:max-w-[min(40vw,28rem)] truncate" title={blog.title}>{blog.title}</span>
           </nav>
 
-          <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center">
-            <div className="w-full lg:w-3/5 space-y-6">
-              <span className="inline-block font-bold text-white bg-[#EE334B] rounded-full shadow-lg px-6 py-2 text-xs uppercase tracking-widest">
+          <div className="flex flex-col lg:flex-row gap-8 md:gap-12 lg:gap-20 items-center">
+            <div className="w-full lg:w-3/5 space-y-4 sm:space-y-6 text-center lg:text-left">
+              <span className="inline-block font-bold text-white bg-[#EE334B] rounded-full shadow-lg px-5 sm:px-6 py-2 text-[10px] sm:text-xs uppercase tracking-widest">
                 Knowledge Base
               </span>
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#213554] leading-tight">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#213554] leading-tight px-1 sm:px-0">
                 {blog.title}
               </h1>
-              <div className="flex flex-wrap items-center gap-6 text-sm text-gray-500 font-bold uppercase tracking-widest">
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 sm:gap-6 text-xs sm:text-sm text-gray-500 font-bold uppercase tracking-widest">
                 <div className="flex items-center gap-2">
                   <FaCalendarAlt className="text-[#EE334B]" />
                   <span>{(blog as any).createdAt ? formatDate((blog as any).createdAt) : "Recent Post"}</span>
@@ -95,9 +96,9 @@ export default async function BlogPage({
               </div>
             </div>
 
-            <div className="w-full lg:w-2/5 relative">
+            <div className="w-full lg:w-2/5 relative max-w-xl mx-auto lg:max-w-none lg:mx-0">
               {blogImage ? (
-                <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl transform hover:scale-[1.02] transition-transform duration-700">
+                <div className="relative aspect-[4/3] rounded-2xl lg:rounded-3xl overflow-hidden shadow-2xl transform lg:hover:scale-[1.02] transition-transform duration-700">
                   <Image
                     src={blogImage}
                     alt={(blog as any).imageAltText || blog.title || ""}
@@ -108,19 +109,20 @@ export default async function BlogPage({
                   <div className="absolute inset-0 bg-gradient-to-t from-[#213554]/40 via-transparent to-transparent" />
                 </div>
               ) : (
-                <div className="aspect-[4/3] rounded-3xl bg-gray-100 flex items-center justify-center text-gray-300">
-                  <span className="text-4xl font-bold">Blog Image</span>
+                <div className="aspect-[4/3] rounded-2xl lg:rounded-3xl bg-gray-100 flex items-center justify-center text-gray-300">
+                  <span className="text-2xl sm:text-4xl font-bold">Blog Image</span>
                 </div>
               )}
             </div>
           </div>
         </div>
       </div>
+      <BottomHero/>
 
-      <div className="sm:max-w-8xl max-w-[95%] mx-auto py-12 md:py-20">
+      <div className="sm:max-w-8xl max-w-[95%] mx-auto py-10 md:py-16 relative z-0">
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
           {/* Article Content */}
-          <div className="w-full lg:w-2/3">
+          <div className="w-full lg:w-2/3 relative z-0">
             <article className="blog_content bg-white rounded-3xl p-6 md:p-12 shadow-sm border border-gray-100">
               <div
                 className="text-gray-700 leading-relaxed text-lg 
@@ -168,8 +170,8 @@ export default async function BlogPage({
             )}
           </div>
 
-          {/* Sidebar */}
-          <aside className="w-full lg:w-1/3 space-y-10">
+          {/* Sidebar — higher z-index so sticky TOC stacks above article while scrolling */}
+          <aside className="w-full lg:w-1/3 space-y-10 relative z-10">
             {blog.content && (
               <TableOfContent content={blog.content} />
             )}

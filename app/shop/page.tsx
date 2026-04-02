@@ -1,6 +1,6 @@
 "use client";
 import React, { Suspense, useState, useEffect } from "react";
-import { MdFilterList } from "react-icons/md";
+import { MdClose, MdFilterList } from "react-icons/md";
 import Banner from "@/components/shared/marketing/Banner";
 import ProductCard from "@/components/entities/product/ui/ProductCard";
 import Button from "@/components/shared/ui/Button";
@@ -35,6 +35,7 @@ const ShopContent = () => {
   const [categories, setCategories] = useState<any[]>([]);
   const [loadingFilters, setLoadingFilters] = useState(true);
   const [productsError, setProductsError] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   const selectedBrandId = searchParams.get("brandId");
   const selectedCategoryId = searchParams.get("categoryId");
@@ -135,17 +136,42 @@ const ShopContent = () => {
     fetchProducts(1);
   }, [selectedBrandId, selectedCategoryId]);
 
+  const activeFilterCount =
+    (selectedBrandId ? 1 : 0) + (selectedCategoryId ? 1 : 0);
+
+  useEffect(() => {
+    if (!filtersOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [filtersOpen]);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const onChange = () => {
+      if (mq.matches) setFiltersOpen(false);
+    };
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
   // Filters
+  const closeFilters = () => setFiltersOpen(false);
+
   const handleBrandChange = (id: string) => {
     updateParams({
       brandId: id === selectedBrandId ? null : id,
     });
+    closeFilters();
   };
 
   const handleCategoryChange = (id: string) => {
     updateParams({
       categoryId: id === selectedCategoryId ? null : id,
     });
+    closeFilters();
   };
 
   const clearFilters = () => {
@@ -158,91 +184,180 @@ const ShopContent = () => {
     }
   };
 
+  const filterPanel = (
+    <>
+      <div className="flex items-center justify-between gap-2 lg:mb-4">
+        <h3 className="flex items-center gap-2 font-semibold text-black">
+          <MdFilterList className="shrink-0 text-[#EE334B]" size={20} aria-hidden />
+          Filters
+        </h3>
+        <button
+          type="button"
+          onClick={closeFilters}
+          className="rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:text-black lg:hidden"
+          aria-label="Close filters"
+        >
+          <MdClose size={22} />
+        </button>
+      </div>
+
+      <div className="mb-6">
+        <h4 className="mb-2 font-medium text-black">Brands</h4>
+        <div className="max-h-[40vh] space-y-1 overflow-y-auto pr-1 lg:max-h-none">
+          {brands.map((b) => (
+            <label
+              key={(b as any)._id}
+              className="flex cursor-pointer gap-2 py-1 text-sm text-gray-800 sm:text-base"
+            >
+              <input
+                type="radio"
+                className="mt-1 shrink-0 accent-[#EE334B]"
+                checked={selectedBrandId === (b as any)._id}
+                onChange={() => handleBrandChange((b as any)._id)}
+              />
+              <span className="min-w-0 wrap-break-word">{(b as any).name}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <h4 className="mb-2 font-medium text-black">Categories</h4>
+        <div className="max-h-[40vh] space-y-1 overflow-y-auto pr-1 lg:max-h-none">
+          {categories.map((c) => (
+            <label
+              key={(c as any)._id}
+              className="flex cursor-pointer gap-2 py-1 text-sm text-gray-800 sm:text-base"
+            >
+              <input
+                type="radio"
+                className="mt-1 shrink-0 accent-[#EE334B]"
+                checked={selectedCategoryId === (c as any)._id}
+                onChange={() => handleCategoryChange((c as any)._id)}
+              />
+              <span className="min-w-0 wrap-break-word">{(c as any).title || (c as any).name}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <button
+        type="button"
+        onClick={() => {
+          clearFilters();
+          closeFilters();
+        }}
+        className="mt-4 text-sm font-medium text-[#EE334B] hover:underline"
+      >
+        Clear filters
+      </button>
+    </>
+  );
+
   return (
     <>
       <Banner title="Catalogue" subTitle="Catalogue" />
 
-      <div className="container mx-auto px-4 py-10 flex gap-6">
-        {/* Sidebar */}
-        <div className="w-1/4 bg-white p-4 shadow rounded sticky top-4">
-          <h3 className="flex text-black items-center gap-2 font-semibold mb-4">
-            <MdFilterList className="text-[#EE334B]" size={20} /> Filters
-          </h3>
-
-          {/* Brands */}
-          <div className="mb-6">
-            <h4 className="font-medium text-black mb-2">Brands</h4>
-            {brands.map((b) => (
-              <label key={(b as any)._id} className="flex mb-1 text-gray-800 gap-2">
-                <input
-                  type="radio"
-                  checked={selectedBrandId === (b as any)._id}
-                  onChange={() => handleBrandChange((b as any)._id)}
-                />
-                {(b as any).name}
-              </label>
-            ))}
-          </div>
-
-          {/* Categories */}
-          <div>
-            <h4 className="font-medium text-black mb-2">Categories</h4>
-            {categories.map((c) => (
-              <label key={(c as any)._id} className="flex mb-1 text-gray-800 gap-2">
-                <input
-                  type="radio"
-                  checked={selectedCategoryId === (c as any)._id}
-                  onChange={() => handleCategoryChange((c as any)._id)}
-                />
-                {(c as any).title || (c as any).name}
-              </label>
-            ))}
-          </div>
-
-          <button onClick={clearFilters} className="mt-4 text-red-500">
-            Clear Filters
+      <div className="container mx-auto px-3 py-6 sm:px-4 md:py-10">
+        {/* Mobile / tablet: filter trigger */}
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3 lg:hidden">
+          <button
+            type="button"
+            onClick={() => setFiltersOpen(true)}
+            className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-black shadow-sm"
+          >
+            <MdFilterList className="text-[#EE334B]" size={20} aria-hidden />
+            Filters
+            {activeFilterCount > 0 ? (
+              <span className="rounded-full bg-[#EE334B] px-2 py-0.5 text-xs font-semibold text-white">
+                {activeFilterCount}
+              </span>
+            ) : null}
           </button>
+          {activeFilterCount > 0 ? (
+            <button
+              type="button"
+              onClick={clearFilters}
+              className="text-sm font-medium text-[#EE334B] hover:underline"
+            >
+              Clear all
+            </button>
+          ) : null}
         </div>
 
-        {/* Products */}
-        <div className="w-3/4 min-w-0">
-          {loading ? (
-            <p>Loading...</p>
-          ) : productsError ? (
-            <p className="text-red-600">Could not load products. Please refresh or try again later.</p>
-          ) : products.length === 0 ? (
-            <p className="text-gray-600">No products match the current filters.</p>
-          ) : (
-            <div>
-              <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 md:gap-6">
-                {products.map((p: any) => {
-                  const raw = p?.images?.[0]?.url;
-                  const img = raw
-                    ? `${siteOrigin}/${String(raw).replace(/^\//, "")}`
-                    : "";
-                  return (
-                    <ProductCard
-                      key={p._id}
-                      href={`/product/${p.slug}`}
-                      title={p.name || p.slug}
-                      imageSrc={img}
-                      imageAlt={p.name || p.slug}
-                      variant="carousel"
-                    />
-                  );
-                })}
-              </div>
+        {filtersOpen ? (
+          <button
+            type="button"
+            className="fixed inset-0 z-40 bg-black/40 lg:hidden"
+            aria-label="Close filters"
+            onClick={closeFilters}
+          />
+        ) : null}
 
-              {currentPage < totalPages && (
-                <div className="text-center mt-6">
-                  <Button
-                    label={loadingMore ? "Loading..." : "Load More"}
-                    onClick={handleLoadMore}
-                  />
-                </div>
-              )}
+        <div className="flex flex-col gap-6 lg:flex-row lg:gap-8">
+          <aside
+            className={[
+              "fixed inset-y-0 left-0 z-50 flex w-[min(100vw,20rem)] max-w-[85vw] flex-col overflow-y-auto border-r border-gray-100 bg-white p-4 shadow-xl transition-transform duration-200 ease-out lg:static lg:z-auto lg:h-auto lg:max-h-[calc(100vh-2rem)] lg:w-72 lg:max-w-none lg:shrink-0 lg:translate-x-0 lg:overflow-y-auto lg:rounded-lg lg:border lg:border-gray-100 lg:p-5 lg:shadow-md",
+              filtersOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
+            ].join(" ")}
+          >
+            {filterPanel}
+          </aside>
+
+          <section className="min-w-0 flex-1">
+            <div className="mb-4 hidden items-baseline justify-between gap-4 lg:flex">
+              <p className="text-sm text-gray-600">
+                {loading
+                  ? "Loading products…"
+                  : productsError
+                    ? ""
+                    : `${products.length} product${products.length === 1 ? "" : "s"} on this page`}
+              </p>
+              {loadingFilters ? (
+                <span className="text-xs text-gray-400">Loading filters…</span>
+              ) : null}
             </div>
-          )}
+
+            {loading ? (
+              <p className="text-gray-600">Loading…</p>
+            ) : productsError ? (
+              <p className="text-red-600">
+                Could not load products. Please refresh or try again later.
+              </p>
+            ) : products.length === 0 ? (
+              <p className="text-gray-600">No products match the current filters.</p>
+            ) : (
+              <div>
+                <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 md:gap-5 lg:grid-cols-3 xl:grid-cols-4">
+                  {products.map((p: any) => {
+                    const raw = p?.images?.[0]?.url;
+                    const img = raw
+                      ? `${siteOrigin}/${String(raw).replace(/^\//, "")}`
+                      : "";
+                    return (
+                      <ProductCard
+                        key={p._id}
+                        href={`/product/${p.slug}`}
+                        title={p.name || p.slug}
+                        imageSrc={img}
+                        imageAlt={p.name || p.slug}
+                        variant="carousel"
+                      />
+                    );
+                  })}
+                </div>
+
+                {currentPage < totalPages ? (
+                  <div className="mt-6 text-center sm:mt-8">
+                    <Button
+                      label={loadingMore ? "Loading…" : "Load more"}
+                      onClick={handleLoadMore}
+                    />
+                  </div>
+                ) : null}
+              </div>
+            )}
+          </section>
         </div>
       </div>
     </>

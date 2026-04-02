@@ -112,7 +112,7 @@ export default function TableOfContent({ content }: Props) {
   if (headings.length === 0) return null;
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden sticky top-24">
+    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden sticky top-24 z-20 isolate">
       <button
         onClick={() => setTableOpen(!openTable)}
         className="w-full flex items-center justify-between p-5 bg-gray-50 border-b border-gray-100 transition-colors hover:bg-gray-100"
