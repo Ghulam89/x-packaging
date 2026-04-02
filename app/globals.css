@@ -102,7 +102,9 @@ h5{
 
 
 .banner-content-wrapper h2 {
-  font-weight: 400 !important;
+
+  @apply sm:text-3xl text-xl  py-2  font-medium text-gray-800;
+  /* font-weight: 400 !important;
   font-size:30px;
-  padding:12px  0px;
+  padding:12px  0px; */
  }

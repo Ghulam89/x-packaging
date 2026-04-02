@@ -19,9 +19,9 @@ const ProductGallery = ({ images, productName, onImageClick }: Props) => {
   if (!images || images.length === 0) return null;
 
   return (
-    <div className="w-full flex flex-col md:flex-row gap-4 lg:gap-8">
+    <div className="flex w-full flex-col gap-4 md:flex-row lg:gap-8">
       {/* Thumbnails - Left Side on Desktop */}
-      <div className="hidden md:flex flex-col gap-3 w-24 lg:w-28">
+      <div className="hidden w-24 shrink-0 flex-col gap-3 md:flex lg:w-28">
         {images.map((img, i) => (
           <div
             key={i}
@@ -66,37 +66,67 @@ const ProductGallery = ({ images, productName, onImageClick }: Props) => {
 
         {/* Search Icon / Zoom */}
         <button
+          type="button"
           onClick={() => onImageClick?.(curr)}
-          className="absolute top-4 right-4 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-md hover:bg-white transition-colors z-10"
+          className="absolute right-3 top-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 shadow-md backdrop-blur-sm transition-colors hover:bg-white sm:right-4 sm:top-4"
+          aria-label="Zoom image"
         >
           <IoSearch size={20} className="text-[#213554]" />
         </button>
 
         {/* Navigation Arrows */}
         <button
+          type="button"
           onClick={prev}
-          className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow hover:bg-white transition-all opacity-0 group-hover:opacity-100 z-10"
+          className="absolute left-2 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 shadow backdrop-blur-sm transition-all hover:bg-white md:left-4 md:opacity-0 md:group-hover:opacity-100 opacity-100"
+          aria-label="Previous image"
         >
-          <TfiAngleLeft size={18} />
+          <TfiAngleLeft size={18} className="text-[#213554]" />
         </button>
         <button
+          type="button"
           onClick={next}
-          className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow hover:bg-white transition-all opacity-0 group-hover:opacity-100 z-10"
+          className="absolute right-2 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 shadow backdrop-blur-sm transition-all hover:bg-white md:right-4 md:opacity-0 md:group-hover:opacity-100 opacity-100"
+          aria-label="Next image"
         >
-          <TfiAngleRight size={18} />
+          <TfiAngleRight size={18} className="text-[#213554]" />
         </button>
 
         {/* Dots - Mobile only */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 md:hidden">
+        <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-1.5 md:hidden">
           {images.map((_, i) => (
             <div
               key={i}
-              className={`w-1.5 h-1.5 rounded-full transition-all ${
-                curr === i ? "bg-[#EE334B] w-4" : "bg-gray-300"
+              className={`h-1.5 rounded-full transition-all ${
+                curr === i ? "w-4 bg-[#EE334B]" : "w-1.5 bg-gray-300"
               }`}
             />
           ))}
         </div>
+      </div>
+
+      {/* Thumbnail strip — mobile / small tablets */}
+      <div className="flex gap-2 overflow-x-auto pb-1 md:hidden [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {images.map((img, i) => (
+          <button
+            key={i}
+            type="button"
+            onClick={() => setCurr(i)}
+            className={`relative h-16 w-16 shrink-0 overflow-hidden rounded-lg border-2 transition-all ${
+              curr === i
+                ? "border-[#EE334B] ring-2 ring-[#EE334B]/20"
+                : "border-transparent hover:border-gray-300"
+            }`}
+          >
+            <Image
+              src={img}
+              alt={`${productName} thumbnail ${i + 1}`}
+              fill
+              className="object-cover"
+              sizes="64px"
+            />
+          </button>
+        ))}
       </div>
     </div>
   );

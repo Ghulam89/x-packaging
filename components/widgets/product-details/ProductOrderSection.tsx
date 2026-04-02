@@ -14,7 +14,7 @@ const ProductOrderSection = ({ product, mainImage }: Props) => {
   const [quantity, setQuantity] = useState(1);
 
   return (
-    <section className="sm:max-w-8xl max-w-[95%] mx-auto my-16 bg-gray-50 rounded-3xl p-8 sm:p-12 border border-gray-100">
+    <section className="mx-auto my-12 max-w-[95%] rounded-3xl border border-gray-100 bg-gray-50 p-5 sm:my-16 sm:p-8 md:p-12 sm:max-w-8xl">
       <div className="flex flex-col lg:flex-row items-center gap-12">
         {/* Product Preview */}
         <div className="w-full lg:w-1/3">
@@ -77,7 +77,7 @@ const ProductOrderSection = ({ product, mainImage }: Props) => {
               Buy Now
             </button>
             
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4">
               <div className="bg-white p-4 rounded-2xl border border-gray-100 text-center">
                 <p className="text-xs text-gray-400 uppercase font-bold mb-1">Product</p>
                 <p className="font-bold text-[#213554] text-sm truncate">{product.name}</p>
@@ -88,7 +88,7 @@ const ProductOrderSection = ({ product, mainImage }: Props) => {
               </div>
               <div className="bg-white p-4 rounded-2xl border border-gray-100 text-center">
                 <p className="text-xs text-gray-400 uppercase font-bold mb-1">Shipping</p>
-                <p className="font-bold text-[#EE334B] text-sm font-bold">FREE</p>
+                <p className="text-sm font-bold text-[#EE334B]">FREE</p>
               </div>
             </div>
           </div>

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, memo, useCallback, useMemo } from "react";
+import React, { useState, memo, useCallback, useMemo, useEffect } from "react";
 import Input from "@/components/shared/ui/Input";
 import Select from "@/components/shared/ui/Select";
 import Textarea from "@/components/shared/ui/Textarea";
@@ -12,13 +12,8 @@ type Props = {
   product: Product | null;
 };
 
-const QuoteForm = memo(({ product }: Props) => {
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
-
-  const initialFormState = {
+function createEmptyFormState() {
+  return {
     name: "",
     email: "",
     companyName: "",
@@ -35,10 +30,21 @@ const QuoteForm = memo(({ product }: Props) => {
     addons: "",
     image: null as File | null,
     message: "",
-    pageUrl: typeof window !== "undefined" ? window.location.href : "",
+    pageUrl: "",
   };
+}
 
-  const [formData, setFormData] = useState(initialFormState);
+const QuoteForm = memo(({ product }: Props) => {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
+
+  const [formData, setFormData] = useState(createEmptyFormState);
+
+  useEffect(() => {
+    setFormData((prev) => ({ ...prev, pageUrl: window.location.href }));
+  }, []);
 
   const isValid = useMemo(() => {
     return (
@@ -100,7 +106,10 @@ const QuoteForm = memo(({ product }: Props) => {
 
         if (result.status === "success") {
           setSuccess(true);
-          setFormData(initialFormState);
+          setFormData({
+            ...createEmptyFormState(),
+            pageUrl: window.location.href,
+          });
           router.push("/thank-you-page");
         } else {
           setError(result.message || "Something went wrong. Please try again.");
@@ -128,6 +137,7 @@ const QuoteForm = memo(({ product }: Props) => {
           name="name"
           value={formData.name}
           onChange={handleChange}
+          className=" rounded-lg"
           placeholder="Name"
           required
         />
@@ -138,6 +148,7 @@ const QuoteForm = memo(({ product }: Props) => {
           type="email"
           value={formData.email}
           onChange={handleChange}
+             className=" rounded-lg"
           placeholder="Email"
           required
         />
@@ -145,6 +156,7 @@ const QuoteForm = memo(({ product }: Props) => {
           label="Phone Number"
           name="phoneNumber"
           value={formData.phoneNumber}
+             className=" rounded-lg"
           onChange={handleChange}
           placeholder="Phone Number"
         />
@@ -156,6 +168,7 @@ const QuoteForm = memo(({ product }: Props) => {
           star="*"
           name="boxStyle"
           value={formData.boxStyle}
+             className=" rounded-lg"
           onChange={handleChange}
           placeholder="Box Style"
           required
@@ -166,6 +179,7 @@ const QuoteForm = memo(({ product }: Props) => {
           name="length"
           type="number"
           value={formData.length}
+             className=" rounded-lg"
           onChange={handleChange}
           placeholder="Length"
           required
@@ -176,6 +190,7 @@ const QuoteForm = memo(({ product }: Props) => {
           name="width"
           type="number"
           value={formData.width}
+             className=" rounded-lg"
           onChange={handleChange}
           placeholder="Width"
           required
@@ -186,6 +201,7 @@ const QuoteForm = memo(({ product }: Props) => {
           name="depth"
           type="number"
           value={formData.depth}
+             className=" rounded-lg"
           onChange={handleChange}
           placeholder="Depth"
           required
@@ -194,6 +210,7 @@ const QuoteForm = memo(({ product }: Props) => {
           label="Unit"
           name="unit"
           value={formData.unit}
+             className=" rounded-lg"
           onChange={handleChange}
           required
         >
@@ -208,6 +225,7 @@ const QuoteForm = memo(({ product }: Props) => {
           label="Stock"
           name="stock"
           value={formData.stock}
+             className=" rounded-lg"
           onChange={handleChange}
           required
         >
@@ -224,6 +242,7 @@ const QuoteForm = memo(({ product }: Props) => {
           label="Colors"
           name="color"
           value={formData.color}
+             className=" rounded-lg"
           onChange={handleChange}
           required
         >
@@ -237,6 +256,7 @@ const QuoteForm = memo(({ product }: Props) => {
           label="Printing"
           name="printingSides"
           value={formData.printingSides}
+             className=" rounded-lg"
           onChange={handleChange}
           required
         >
@@ -249,6 +269,7 @@ const QuoteForm = memo(({ product }: Props) => {
           star="*"
           name="quantity"
           type="number"
+             className=" rounded-lg"  
           value={formData.quantity}
           onChange={handleChange}
           placeholder="Quantity"

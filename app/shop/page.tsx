@@ -1,10 +1,25 @@
 "use client";
 import React, { Suspense, useState, useEffect } from "react";
-import { MdClose, MdFilterList } from "react-icons/md";
+import { MdFilterList } from "react-icons/md";
 import Banner from "@/components/shared/marketing/Banner";
 import ProductCard from "@/components/entities/product/ui/ProductCard";
 import Button from "@/components/shared/ui/Button";
 import { useSearchParams, useRouter } from "next/navigation";
+import { siteOrigin } from "@/lib/api";
+
+/** Same-origin `/api/*` routes (Next catch-all → Express). Avoids browser CORS / unreachable `apiBase` hosts. */
+const API = "/api";
+
+async function readJsonBody<T>(res: Response): Promise<T | null> {
+  try {
+    const text = await res.text();
+    if (!text.trim()) return null;
+    return JSON.parse(text) as T;
+  } catch {
+    return null;
+  }
+}
+
 const ShopContent = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -43,9 +58,9 @@ const ShopContent = () => {
   useEffect(() => {
     const fetchBrands = async () => {
       try {
-        const res = await fetch("/api/brands/getAll?all=true");
-        const data = await res.json();
-        if (data?.status === "success") {
+        const res = await fetch(`${API}/brands/getAll?all=true`, { cache: "no-store" });
+        const data = await readJsonBody<{ status?: string; data?: unknown }>(res);
+        if (data?.status === "success" && Array.isArray(data.data)) {
           setBrands(data.data);
         }
       } catch (err) {
@@ -59,13 +74,10 @@ const ShopContent = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await fetch("/api/category/getAll?page=1&perPage=100");
-        const data = await res.json();
-        if (data?.status === "success") {
+        const res = await fetch(`${API}/category/getAll?page=1&perPage=100`, { cache: "no-store" });
+        const data = await readJsonBody<{ status?: string; data?: unknown }>(res);
+        if (data?.status === "success" && Array.isArray(data.data)) {
           setCategories(data.data);
-        }
-        if (data?.status === "success") {
-          setCategories(data);
         }
       } catch (err) {
         console.error(err);
@@ -82,24 +94,28 @@ const ShopContent = () => {
     else setLoadingMore(true);
 
     try {
-      let url = `/products/getAll?page=${page}&perPage=${perPage}`;
+      let url = `${API}/products/getAll?page=${page}&perPage=${perPage}`;
 
       if (selectedBrandId) url += `&brandId=${selectedBrandId}`;
       if (selectedCategoryId) url += `&categoryId=${selectedCategoryId}`;
 
-      const response = await fetch(url);
-      const data = await response.json();
-      const res = { data };
+      const response = await fetch(url, { cache: "no-store" });
+      const data = await readJsonBody<{
+        status?: string;
+        data?: unknown;
+        pagination?: { page?: number; totalPages?: number };
+      }>(response);
 
-      if (res?.data?.status === "success") {
+      if (data?.status === "success") {
+        const list = Array.isArray(data.data) ? data.data : [];
         if (loadMore) {
-          setProducts((prev) => [...prev, ...(res.data.data as any[])]);
+          setProducts((prev) => [...prev, ...list]);
         } else {
-          setProducts(res.data.data);
+          setProducts(list);
         }
 
-        setCurrentPage(res?.data?.pagination?.page || page);
-        setTotalPages(res?.data?.pagination?.totalPages || 1);
+        setCurrentPage(data?.pagination?.page ?? page);
+        setTotalPages(data?.pagination?.totalPages ?? 1);
         setProductsError(false);
       } else {
         setProductsError(true);
@@ -149,15 +165,15 @@ const ShopContent = () => {
       <div className="container mx-auto px-4 py-10 flex gap-6">
         {/* Sidebar */}
         <div className="w-1/4 bg-white p-4 shadow rounded sticky top-4">
-          <h3 className="flex items-center gap-2 font-semibold mb-4">
-            <MdFilterList /> Filters
+          <h3 className="flex text-black items-center gap-2 font-semibold mb-4">
+            <MdFilterList className="text-[#EE334B]" size={20} /> Filters
           </h3>
 
           {/* Brands */}
           <div className="mb-6">
-            <h4 className="font-medium mb-2">Brands</h4>
+            <h4 className="font-medium text-black mb-2">Brands</h4>
             {brands.map((b) => (
-              <label key={(b as any)._id} className="flex gap-2">
+              <label key={(b as any)._id} className="flex mb-1 text-gray-800 gap-2">
                 <input
                   type="radio"
                   checked={selectedBrandId === (b as any)._id}
@@ -170,9 +186,9 @@ const ShopContent = () => {
 
           {/* Categories */}
           <div>
-            <h4 className="font-medium mb-2">Categories</h4>
+            <h4 className="font-medium text-black mb-2">Categories</h4>
             {categories.map((c) => (
-              <label key={(c as any)._id} className="flex gap-2">
+              <label key={(c as any)._id} className="flex mb-1 text-gray-800 gap-2">
                 <input
                   type="radio"
                   checked={selectedCategoryId === (c as any)._id}
@@ -189,16 +205,32 @@ const ShopContent = () => {
         </div>
 
         {/* Products */}
-        <div className="w-3/4">
+        <div className="w-3/4 min-w-0">
           {loading ? (
             <p>Loading...</p>
+          ) : productsError ? (
+            <p className="text-red-600">Could not load products. Please refresh or try again later.</p>
+          ) : products.length === 0 ? (
+            <p className="text-gray-600">No products match the current filters.</p>
           ) : (
             <div>
-              <div className="grid grid-cols-3 gap-6">
-                {/* {products.map((item) => (
-                  <ProductCard key={(item as any)._id} product={item as any} />
-
-                ))} */}
+              <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 md:gap-6">
+                {products.map((p: any) => {
+                  const raw = p?.images?.[0]?.url;
+                  const img = raw
+                    ? `${siteOrigin}/${String(raw).replace(/^\//, "")}`
+                    : "";
+                  return (
+                    <ProductCard
+                      key={p._id}
+                      href={`/product/${p.slug}`}
+                      title={p.name || p.slug}
+                      imageSrc={img}
+                      imageAlt={p.name || p.slug}
+                      variant="carousel"
+                    />
+                  );
+                })}
               </div>
 
               {currentPage < totalPages && (

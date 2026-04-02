@@ -94,6 +94,7 @@ export const ASSETS = {
     noDieCost: "/assets/images/icon/No die cost.svg",
     onlineSupport: "/assets/images/icon/Online support.svg",
     quickTurnaroundSvg: "/assets/images/icon/Quick Turnaround.svg",
+    chat: "/assets/images/icon/chat.png",
   },
   misc: {
     industryStandard: "/assets/images/Industry-standard.webp",

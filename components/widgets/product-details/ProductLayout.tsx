@@ -8,6 +8,7 @@ import { IoCheckmarkCircleOutline, IoHomeOutline } from "react-icons/io5";
 import { RiTruckLine, RiFlashlightLine, RiCustomerService2Line } from "react-icons/ri";
 import { LiaAngleRightSolid } from "react-icons/lia";
 import Link from "next/link";
+import { ASSETS } from "@/lib/assets";
 
 type Props = {
   product: Product;
@@ -33,10 +34,10 @@ const ProductLayout = ({ product, images }: Props) => {
 
 
 
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
+        <div className="flex flex-col lg:flex-row">
           {/* Left Side - Gallery */}
-          <div className="w-full lg:w-12/6">
-            <div className="sm:max-w-8xl pb-4 max-w-[95%] mx-auto flex items-center gap-3 text-sm font-medium">
+          <div className="w-full min-w-0 lg:w-3/7">
+            <div className="mx-auto flex max-w-[95%] flex-wrap items-center gap-x-2 gap-y-1 pb-4 text-xs font-medium sm:max-w-8xl sm:gap-3 sm:text-sm">
               <Link href="/" className="text-gray-400 hover:text-[#213554] transition-colors flex items-center gap-1">
                 <IoHomeOutline size={16} /> Home
               </Link>
@@ -66,7 +67,7 @@ const ProductLayout = ({ product, images }: Props) => {
                   <LiaAngleRightSolid className="text-gray-300" />
                 </>
               )}
-              <span className="text-[#213554] truncate">{product.name}</span>
+              <span className="max-w-[min(100%,12rem)] truncate text-[#213554] sm:max-w-none">{product.name}</span>
             </div>
             <ProductGallery
               images={images}
@@ -77,23 +78,28 @@ const ProductLayout = ({ product, images }: Props) => {
           </div>
 
           {/* Right Side - Quote Form & Info */}
-          <div className="w-full lg:w-12/5 space-y-8">
+          <div className="w-full min-w-0 space-y-6 lg:w-2/4 ml-auto lg:space-y-8">
 
-            <div className='flex flex-row items-center justify-between gap-4 mb-4'>
-              <div className='flex gap-2 items-center flex-1 min-w-0'>
-                <div className="w-1 h-11 bg-gradient-to-b from-[#EE334B] to-[#213554] rounded-full flex-shrink-0"></div>
-                <h2 className='pb-2 text-xl sm:text-3xl font-bold text-[#213554] truncate'>{product?.name || "Tuck Top Mailer Boxes"}</h2>
+            <div className="mb-2 flex flex-col gap-3 sm:mb-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+              <div className="flex min-w-0 flex-1 items-center gap-2">
+                <div className="h-9 w-1 shrink-0 rounded-full bg-linear-to-b from-[#EE334B] to-[#213554] sm:h-11" />
+                <h2 className="pb-0 text-lg font-bold leading-tight text-[#213554] sm:pb-2 sm:text-2xl md:text-3xl">
+                  {product?.name}
+                </h2>
               </div>
               <Link
                 href="/contact-us"
-                className="flex-shrink-0 flex items-center gap-2 px-4 from-[#F7F7F7] to-[#F7F7F7] py-2 bg-[#F7F7F7] hover:bg-red-100 border border-gray-200/60 rounded-lg transition-colors duration-200 group"
+                className="flex w-full shrink-0 items-center justify-center gap-2 rounded-lg border border-gray-200/60 bg-[#F7F7F7] px-3 py-2.5 transition-colors duration-200 hover:bg-red-100 sm:w-auto sm:justify-start sm:px-4"
               >
-                {/* <img src={chat} alt="chat" className=' w-8 h-8' /> */}
-                <span className="text-sm font-semibold text-gray-800 whitespace-nowrap">  <h6 className='text-[10px]'> Chat with </h6>  Packaging Expert</span>
+                <img src={ASSETS.icons.chat} alt="chat" className="w-7 h-7" />
+                <span className="text-left text-sm font-semibold text-gray-800">
+                  <span className="block text-[10px] font-normal leading-tight text-gray-600">Chat with</span>
+                  Packaging Expert
+                </span>
               </Link>
             </div>
-            <div className="bg-white relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#EE334B]/5 to-transparent rounded-bl-full -z-10" />
+            <div className="bg-white  relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-linear-to-br from-[#EE334B]/5 to-transparent rounded-bl-full -z-10" />
 
               <QuoteForm product={product} />
             </div>

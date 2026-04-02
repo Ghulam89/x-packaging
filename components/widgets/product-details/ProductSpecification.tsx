@@ -19,18 +19,19 @@ const specifications = [
 const ProductSpecification = () => {
   return (
     <section className="sm:max-w-8xl max-w-[95%] mx-auto my-12">
-      <div className="flex flex-col lg:flex-row gap-8 items-center rounded-3xl overflow-hidden border border-gray-100 shadow-md min-h-[500px]">
+      <div className="flex min-h-0 flex-col items-stretch gap-0 overflow-hidden rounded-3xl border border-gray-100 shadow-md lg:min-h-[500px] lg:flex-row lg:items-center">
         {/* Left Side - Image & CTA */}
-        <div className="relative w-full lg:w-12/6">
+        <div className="relative w-full lg:w-1/2">
           <Image
             src="/assets/images/product-specification.webp"
             alt="Product Specification"
-            width={ 753}
+            width={753}
             height={597}
-            className="object-contain"
+            className="h-auto w-full object-contain"
             priority
+            sizes="(max-width: 1024px) 100vw, 50vw"
           />
-          <div className="absolute inset-0 top-34 flex flex-col items-center justify-center p-8 text-center">
+          <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center sm:p-8">
             <Link href="/contact-us">
               <Button label="Contact Our Experts" className="bg-white text-[#213554] hover:bg-gray-100 px-8 py-4 rounded-full font-bold shadow-lg" />
             </Link>
@@ -38,9 +39,9 @@ const ProductSpecification = () => {
         </div>
 
         {/* Right Side - Table */}
-        <div className="w-full lg:w-12/6 p-6 sm:p-10">
+        <div className="w-full p-6 sm:p-10 lg:w-1/2">
           <div className="flex items-center gap-4 mb-8">
-            <div className="w-1.5 h-10 bg-gradient-to-b from-[#EE334B] to-[#213554] rounded-full" />
+            <div className="w-1.5 h-10 bg-linear-to-b from-[#EE334B] to-[#213554] rounded-full" />
             <h2 className="text-2xl sm:text-3xl font-bold text-[#213554]">Product Specifications</h2>
           </div>
 
