@@ -1,5 +1,5 @@
 import { getProductsAll, getFaqAll, getBannerAll, getBrandsAll, getBlogsForHome } from "@/lib/api";
-import type { Blog, Product } from "@/types";
+import type { Blog as BlogPost, Product } from "@/types";
 import Hero from "@/components/widgets/home/Hero";
 import BottomHero from "@/components/widgets/home/BottomHero";
 import CategoryBoxes from "@/components/widgets/home/CategoryBoxes";
@@ -19,14 +19,13 @@ import InspirationPackaging from "@/components/widgets/home/InspirationPackaging
 import PersonalTestimonial from "@/components/widgets/home/PersonalTestimonial";
 import Blog from "@/components/widgets/home/Blog";
 import type { Metadata } from "next";
-import Blog from "@/components/widgets/home/Blog";
 
 type HomePayload = {
   topProducts: Product[];
   faqs: any[];
   banner: any;
   brands: any[] | null;
-  homeBlogs: Blog[];
+  homeBlogs: BlogPost[];
 };
 
 async function loadHome(): Promise<HomePayload> {
