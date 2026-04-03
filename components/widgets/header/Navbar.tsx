@@ -164,7 +164,7 @@ export default function Navbar({ menuOpen = false, onMenuToggle }: Props) {
      <div
       className={`${
         isScrolled ? "bg-white/90 backdrop-blur-lg shadow-md" : "bg-linear-to-r from-white via-gray-50/30"
-      } sticky top-0 z-50 transition-all`}
+      }  transition-all sticky top-0 z-50`}
      >
        <div className="sm:max-w-8xl max-w-[95%] mx-auto px-2 sm:px-0">
           <div className="flex w-full flex-col gap-2 py-2 sm:h-20 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:py-0">
