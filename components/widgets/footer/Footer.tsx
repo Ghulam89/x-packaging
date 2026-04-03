@@ -229,7 +229,7 @@ const Footer = () => {
 <div>
     <ul className=' text-black flex flex-wrap  sm:justify-start justify-between  items-center  gap-3'>
         <li className=' text-sm'>
-        © Half Price Packaging 2025
+        © X Custom Packaging 2026
         </li>
         <li>
           <Link href={'/terms-and-conditions'} className=' font-semibold'>
