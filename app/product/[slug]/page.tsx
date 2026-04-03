@@ -12,7 +12,7 @@ import BottomHero from "@/components/widgets/home/BottomHero";
 import { ASSETS } from "@/lib/assets";
 import Image from "next/image";
 import OfferCard from "@/components/widgets/home/OfferCard";
-import ProductCard from "@/components/entities/product/ui/ProductCard";
+import RelatedProductsSlider from "@/components/widgets/product-details/RelatedProductsSlider";
 import JsonLd from "@/components/shared/seo/JsonLd";
 import { productBreadcrumbSchema, productDetailSchema } from "@/lib/structured-data";
 
@@ -143,23 +143,20 @@ export default async function ProductPage({
             </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
-            {relatedProducts.map((item, index) => {
+          <RelatedProductsSlider
+            items={relatedProducts.map((item, index) => {
               const firstImage = item?.images?.[0]?.url
                 ? `${siteOrigin}/${item.images[0].url.replace(/^\//, "")}`
                 : undefined;
-              return (
-                <ProductCard
-                  key={item._id || `${item.slug}-${index}`}
-                  href={`/product/${item.slug}`}
-                  title={item.name || "Product"}
-                  imageSrc={firstImage}
-                  imageAlt={item.name || "Product"}
-                  variant="carousel"
-                />
-              );
+              return {
+                key: String(item._id ?? `${item.slug}-${index}`),
+                href: `/product/${item.slug}`,
+                title: item.name || "Product",
+                imageSrc: firstImage,
+                imageAlt: item.name || "Product",
+              };
             })}
-          </div>
+          />
         </section>
       ) : null}
       {/* <FAQ items={(product as any).qna || []} /> */}
