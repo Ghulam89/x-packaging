@@ -1,9 +1,12 @@
 import { getBrandBySlug, getCategoriesByBrandId, getFaqAll, siteOrigin } from "@/lib/api";
 import Link from "next/link";
 import Image from "next/image";
+import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import FAQ from "@/components/widgets/home/FAQ";
 import type { Category } from "@/types";
+import JsonLd from "@/components/shared/seo/JsonLd";
+import { brandBreadcrumbSchema } from "@/lib/structured-data";
 
 const resolveImageUrl = (value?: string) => {
   if (!value) return "";
@@ -20,20 +23,16 @@ export default async function BrandPage({
 }) {
   const { slug } = await params;
   const brand = await getBrandBySlug(slug, 3600);
-  if (!brand) {
-    return (
-      <main className="mx-auto w-[95%] sm:max-w-8xl py-12">
-        <h1 className="text-2xl font-semibold text-[#213554]">Brand not found</h1>
-        <Link className="text-[#EE334B]" href="/">Back to Home</Link>
-      </main>
-    );
-  }
+  if (!brand) notFound();
   const allCategories: Category[] = await getCategoriesByBrandId(brand._id, 1, 100, 600);
   const faqs = await getFaqAll(600);
 
 
+  const breadcrumbLd = brandBreadcrumbSchema(siteOrigin, slug, brand.name || brand.title);
+
   return (
     <main>
+      <JsonLd schemas={[breadcrumbLd]} />
       <div className="h-48 bg-linear-to-r from-[#213554]/5 via-white to-[#EE334B]/5 flex items-center border-b border-gray-100">
         <div className="px-6 sm:px-12 w-full">
           <div className="flex gap-2 items-center text-sm mb-2">
@@ -107,15 +106,23 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const brand = await getBrandBySlug(slug, 600);
-  const title = brand?.metaTitle || brand?.name || brand?.title || "Brand";
-  const description = brand?.metaDescription || "";
-  const kw = brand?.keywords || "";
+  if (!brand) {
+    return {
+      title: "Page Not Found",
+      description:
+        "The page you are looking for does not exist or may have been moved. Return to X Custom Packaging to browse custom boxes and packaging.",
+      robots: { index: false, follow: true },
+    };
+  }
+  const title = brand.metaTitle || brand.name || brand.title || "Brand";
+  const description = brand.metaDescription || "";
+  const kw = brand.keywords || "";
   const keywords = kw ? kw.split(",").map((k) => k.trim()).filter(Boolean) : undefined;
   const url = `https://xcustompackaging.com/${slug}`;
   const img =
-    brand?.bannerImage
+    brand.bannerImage
       ? `https://xcustompackaging.com/${brand.bannerImage}`
-      : brand?.image
+      : brand.image
         ? `https://xcustompackaging.com/${brand.image}`
         : undefined;
   const robots = { index: false, follow: false };

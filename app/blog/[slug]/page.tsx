@@ -2,12 +2,15 @@ import { getBlogBySlug, getBlogsAll, apiGet, siteOrigin } from "@/lib/api";
 import type { Product } from "@/types";
 import Link from "next/link";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import Image from "next/image";
 import TableOfContent from "@/components/entities/blog/ui/TableOfContent";
 import BlogCard from "@/components/entities/blog/ui/BlogCard";
 import ProductCard from "@/components/entities/product/ui/ProductCard";
 import { FaCalendarAlt, FaClock, FaChevronRight } from "react-icons/fa";
 import BottomHero from "@/components/widgets/home/BottomHero";
+import JsonLd from "@/components/shared/seo/JsonLd";
+import { blogFaqPageSchema } from "@/lib/blog-faq-schema";
 
 export default async function BlogPage({
   params,
@@ -17,17 +20,7 @@ export default async function BlogPage({
   const { slug } = await params;
   const blog = await getBlogBySlug(slug, 3600);
 
-  if (!blog) {
-    return (
-      <main className="mx-auto w-[95%] sm:max-w-8xl py-20 text-center">
-        <h1 className="text-4xl font-bold text-[#213554] mb-4">Blog Not Found</h1>
-        <p className="text-gray-600 mb-8">The article you are looking for does not exist or has been moved.</p>
-        <Link href="/blog" className="bg-[#EE334B] text-white px-8 py-3 rounded-full font-bold hover:bg-[#EE334B]/90 transition-all">
-          Back to Blogs
-        </Link>
-      </main>
-    );
-  }
+  if (!blog) notFound();
 
   const allBlogs = await getBlogsAll(3600);
   const latestBlogs = allBlogs.filter((b) => b.slug !== slug).slice(0, 4);
@@ -57,9 +50,11 @@ export default async function BlogPage({
   };
 
   const blogImage = blog.image ? `${siteOrigin}/${blog.image.replace(/^\//, "")}` : "";
+  const faqLd = blogFaqPageSchema(blog.qna);
 
   return (
     <main className="bg-white min-h-screen">
+      {faqLd ? <JsonLd schemas={[faqLd]} /> : null}
       {/* Hero: mobile = auto height (no clipping); lg+ = min viewport-height hero */}
       <div className="bg-gray-50 border-b border-gray-100 relative z-0 max-lg:overflow-x-hidden lg:overflow-hidden  lg:flex lg:items-center py-6 sm:py-3 md:py-8">
         {/* Background blobs */}
@@ -216,13 +211,21 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const blog = await getBlogBySlug(slug, 600);
-  const title = blog?.metaTitle || blog?.title || "Blog";
-  const description = blog?.metaDescription || "";
-  const kw = blog?.keywords || "";
+  if (!blog) {
+    return {
+      title: "Blog Post Not Found",
+      description:
+        "No article matches this page. Read more on the X Custom Packaging blog.",
+      robots: { index: false, follow: true },
+    };
+  }
+  const title = blog.metaTitle || blog.title || "Blog";
+  const description = blog.metaDescription || "";
+  const kw = blog.keywords || "";
   const keywords = kw ? kw.split(",").map((k) => k.trim()).filter(Boolean) : undefined;
   const url = `https://xcustompackaging.com/blog/${slug}`;
-  const img = blog?.image ? `https://xcustompackaging.com/${blog.image.replace(/^\//, "")}` : undefined;
-  const robotsStr = blog?.robots || "";
+  const img = blog.image ? `https://xcustompackaging.com/${blog.image.replace(/^\//, "")}` : undefined;
+  const robotsStr = blog.robots || "";
   const robots = { index: true, follow: true };
   return {
     title,

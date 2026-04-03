@@ -1,6 +1,7 @@
 import { apiGet, getCategoryBySlug, siteOrigin } from "@/lib/api";
 import type { Product } from "@/types";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Button from "@/components/shared/ui/Button";
@@ -20,7 +21,10 @@ import TrustBanner from "@/components/shared/marketing/TrustBanner";
 import ServiceSelectionCard from "@/components/entities/product/ui/ServiceSelectionCard";
 import CategoryTestimonials from "@/components/widgets/home/CategoryTestimonials";
 import CategoryTabsSections from "@/components/widgets/category/CategoryTabsSections";
+import CategoryInstantQuoteButton from "@/components/widgets/category/CategoryInstantQuoteButton";
 import { ASSETS } from "@/lib/assets";
+import JsonLd from "@/components/shared/seo/JsonLd";
+import { categoryBreadcrumbSchema, categoryItemListSchema } from "@/lib/structured-data";
 
 export default async function CategoryPage({
   params,
@@ -31,16 +35,7 @@ export default async function CategoryPage({
 }) {
   const { slug } = await params;
   const category = await getCategoryBySlug(slug, 600);
-  if (!category) {
-    return (
-      <main className="mx-auto w-full max-w-[95%] sm:max-w-8xl px-3 sm:px-4 py-10 sm:py-12">
-        <h1 className="text-xl sm:text-2xl font-semibold text-[#213554]">Category not found</h1>
-        <Link className="text-[#EE334B] mt-3 inline-block text-sm sm:text-base" href="/">
-          Back to Home
-        </Link>
-      </main>
-    );
-  }
+  if (!category) notFound();
   const sp = (await searchParams) || {};
   const page = sp.page ? Number(sp.page) || 1 : 1;
   let products: Product[] = [];
@@ -89,8 +84,12 @@ export default async function CategoryPage({
     },
   ];
 
+  const breadcrumbLd = categoryBreadcrumbSchema(siteOrigin, slug, category);
+  const itemListLd = categoryItemListSchema(siteOrigin, slug, category, products);
+
   return (
     <main className="min-w-0 overflow-x-hidden">
+      <JsonLd schemas={[breadcrumbLd, itemListLd]} />
       <section
         className="py-5 sm:h-[70vh] h-auto flex flex-col justify-center"
         style={{ backgroundColor: category.bannerBgColor || "#f8f9fa" }}
@@ -136,12 +135,14 @@ export default async function CategoryPage({
                 dangerouslySetInnerHTML={{ __html: category.description || "" }}
               />
               <div className="flex flex-wrap gap-4">
-                <Link href="/contact-us">
-                  <Button className="bg-[#2D5016] hover:bg-[#3A6B1F] text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300">
-                    Get an Instant Quote
-                  </Button>
-                </Link>
-                <Link href="/dielines">
+                <CategoryInstantQuoteButton
+                  quoteCategory={{
+                    _id: category._id,
+                    title: category.title,
+                    image: category.image,
+                  }}
+                />
+                <Link href="/packaging-shapes-styles">
                   <Button className="bg-[#2D5016] hover:bg-[#3A6B1F] text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300">
                     Explore Shapes & Styles
                   </Button>
@@ -268,12 +269,20 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const category = await getCategoryBySlug(slug, 600);
-  const title = category?.metaTitle || category?.title || "Category";
-  const description = category?.metaDescription || "";
-  const kw = category?.keywords || "";
+  if (!category) {
+    return {
+      title: "Category Not Found",
+      description:
+        "No category matches this page. Browse X Custom Packaging for custom boxes and wholesale packaging.",
+      robots: { index: false, follow: true },
+    };
+  }
+  const title = category.metaTitle || category.title || "Category";
+  const description = category.metaDescription || "";
+  const kw = category.keywords || "";
   const keywords = kw ? kw.split(",").map((k) => k.trim()).filter(Boolean) : undefined;
   const url = `https://xcustompackaging.com/category/${slug}`;
-  const img = category?.image ? `https://xcustompackaging.com/${category.image}` : undefined;
+  const img = category.image ? `https://xcustompackaging.com/${category.image}` : undefined;
   const robots = { index: false, follow: false };
   return {
     title,

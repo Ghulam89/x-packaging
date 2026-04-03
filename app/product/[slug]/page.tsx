@@ -2,6 +2,7 @@ import { apiBase, getProductBySlug, siteOrigin } from "@/lib/api";
 import type { Product } from "@/types";
 import Link from "next/link";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import ProductLayout from "@/components/widgets/product-details/ProductLayout";
 import ProductSpecification from "@/components/widgets/product-details/ProductSpecification";
 import EnhancePackaging from "@/components/widgets/product-details/EnhancePackaging";
@@ -12,6 +13,8 @@ import { ASSETS } from "@/lib/assets";
 import Image from "next/image";
 import OfferCard from "@/components/widgets/home/OfferCard";
 import ProductCard from "@/components/entities/product/ui/ProductCard";
+import JsonLd from "@/components/shared/seo/JsonLd";
+import { productBreadcrumbSchema, productDetailSchema } from "@/lib/structured-data";
 
 async function getRelatedProductsBySlug(slug: string): Promise<Product[]> {
   try {
@@ -38,17 +41,7 @@ export default async function ProductPage({
   const product = await getProductBySlug(slug, 3600);
   const relatedProducts = await getRelatedProductsBySlug(slug);
 
-  if (!product) {
-    return (
-      <main className="mx-auto w-[95%] sm:max-w-8xl py-20 text-center">
-        <h1 className="text-4xl font-bold text-[#213554] mb-4">Product Not Found</h1>
-        <p className="text-gray-600 mb-8">The product you are looking for does not exist or has been moved.</p>
-        <Link href="/" className="bg-[#EE334B] text-white px-8 py-3 rounded-full font-bold hover:bg-[#EE334B]/90 transition-all">
-          Back to Home
-        </Link>
-      </main>
-    );
-  }
+  if (!product) notFound();
 
   const images = (product.images || []).map((img: any) =>
     img?.url ? `${siteOrigin}/${img.url.replace(/^\//, "")}` : ""
@@ -63,8 +56,12 @@ export default async function ProductPage({
     ? `${siteOrigin}/${rawBanner.replace(/^\//, "")}`
     : images[0];
 
+  const breadcrumbLd = productBreadcrumbSchema(siteOrigin, slug, product);
+  const productLd = productDetailSchema(siteOrigin, slug, product);
+
   return (
     <main className="bg-white min-h-screen">
+      <JsonLd schemas={[breadcrumbLd, productLd]} />
 
       <ProductLayout product={product} images={images} />
       <TrustBanner />
@@ -178,13 +175,21 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const product = await getProductBySlug(slug, 600);
-  const title = product?.metaTitle || product?.name || "Product";
-  const description = product?.metaDescription || "";
-  const kw = product?.keywords || "";
+  if (!product) {
+    return {
+      title: "Product Not Found",
+      description:
+        "No product matches this page. Browse X Custom Packaging for custom boxes and wholesale packaging.",
+      robots: { index: false, follow: true },
+    };
+  }
+  const title = product.metaTitle || product.name || "Product";
+  const description = product.metaDescription || "";
+  const kw = product.keywords || "";
   const keywords = kw ? kw.split(",").map((k) => k.trim()).filter(Boolean) : undefined;
   const url = `https://xcustompackaging.com/product/${slug}`;
   const img =
-    product?.images && product.images[0]?.url
+    product.images && product.images[0]?.url
       ? `https://xcustompackaging.com/${product.images[0].url}`
       : undefined;
   const robots = { index: false, follow: false };
