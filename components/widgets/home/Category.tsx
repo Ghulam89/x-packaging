@@ -30,7 +30,7 @@ export default function Category({ serverData = [] as Product[] }) {
           <p className="text-gray-600 text-base sm:text-lg">
             Explore our range of premium packaging shapes and styles.
             <Link
-              href="/products"
+              href="/shop"
               className="ml-2 uppercase font-bold text-[#EE334B] inline-flex items-center hover:opacity-80 transition"
             >
               View all
@@ -42,7 +42,7 @@ export default function Category({ serverData = [] as Product[] }) {
         <div className="relative">
           <div
             ref={scrollRef}
-            className="grid grid-cols-2 gap-3 px-4 sm:px-0 sm:pl-0 sm:pr-0 sm:flex sm:items-start sm:gap-4 sm:overflow-x-auto sm:overflow-y-hidden sm:whitespace-nowrap py-2 sm:snap-x sm:snap-mandatory min-h-[280px]"
+            className="grid grid-cols-2 gap-3  sm:pl-0 sm:pr-0 sm:flex sm:items-start sm:gap-4 sm:overflow-x-auto sm:overflow-y-hidden sm:whitespace-nowrap py-2 sm:snap-x sm:snap-mandatory min-h-[280px]"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
             {serverData.map((p) => {

@@ -45,7 +45,7 @@ const CategoryBoxes = ({ initialCategories = [] }: Props) => {
             <p className="text-gray-600 text-base sm:text-lg">
               We recognize that each industry has distinct packaging requirements.
               <Link
-                href="/categories"
+                href="/box-by-industry"
                 className="ml-2 uppercase font-bold text-[#EE334B] inline-flex items-center hover:opacity-80 transition"
               >
                 View all

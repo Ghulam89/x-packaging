@@ -5,7 +5,7 @@ import type { NextRequest } from "next/server";
  * Makes the request pathname available to `app/not-found.tsx` via headers
  * so copy can match product / category / blog / brand / generic 404.
  */
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-pathname", request.nextUrl.pathname);
   return NextResponse.next({
