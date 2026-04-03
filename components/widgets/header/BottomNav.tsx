@@ -442,12 +442,13 @@ const BottomNav = ({ Menu, OpenMenu, initialBrands = [] }: { Menu: boolean; Open
             </li>
             {displayCategories.map((category: { slug?: string; category?: string }, index: number) => (
               <li key={(category as any)?.slug || (category as any)?.category || index}>
-                <button
-                  type="button"
+                <Link
+                  href={`/${(category as any)?.slug || (category as any)?.category}`}
                   className="w-full flex items-center justify-between px-4 py-3 font-semibold text-left text-[#213554] hover:text-[#EE334B] hover:bg-[#EE334B]/10 rounded-lg transition-all duration-300"
+                  onClick={() => safeOpenMenu(false)}
                 >
                   <span>{(category as any)?.category}</span>
-                </button>
+                </Link>
                 {(category as any)?.menu?.length > 0 && (
                   <ul className="pl-6 mt-1 space-y-1">
                     {(category as any)?.menu.map((submenu: { slug?: string; title?: string }, subIndex: number) => (

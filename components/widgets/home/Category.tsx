@@ -42,7 +42,7 @@ export default function Category({ serverData = [] as Product[] }) {
         <div className="relative">
           <div
             ref={scrollRef}
-            className="sm:pl-0 pl-4 pr-4 sm:pr-0 items-start gap-3 sm:gap-4 flex overflow-x-auto overflow-y-hidden whitespace-nowrap py-2 snap-x snap-mandatory min-h-[280px]"
+            className="grid grid-cols-2 gap-3 px-4 sm:px-0 sm:pl-0 sm:pr-0 sm:flex sm:items-start sm:gap-4 sm:overflow-x-auto sm:overflow-y-hidden sm:whitespace-nowrap py-2 sm:snap-x sm:snap-mandatory min-h-[280px]"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
             {serverData.map((p) => {
@@ -51,7 +51,7 @@ export default function Category({ serverData = [] as Product[] }) {
                   ? `${siteOrigin}/${String(p.images[0].url).replace(/^\//, "")}`
                   : "";
               return (
-                <div key={p._id} className="w-[85vw] sm:w-[285px] flex-shrink-0 px-2">
+                <div key={p._id} className="w-full min-w-0 sm:w-[285px] sm:shrink-0 sm:px-2">
                   <ProductCard
                     href={`/product/${p.slug}`}
                     title={p.name || p.slug}

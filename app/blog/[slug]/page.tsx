@@ -58,7 +58,7 @@ export default async function BlogPage({
       {/* Hero: mobile = auto height (no clipping); lg+ = min viewport-height hero */}
       <div className="bg-gray-50 border-b border-gray-100 relative z-0 max-lg:overflow-x-hidden lg:overflow-hidden  lg:flex lg:items-center py-6 sm:py-3 md:py-8">
         {/* Background blobs */}
-        <div className="pointer-events-none absolute -bottom-20 -right-20 w-64 h-64 sm:w-96 sm:h-96 bg-gradient-to-br from-[#EE334B]/5 to-transparent rounded-full blur-3xl z-0" />
+        <div className="pointer-events-none absolute -bottom-20 -right-20 w-64 h-auto sm:w-96 sm:h-96 bg-gradient-to-br from-[#EE334B]/5 to-transparent rounded-full blur-3xl z-0" />
         <div className="pointer-events-none absolute -top-20 -left-20 w-64 h-64 sm:w-96 sm:h-96 bg-gradient-to-br from-[#213554]/5 to-transparent rounded-full blur-3xl z-0" />
 
         <div className="relative z-10 w-full max-w-[95%] sm:max-w-8xl mx-auto px-1 sm:px-0">
@@ -135,7 +135,22 @@ export default async function BlogPage({
                 dangerouslySetInnerHTML={{ __html: blog.content || "" }}
               />
             </article>
-
+            {latestBlogs.length > 0 && (
+              <div className="bg-white rounded-3xl mt-16 shadow-sm border border-gray-100 p-8">
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="w-1.5 h-10 bg-gradient-to-b from-[#EE334B] to-[#213554] rounded-full" />
+                  <div>
+                    <h2 className="text-xl sm:text-2xl font-bold text-[#213554]">Latest Articles</h2>
+                    <p className="text-xs text-gray-500 font-bold uppercase tracking-widest mt-1">More insights & guides</p>
+                  </div>
+                </div>
+                <div className="space-y-6 grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {latestBlogs.map((b) => (
+                    <BlogCard key={b._id} blog={b} compact className="transform hover:-translate-y-1 shadow-none border-gray-50 hover:border-[#EE334B]/10 hover:shadow-xl" />
+                  ))}
+                </div>
+              </div>
+            )}
             {/* Related Products */}
             {blogProducts.length > 0 && (
               <div className="mt-16 bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
@@ -146,6 +161,7 @@ export default async function BlogPage({
                     <p className="text-gray-500 font-medium">Explore products related to this article</p>
                   </div>
                 </div>
+                
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {blogProducts.map((product) => {
                     const img = product.images?.[0]?.url ? `${siteOrigin}/${product.images[0].url.replace(/^\//, "")}` : "";
@@ -167,29 +183,13 @@ export default async function BlogPage({
 
           {/* Sidebar — higher z-index so sticky TOC stacks above article while scrolling */}
           <aside className="w-full lg:w-1/3 space-y-10 relative z-10">
-            {blog.content && (
+
+          <div className="sticky top-16">
+          {blog.content && (
               <TableOfContent content={blog.content} />
             )}
-
-            {latestBlogs.length > 0 && (
-              <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
-                <div className="flex items-center gap-4 mb-8">
-                  <div className="w-1.5 h-10 bg-gradient-to-b from-[#EE334B] to-[#213554] rounded-full" />
-                  <div>
-                    <h2 className="text-xl sm:text-2xl font-bold text-[#213554]">Latest Articles</h2>
-                    <p className="text-xs text-gray-500 font-bold uppercase tracking-widest mt-1">More insights & guides</p>
-                  </div>
-                </div>
-                <div className="space-y-6">
-                  {latestBlogs.map((b) => (
-                    <BlogCard key={b._id} blog={b} compact className="transform hover:-translate-y-1 shadow-none border-gray-50 hover:border-[#EE334B]/10 hover:shadow-xl" />
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* CTA Sidebar Card */}
-            <div className="bg-[#213554] rounded-3xl p-8 text-white relative overflow-hidden group">
+{/* CTA Sidebar Card */}
+<div className="bg-[#213554] mt-10 rounded-3xl p-8 text-white relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-bl-full -z-10 transform group-hover:scale-150 transition-transform duration-700" />
               <h3 className="text-2xl font-bold mb-4">Need Custom Packaging?</h3>
               <p className="text-white/80 mb-8 leading-relaxed">Get a free consultation and instant price quote for your custom packaging needs.</p>
@@ -197,6 +197,11 @@ export default async function BlogPage({
                 Get a Free Quote
               </Link>
             </div>
+          </div>
+           
+            
+
+            
           </aside>
         </div>
       </div>

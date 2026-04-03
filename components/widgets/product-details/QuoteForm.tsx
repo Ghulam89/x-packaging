@@ -130,7 +130,7 @@ const QuoteForm = memo(({ product }: Props) => {
           {error}
         </div>
       )}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 [&>*]:min-w-0">
         <Input
           label="Name"
           star="*"
@@ -148,21 +148,23 @@ const QuoteForm = memo(({ product }: Props) => {
           type="email"
           value={formData.email}
           onChange={handleChange}
-             className=" rounded-lg"
+          className=" rounded-lg"
           placeholder="Email"
           required
         />
-        <Input
-          label="Phone Number"
-          name="phoneNumber"
-          value={formData.phoneNumber}
-             className=" rounded-lg"
-          onChange={handleChange}
-          placeholder="Phone Number"
-        />
+        <div className="col-span-2 sm:col-span-1 min-w-0">
+          <Input
+            label="Phone Number"
+            name="phoneNumber"
+            value={formData.phoneNumber}
+            className=" rounded-lg"
+            onChange={handleChange}
+            placeholder="Phone Number"
+          />
+        </div>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 [&>*]:min-w-0">
         <Input
           label="Box Style"
           star="*"
@@ -220,7 +222,7 @@ const QuoteForm = memo(({ product }: Props) => {
         </Select>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 [&>*]:min-w-0">
         <Select
           label="Stock"
           name="stock"
@@ -277,8 +279,8 @@ const QuoteForm = memo(({ product }: Props) => {
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="flex flex-col">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 [&>*]:min-w-0">
+        <div className="flex flex-col w-full min-w-0">
           <label className="text-sm mb-3 font-semibold text-[#213554]">
             Upload Design <span className="text-red-500">*</span>
           </label>
@@ -312,16 +314,18 @@ const QuoteForm = memo(({ product }: Props) => {
             </div>
           </div>
         </div>
-        <Textarea
-          label="Description"
-          name="message"
-          star="*"
-          value={formData.message}
-          onChange={handleChange}
-          rows={3}
-          placeholder="Tell us about your requirements..."
-          required
-        />
+        <div className="w-full min-w-0">
+          <Textarea
+            label="Description"
+            name="message"
+            star="*"
+            value={formData.message}
+            onChange={handleChange}
+            rows={3}
+            placeholder="Tell us about your requirements..."
+            required
+          />
+        </div>
       </div>
 
       <Button

@@ -49,8 +49,8 @@ export default async function BrandPage({
       <section className="sm:max-w-8xl w-[95%] mx-auto">
         <div className="text-center max-w-5xl mx-auto py-7">
           <h2 className=" sm:text-4xl text-2xl font-semibold pb-2">Custom packaging solutions for every industry.</h2>
-          <p className="pt-2">
-            Half Price Packaging possesses extensive expertise in delivering personalized packaging solutions to over 3000 businesses across the globe. Below, you will find a carefully curated selection of packaging solutions designed to cater to various industries.
+          <p className="pt-2 text-gray-800">
+            X Custom Packaging possesses extensive expertise in delivering personalized packaging solutions to over 3000 businesses across the globe. Below, you will find a carefully curated selection of packaging solutions designed to cater to various industries.
           </p>
         </div>
 

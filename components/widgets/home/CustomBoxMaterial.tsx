@@ -169,7 +169,7 @@ export default function CustomBoxMaterial() {
                       <h2 className="text-[22px] sm:text-[28px] md:text-[35px] font-sans font-[600] text-[#333333] break-words">
                         {boxes[current].title}
                       </h2>
-                      <h3 className="pt-3 sm:pt-4 text-lg sm:text-xl md:text-2xl break-words">
+                      <h3 className="pt-3 sm:pt-4 text-gray-800 text-lg sm:text-xl md:text-2xl break-words">
                         <strong>{boxes[current].subTitle}</strong>
                       </h3>
                       <p className="pt-2.5 break-words text-gray-600 text-sm sm:text-base">{boxes[current].description}</p>

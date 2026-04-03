@@ -192,7 +192,7 @@ const GetPriceQuote = () => {
                   <FaRuler className="text-[#EE334B] text-lg sm:text-xl flex-shrink-0" />
                   <label className="text-xs sm:text-sm font-semibold text-gray-700">Select Sizes</label>
                 </div>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 *:min-w-0">
                   <Input
                     name="length"
                     type="number"
@@ -223,7 +223,7 @@ const GetPriceQuote = () => {
 
 
                   <Select
-                    label="Unit"
+                    // label="Unit"
                     name="unit"
                     value={formData.unit}
                     onChange={handleChange}
@@ -247,7 +247,7 @@ const GetPriceQuote = () => {
 
 
                   <Select
-                    label="Stock"
+                    // label="Stock"
                     name="stock"
                     value={formData.stock}
                     onChange={handleChange}
@@ -266,7 +266,7 @@ const GetPriceQuote = () => {
                     <option>Linen</option>
                   </Select>
                   <Select
-                    label="Printing"
+                    // label="Printing"
                     name="printing"
                     value={formData.printing}
                     onChange={handleChange}
