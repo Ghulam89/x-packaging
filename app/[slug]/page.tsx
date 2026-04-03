@@ -55,37 +55,37 @@ export default async function BrandPage({
         </div>
 
         <div className="mb-12">
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
             {allCategories.map((category) => {
               return (
                 <Link
                   key={category._id}
                   href={`/category/${category.slug}`}
-                  className="group text-gray-700 bg-[#F9F9F9] hover:bg-white rounded-3xl flex font-bold flex-col gap-0.5 items-center transition-all duration-300 border border-gray-200 hover:border-[#EE334B]/20 hover:shadow-lg transform hover:-translate-y-1"
+                  className="group text-gray-700 bg-[#F9F9F9] hover:bg-white rounded-2xl sm:rounded-3xl flex font-bold flex-col gap-0.5 items-stretch min-h-0 transition-all duration-300 border border-gray-200 hover:border-[#EE334B]/20 hover:shadow-lg transform hover:-translate-y-0.5 sm:hover:-translate-y-1"
                 >
-                  <div className="p-4 relative overflow-hidden rounded-3xl">
-                    <div className="relative w-full h-56 rounded-2xl overflow-hidden">
+                  <div className="p-2 sm:p-3 md:p-4 relative overflow-hidden rounded-2xl sm:rounded-3xl w-full min-w-0">
+                    <div className="relative w-full aspect-4/3 sm:aspect-5/4 md:aspect-4/3 lg:h-52 lg:aspect-auto xl:h-56 rounded-xl sm:rounded-2xl overflow-hidden">
                       {(category as any).icon ? (
                         <Image
                           src={`${siteOrigin}/${(category as any).icon}`}
                           alt={(category as any).imageAltText || category.title || "Category"}
-                          width={400}
-                          height={224}
-                          className="object-cover rounded-2xl"
+                          fill
+                          sizes="(max-width: 640px) 46vw, (max-width: 768px) 46vw, (max-width: 1280px) 31vw, 23vw"
+                          className="object-cover rounded-xl sm:rounded-2xl"
                           unoptimized
                         />
                       ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-[#213554]/10 to-[#EE334B]/10 flex items-center justify-center rounded-2xl">
-                          <span className="text-4xl font-bold text-[#213554]/30">
+                        <div className="absolute inset-0 bg-linear-to-br from-[#213554]/10 to-[#EE334B]/10 flex items-center justify-center rounded-xl sm:rounded-2xl">
+                          <span className="text-2xl sm:text-4xl font-bold text-[#213554]/30">
                             {category.title?.charAt(0) || "C"}
                           </span>
                         </div>
                       )}
-                      <div className="absolute inset-0 bg-linear-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-2xl"></div>
-                      <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-2xl"></div>
+                      <div className="absolute inset-0 bg-linear-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-xl sm:rounded-2xl"></div>
+                      <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none rounded-xl sm:rounded-2xl"></div>
                     </div>
                   </div>
-                  <p className="pb-3 font-bold group-hover:text-[#EE334B] transition-colors duration-300">
+                  <p className="px-1.5 sm:px-2 pb-2 sm:pb-3 pt-0 text-center text-[11px] leading-snug sm:text-sm md:text-base font-bold group-hover:text-[#EE334B] transition-colors duration-300 line-clamp-2 wrap-break-word">
                     {category.title}
                   </p>
                 </Link>

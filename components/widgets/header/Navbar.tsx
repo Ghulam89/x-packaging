@@ -1,10 +1,11 @@
- "use client";
- import Link from "next/link";
- import Image from "next/image";
- import { useEffect, useRef, useState } from "react";
- import { ASSETS } from "@/lib/assets";
-import { apiBase, siteOrigin } from "@/lib/api";
- import type { SearchProduct } from "@/types";
+"use client";
+import Link from "next/link";
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
+import { ASSETS } from "@/lib/assets";
+import { siteOrigin } from "@/lib/api";
+import type { SearchProduct } from "@/types";
 import { HiOutlineSearch } from "react-icons/hi";
 import GetQuoteModal from "@/components/features/quote/ui/GetQuoteModal";
 import Button from "@/components/shared/ui/Button";
@@ -16,53 +17,90 @@ type Props = {
 };
 
 export default function Navbar({ menuOpen = false, onMenuToggle }: Props) {
-   const [isScrolled, setIsScrolled] = useState(false);
-   const [searchQuery, setSearchQuery] = useState("");
-   const [showResults, setShowResults] = useState(false);
-   const [isSearchLoading, setIsSearchLoading] = useState(false);
-   const [searchResults, setSearchResults] = useState<SearchProduct[]>([]);
+  const pathname = usePathname();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showResults, setShowResults] = useState(false);
+  const [isSearchLoading, setIsSearchLoading] = useState(false);
+  const [searchResults, setSearchResults] = useState<SearchProduct[]>([]);
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
-   const searchRef = useRef<HTMLDivElement | null>(null);
+  /** Mobile: search field hidden until user taps the search icon */
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+  const searchRef = useRef<HTMLDivElement | null>(null);
+  const mobileSearchInputRef = useRef<HTMLInputElement | null>(null);
  
-   const handleResultClick = () => {
-     setShowResults(false);
-     setSearchQuery("");
-   };
+  const handleResultClick = () => {
+    setShowResults(false);
+    setSearchQuery("");
+    setMobileSearchOpen(false);
+  };
  
-   const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
-     const query = e.target.value;
-     setSearchQuery(query);
-     if (query.length < 2) {
-       setShowResults(false);
-       setSearchResults([]);
-       return;
-     }
-     setIsSearchLoading(true);
-     try {
-       const res = await fetch(`${apiBase}/products/search?name=${encodeURIComponent(query)}`);
-       const json = await res.json();
-       const data = Array.isArray(json?.data) ? (json.data as SearchProduct[]) : [];
-       setSearchResults(data);
-       setShowResults(true);
-     } catch {
-       setSearchResults([]);
-       setShowResults(false);
-     } finally {
-       setIsSearchLoading(false);
-     }
-   };
+  const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    if (query.length < 2) {
+      setShowResults(false);
+      setSearchResults([]);
+      return;
+    }
+    setIsSearchLoading(true);
+    setShowResults(true);
+    try {
+      const res = await fetch(
+        `/api/products/search?name=${encodeURIComponent(query)}`,
+        { cache: "no-store" }
+      );
+      const json = (await res.json().catch(() => null)) as { data?: unknown } | null;
+      if (!res.ok) {
+        setSearchResults([]);
+        return;
+      }
+      const data = Array.isArray(json?.data) ? (json.data as SearchProduct[]) : [];
+      setSearchResults(data);
+    } catch {
+      setSearchResults([]);
+    } finally {
+      setIsSearchLoading(false);
+    }
+  };
  
-   useEffect(() => {
-     const handleClickOutside = (e: MouseEvent) => {
-       if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
-         setShowResults(false);
-       }
-     };
-     document.addEventListener("mousedown", handleClickOutside);
-     return () => {
-       document.removeEventListener("mousedown", handleClickOutside);
-     };
-   }, []);
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+        setShowResults(false);
+        setMobileSearchOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    setMobileSearchOpen(false);
+    setShowResults(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!mobileSearchOpen) return;
+    const id = window.requestAnimationFrame(() => {
+      mobileSearchInputRef.current?.focus();
+    });
+    return () => window.cancelAnimationFrame(id);
+  }, [mobileSearchOpen]);
+
+  useEffect(() => {
+    if (!mobileSearchOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMobileSearchOpen(false);
+        setShowResults(false);
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [mobileSearchOpen]);
  
    useEffect(() => {
      const handleScroll = () => {
@@ -73,21 +111,79 @@ export default function Navbar({ menuOpen = false, onMenuToggle }: Props) {
        window.removeEventListener("scroll", handleScroll);
      };
    }, []);
- 
+
+  const searchInputClass =
+    "rounded-full py-2.5 pl-3 pr-9 text-black sm:py-3 sm:pl-4 sm:pr-10 w-full border bg-white border-gray-300 shadow-xs text-sm text-[#213554] placeholder:text-gray-500";
+
+  const renderSearchResultsPanel = () =>
+    showResults ? (
+      <div
+        role="region"
+        aria-label="Search results"
+        aria-live="polite"
+        className="absolute top-full left-0 right-0 z-60 mt-1.5 bg-white border border-gray-300 rounded-xl shadow-lg max-h-[min(24rem,70vh)] overflow-y-auto"
+      >
+        {isSearchLoading ? (
+          <div className="flex justify-center items-center py-6">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#213554]" />
+          </div>
+        ) : searchResults.length > 0 ? (
+          <div className="grid grid-cols-1 gap-1 p-2 sm:grid-cols-2 sm:gap-2 sm:p-3">
+            {searchResults.map((product) => {
+              const raw = product.images?.[0]?.url;
+              const img = raw ? `${siteOrigin}/${String(raw).replace(/^\//, "")}` : "";
+              return (
+                <Link
+                  key={product._id}
+                  href={`/product/${product.slug}`}
+                  onClick={handleResultClick}
+                  className="flex items-center gap-2 rounded-lg p-2 hover:bg-gray-50 min-w-0"
+                >
+                  {img ? (
+                    <Image
+                      src={img}
+                      alt={product.name || ""}
+                      width={44}
+                      height={44}
+                      className="rounded-md object-cover shrink-0 size-10 sm:size-11"
+                      unoptimized
+                    />
+                  ) : null}
+                  <span className="text-sm text-[#213554] font-medium line-clamp-2">{product.name}</span>
+                </Link>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="p-4 text-center text-sm text-gray-500">No products found</div>
+        )}
+      </div>
+    ) : null;
+
   return (
      <div
       className={`${
-        isScrolled ? "bg-white/90 backdrop-blur-lg shadow-md" : "bg-gradient-to-r from-white via-gray-50/30"
+        isScrolled ? "bg-white/90 backdrop-blur-lg shadow-md" : "bg-linear-to-r from-white via-gray-50/30"
       } sticky top-0 z-50 transition-all`}
      >
        <div className="sm:max-w-8xl max-w-[95%] mx-auto px-2 sm:px-0">
-          <div className="flex w-full justify-between h-auto sm:h-20 items-center gap-2 sm:gap-4 py-2 sm:py-0">
-           <div className="flex items-center sm:w-5/12 lg:w-6/12 gap-2 sm:gap-3 flex-shrink-0">
-             <Link href="/" className="flex-shrink-0" aria-label="Go to homepage">
-               <Image src={ASSETS.logo} alt="X Custom Packaging" width={200} height={56} priority />
-             </Link>
-             <div className="hidden sm:flex flex-1 max-w-lg relative" ref={searchRef}>
-               <div className="relative w-full">
+          <div className="flex w-full flex-col gap-2 py-2 sm:h-20 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:py-0">
+           <div
+             ref={searchRef}
+             className="flex w-full min-w-0 flex-col gap-2 sm:w-5/12 sm:flex-1 lg:w-6/12 lg:max-w-3xl"
+           >
+             <div className="flex w-full items-center justify-between gap-2 sm:justify-start sm:gap-3">
+               <Link href="/" className="shrink-0" aria-label="Go to homepage">
+                 <Image
+                   src={ASSETS.logo}
+                   alt="X Custom Packaging"
+                   width={200}
+                   height={56}
+                   priority
+                   className="h-auto w-[140px] sm:w-[180px] md:w-[200px]"
+                 />
+               </Link>
+               <div className="relative hidden min-w-0 flex-1 sm:block sm:max-w-lg">
                  <label htmlFor="header-site-search" className="sr-only">
                    Search products
                  </label>
@@ -97,58 +193,98 @@ export default function Navbar({ menuOpen = false, onMenuToggle }: Props) {
                    name="q"
                    placeholder="What are you looking for today?"
                    autoComplete="off"
-                  aria-label="Search products"
-                  className="rounded-full p-2.5 text-black sm:p-3 w-full border bg-white border-gray-300 shadow-xs pr-9 sm:pr-10 text-sm"
+                   aria-label="Search products"
+                   className={searchInputClass}
                    value={searchQuery}
                    onChange={handleSearch}
                  />
-                 <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[#EE334B] pointer-events-none" aria-hidden>
+                 <span
+                   className="absolute right-3 top-1/2 -translate-y-1/2 text-[#EE334B] pointer-events-none sm:right-4"
+                   aria-hidden
+                 >
                    <HiOutlineSearch size={20} />
                  </span>
+                 {renderSearchResultsPanel()}
                </div>
-                     {showResults && (
-                 <div
-                   id="header-search-results"
-                   role="region"
-                   aria-label="Search results"
-                   aria-live="polite"
-                   className="absolute z-50 mt-12 left-0 w-full sm:max-w-lg md:max-w-2xl bg-white border border-gray-300 rounded-lg shadow-lg max-h-96 overflow-y-auto"
+               <div className="flex shrink-0 items-center gap-1.5 sm:hidden">
+                 <button
+                   type="button"
+                   aria-label={mobileSearchOpen ? "Close search" : "Open search"}
+                   aria-expanded={mobileSearchOpen}
+                   onClick={() => {
+                     setMobileSearchOpen((open) => {
+                       const next = !open;
+                       if (!next) {
+                         setShowResults(false);
+                       }
+                       return next;
+                     });
+                   }}
+                   className={`inline-flex h-11 w-11 items-center justify-center rounded-full border shadow-sm transition hover:bg-white ${
+                     mobileSearchOpen
+                       ? "border-[#EE334B]/40 bg-white text-[#EE334B]"
+                       : "border-gray-200 bg-white/90 text-[#213554]"
+                   }`}
                  >
-                   {isSearchLoading ? (
-                     <div className="flex justify-center items-center py-4">
-                       <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#213554]"></div>
-                     </div>
-                   ) : searchResults.length > 0 ? (
-                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3">
-                       {searchResults.map((product) => {
-                         const img =
-                           product.images && product.images[0]?.url
-                             ? `${siteOrigin}/${product.images[0].url}`
-                             : "";
-                         return (
-                           <Link
-                             key={product._id}
-                             href={`/product/${product.slug}`}
-                             onClick={handleResultClick}
-                             className="flex items-center gap-2 hover:bg-gray-50 rounded p-2"
-                           >
-                             {img ? (
-                               <Image src={img} alt={product.name} width={40} height={40} className="rounded" />
-                             ) : null}
-                             <span className="text-sm text-[#213554] font-medium">{product.name}</span>
-                           </Link>
-                         );
-                       })}
-                     </div>
-                   ) : (
-                     <div className="p-4 text-center text-sm text-gray-500">No products found</div>
-                   )}
-                 </div>
-               )}
+                   <HiOutlineSearch size={22} aria-hidden />
+                 </button>
+                 <button
+                   type="button"
+                   aria-label="Toggle menu"
+                   aria-expanded={menuOpen}
+                   onClick={() => {
+                     setMobileSearchOpen(false);
+                     onMenuToggle?.();
+                   }}
+                   className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white/90 shadow-sm transition hover:bg-white"
+                 >
+                   <svg
+                     width="22"
+                     height="22"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     xmlns="http://www.w3.org/2000/svg"
+                     aria-hidden="true"
+                   >
+                     <path
+                       d="M4 6H20M4 12H20M4 18H20"
+                       stroke="#213554"
+                       strokeWidth="2"
+                       strokeLinecap="round"
+                     />
+                   </svg>
+                 </button>
+               </div>
              </div>
+             {mobileSearchOpen ? (
+               <div className="relative w-full sm:hidden">
+                 <label htmlFor="header-site-search-mobile" className="sr-only">
+                   Search products
+                 </label>
+                 <input
+                   ref={mobileSearchInputRef}
+                   id="header-site-search-mobile"
+                   type="search"
+                   name="q-mobile"
+                   placeholder="Search products…"
+                   autoComplete="off"
+                   aria-label="Search products"
+                   className={searchInputClass}
+                   value={searchQuery}
+                   onChange={handleSearch}
+                 />
+                 <span
+                   className="absolute right-3 top-1/2 -translate-y-1/2 text-[#EE334B] pointer-events-none"
+                   aria-hidden
+                 >
+                   <HiOutlineSearch size={20} />
+                 </span>
+                 {renderSearchResultsPanel()}
+               </div>
+             ) : null}
            </div>
  
-          <div className="hidden md:flex items-center justify-end gap-1 lg:gap-1.5 md:w-[420px] lg:w-[460px] flex-shrink-0 whitespace-nowrap">
+          <div className="hidden md:flex shrink-0 items-center justify-end gap-1 md:w-[420px] lg:w-[460px] lg:gap-1.5 whitespace-nowrap">
                       {/* Our Portfolio Button */}
                       <Link 
                         href="/portfolio" 
@@ -383,32 +519,6 @@ export default function Navbar({ menuOpen = false, onMenuToggle }: Props) {
                        <Button variant="red" label="888-276-1239" Icons={<FiPhone size={16} className="lg:w-[18px] lg:h-[18px]" />} />
                       </Link>
                     </div>
-
-          <div className="sm:hidden flex items-center justify-end flex-shrink-0">
-            <button
-              type="button"
-              aria-label="Toggle menu"
-              aria-expanded={menuOpen}
-              onClick={onMenuToggle}
-              className="inline-flex items-center justify-center w-11 h-11 rounded-full border border-gray-200 bg-white/90 hover:bg-white shadow-sm transition"
-            >
-              <svg
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-              >
-                <path
-                  d="M4 6H20M4 12H20M4 18H20"
-                  stroke="#213554"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </button>
-          </div>
          </div>
        </div>
        <GetQuoteModal isOpen={isQuoteModalOpen} onClose={() => setIsQuoteModalOpen(false)} category={null} />

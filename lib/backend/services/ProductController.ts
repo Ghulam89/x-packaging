@@ -543,13 +543,20 @@ export const searchProduct = catchAsyncError(async (req, res, next) => {
   const { name } = req.query;
 
   try {
-    if (!name) {
+    if (!name || typeof name !== "string") {
       return res.status(400).json({ error: "Name is required" });
     }
 
+    const trimmed = name.trim();
+    if (!trimmed) {
+      return res.status(400).json({ error: "Name is required" });
+    }
+
+    const escaped = trimmed.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
     const products = await Products.find({
-      name: { $regex: name, $options: "i" },
-    });
+      name: { $regex: escaped, $options: "i" },
+    }).limit(30);
 
     res.status(200).json({ data: products, status: "success" });
   } catch (error) {

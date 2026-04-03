@@ -33,7 +33,7 @@ const ProductCard = memo(function ProductCard({
   const isCompact = variant === "compact";
 
   const imageHeightClass = isCarousel
-    ? "h-[9.25rem] min-[400px]:h-44 sm:h-52 md:h-[230px]"
+    ? "h-[7.75rem] min-[380px]:h-36 sm:h-44 md:h-[230px]"
     : isCompact
       ? "h-32"
       : "h-40";
@@ -46,7 +46,7 @@ const ProductCard = memo(function ProductCard({
     : `group border ${outerRadiusClass} ${paddingClass} hover:shadow-lg bg-white transition-all duration-300`;
 
   const titleClass = isCarousel
-    ? "text-xs sm:text-sm pb-2 sm:pb-3 font-bold group-hover:text-[#EE334B] transition-colors duration-300 text-center px-2 line-clamp-2"
+    ? "text-[11px] min-[400px]:text-xs sm:text-sm pb-1.5 sm:pb-3 font-bold group-hover:text-[#EE334B] transition-colors duration-300 text-center px-1 sm:px-2 line-clamp-2 wrap-break-word"
     : "mt-2 font-semibold text-sm text-[#213554] text-center group-hover:text-[#EE334B] transition-colors duration-300";
 
   return (
@@ -60,20 +60,20 @@ const ProductCard = memo(function ProductCard({
                   src={imageSrc}
                   alt={imageAlt || title}
                   fill
-                  sizes="(max-width: 640px) 85vw, 285px"
+                  sizes="(max-width: 480px) 46vw, (max-width: 768px) 40vw, 285px"
                   className={`object-cover transition-transform duration-700 group-hover:scale-110 ${imageRadiusClass}`}
                   priority={priority}
                 />
               ) : (
                 <div
-                  className={`w-full h-full bg-gradient-to-br from-[#213554]/10 to-[#EE334B]/10 ${imageRadiusClass}`}
+                  className={`w-full h-full bg-linear-to-br from-[#213554]/10 to-[#EE334B]/10 ${imageRadiusClass}`}
                 />
               )}
               <div
-                className={`absolute inset-0 bg-gradient-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none ${imageRadiusClass}`}
+                className={`absolute inset-0 bg-linear-to-t from-[#213554]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none ${imageRadiusClass}`}
               />
               <div
-                className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none ${imageRadiusClass}`}
+                className={`absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none ${imageRadiusClass}`}
               />
             </div>
           </div>

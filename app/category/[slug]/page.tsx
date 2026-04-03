@@ -205,7 +205,7 @@ export default async function CategoryPage({
       <div className="sm:max-w-8xl w-full max-w-[95%] mx-auto px-3 sm:px-4 md:px-5 pb-8 sm:pb-10">
         <div className="pt-4 sm:pt-6">
           <div className="w-full mx-auto min-w-0">
-            <div className="grid grid-cols-2 gap-2.5 sm:gap-4 md:gap-6 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            <div className="grid grid-cols-2 gap-2 min-[400px]:gap-3 sm:gap-4 md:gap-5 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
               {products.map((p) => {
                 const img =
                   p.images && p.images[0]?.url ? `${siteOrigin}/${p.images[0].url.replace(/^\//, "")}` : "";
