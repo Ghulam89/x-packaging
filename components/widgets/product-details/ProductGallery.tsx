@@ -20,8 +20,10 @@ const ProductGallery = ({ images, productName, onImageClick }: Props) => {
 
   return (
     <div className="flex w-full flex-col gap-4 md:flex-row lg:gap-8">
-      {/* Thumbnails - Left Side on Desktop */}
-      <div className="hidden w-24 shrink-0 flex-col gap-3 md:flex lg:w-28">
+      {/* Thumbnails - Left Side on Desktop (cap ~4 rows, scroll w/ visible scrollbar) */}
+      <div
+        className="hidden w-24 shrink-0 flex-col gap-3 self-start overflow-y-auto overflow-x-hidden py-0.5 pr-1 [scrollbar-width:thin] [scrollbar-color:#cbd5e1_#f1f5f9] md:flex md:max-h-105 lg:w-28 lg:max-h-121 min-h-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-slate-300 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-slate-100"
+      >
         {images.map((img, i) => (
           <div
             key={i}
@@ -93,7 +95,7 @@ const ProductGallery = ({ images, productName, onImageClick }: Props) => {
         </button>
 
         {/* Dots - Mobile only */}
-        <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-1.5 md:hidden">
+        {/* <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-1.5 md:hidden">
           {images.map((_, i) => (
             <div
               key={i}
@@ -102,11 +104,11 @@ const ProductGallery = ({ images, productName, onImageClick }: Props) => {
               }`}
             />
           ))}
-        </div>
+        </div> */}
       </div>
 
       {/* Thumbnail strip — mobile / small tablets */}
-      <div className="flex gap-2 overflow-x-auto pb-1 md:hidden [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div className="flex gap-2 overflow-x-auto pb-1 md:hidden [scrollbar-width:thin] [scrollbar-color:#cbd5e1_#f1f5f9] [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-slate-300 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-slate-100">
         {images.map((img, i) => (
           <button
             key={i}

@@ -468,7 +468,7 @@ const BottomNav = ({ Menu, OpenMenu, initialBrands = [] }: { Menu: boolean; Open
             ))}
             <li className="mt-1 pt-1 border-t border-gray-200">
               <Link
-                href="/portfolio"
+                href="/shop"
                 className="block px-4 py-3 font-semibold text-center text-[#EE334B] hover:text-white hover:bg-[#EE334B] rounded-lg transition-all duration-300"
                 onClick={() => safeOpenMenu(false)}
               >
