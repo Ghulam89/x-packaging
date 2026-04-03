@@ -91,43 +91,42 @@ export default async function CategoryPage({
     <main className="min-w-0 overflow-x-hidden">
       <JsonLd schemas={[breadcrumbLd, itemListLd]} />
       <section
-        className="py-5 sm:h-[70vh] h-auto flex flex-col justify-center"
+        className="py-4 px-3 sm:px-4 sm:py-5 sm:h-[70vh] h-auto flex flex-col justify-center min-w-0"
         style={{ backgroundColor: category.bannerBgColor || "#f8f9fa" }}
       >
-        <div className="sm:max-w-8xl max-w-[95%] mx-auto w-full">
-          <div className="flex sm:flex-row flex-col gap-8 lg:gap-12">
-            <div className="sm:w-1/2 w-full">
-              <div className="flex gap-2 pb-12 items-center">
-                <IoHomeOutline size={20} className="text-gray-600" />
-                <LiaAngleRightSolid className="text-gray-500" />
-                <div className="flex items-center flex-wrap gap-2">
-                  <Link
-                    href="/"
-                    className="text-[#213554] whitespace-nowrap hover:text-[#EE334B] transition-colors duration-200"
-                  >
-                    Home
-                  </Link>
-                  {category?.brandId?.name && (
-                    <>
-                      <LiaAngleRightSolid className="text-gray-500" />
-                      <Link
-                        href={`/${category?.brandId?.slug || ""}`}
-                        className="text-[#213554] whitespace-nowrap hover:text-[#EE334B] transition-colors duration-200 capitalize"
-                      >
-                        {category?.brandId?.name}
-                      </Link>
-                    </>
-                  )}
-                  {category?.title && (
-                    <>
-                      <LiaAngleRightSolid className="text-gray-500" />
-                      <span className="text-gray-600 capitalize whitespace-nowrap">{category?.title}</span>
-                    </>
-                  )}
-                </div>
-              </div>
+        <div className="sm:max-w-8xl max-w-full mx-auto w-full min-w-0">
+          <div className="flex sm:flex-row flex-col gap-6 sm:gap-8 lg:gap-12">
+            <div className="sm:w-1/2 w-full min-w-0">
+              <nav
+                aria-label="Breadcrumb"
+                className="flex flex-wrap items-center gap-x-2 gap-y-1 pt-2 pb-4 text-xs font-medium sm:gap-3 sm:pb-6 sm:text-sm"
+              >
+                <Link
+                  href="/"
+                  className="flex shrink-0 items-center gap-1 text-gray-400 transition-colors hover:text-[#213554]"
+                >
+                  <IoHomeOutline size={16} aria-hidden /> Home
+                </Link>
+                <LiaAngleRightSolid className="shrink-0 text-gray-300" aria-hidden />
+                {category?.brandId?.name && (
+                  <>
+                    <Link
+                      href={`/${category?.brandId?.slug || ""}`}
+                      className="text-[13px] capitalize text-gray-400 transition-colors hover:text-[#213554] sm:text-sm"
+                    >
+                      {category?.brandId?.name}
+                    </Link>
+                    <LiaAngleRightSolid className="shrink-0 text-gray-300" aria-hidden />
+                  </>
+                )}
+                {category?.title && (
+                  <span className="max-w-[min(100%,12rem)] truncate capitalize text-[#213554] sm:max-w-none">
+                    {category?.title}
+                  </span>
+                )}
+              </nav>
 
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 leading-tight">
+              <h1 className="text-xl min-[400px]:text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4 leading-tight">
                 {category.subTitle || "Bespoke Packaging Solutions for Car Parts, Tools, and Accessories"}
               </h1>
               <div
@@ -149,15 +148,15 @@ export default async function CategoryPage({
                 </Link>
               </div>
             </div>
-            <div className="sm:w-1/2 w-full">
+            <div className="sm:w-1/2 w-full min-w-0">
               {category.image ? (
-                <div className="relative">
+                <div className="relative w-full max-h-[min(42vh,320px)] sm:max-h-none aspect-4/3 sm:aspect-auto sm:h-auto rounded-xl overflow-hidden">
                   <Image
                     src={`${siteOrigin}/${category.image}`}
                     alt={category.imageAltText || category.title || ""}
                     width={1200}
                     height={800}
-                    className="w-full mx-auto rounded-xl object-cover"
+                    className="w-full h-full sm:h-auto mx-auto rounded-xl object-cover object-center"
                     priority
                     unoptimized
                   />

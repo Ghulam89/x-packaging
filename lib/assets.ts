@@ -101,7 +101,7 @@ export const ASSETS = {
     review: "/assets/images/review.png",
     banner: "/assets/images/banner.jpg",
     map: "/assets/images/map-01.png",
-    heroBanner: "/assets/images/web-banner.webp",
+    heroBanner: "/assets/images/Gift.webp",
     goScreen: "/assets/images/goScreen.webp",
     starsBg: "/assets/images/stars.webp",
   },

@@ -216,7 +216,7 @@ export default function GetQuoteModal({ isOpen, onClose, category = null }: Prop
         role="dialog"
         aria-modal="true"
         aria-label="Request a quote"
-        className="mx-auto mt-6 sm:mt-8 w-full max-w-6xl rounded-2xl bg-white shadow-xl"
+        className="mx-auto mt-6 sm:mt-8 overflow-hidden w-full max-w-6xl rounded-2xl bg-white shadow-xl"
       >
         <div className="bg-linear-to-br from-[#F9F9F9] to-white p-4 sm:p-6">
           <div className="flex flex-col gap-6 md:flex-row">
@@ -231,7 +231,7 @@ export default function GetQuoteModal({ isOpen, onClose, category = null }: Prop
                 <button
                   type="button"
                   aria-label="Close modal"
-                  className="rounded-lg p-2 text-gray-600 hover:bg-gray-100 hover:text-[#EE334B]"
+                  className="rounded-lg cursor-pointer p-2 text-gray-600 hover:bg-gray-100 hover:text-[#EE334B]"
                   onClick={onClose}
                 >
                   ✕

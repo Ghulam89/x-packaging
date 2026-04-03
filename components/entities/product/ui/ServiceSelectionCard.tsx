@@ -22,7 +22,7 @@ const ServiceSelectionCard = ({ items = [] }: Props) => {
         <div className="flex flex-wrap justify-center items-stretch">
           {items.map((item, index) => (
             <React.Fragment key={item.id || index}>
-              <div className="flex items-center gap-4 py-6 px-4 flex-1 min-w-[200px] justify-center md:justify-start">
+              <div className="flex items-center gap-4 py-3 px-4 flex-1 min-w-[200px] justify-center md:justify-start">
                 <div className="flex-shrink-0">
                   {item.icon && (
                     <div className="w-12 h-12 flex items-center justify-center relative">
